@@ -1,0 +1,454 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>确认订单信息-书生网</title>
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+<!--设备原始宽度，不允许缩放，user-scalable是否允许用户手动缩放 inital-scale初始缩放比例 以及允许用户缩放到的最大和最小比例-->
+<meta content="yes" name="apple-mobile-web-app-capable" />  
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />  
+<!--在IOS系统中以上两个meta会让网页内容以应用程序风格显示，并使状态栏透明 上面一个content有俩值yes和no 此meta作用是删除默认的苹果工具栏和菜单栏，如果需要显示时不加此行meta 第二个meta的content有三个值default（白色） black(黑色) black-translucent（灰色半透明）若值为“black-translucent”将会占据页面px位置，浮在页面上方（会覆盖页面20px高度–iphone4和itouch4的Retina屏幕为40px）。-->
+<meta name="format-detection" content="telephone=no">
+<meta content="email=no" name="format-detection" />
+<!--以上两条mate作用为：告诉设备忽略将页面中的数字识别为电话号码 将不识别邮箱-->
+<link type="text/css" href="/css/wap/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件-->
+<link type="text/css" href="/css/wap/kaych.framework.css" rel="stylesheet"/><!--页面框架css文件-->
+<link type="text/css" href="/css/wap/kaych.ui-visual.css" rel="stylesheet"/><!--视觉效果（即样式，与框架分离）css属性文件-->
+<link type="text/css" href="/css/wap/kaych.indexLayout.css" rel="stylesheet"/><!--页面细致布局css文件--> 
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.commons.css"><!--页面通用CSS文件-->
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.media.screen.css"><!--页面分辨率检测启用不同布局CSS文件-->
+<!--[if lt IE 9]>
+<script src="../js/html5.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script type="text/javascript" src="/js/wap/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<script src="/js/wap/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/js/wap/custominput.js"></script><!--表单美化-->
+<script type="text/javascript" src="/js/wap/payfor.js"></script><!--商品数量加减JS-->
+<script type="text/javascript" src="/js/wap/modal.js"></script><!--弹出层JS-->
+<script type="text/javascript" src="/js/wap/jquery.event.drag-1.5.min.js"></script><!--轮播图JS-->
+<script type="text/javascript" src="/js/wap/jquery.touchSlider.js"></script><!--轮播图JS-->
+<!--轮播图JS-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".main_visual").hover(function () {
+            $("#btn_prev,#btn_next").fadeIn()
+        }, function () {
+            $("#btn_prev,#btn_next").fadeOut()
+        })
+        $dragBln = false;
+        $(".main_image").touchSlider({
+            flexible: true,
+            speed: 200,
+            btn_prev: $("#btn_prev"),
+            btn_next: $("#btn_next"),
+            paging: $(".flicking_con a"),
+            counter: function (e) {
+                $(".flicking_con a").removeClass("on").eq(e.current - 1).addClass("on");
+            }
+        });
+        $(".main_image").bind("mousedown", function () {
+            $dragBln = false;
+        })
+        $(".main_image").bind("dragstart", function () {
+            $dragBln = true;
+        })
+        $(".main_image a").click(function () {
+            if ($dragBln) {
+                return false;
+            }
+        })
+        timer = setInterval(function () { $("#btn_next").click(); }, 5000);
+        $(".main_visual").hover(function () {
+            clearInterval(timer);
+        }, function () {
+            timer = setInterval(function () { $("#btn_next").click(); }, 5000);
+        })
+        $(".main_image").bind("touchstart", function () {
+            clearInterval(timer);
+        }).bind("touchend", function () {
+            timer = setInterval(function () { $("#btn_next").click(); }, 5000);
+        })
+    });//ready
+</script>
+<script src="/js/wap/main.js"></script>
+<!--弹出层JS-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#chart-modal").modal("hide");
+    });
+
+    $(document).ready(function () {
+        $(".slide-div1").click(function () {
+            $(".order-cont1").slideToggle("slow");
+        });
+
+        $(".slide-div2").click(function () {
+            $(".order-cont2").slideToggle("slow");
+        });
+
+        $(".slide-div3").click(function () {
+            $(".order-cont3").slideToggle("slow");
+        });
+
+        $(".radio1").click(function () {
+            $(".radio1-cont").slideToggle("slow");
+        });
+    });
+</script>
+
+<script type="text/javascript">
+
+    $(function () {//function
+        showOrder(true);
+    });  //function
+
+    //字符串转Number
+    function strToNumber(start, str) {
+        if (str == null || str == "")
+            return null;
+        str = str.substr(start);
+        var num = Number(str);
+        if (isNaN(num))
+            return null;
+        return num;
+    }
+
+    function strToJson(str) {
+        var json = eval('(' + str + ')');
+        return json;
+    }
+
+    function choseItem(_id, _value, _text,_this) {
+        //配送方式
+        if (_id == "shiptype") {
+            if ($('#cID').val() == "") {
+                alert("请先选择收货地址");
+                return;
+            }
+        }
+        $('#' + _id).attr("value", _value);
+        $('#' + _id).text(_text);
+        if (_id == "shiptype") {
+            if ($('#cID').val() != "") {
+                var cid = $('#cID').val();
+                var stID = $('#shiptype').attr("value");
+                var skuId = $('#skuIdList').val();
+                var ids = skuId.split(',');
+                //运费总价
+                var sum = 0;
+                var suc = true;
+                for (i = 0; i < ids.length; i++) {
+                    if (ids[i] != "") {
+                        var count = strToNumber(4,$('#count_' + ids[i]).text());
+                        $.ajax({
+                            url: "/_ashx/transportation_json.ashx",
+                            type: 'post',
+                            data: { skuID: ids[i], count: count, cID: cid, stID: stID },
+                            async: false,
+                            success: function (data) {
+                                var result = strToNumber(0, data);
+                                if (result == null) {
+                                    alert(data);
+                                    //去除当前选中状态
+                                    //$(_this).attr("checked", false);
+                                    suc = false;
+                                    return;
+                                } else {
+                                    sum += result;
+                                }
+                            }
+                        });
+                    }
+                }
+                if (!suc) {
+                    return;
+                }
+                //运费赋值
+                $('#shipP').text("￥" + sum.toFixed(2));
+                //获取总价
+                var sumprice = strToNumber(0, $('#sump').attr("value"));
+                sumprice += sum;
+                $('#sump').text("应付总额：￥" + sumprice.toFixed(2));
+            }
+        }
+    }
+
+    function choseCI(id, name, address, phone) {
+        $('#cID').val(id);
+        $('#cName').text(name);
+        $('#cPhone').text(phone);
+        $('#cAddress').text(address);
+        showOrder(true);
+    }
+
+    function showOrder(isShow) {
+        if (isShow) {
+            $('div[id="bodyOrder"]').show();
+            $('div[id="bodyaddress"]').hide();
+        } else {
+            $('div[id="bodyaddress"]').show();
+            $('div[id="bodyOrder"]').hide();
+        }
+    } 
+    
+    function SubmitOrder() {
+        var _remarks = $('#remarks').val();
+        var stID = $('#shiptype').attr("value");
+        if (stID == "") {
+            alert("请先选择配送方式");
+            return;
+        }
+        //会员
+        var mID = $('#mID').val();
+        //支付方式
+        var payID = $('#paytype').attr("value");
+        //配送方式
+        var cID = $('#cID').val();
+        //价格
+        var oPrice = strToNumber(6, $('#sump').text());
+        //积分
+        var score = strToNumber(0, $('#sump').attr("value")).toFixed(0);
+        //SKU集合
+        var ids = $('#skuIdList').val();
+        $.ajax({
+            type: "POST",
+            url: "/_ashx/dataSave_manager_json.ashx?type=submitOrder",
+            data: { cID: cID, mID: mID, payID: payID, stID: stID, remarks: _remarks, oPrice: oPrice, ids: ids, score: score },
+            dataType: "text",
+            success: function (data) {
+                var da = strToJson(data);
+                if (da.result == "保存成功！") {
+                    if (da.url != "") {
+                        
+                        //window.location.href = da.url + "?id=" + da.orderId;
+                        window.location.href = "/sswShopCart/ShopCartNull";
+                    } else {
+                        alert("支付方式异常！");
+                    }
+                } else {
+                    alert("订单提交失败！");
+                }
+            }
+        });
+    }
+
+</script>
+</head>
+
+<body>
+    <div id="bodyOrder">
+        <header>
+	        <div class="wrap hidden relative">
+    	        <h2 class="titles">确认订单</h2>
+    	        <div class="side-icon right"><a href="/sswShopCart/ShopCartList?mid=@ViewData["mID"]">取消</a></div>
+            </div><!--wrap end-->
+        </header>
+        <div class="zw-div"></div>
+        <form action="#" id="form1">
+            <input type="hidden" name = "mID" id = "mID" value="@ViewData["mID"]" />
+            <input type="hidden" id="cID" name="cID" value="@ViewData["cID"]" />
+            <input type="hidden" id="skuIdList" name="skuIdList" value="@ViewData["skuIdList"]" />
+            <div class="wrap hidden">
+	            <div class="clearh"></div>
+	            <div class="borders bgColor-white margin1">
+                @{
+                    if (ViewData["DefaultCI"] != null)
+                    {
+                        var defaultCI = ViewData["DefaultCI"] as webs_YueyxShop.Model.ConsigneeInfoBase;
+                        string address = defaultCI.c_CProvice + defaultCI.c_CCity + defaultCI.c_CCount + defaultCI.c_FullAddress;
+                        <a class="order-info" href="javascript:void(0)" onclick="showOrder(false)">
+        	                <div class="order-address">
+            	                <span class="alignleft" id="cName">@defaultCI.c_Name</span><span class="alignright" id="cPhone">@defaultCI.c_Mobilephone</span>
+                                <div class="clear"></div>
+                                <p id="cAddress">@address</p>
+                            </div>
+        	                <b></b>
+                        </a>
+                    }
+                    else
+                    {
+                        @*<a class="order-info" href="javascript:void(0)" onclick="showOrder(false)">
+        	                <div class="order-address">
+            	                <span class="alignleft" id="cName">@defaultCI.c_Name</span><span class="alignright" id="cPhone">@defaultCI.c_Mobilephone</span>
+                                <div class="clear"></div>
+                                <p id="cAddress">@address</p>
+                            </div>
+        	                <b></b>
+                        </a>*@
+                        <a class="order-info w36" href="/wapAddress/AddressAdd"><span>新增收货地址</span><b></b></a>
+                    }
+                }
+                </div><!--borders end-->
+                <div class="clear line2"></div>
+	            <div class="borders bgColor-white margin1">
+    	            <div class="order-info w36 slide-div1"><em>支付方式：</em><font id="paytype" value="">请选择</font><b></b></div>
+                    <div class="order-cont1">
+                    @{
+                        if (ViewData["PayTypeList"] != null)
+                        {
+                            foreach (var payt in (List<webs_YueyxShop.Model.PaymentBase>)ViewData["PayTypeList"])
+                            {
+                                string id = "pay" + payt.pay_ID;
+        	                    <div class="pay-list">
+            	                    <div class="pay-btn">
+                	                    <input type="radio" name="pay" id="@id" value="" />
+					                    <label for="@id" onclick="choseItem('paytype','@payt.pay_ID','@payt.pay_Name')">@payt.pay_Name</label>
+                                    </div>
+                                </div>
+                            }
+                        }
+                     }
+                        <div class="clear"></div>
+                    </div><!--order-cont end-->
+                </div><!--borders end-->
+                <div class="borders bgColor-white margin1 border-nonetop">
+    	            <div class="order-info w36 slide-div2"><em>配送方式：</em><font id="shiptype" value="">请选择</font><b></b></div>
+                    <div class="order-cont2">
+                    @{
+                        if (ViewData["ShipTypeList"] != null)
+                        {
+                            foreach (var shipt in (List<webs_YueyxShop.Model.ShipTypeBase>)ViewData["ShipTypeList"])
+                            {
+                                string id = "send" + shipt.st_ID;
+        	                    <div class="pay-list">
+            	                    <div class="pay-btn">
+                	                    <input type="radio" name="send" id="@id" value="" />
+					                    <label for="@id" onclick="choseItem('shiptype','@shipt.st_ID','@shipt.st_Name',this)">@shipt.st_Name</label>
+                                    </div>
+                                </div>
+                            }
+                        }
+                     }
+                    </div><!--order-cont end-->
+                </div><!--borders end-->
+                <div class="borders bgColor-white margin1 border-nonetop">
+    	            <div class="order-info w36 slide-div3"><em>查看商品清单</em><b></b></div>
+                </div><!--borders end-->
+                <div class="order-cont3 bgColor-white margin1">
+                    <ul>
+                    @{
+                        if (ViewData["OrderProducts"] != null)
+                        {
+                            //应付总额
+                            decimal realPric = 0;
+                            //商品总价
+                            decimal totalPric = 0;
+                            //优惠总额
+                            decimal distotalPric = 0;
+                            decimal discount = Convert.ToDecimal(ViewData["discount"]);
+                            foreach (System.Data.DataRow row in ((System.Data.DataTable)ViewData["OrderProducts"]).Rows)
+                            {
+                                //是否团购
+                                bool isGP = Convert.ToBoolean(row["sc_IsGP"]);
+                                //获取数量ID
+                                string countID = "count_" + row["sku_ID"];
+                                //单价
+                                decimal sc_pPric = row["sc_pPric"] == null ? 0 : (decimal)row["sc_pPric"];
+                                //数量
+                                int sc_pCount = row["sc_pCount"] == null ? 0 : (int)row["sc_pCount"];
+                                //单品总价
+                                decimal price = sc_pPric * sc_pCount;
+
+                                decimal disPrice = sc_pPric * sc_pCount;
+                                if (!isGP)
+                                {//非团购价按会员等级打折
+                                    price = price * discount;
+                                }
+                                //商品总价
+                                totalPric += price;
+                                //优惠总额
+                                distotalPric += (disPrice-  price );
+                                //应付总额
+                                realPric += disPrice - distotalPric;
+
+                                var dt = new webs_YueyxShop.BLL.SKUBase().GetSKUDetial(" and sku_ID="+row["sku_ID"], true);
+                                
+                                <li>
+            	                    <div class="goods-cont">
+                	                    <div class="shopping-img"><img src="@dt.Rows[0]["pi_Url"]" alt="@dt.Rows[0]["p_Name"]" style="width:70px;height:70px;" /></div>
+                                        <dl>
+                    	                    <dt>@dt.Rows[0]["p_Name"] @dt.Rows[0]["property"]</dt>
+                                            <dd><span id="@countID">数量x @sc_pCount</span><strong>￥@price</strong></dd>
+                                        </dl>
+                                    </div>
+                                </li>
+                            }
+                            //应付总额
+                            ViewData["realPric"] = realPric;
+                            //商品总价
+                            ViewData["totalPric"] = totalPric;
+                            //优惠总额
+                            ViewData["distotalPric"] = distotalPric;
+                        }
+                     }
+                    </ul>
+                </div><!--order-cont end-->
+                <div class="clear line2"></div>
+                <div class="borders bgColor-white margin1">
+    	            <div class="order-info w36"><em>备注：</em><label><span>15字以内</span><input id="remarks" type="text" value="" /></label></div>
+                </div><!--borders end-->
+                <div class="clear line2"></div>
+                <div class="borders bgColor-white margin1">
+    	            <div class="order-info w36"><i>￥@ViewData["totalPric"]</i><em>商品金额</em></div>
+                </div><!--borders end-->
+                <div class="bgColor-white margin1">
+    	            <div class="order-info w36"><i id="shipP">￥0.00</i><em>运费</em></div>
+                </div><!--bgColor-white end-->
+                <div class="bgColor-white margin1">
+    	            <div class="order-info w36"><i>@ViewData["discount"]</i><em>折扣</em></div>
+                </div><!--bgColor-white end-->
+                <div class="bgColor-white margin1">
+    	            <div class="order-info w36"><i>￥@ViewData["distotalPric"]</i><em>优惠</em></div>
+                </div><!--bgColor-white end-->
+            </div><!--wrap end-->
+            <div class="clearh"></div>
+            <div class="zw-div"></div>
+            <div class="footer-nav">
+	            <div class="wrap">
+    	            <div class="total-order alignleft" id="sump" value="@ViewData["realPric"]">应付总额：￥@ViewData["realPric"]</div>
+                    <a href="javascript:void(0)" class="yes-order alignright" onclick="SubmitOrder()">确定</a>
+                </div><!--wrap end-->
+            </div><!--footer-nav end-->
+        </form>
+    </div><!--bodyAdd end-->
+
+    <div id="bodyaddress">
+        <header>
+	        <div class="wrap hidden relative">
+    	        <div class="side-icon left textrt"><a href="javascript:void(0)" onclick="window.location.reload()">返回</a></div>
+    	        <h2 class="titles">收货地址</h2>
+                <div class="side-icon right"><a href="/sswAddress/AddressAdd">新增</a></div>
+            </div><!--wrap end-->
+        </header>
+        <div class="zw-div"></div>
+        <div class="wrap">
+        <div class="wrapper hidden">
+  	        <ul class="address-list">
+            @{
+                if (ViewData["ConsigneeInfo"] != null)
+                {
+                    foreach (var ci in (List<webs_YueyxShop.Model.ConsigneeInfoBase>)ViewData["ConsigneeInfo"])
+                    {
+                        string address = ci.c_CProvice + ci.c_CCity + ci.c_CCount + ci.c_FullAddress;
+                        <li>
+        	                <a href="javascript:void(0)" onclick="choseCI('@ci.c_ID','@ci.c_Name','@address','@ci.c_Mobilephone')">
+            	                <div class="address-cont">
+                	                <p>@ci.c_Name</p>
+                                    <p>@address</p>
+                                    <p>@ci.c_Mobilephone</p>
+                                </div>
+                                <b></b>
+                            </a>
+                        </li>
+                    }
+                }
+             }
+            </ul>
+        </div><!--wrapper end-->
+        </div><!--wrap end-->
+</body>
+
+</html>

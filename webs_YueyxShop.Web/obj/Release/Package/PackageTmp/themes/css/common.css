@@ -1,0 +1,483 @@
+﻿/* 上传控件辅助样式 刘文杰  2013/3/13 */
+.my-uploadify-button
+{
+    background: none;
+    border: none !important;
+    text-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+.uploadify:hover .my-uploadify-button
+{
+    background: none;
+    border: none !important;
+}
+
+.fileQueue
+{
+    width: 400px;
+    height: 150px;
+    overflow: auto;
+    border: 1px solid #E5E5E5;
+    margin-bottom: 10px;
+}
+/* 上传控件辅助样式 END*/
+div.Search_Tools
+{
+    width: 220px;
+    margin: 5px auto 5px auto;
+    float: left;
+}
+div.Search_Tools .tools_header
+{
+    width: 90px;
+    text-align: right;
+    line-height: 20px;
+    float: left;
+}
+div.Search_Tools .tools_content
+{
+    width: 130px;
+    text-align: left;
+    line-height: 20px;
+    float: left;
+}
+div.Search_Tools_Full
+{
+    width: 95% !important;
+}
+
+div.Search_Tools_Full .tools_header
+{
+}
+div.Search_Tools_Full .tools_content
+{
+    width: 80% !important;
+}
+div.Search_Tools_Helf
+{
+    width: 500px !important;
+}
+
+div.Search_Tools_Helf .tools_header
+{
+    width: 90px;
+}
+div.Search_Tools_Helf .tools_content
+{
+    width: 410px !important;
+}
+
+label.CheckBoxList
+{
+    width: auto !important;
+}
+
+.CheckBoxList Label
+{
+    line-height: 25px !important;
+    float: none !important;
+}
+
+/*20120709 常瑞芳　新加 */
+.biaoge3
+{
+    margin: 10px 10px 10px 10px;
+    border: 1px #d8dde3 solid;
+}
+.biaoge3 .trheader TD
+{
+    background-color: #E1F0FD;
+    font-weight: bold;
+}
+.biaoge3 td
+{
+    height: 30px;
+    border: 1px #d8dde3 solid;
+    text-align: center;
+}
+.biaoge3 td b
+{
+    color: #000 !important;
+}
+.biaoge4
+{
+    width: 100%;
+    border: 0 !important;
+}
+.biaoge4 td
+{
+    height: 30px;
+    border-width: 0px;
+    text-align: center;
+}
+.biaoge4 .titlename p
+{
+    font-size: 14px;
+}
+
+.biaoge4 td a
+{
+    color: Red;
+}
+
+.dqMenu
+{
+    padding-left: 40px;
+    padding-top: 25px;
+}
+.dqMenu li
+{
+    float: left;
+    width: 120px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    position: relative;
+}
+.dqMenu li a
+{
+    display: block;
+    background-color: #f6f6f6;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    border: 1px solid #CCC;
+    overflow: hidden;
+    color: #000;
+    font-size: 13px;
+}
+.dqMenu li a:hover
+{
+    background-color: #eee;
+    text-decoration: none;
+    border-color: #3A72B9;
+}
+.dqMenu .a1
+{
+    height: 62px;
+    text-align: center;
+}
+.dqMenu .a2, .dqMenu .a3, .dqMenu .a4
+{
+    height: 28px;
+    border: 1px solid #CCC;
+    background-color: #EEE;
+}
+.dqMenu li.color1
+{
+    border: 1px solid #ff0000;
+}
+.color2 .a2
+{
+    background-color: #3399FF;
+}
+.color3 .a3
+{
+    background-color: #FF6699;
+}
+.color4 .a4
+{
+    background-color: #33CC00;
+}
+.dqSub
+{
+    position: absolute;
+    display: none;
+    width: 600px;
+    background-color: #fefefe;
+    border: 1px solid #3A72B9;
+}
+.dqSub li
+{
+    position: static;
+    float: left;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    padding-top: 3px;
+}
+.dqSub li a
+{
+    height: 25px;
+    line-height: 25px;
+    border: 1px solid #3A72B9;
+    background-color: #f6f6f6;
+}
+.dqSub li a:hover
+{
+    background-color: #eee;
+    text-decoration: none;
+}
+
+.dqMenu .tongji
+{
+    width: 600px;
+    height: 30px;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding-top: 5px;
+    margin-top: 5px;
+}
+.dqMenu .tongji span
+{
+    text-decoration: underline;
+    cursor: pointer;
+    color: #EE7942;
+}
+.dqMenu .tongji a
+{
+    display: inline;
+    margin: 0px 5px;
+    border-width: 0px;
+}
+/*表格颜色*/
+.yanse1
+{
+    background-color: #FF6699;
+}
+.yanse2
+{
+    background-color: #3399FF;
+}
+.yanse3
+{
+    background-color: #33CC00;
+}
+.yanse4
+{
+    background-color: #FFCC00;
+}
+
+
+TD.td_middle
+{
+    font-size: 18px;
+    font-weight: bold;
+    vertical-align: middle;
+    text-align: center;
+    height: 30px;
+    border: solid 1px #d8dde3;
+}
+
+/*上传文件样式*/
+.attachment_box
+{
+    float: left;
+    margin: 3px;
+    width: 80%;
+}
+.attachment_box .attach_name
+{
+    float: left;
+    width: 80%;
+    margin-left: 5px;
+}
+.attachment_box .attach_name img
+{
+    width:120px;
+    height:120px;
+}
+
+.attachment_box .attach_name a
+{
+    line-height: 25px;
+    background-image: url(../../uploadify/ico_16_1001_d.gif);
+    background-position: left;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+}
+.attachment_box .attach_btn
+{
+    float: right;
+    width: 40px;
+    line-height: 25px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+/*上传文件样式end*/
+
+
+/*公告信息列表*/
+#box-163css
+{
+    position: absolute;
+    width: auto;
+    height: auto;
+    top: 400px;
+    right: 0px;
+    text-align: left;
+}
+.part-163css
+{
+    width: 100%;
+    padding-top: 10px;
+}
+.divpart-163css
+{
+    float: right;
+    margin-bottom: 2px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.part-163css ol
+{
+    padding-left: 25px;
+}
+.part-163css ol li
+{
+    height: 18px;
+    padding: 2px;
+    margin-top: 5px;
+}
+.part-163css ol li a:hover
+{
+    color: #0370CE;
+    text-decoration: none;
+}
+.part-163css ol span
+{
+    font-weight: bold;
+}
+.part-163css div
+{
+    text-align: center;
+    margin-top: 50px;
+    font-size: 20px;
+    color: Red;
+}
+
+#sideBarTab
+{
+    float: left;
+    height: 90px;
+    width: 30px;
+}
+#sideBarTab img
+{
+    display: block;
+    width: 30px;
+}
+#sideBarContents
+{
+    float: left;
+    width: 350px;
+    height: 220px;
+    border: 1px solid #e5e5e5;
+    border-right: none;
+    margin-right: 6px;
+}
+#sideBarContentsInner
+{
+    width: 350px;
+    height: 220px;
+    background-color: #ECF7FF;
+}
+#sideBarContentsInner h4
+{
+    text-align: center;
+    line-height: 20px;
+    font-size: 20px;
+    padding-top: 10px;
+    color: #0370CE;
+}
+
+
+#header .logo
+{
+    width: 450px !important;
+}
+
+/* mvc_radiobuttonlist Begin */
+table.mvc_radiobuttonlist
+{
+}
+table.mvc_radiobuttonlist tr td input
+{
+    float: left !important;
+}
+table.mvc_radiobuttonlist tr td label
+{
+    float: none !important;
+}
+/* mvc_radiobuttonlist END */
+
+/*表格工具图标的样式*/
+.panelBar .toolBar a.add span
+{
+    background-position: 0 -696px;
+}
+.panelBar .toolBar a.delete span
+{
+    background-position: 0 -746px;
+}
+.panelBar .toolBar a.edit span
+{
+    background-position: 0 -796px;
+}
+.panelBar .toolBar a.icon span
+{
+    background-position: 0 -846px;
+}
+.panelBar .toolBar a.lock span
+{
+    background-image: url(../../images/lock.png);
+    background-position: left center;
+}
+.panelBar .toolBar a.unlock span
+{
+    background-image: url(../../images/unlock.png);
+    background-position: left center;
+}
+.panelBar .toolBar a.print span
+{
+    background-image: url(../../images/16_print.gif);
+    background-position: left center;
+}
+.panelBar .toolBar a.approve span
+{
+    background-image: url(../../images/ico_16_4212.gif);
+    background-position: left center;
+}
+.panelBar .toolBar a.details span
+{
+    background-image: url(../../images/ico_18_127.gif);
+    background-position: left center;
+}
+.panelBar .toolBar a.excel span
+{
+    background-image: url(../../images/16_excel.gif);
+    background-position: left center;
+}
+.panelBar .toolBar a.word span
+{
+    background-image: url(../../images/18_word.gif);
+    background-position: left center;
+}
+.panelBar .toolBar a.access span
+{
+    background-image: url(../../images/16_access.gif);
+    background-position: left center;
+}
+.panelBar .toolBar a.pdf span
+{
+    background-image: url(../../images/16_pdf.gif);
+    background-position: left center;
+}
+/*表格工具图标的样式-end*/
+
+
+#ul_postion
+{
+    color: Green;
+}
+#ul_postion li
+{
+    line-height: 20px;
+    font-size: 12px;
+    text-align: left;
+}
+
+/* 修正IE6 下列表Bug */
+*html #rightBox .grid
+{
+    width: 99%;
+}

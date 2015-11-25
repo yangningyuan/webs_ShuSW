@@ -1,0 +1,90 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "RolesInfoBox");
+        });
+        function RolesinfoM_detail(rel) {
+            $.pdialog.open("/RolesInfo/RolesInfoEdit?otype=modify&type=details&" + rel, "w_rolesinfoedit", "详细信息", { width: 564, height: 350 });
+        }
+        function RolesinfoM_add() {
+            $.pdialog.open("/RolesInfo/RolesInfoEdit?otype=add&type=add", "w_rolesinfoedit", "添加角色", { width: "564", height: "350" });
+        }
+    </script>
+</head>
+<body>
+    <form id="pagerForm" method="post" action="@Url.Action("RolesInfoList", "RolesInfo")" onsubmit="return divSearch(this,'RolesInfoBox');"
+    runat="server">
+    <input type="hidden" name="action" value="pager" />
+    @Html.Hidden("hf_ManageAuth", @ViewData["hf_ManageAuth"])
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td>
+                        角色名
+                    </td>
+                    <td>
+                        <input type="text" name="txtRolename" />
+                    </td>
+                </tr>
+            </table>
+            <div class="subBar">
+                <ul>
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit">
+                                    检索</button></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="reset">
+                                    重置
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                <li><a class="details" href="@Url.Action("RolesInfoEdit?otype=modify&type=details&r_ID={r_ID}", "RolesInfo")" target="dialog"
+                    rel="w_rolesinfoedit" width="564" height="350" title="详细信息"><span>详细信息</span></a></li>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li class="line">line</li>
+                    <li><a class="add" href="javascript:void()" onclick="return RolesinfoM_add();"><span>
+                        添加 </span></a></li>
+                    <li><a class="edit" href="@Url.Action("RolesInfoEdit?otype=modify&r_ID={r_ID}", "RolesInfo")" target="dialog"
+                    rel="w_rolesinfoedit" width="564" height="350"><span>编辑</span></a></li>
+                    <li><a class="delete" href="@Url.Action("Delete?otype=delete&r_ID={r_ID}", "RolesInfo")" target="ajaxTodo"
+                    title="确定要删除吗?"><span>删除</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" rel="w_menuauthority"  href="@Url.Action("MenuAuthority?r_ID={r_ID}", "RolesInfo")" target="dialog" width="270" height="550">
+                        <span>设置菜单权限</span></a></li>
+@*                    <li><a class="edit" rel="w_functionalauth" href="@Url.Action("RolesFunc?r_ID={r_ID}", "RolesInfo")" target="navTab">
+                        <span>设置功能权限</span></a></li>
+*@                    <li class="line">line</li>
+                    <li><a class="unlock"  href="@Url.Action("Enable?otype=enable&r_ID={r_ID}", "RolesInfo")"
+                    target="ajaxTodo"><span>启用</span></a></li>
+                    <li><a class="lock"  href="@Url.Action("Enable?otype=disable&r_ID={r_ID}", "RolesInfo")"
+                    target="ajaxTodo" ><span>禁用</span></a></li>
+                }
+            </ul>
+        </div>
+        <div id="RolesInfoBox">
+        </div>
+    </div>
+    </form>
+</body>
+</html>

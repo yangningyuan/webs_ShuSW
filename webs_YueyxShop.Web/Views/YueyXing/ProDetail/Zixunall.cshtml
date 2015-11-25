@@ -1,0 +1,142 @@
+﻿@using webs_YueyxShop.Model
+
+@{
+    Layout = null;
+}
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        var page = $('#zxcurpage').val();
+        frPage2(page);
+    });
+</script>
+
+<input type="hidden" value="@ViewData["zxcount"]" id="zxcount" />
+<input type="hidden" value="@ViewData["zxpage"]" id="zxcurpage" />
+<input type="hidden" value="@ViewData["zxpagerows"]" id="zxpagerows" />   
+<div class="inBd" id="tabcontenth1" name="divNumberh">
+    <div class="pj-cont">
+        <ul class="question-answer">
+        @foreach (var item in ViewBag.zxall)
+        {
+        <li>
+            <dl>
+                <dt>
+                    <div class="q-icon"></div>
+                    <div class="q-cont">
+                        <p><span class="alignleft">@item.member.m_UserName</span><font class="alignright">@item.pc_CreatedOn</font></p>
+                        <p>@item.pc_Content</p>
+                    </div>
+                </dt>
+                <dd>
+                    <div class="a-icon"></div>
+                    <div class="a-cont">
+                        <p><span class="alignleft">月月兴食品商行客服回复：</span><font class="alignright">@item.preply.pr_CreatedOn</font></p>
+                        <p>@item.preply.pr_Content</p>
+                    </div>
+                </dd>
+            </dl>
+        </li>
+            }
+        </ul>
+        <div class="page"  id="zuxunallpage">
+        </div>
+    </div>
+</div><!--tabcontenth1 end-->
+
+    
+        
+
+<script type="text/javascript">
+    var jsPage2 = function (el, count, pageStep, pageNum, fnGo) {
+        this.getLink = function (fnGo, index, pageNum, text) {
+            var s = '<a  onclick="' + fnGo + '(' + index + ');" ';
+            if (index == pageNum) {
+                s += 'class="cur-hover" ';
+            }
+            text = text || index;
+            s += '>' + text + '</a> ';
+            return s;
+        }
+
+        //总页数
+        var pageNumAll = Math.ceil(count / pageStep);
+        if (pageNumAll == 1) {
+
+            var divPage = document.getElementById(el);
+            divPage.innerHTML = '<a>上一页</a><a class="cur-hover">1</a><a>上一页</a>';
+            return;
+        }
+        var itemNum = 3; //当前页左右两边显示个数
+        pageNum = Math.max(pageNum, 1);
+        pageNum = Math.min(pageNum, pageNumAll);
+        var s = '';
+        if (pageNum > 1) {
+            s += this.getLink(fnGo, pageNum - 1, pageNum, '上一页');
+        } else {
+            s += '<a>上一页</a> ';
+        }
+        var begin = 1;
+        if (pageNum - itemNum > 1) {
+            s += this.getLink(fnGo, 1, pageNum) + '... ';
+            begin = pageNum - itemNum;
+        }
+        var end = Math.min(pageNumAll, begin + itemNum * 2);
+        if (end == pageNumAll - 1) {
+            end = pageNumAll;
+        }
+        for (var i = begin; i <= end; i++) {
+            s += this.getLink(fnGo, i, pageNum);
+        }
+        if (end < pageNumAll) {
+            s += '... ' + this.getLink(fnGo, pageNumAll, pageNum);
+        }
+        if (pageNum < pageNumAll) {
+            s += this.getLink(fnGo, pageNum + 1, pageNum, '下一页');
+        } else {
+            s += '<a>下一页</a> ';
+        }
+        var divPage = document.getElementById(el);
+        divPage.innerHTML = s;
+    }
+
+    jsRand.rand = function (min, max, len) {
+        min = min || 0;
+        max = max || 1000;
+        var val = min + Math.round(Math.random() * (max - min));
+        if (len) {
+            while (('' + val).length < len) {
+                val = '0' + val;
+            }
+        }
+        return val;
+    }
+
+    function goPage2(pageIndex) {
+        var count = $('#zxcount').val();
+        var pagerows = $('#zxpagerows').val();
+        jsPage2('zuxunallpage', count, pagerows, pageIndex, 'goPage2');
+        pagejump2(pageIndex);
+    }
+    function frPage2(pageIndex) {
+        var count = $('#zxcount').val();
+        var pagerows = $('#zxpagerows').val();
+        jsPage2('zuxunallpage', count, pagerows, pageIndex, 'goPage2');
+    }
+    function pagejump2(page) {
+        var skuid = $("#skuid").val();
+        $.ajax({
+            type: "post",
+            url: "/ProDetail/all?pageNum=" + page+"&skuid="+skuid,
+            success: function (data) {
+
+                $("#tabcontenth1>div>ul").empty();
+                $(data).appendTo('#tabcontenth1>div>ul');
+
+            }
+
+        });
+    }
+</script>

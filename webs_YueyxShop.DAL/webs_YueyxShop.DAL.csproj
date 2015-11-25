@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{99B65D83-2CA2-4A05-BB17-054649FB4E75}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>webs_YueyxShop.DAL</RootNamespace>
+    <AssemblyName>webs_YueyxShop.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Adert.cs" />
+    <Compile Include="AdertPositionBase.cs" />
+    <Compile Include="BrandBase.cs" />
+    <Compile Include="BrandProductAttrBase.cs" />
+    <Compile Include="CarriageBase.cs" />
+    <Compile Include="CarriageTempleteBase.cs" />
+    <Compile Include="ConsigneeInfoBase.cs" />
+    <Compile Include="DepartmentBase.cs" />
+    <Compile Include="EmployeeBase.cs" />
+    <Compile Include="EmpRolesDetails.cs" />
+    <Compile Include="FunctionBase.cs" />
+    <Compile Include="GroupPurchaseBase.cs" />
+    <Compile Include="MemberBase.cs" />
+    <Compile Include="MenuBase.cs" />
+    <Compile Include="NewsBase.cs" />
+    <Compile Include="OrderBase.cs" />
+    <Compile Include="OrderSKUDetail.cs" />
+    <Compile Include="OrderStatusBase.cs" />
+    <Compile Include="PaymentBase.cs" />
+    <Compile Include="ProductAppraiseBase.cs" />
+    <Compile Include="ProductAttributeDetails.cs" />
+    <Compile Include="ProductAttributesBase.cs" />
+    <Compile Include="ProductBase.cs" />
+    <Compile Include="ProductConsultBase.cs" />
+    <Compile Include="ProductImgBase.cs" />
+    <Compile Include="ProductInfoBase.cs" />
+    <Compile Include="ProductRecommendDetail.cs" />
+    <Compile Include="ProductRecommendTypeBase.cs" />
+    <Compile Include="ProductReplyBase.cs" />
+    <Compile Include="ProductSEOBase.cs" />
+    <Compile Include="ProductStandardBase.cs" />
+    <Compile Include="ProductTypeBase.cs" />
+    <Compile Include="ProductTypeBrandBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegionBase.cs" />
+    <Compile Include="RejectionBase.cs" />
+    <Compile Include="RejectionSKUDetail.cs" />
+    <Compile Include="RolesFunctionDetails.cs" />
+    <Compile Include="RolesInfo.cs" />
+    <Compile Include="RolesMenuDetails.cs" />
+    <Compile Include="RushPurchaseBase.cs" />
+    <Compile Include="ShipTypeBase.cs" />
+    <Compile Include="ShoppingCartBase.cs" />
+    <Compile Include="SKUBase.cs" />
+    <Compile Include="SQLHelper.cs" />
+    <Compile Include="SysCodeBase.cs" />
+    <Compile Include="SysLogBase.cs" />
+    <Compile Include="VipCollectionBase.cs" />
+    <Compile Include="VipRank.cs" />
+    <Compile Include="vm_GBDetails.cs" />
+    <Compile Include="vm_GPDetails.cs" />
+    <Compile Include="vm_GroupInfo.cs" />
+    <Compile Include="vm_PCdetails.cs" />
+    <Compile Include="vm_RPDetails.cs" />
+    <Compile Include="vw_EmployeeBase.cs" />
+    <Compile Include="vw_EmpRoleFun.cs" />
+    <Compile Include="vw_Orderpinfo.cs" />
+    <Compile Include="vw_PInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DBUtility\DBUtility.csproj">
+      <Project>{27861305-46F8-46BE-A406-4DBB5C921001}</Project>
+      <Name>DBUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\webs_YueyxShop.IDAL\webs_YueyxShop.IDAL.csproj">
+      <Project>{CC7240E5-AE5D-4F53-AC39-022E64811AE3}</Project>
+      <Name>webs_YueyxShop.IDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\webs_YueyxShop.Model\webs_YueyxShop.Model.csproj">
+      <Project>{2E688989-D23B-48A9-8C00-58C3DBFE5B68}</Project>
+      <Name>webs_YueyxShop.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

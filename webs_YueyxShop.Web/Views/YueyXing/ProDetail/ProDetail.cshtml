@@ -1,0 +1,1039 @@
+﻿
+@{
+    ViewBag.Title = "月月兴食品商行-商品详情页";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+
+@model Models.ListModel
+
+<link type="text/css" href="/css/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+<link type="text/css" href="/css/kaych.commons.css" rel="stylesheet"/><!--页面公用css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+<link type="text/css" href="/css/kaych.framework.css" rel="stylesheet"/><!--页面大框架css文件-->
+<link rel="stylesheet" type="text/css" href="/css/kaych.prolist.css"><!--产品相关页面CSS-->
+<link rel="stylesheet" type="text/css" href="/css/kaych.place.css"><!--省市区三级联动CSS-->
+<!--[if IE 6]>
+<script type="text/javascript" src="js/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script src="js/html5.js"></script>
+<![endif]-->
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery.flexslider-min.js"></script><!--banner轮播图JS-->
+<script type="text/javascript" src="/js/jquery.SuperSlide.2.1.1.js"></script><!--页面小广告bannerJS库-->
+<script src="/js/script.js" type="text/javascript"></script><!--全部商品导航JS-->
+<script type='text/javascript' src='/js/tuan.js'></script><!--团购页面内活动特效-->
+<script type='text/javascript' src="/js/jquery.lazyload.min.js"></script><!--图片延迟加载JS-->
+<script type="text/javascript" src="/js/custominput.js"></script><!--表单美化JS-->
+<script type='text/javascript' src='/js/tuanBanner.js'></script><!--团购轮播图JS-->
+<!--团购倒计时JS-->
+<script type="text/javascript">
+    $(function () {
+        countDown("2014/9/24 23:59:59", "#time01 .day", "#time01 .hour", "#time01 .minute", "#time01 .second");
+        countDown("2014/10/10 22:59:59", "#time02 .day", "#time02 .hour", "#time02 .minute", "#time02 .second");
+        countDown("2014/11/10 22:59:59", "#time03 .day", "#time03 .hour", "#time03 .minute", "#time03 .second");
+        countDown("2014/12/24 23:59:59", "#time04 .day", "#time04 .hour", "#time04 .minute", "#time04 .second");
+        countDown("2014/12/10 22:59:59", "#time05 .day", "#time05 .hour", "#time05 .minute", "#time05 .second");
+        countDown("2014/12/20 22:59:59", "#time06 .day", "#time06 .hour", "#time06 .minute", "#time06 .second");
+        countDown("2015/1/24 23:59:59", "#time07 .day", "#time07 .hour", "#time07 .minute", "#time07 .second");
+        countDown("2015/2/10 22:59:59", "#time08 .day", "#time08 .hour", "#time08 .minute", "#time08 .second");
+        countDown("2015/3/10 22:59:59", "#time09 .day", "#time09 .hour", "#time09 .minute", "#time09 .second");
+    });
+
+    function countDown(time, day_elem, hour_elem, minute_elem, second_elem) {
+        //if(typeof end_time == "string")
+        var end_time = new Date(time).getTime(), //月份是实际月份-1
+        //current_time = new Date().getTime(),
+	sys_second = (end_time - new Date().getTime()) / 1000;
+        var timer = setInterval(function () {
+            if (sys_second > 0) {
+                sys_second -= 1;
+                var day = Math.floor((sys_second / 3600) / 24);
+                var hour = Math.floor((sys_second / 3600) % 24);
+                var minute = Math.floor((sys_second / 60) % 60);
+                var second = Math.floor(sys_second % 60);
+                day_elem && $(day_elem).text(day); //计算天
+                $(hour_elem).text(hour < 10 ? "0" + hour : hour); //计算小时
+                $(minute_elem).text(minute < 10 ? "0" + minute : minute); //计算分
+                $(second_elem).text(second < 10 ? "0" + second : second); // 计算秒
+            } else {
+                clearInterval(timer);
+            }
+        }, 1000);
+    }
+
+    function insertcollect() {
+        var skuid = $("#insert").attr("sku");
+        var type = $("#insert>cc").attr("value");
+        $.ajax({
+            type: 'post',
+            url: "/ProDetail/InsertintoCollect?skuid=" + skuid + "&type=" + type,
+            success: function (data) {
+                if (data == "操作成功") {
+                    if (type == "cancel") {
+                        $("#insert>cc").text("加入收藏");
+                        $("#insert>cc").attr("value", "insert");
+                    }
+                    else {
+                        $("#insert>cc").text("取消收藏")
+                        $("#insert>cc").attr("value", "cancel");
+                    }
+                }
+                else if (data == "收藏失败")
+                { }
+                else if (data == "未登陆") {
+                    $("#chart-modal2").attr("style", "display:block");
+                }
+
+            }
+        })
+
+    }
+</script>
+<script type="text/javascript" src="/js/ddsmoothmenu.js"></script><!--下拉导航JS-->
+<script type="text/javascript" src="/js/payfor.js"></script><!--商品数量增加减少 算总价JS-->
+<script type="text/javascript" src="/js/modal.js"></script>
+<script type='text/javascript' src='/js/main.js'></script><!--散乱JS合集 重要 此JS放置位置要注意，需放置在导航及banner用的JS下方..-->
+<script  type="text/javascript">
+    //商品规格选择
+    $(function () {
+        var search = location.search;
+        var skuid = search.substring(search.indexOf("=") + 1, search.length); //skuid
+        $("#guige>li").each(function () {
+            if ($(this).attr("data-aid") == skuid) {
+                $(this).addClass("selected");
+            }
+        });
+        //评分选星
+        var oStar = document.getElementById("star");
+        var aLi = oStar.getElementsByTagName("dt");
+        var oUl = oStar.getElementsByTagName("ul")[0];
+        var oSpan = oStar.getElementsByTagName("span")[1];
+        var oP = oStar.getElementsByTagName("p")[0];
+        var i = iScore = iStar = 0;
+
+        for (i = 1; i <= aLi.length; i++) {
+            aLi[i - 1].index = i;
+
+            //鼠标移过显示分数
+            aLi[i - 1].onmouseover = function () {
+                fnPoint(this.index);
+                //浮动层显示
+                oP.style.display = "block";
+                //计算浮动层位置
+                oP.style.left = oUl.offsetLeft + this.index * this.offsetWidth - 104 + "px";
+                //匹配浮动层文字内容
+                oP.innerHTML = "<em><b>" + this.index + "</b> 分 " + aMsg[this.index - 1].match(/(.+)\|/)[1] + "</em>" + aMsg[this.index - 1].match(/\|(.+)/)[1]
+            };
+
+            //鼠标离开后恢复上次评分
+            aLi[i - 1].onmouseout = function () {
+                fnPoint();
+                //关闭浮动层
+                oP.style.display = "none"
+            };
+
+            //点击后进行评分处理
+            aLi[i - 1].onclick = function () {
+                iStar = this.index;
+                oP.style.display = "none";
+                oSpan.innerHTML = "<strong>" + (this.index) + " 分</strong> (" + aMsg[this.index - 1].match(/\|(.+)/)[1] + ")"
+            }
+        }
+
+        //评分处理
+        function fnPoint(iArg) {
+            //分数赋值
+            iScore = iArg || iStar;
+            for (i = 0; i < aLi.length; i++) aLi[i].className = i < iScore ? "on" : "";
+        }
+
+       
+    });
+    //提交问题
+    function tijiaowenti() {
+
+        var skuid = $("#skuid").val();
+        var content = $("#tiwen").val();
+        var radio = $("input[name='question']:checked").val();
+
+        var url = "/ProDetail/Tijiao?type=zixun&content=" + content + "&skuid=" + skuid + "&radio=" + radio,
+        url = encodeURI(url)
+        $.ajax({
+            type: "post",
+            url: url,
+            success: function (data) {
+                if (data == "提交成功") {
+                    $("#img").removeClass("no-icon").addClass("no2-icon");
+                    $("#tishiyu").text("您的咨询/评价已成功发表，请等待管理员进行审核（审核通过的咨询/评价内容才能正常显示）");
+                    $("#yes").text("确定");
+                    $("#yes").attr("href", "javascript:void(0)");
+                    $("#yes").click(function () {
+                        $("#chart-modal2").attr("style", "display:none");
+                        $("#tiwen").val("");
+                        window.reload();
+                    });
+
+                    $("#chart-modal2").attr("style", "display:block");
+
+                }
+                else if (data == "请选择提问类别") {
+                    $("#tishiyu").text("请选择您咨询/评论的类别！");
+                    $("#yes").text("确定");
+                    $("#yes").attr("href", "javascript:void(0)");
+                    $("#yes").click(function () { $("#chart-modal2").attr("style", "display:none"); });
+
+                    $("#chart-modal2").attr("style", "display:block");
+                }
+                else if (data == "不登陆没有发言权") {
+                    $("#chart-modal2").attr("style", "display:block");
+                }
+            }
+        });
+    }
+
+    //大商品加入购物车
+    function insertintoCart() {
+        var skuid = $("#skuid").val();
+        var count = $("#qty_item_2").val();
+        var pric = $("#gppric").val();
+        $.ajax({
+            type: "post",
+            url: "/ProDetail/insertintoCart?pric=" + pric + "&skuid=" + skuid + "&count=" + count,
+            success: function (data) {
+                if (data != "nologon" && data != "fail" && data != "nologon") {
+                    $("#kuang").html(data);
+                    $("#chart-modal").attr("style", "display:block");
+                }
+                else if (data == "nologon") {
+                    window.location.href = "/Logon/Logon";
+                }
+                else {
+                }
+            }
+        });
+
+    }
+    function closeit() {
+        $("#chart-modal").attr("style", "display:none");
+        location.reload();
+    };
+    function closethis() {
+        $("#chart-modal2").attr("style", "display:none");
+    };
+    //推荐商品
+    function TuiinsertintoCart(id) {
+        var skuid = id;
+        var count = 1;
+        $.ajax({
+            type: "post",
+            url: "/ProDetail/insertintoCart?skuid=" + skuid + "&count=" + count,
+            success: function (data) {
+                if (data != "" && data != "fail" && data != "nologon") {
+                    $("#kuang").html(data);
+                    $("#chart-modal").attr("style", "display:block");
+                }
+                else if (data == "nologon") {
+                    window.location.href = "/Logon/Logon";
+                }
+                else {
+                }
+            }
+        });
+
+    }
+</script>
+<input type="hidden" value="@ViewData["skuid"]" id="skuid" />
+@if (Model.vmpinfolist.Count > 0)
+{
+<div class="breadcrumb">
+	<a href="/Index/Index"><strong>首页</strong></a> > <a href="/ProList/Prolist?ptype=@Model.vmpinfolist[0].pt_ID">@Model.vmpinfolist[0].pt_Name</a> >@Model.vmpinfolist[0].p_Name
+</div><!--breadcrumb end-->
+<div class="clearh"></div>
+<div class="wrap">
+	<div class="proDetails-class borders">
+		<div class="pro-Tshow alignleft">
+        	<div id="vertical" class="mid-pro">
+            	<img style="width:400xp;height:400px;" name="page_cnt_1" _src="@Model.pimglist[0].pi_Url" alt="@Model.vmpinfolist[0].p_Name" id="midimg" />
+            	<div style="display:none;" id="winSelector"></div>
+            </div><!--mid-pro end-->
+            <div id="bigView" style="display:none;"><img alt="" src="" /></div>
+            <div class="small-pro">
+            	<div class="scrollbutton smallImgLeft disabled"></div>
+				<div id="imageMenu">
+					<ul>@for (int i = 0; i < Model.pimglist.Count; i++)
+         {
+             if (i == 0)
+             {
+						        <li id="onlickImg"><img style="width:54xp;height:54px;" name="page_cnt_1" _src="@Model.pimglist[i].pi_Url" alt=""/></li>
+             }
+             else
+             { 
+						        <li ><img style="width:54xp;height:54px;" name="page_cnt_1" _src="@Model.pimglist[i].pi_Url" alt=""/></li>
+             }
+         }
+					</ul>
+				</div><!--imageMenu end-->
+				<div class="scrollbutton smallImgRight"></div>
+            </div><!--small-pro end-->
+            <div class="share-sc">
+            	<div class="shares alignleft">
+                	<em></em><span>分享到：</span><div class="bdsharebuttonbox alignleft share-bd"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+        <script type="text/javascript">
+            window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+        </script>
+                </div><!--shares end-->
+                <a class="sc alignright" href="javascript:void(0)" onclick="insertcollect()" sku="@Model.vmpinfolist[0].sku_ID" id="insert"><em></em>
+                @if (Convert.ToBoolean(ViewData["collect"]))
+                {
+                    <cc value="cancel">取消收藏</cc>
+                }
+                else
+                {
+                    <cc value="insert">加入收藏</cc>
+                }
+                </a>
+            </div><!--share-sc end-->
+        </div><!--pro-Tshow end-->
+        <div class="pro-messages alignleft">
+        	
+        <div class="border-div">
+            	<h2>@Model.vmpinfolist[0].p_Name @Model.vmpinfolist[0].shuxing</h2>
+                @*<h3>显示活动名称</h3>*@
+            </div><!--border-div end-->
+            <div class="border-div">
+            	<p><font>市&nbsp;场&nbsp;价</font><del>￥@Model.vmpinfolist[0].sku_scPric</del></p>
+                
+                    <p>促&nbsp;销&nbsp;价<span>￥@Model.vmpinfolist[0].sku_Price</span></p>
+      
+
+                <p>优&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;惠<em>已优惠 @ViewData["youhui"]</em>元</p>
+            </div><!--border-div end-->
+            <div class="border-div">
+@*            	<div class="address">
+                	<span>送&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;到</span>
+                	<div class="place">
+                    	<div id="store-selector">
+							<div class="text"><div></div><b></b></div>                   
+							<div onclick="$('#store-selector').removeClass('hover')" class="close"></div>
+						</div><!--store-selector end-->
+						<div id="store-prompt"><strong></strong></div><!--store-prompt end--->
+                    </div><!--place end-->
+                    @if (Model.vmpinfolist[0].sku_Stock>0)
+                    {
+                    <em>有货</em>
+                    }
+                    else
+                    {
+                    <em>无货</em>
+                    }
+                </div><!--address end-->
+*@                <div class="dOrder-buyNub">
+                	<div class="buyNub-tit">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</div>
+                    <div class="buyNub-nub">
+						<div class="buyNub-nub-wrap">
+							<i class="buyNub-nub-blus-c" onClick="setAmount.reduce('#qty_item_2')"></i>
+                            <input name="qty_item_2" type="text"  value="1" id="qty_item_2" onKeyUp="setAmount.modify('#qty_item_2')">
+							<i class="buyNub-nub-top" onClick="setAmount.add('#qty_item_2')"></i>
+                        </div>
+                    </div><!--buyNub-nub end-->
+                </div><!--dOrder-buyNub end-->
+                <div class="clear"></div>    
+            </div><!--border-div end-->
+            @if (Model.proattr2.Count > 0)
+            {
+            <div class="border-div">
+                <div class="sys_item_spec">
+		            <dl class="clearfix iteminfo_parameter sys_item_specpara" data-sid="1">
+			            <dt>规&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格</dt>
+			            <dd>
+				            <ul class="sys_spec_text" id="guige">
+                            @foreach (var attr in Model.proattr2)
+                            { 
+					            <li data-aid="@attr.sku.sku_ID"><a href="/ProDetail/ProDetail?skuid=@attr.sku.sku_ID" title="@attr.pa_Name">@attr.pa_Name</a><i></i></li>
+                            }
+            				</ul>
+
+			            </dd>
+		            </dl>
+	            </div>
+            </div>
+            }
+            <div class="border-div">
+            	<ul class="buy-cont">
+                	<li><a  href="javascript:void(0)" onclick="insertintoCart()" id="Cart" value="@Model.vmpinfolist[0].sku_ID"><img name="page_cnt_1" _src="/images/img/buy_button.jpg" alt="加入购物车" /></a></li>
+                    <li>
+                    	<div class="ewm-sm">
+                        	<img style="width:60xp;height:60px;" name="page_cnt_1" _src="@Model.vmpinfolist[0].sku_tdcode" alt="二维码" />
+                            <dl>
+                            	<dt><em></em>微信扫购</dt>
+                                <dd>一键购买，快捷无忧！</dd>
+                            </dl>
+                        </div><!--ewm-sm end-->
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div><!--border-div end-->
+            <div class="pay-idea"><span>支付方式：</span><em class="pay1"></em><span>货到付款（仅郑州市内）</span><em class="pay2"></em><span>支付宝支付</span></div>
+        
+        </div><!--pro-messages end-->
+        <div class="pro-No_ alignright">
+        	<dl>
+            	<dt><img style="width:54xp;height:54px;" name="page_cnt_1" _src="@Model.pimglist[0].pi_Url" alt="产品小图" /></dt>
+                <dd>@Model.vmpinfolist[0].p_Name</dd>
+            </dl>
+            <div class="dl-bg"></div>
+            <ul class="vip-say">
+            	<li><span>会员评分</span><em><i style="width:@ViewData["xing"]px;"></i></em><b>@ViewData["pinglunscore"]</b></li>
+                <li><span>会员点评（共<a href="#">@ViewData["pingluncount"]</a>条评论）</span></li>
+            </ul>
+            @if (Model.pinglun.Count > 0)
+            {
+                 <div class="vip-font">
+            	<div class="icon-top"></div>
+                <div class="fonts"><span>@Model.pinglun[0].member.m_UserName：</span>@Model.pinglun[0].pa_Content</div>
+            </div>
+            }<!--vip-font end-->
+            <div class="pro-Nos">
+            	产品编号：@Model.vmpinfolist[0].sku_Code
+            </div>
+        </div><!--pro-No_ end-->
+        <div class="clear"></div>
+	</div><!--pro-class end-->
+    <div class="clearh"></div>
+	<div class="side-bar alignleft">
+        <div class="side-div borders">
+        	<div class="side-tip"><h2>看过此页面用户还购买过</h2></div>
+            <ul class="side-ul2" id="Detailtui">
+            	@Html.Action("zuizhongDetail", "ProDetail")
+            </ul>
+        </div><!--side-div end-->
+        <div class="clearh"></div>
+        <div class="side-div borders">
+        	<div class="side-tip"><h2>一周销量排行榜</h2></div>
+            <div class="sales-list">
+            	<ul>
+                @for (var i = 1; i <= Model.zhoupaihang.Count; i++)
+                {
+                	<li>
+                		<div class="math-list">@i</div>
+                		<div class="dis_pi">
+                    		<a href="/ProDetail/ProDetail?skuid=@Model.zhoupaihang[i - 1].sku_ID" target="_blank"><img name="page_cnt_1" _src="@Model.zhoupaihang[i-1].pi_Url" alt="@Model.zhoupaihang[i - 1].p_Name" title="@Model.zhoupaihang[i - 1].p_Name @Model.zhoupaihang[i-1].shuxing"/></a> 
+                        	<dl>
+                        		<dt><a href="/ProDetail/ProDetail?skuid=@Model.zhoupaihang[i - 1].sku_ID" target="_blank" title="@Model.zhoupaihang[i - 1].p_Name @Model.zhoupaihang[i-1].shuxing">
+                                @if (Model.zhoupaihang[i - 1].p_Name.Length > 18)
+                                {
+                                    @Model.zhoupaihang[i - 1].p_Name.Substring(0, 18)
+                                }
+                                else
+                                { @Model.zhoupaihang[i - 1].p_Name
+                                }
+                                </a></dt>
+                            	<dd>￥@Model.zhoupaihang[i - 1].sku_Price </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="/ProDetail/ProDetail?skuid=@Model.zhoupaihang[i - 1].sku_ID" target="_blank">@Model.zhoupaihang[i - 1].p_Name @Model.zhoupaihang[i - 1].shuxing</a></p>
+                    </li>
+                }
+                </ul>
+            </div><!--sales-list end-->
+        </div><!--side-div end-->
+        <div class="clearh"></div>
+        <div class="side-div borders ani-side-pro">
+        	<div class="side-tip">
+            	<h2 class="alignleft">浏览历史</h2>
+@*                <span class="step">
+					<a href="javascript:void(0)" class="prev"><s class="arrow arrow-lthin"><s></s></s></a>
+                	<span class="pageState"></span>
+					<a href="javascript:void(0)" class="next"><s class="arrow arrow-rthin"><s></s></s></a>
+				</span>
+*@            </div>
+            <div class="sales-list-history">
+            @Html.Action("History", "ProDetail")
+            </div><!--sales-list end-->
+        </div><!--side-div end-->
+    </div><!--side-bar end-->
+    <div class="side-cont alignright">
+      <div class="outBox"> 
+          <div class="borders hd middle-nav">
+       		  <ul class="alignleft">
+                	<li><a href="javascript:void(0);" onclick="showThis(1,'divNumber','tabcontent','tablink');" class="on" id="tablink1">商品介绍</a></li>
+                    <li><a href="javascript:void(0);" onclick="showThis(2,'divNumber','tabcontent','tablink');" id="tablink2">评价<span>（@ViewData["pingluncount"]）</span></a></li>
+                    <li><a href="javascript:void(0);" onclick="showThis(3,'divNumber','tabcontent','tablink');" id="tablink3">商品咨询</a></li>
+                </ul>
+              <div class="alignright ewm-sms">
+              	  <span>扫一扫，手机购买</span><em></em><i></i>
+                  <div class="big-ewm"><img style="width:140xp;height:140px;" name="page_cnt_1" _src="@Model.vmpinfolist[0].sku_tdcode" alt="二维码" /></div>
+              </div><!--page-math end-->
+       	  </div><!--hd end-->
+          <div class="tab_box">
+              <div class="inBox" id="tabcontent1" name="divNumber">
+                  <div class="inBd">
+                      <ul class="guige">
+                      @for (int i = 0; i < Model.proattr.Count; i++)
+                      {
+                      	  <li>@Model.proattr[i].pa_Alias：@Model.proattr[i].pa_Name</li>
+                      }
+                      </ul>
+                      
+        	        @for (int i = 0; i < Model.productinfo.Count; i++)
+                 {
+                      <div class="Deta-title"><h3>@Model.productinfo[i].pin_Title</h3></div>
+                      <div class="wrapper"><p>@Html.Raw(Model.productinfo[i].pin_Content)</p></div><!--wrapper end-->
+                 }
+                  </div><!--inBd end-->
+              </div><!--inBox end-->
+              @Html.Action("ProPinglun", "ProDetail")
+              <div class="inBox hide" id="tabcontent3" name="divNumber">
+                  <div class="clearh"></div>
+                  <div class="inHd">
+				  	  <ul>
+                      	  <li><a href="javascript:void(0);" onclick="showThis(1,'divNumberh','tabcontenth','tablinkh');" class="on" id="tablinkh1">全部咨询<span>（@ViewData["all"]）</span></a></li>
+                    	  <li><a href="javascript:void(0);" onclick="showThis(2,'divNumberh','tabcontenth','tablinkh');" id="tablinkh2">促销活动<span>（@ViewData["p1"]）</span></a></li>
+                    	  <li><a href="javascript:void(0);" onclick="showThis(3,'divNumberh','tabcontenth','tablinkh');" id="tablinkh3">库存及物流<span>（@ViewData["p2"]）</span></a></li>
+                    	  <li><a href="javascript:void(0);" onclick="showThis(4,'divNumberh','tabcontenth','tablinkh');" id="tablinkh4">售后提问<span>（@ViewData["p3"]）</span></a></li>
+                          <li><a href="javascript:void(0);" onclick="showThis(5,'divNumberh','tabcontenth','tablinkh');" id="tablinkh5">商品提问<span>（@ViewData["p4"]）</span></a></li>
+                      </ul>
+				  </div>
+                  <div class="inBd borders border-nonetop">
+                  	  <div class="border-divs mar1">
+                          <div class="tips">提示:因厂家更改产品包装、产地或者更换随机附件等没有任何提前通知，且每位咨询者购买情况、提问时间等不同，为此以下回复信息仅供参考！若由此给您带来不便请多多谅解，谢谢！</div>
+                          <a class="questions" href="#mao2"><em></em><span>我要咨询</span></a>
+                          <div class="clear"></div>
+                       </div><!--border-div end-->
+                            @Html.Action("Zixunall", "ProDetail")
+                            @Html.Action("Zixunp1", "ProDetail")
+                            @Html.Action("Zixunp2", "ProDetail")
+                            @Html.Action("Zixunp3", "ProDetail")
+                            @Html.Action("Zixunp4", "ProDetail")
+                       <a name="mao2"></a>
+                  </div><!--inBd end-->
+                  <div class="clearh"></div>
+                  <div class="side-content borders">
+                      <div class="pj-form alignleft">
+                          <h3><em></em><span>提问：<font>@Model.vmpinfolist[0].p_Name @Model.vmpinfolist[0].shuxing</font></span></h3>
+                          <div class="pj-form-bg"></div>
+                          @if (!Convert.ToBoolean(ViewData["logon"]))
+                          { 
+                          <p>登录后才可以发表提问，<a href="/logon/logon">立即登录</a></p>
+                          }
+                          <div class="form-pj">
+                          	  <div class="tip-title alignleft">提问类型：</div>
+                              <div class="pj-conts alignleft">
+                              	  <ul class="pj-input">
+                                  	  <li>
+                                      	  <input type="radio" name="question" id="s-shop" value="1" />
+										  <label for="s-shop">商品提问</label>
+                                      </li>
+                                      <li>
+                                      	  <input type="radio" name="question" id="s-active" value="2" />
+										  <label for="s-active">促销活动提问</label>
+                                      </li>
+                                      <li>
+                                      	  <input type="radio" name="question" id="s-logistics" value="3" />
+										  <label for="s-logistics">库存及物流提问</label>
+                                      </li>
+                                      <li>
+                                      	  <input type="radio" name="question" id="after-sales" value="4" />
+										  <label for="after-sales">售后提问</label>
+                                      </li>
+                                  </ul>
+                              </div><!--pj-conts end-->
+                          </div><!--form-pj end-->
+                          <div class="form-pj">
+                          	  <div class="tip-title alignleft">提问内容：</div>
+                              <div class="pj-conts alignleft">
+                              	  <textarea id="tiwen"></textarea>
+                              </div><!--pj-conts end-->
+                          </div><!--form-pj end-->
+                          <div class="form-pj">
+                          	  <input type="submit" value="提交问题" onclick="tijiaowenti()" />
+                          </div><!--form-pj end-->
+                      </div><!--pj-form end-->
+                      <div class="pj-rule alignright">
+                          <h4>咨询说明：</h4>
+                          @Html.Raw(ViewBag.zixunshuoming)
+                      </div><!--pj-rule end-->
+                      <div class="clear"></div>
+                  </div><!--side-content end-->
+              </div><!--inBox end-->
+@*              <div class="inBox hide" id="tabcontent4" name="divNumber">
+                  <div class="inBd">
+                  	  <div class="wrapper">打算发达省份撒发撒发</div><!--wrapper end-->
+                  </div><!--inBd end-->
+              </div><!--inBox end-->
+*@          </div><!--pro-content end-->
+          <div class="clearh"></div>
+        </div><!--pro-cont end-->
+    </div><!--side-cont end-->
+</div><!--wrap end-->
+<div class="clear line2"></div>
+<div id="kuang"><!--成功加入购物车弹出框-->
+</div>
+<div class="modal" id="chart-modal2">
+	<a class="close" data-dismiss="modal" onclick="closethis()">X</a>
+    <div class="yes-chart">
+    	<div class="no-icon alignleft" id="img"></div>
+        <div class="chart-font alignright">
+        	<dl>
+            	<dt><strong id="tishiyu">您还没有登陆！登陆之后才能对商品进行评价/咨询</strong></dt>
+            </dl>
+            <div class="clear"></div>
+            <a class="total-chart" href="/Logon/Logon" id="yes">现在去登陆 ></a><a class="go-shop" href="javascript:void(0)" onclick="closethis()" >取消</a>
+        </div><!--chart-font end-->
+    </div><!--yes-chart end-->
+    <div class="clear"></div>
+</div><!--chart-modal end-->
+
+<div id="collectkuang" ><!--收藏-->
+<div class="modal" id="chart-modal2">
+	<a class="close" data-dismiss="modal" onclick="closethis()">X</a>
+    <div class="yes-chart">
+    	<div class="no-icon alignleft"></div>
+        <div class="chart-font alignright">
+        	<dl>
+            	<dt><strong>您还没有登陆！登陆之后才能收藏商品</strong></dt>
+            </dl>
+            <div class="clear"></div>
+            <a class="total-chart" href="/Logon/Logon">现在去登陆 ></a><a class="go-shop" href="javascript:void(0)" onclick="closethis()">取消</a>
+        </div><!--chart-font end-->
+    </div><!--yes-chart end-->
+    <div class="clear"></div>
+</div><!--chart-modal end-->
+
+
+</div>
+}
+else
+{ 
+    <script>location.href="/Index/Index"</script>
+}
+<script type="text/javascript" src="/js/tabproDetails.js"></script>
+<script type="text/javascript" src="/js/location.js"></script><!--省市区三级联动JS-->
+<!--产品分类搜索JS-->
+<script type="text/javascript">
+    var dlNum = $("#classify").find("dl");
+    for (i = 0; i < dlNum.length; i++) {
+        $(".chose-results .choselist").append("<div class=\"conditions selectedShow\" style=\"display:none\"><span></span><label></label><em></em></div>");
+    }
+
+    var refresh = "true";
+
+    $(".list-cont a ").live("click", function () {
+        var text = $(this).text();
+        var selectedShow = $(".selectedShow");
+        var textTypeIndex = $(this).parents("dl").index();
+        var textType = $(this).parent("dd").siblings("dt").text();
+        index = textTypeIndex - (2);
+        $(".clearDd").show();
+        $(".selectedShow").eq(index).show();
+        $(this).addClass("selected").siblings().removeClass("selected");
+        selectedShow.eq(index).find("span").text(textType);
+        selectedShow.eq(index).find("label").text(text);
+        var show = $(".selectedShow").length - $(".selectedShow:hidden").length;
+        if (show > 1) {
+            $(".delete").show();
+        }
+
+    });
+    $(".selectedShow em").live("click", function () {
+        $(this).parents(".selectedShow").hide();
+        var textTypeIndex = $(this).parents(".selectedShow").index();
+        index = textTypeIndex;
+        $(".list-cont").eq(index).find("a").removeClass("selected");
+
+        if ($(".list-cont .selected").length < 2) {
+            $(".delete").hide();
+        }
+    });
+
+    $(".delete").live("click", function () {
+        $(".selectedShow").hide();
+        $(this).hide();
+        $(".list-cont a ").removeClass("selected");
+    }); 
+</script>
+<script type="text/javascript">
+    //导航下拉菜单横导航
+    ddsmoothmenu.init({
+
+        mainmenuid: "smoothmenu1", //menu DIV id
+
+        orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+
+        classname: 'navCon-menu'
+
+    });
+
+
+    //产品详细页左侧浏览历史JS
+    jQuery(".ani-side-pro").slide({ mainCell: ".sales-list-history", effect: "left", delayTime: 400, pnLoop: false, easing: "easeOutCubic" });
+
+
+    //首页团购banner下方的广告轮播JS
+    jQuery(".ad-banner").slide({ mainCell: ".pic", effect: "left", autoPlay: true, delayTime: 300 });
+
+    //首页产品分类里的广告轮播JS
+    jQuery(".pro-banner").slide({ mainCell: ".pic", effect: "left", autoPlay: true, delayTime: 300 });
+
+    //首页品牌推荐大图轮播
+    jQuery("#iFocus li a").hover(function () { $(this).css("opacity", 1).siblings().css("opacity", 0.7) }, function () { $(this).css("opacity", 1).siblings().css("opacity", 1) }); //鼠标移到图片上时聚焦效果
+    jQuery("#iFocus").slide({ titCell: ".btn span", mainCell: "ul", effect: "left", autoPlay: true });
+
+    //首页小品牌无缝滚动JS
+    jQuery(".picScroll").slide({ mainCell: "ul", effect: "leftMarquee", vis: 9, autoPlay: true, interTime: 50, switchLoad: "_src" });
+
+    //侧边栏一周销量排行榜JS
+    jQuery(".sales-list").slide({ titCell: "li", triggerTime: 0 });
+
+
+    //图片延迟加载
+    (function () {
+
+        var th = this;
+
+        th.pageSize = 1000; /* 每屏大概高度为1000px */
+
+        th.pageQuotiety = 0.5; /* 提前下载量 */
+
+        th.imgName = "page_cnt_"; /* 图片通用名 */
+
+        th.imgs = []; /* 每屏图片 [每屏所有图片，第一张图片，第一张图片绝对top:加载图片的top] */
+
+        var B = {}; /* Browser check */
+
+        B.ua = window.navigator.userAgent.toLowerCase();
+
+        B.ie = /msie/.test(B.ua);
+
+        B.moz = /gecko/.test(B.ua);
+
+        B.opera = /opera/.test(B.ua);
+
+        B.safari = /safari/.test(B.ua);
+
+        var $N = function (s, docu) {
+            var doc = docu ? docu : document;
+            return (typeof s == "object") ? s : doc.getElementsByName(s);
+        };
+
+        th.getWindowSize = function () {
+            var a = {};
+            if (window.self && self.innerWidth) {
+                a.width = self.innerWidth;
+                a.height = self.innerHeight;
+                return a;
+            } if (document.documentElement && document.documentElement.clientHeight) {
+                a.width = document.documentElement.clientWidth;
+                a.height = document.documentElement.clientHeight;
+                return a;
+            }
+            a.width = document.body.clientWidth;
+            a.height = document.body.clientHeight;
+            return a;
+        }
+
+        th.getObjPosition = function (obj) {
+            var a = {};
+            a.x = obj.offsetLeft, a.y = obj.offsetTop;
+            while (obj = obj.offsetParent) {
+                a.x += obj.offsetLeft;
+                a.y += obj.offsetTop;
+            }
+            return a;
+        }
+
+        th._getPageScroll = function () {
+            var s;
+            if (typeof (window.pageYOffset) != "undefined") {
+                s = window.pageYOffset;
+            } else if (document.documentElement && document.documentElement.scrollTop) {
+                s = document.documentElement.scrollTop;
+            } else if (document.body) {
+                s = document.body.scrollTop;
+            }
+            return s;
+        }
+
+        th._loadImages = function (a) {
+            if (!a) return;
+            var obj = a;
+            if (typeof a == "string") {
+                obj = $N(a);
+            } for (var i = 0; i < obj.length; i++) {
+                var s = obj[i];
+                if (typeof s == "object") {
+                    if (s.getAttribute("_src")) {
+                        s.setAttribute("src", s.getAttribute("_src"));
+                        s.removeAttribute("_src", 0);
+                    }
+                }
+            }
+            delete obj;
+            obj = null;
+        }
+
+        th._loadAllImgs = function () {
+            var i = 0;
+            while (th.imgs[i]) {
+                th._loadImages(th.imgs[i][0]);
+                i++;
+            }
+        }
+
+        th.getImgPosition = function () {
+            var i = 1;
+            var p = $N(th.imgName + i);
+            while (p && p.length > 0) {
+                var p = $N("page_cnt_" + i);
+                var t = th.getImgLoadPosition(p[0]);
+                th.imgs.push([p, p[0], t]);
+                i++;
+                p = $N(th.imgName + i);
+            }
+        }
+
+        th.getImgLoadPosition = function (a) {
+            var t = { imgTop: 0, pageTop: 0 };
+            if (a) {
+                var w = th.getWindowSize();
+                t.imgTop = parseInt(th.getObjPosition(a).y);
+                t.pageTop = parseInt((t.imgTop / 1000 - th.pageQuotiety) * 1000);
+            }
+            return t;
+        }
+
+        th._addScrollEven = function () {
+            if (B.ie) {
+                window.attachEvent("onscroll", th._scrollFn);
+            } else {
+                window.addEventListener("scroll", th._scrollFn, false);
+            }
+        }
+
+        th._removeScrollEven = function () {
+            if (B.ie) {
+                window.detachEvent("onscroll", th._scrollFn);
+            } else {
+                window.removeEventListener("scroll", th._scrollFn, false);
+            }
+        }
+
+        th._scrollFn = function () {
+            var y = th._getPageScroll();
+            var w = th.getWindowSize().height;
+            if (w == 0) {
+                th._loadAllImgs();
+                return;
+            }
+            var i = 0;
+            var j = 0;
+            while (th.imgs[i]) {
+                if (!(y + w < th.imgs[i][2].pageTop)) {
+                    th._loadImages(th.imgs[i][0]);
+                    j++
+                }
+                i++;
+                if (j >= th.imgs.length) {
+                    th._removeScrollEven();
+                }
+            }
+        }
+
+        th.getImgPosition();
+        th._addScrollEven();
+        th._scrollFn();
+
+    })()
+</script>
+<!--分类导航滑倒顶部固定在顶部的JS-->
+<script type="text/javascript">
+    $.fn.smartFloat = function () {
+        var position = function (element) {
+            var top = element.position().top, pos = element.css("position");
+            $(window).scroll(function () {
+                var scrolls = $(this).scrollTop();
+                if (scrolls > top) {
+                    if (window.XMLHttpRequest) {
+                        element.css({
+                            position: "fixed",
+                            top: 0
+                        });
+                    } else {
+                        element.css({
+                            top: scrolls
+                        });
+                    }
+                } else {
+                    element.css({
+                        position: pos,
+                        top: top
+                    });
+                }
+            });
+        };
+        return $(this).each(function () {
+            position($(this));
+        });
+    };
+    //绑定
+    $(".middle-nav").smartFloat();
+</script>
+<!--商品图片放大镜功能JS-->
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // 图片上下滚动
+        var count = $("#imageMenu li").length - 4; /* 显示 5 个 li标签内容 */
+        var interval = $("#imageMenu li:first").width();
+        var curIndex = 0;
+
+        $('.scrollbutton').click(function () {
+            if ($(this).hasClass('disabled')) return false;
+
+            if ($(this).hasClass('smallImgLeft')) --curIndex;
+            else ++curIndex;
+
+            $('.scrollbutton').removeClass('disabled');
+            if (curIndex == 0) $('.smallImgLeft').addClass('disabled');
+            if (curIndex == count - 1) $('.smallImgRight').addClass('disabled');
+
+            $("#imageMenu ul").stop(false, true).animate({ "marginLeft": -curIndex * interval + "px" }, 600);
+        });
+
+        // 解决 ie6 select框 问题
+        $.fn.decorateIframe = function (options) {
+            if ($.browser.msie && $.browser.version < 7) {
+                var opts = $.extend({}, $.fn.decorateIframe.defaults, options);
+                $(this).each(function () {
+                    var $myThis = $(this);
+                    //创建一个IFRAME
+                    var divIframe = $("<iframe />");
+                    divIframe.attr("id", opts.iframeId);
+                    divIframe.css("position", "absolute");
+                    divIframe.css("display", "none");
+                    divIframe.css("display", "block");
+                    divIframe.css("z-index", opts.iframeZIndex);
+                    divIframe.css("border");
+                    divIframe.css("top", "0");
+                    divIframe.css("left", "0");
+                    if (opts.width == 0) {
+                        divIframe.css("width", $myThis.width() + parseInt($myThis.css("padding")) * 2 + "px");
+                    }
+                    if (opts.height == 0) {
+                        divIframe.css("height", $myThis.height() + parseInt($myThis.css("padding")) * 2 + "px");
+                    }
+                    divIframe.css("filter", "mask(color=#fff)");
+                    $myThis.append(divIframe);
+                });
+            }
+        }
+        $.fn.decorateIframe.defaults = {
+            iframeId: "decorateIframe1",
+            iframeZIndex: -1,
+            width: 0,
+            height: 0
+        }
+        //放大镜视窗
+        $("#bigView").decorateIframe();
+
+        //点击到中图
+        var midChangeHandler = null;
+
+        $("#imageMenu li img").bind("click", function () {
+            if ($(this).attr("id") != "onlickImg") {
+                midChange($(this).attr("src").replace("small", "mid"));
+                $("#imageMenu li").removeAttr("id");
+                $(this).parent().attr("id", "onlickImg");
+            }
+        }).bind("mouseover", function () {
+            if ($(this).attr("id") != "onlickImg") {
+                window.clearTimeout(midChangeHandler);
+                midChange($(this).attr("src").replace("small", "mid"));
+                $(this).css({ "border": "1px solid #ff6354" });
+            }
+        }).bind("mouseout", function () {
+            if ($(this).attr("id") != "onlickImg") {
+                $(this).removeAttr("style");
+                midChangeHandler = window.setTimeout(function () {
+                    midChange($("#onlickImg img").attr("src").replace("small", "mid"));
+                }, 1000);
+            }
+        });
+
+        function midChange(src) {
+            $("#midimg").attr("src", src).load(function () {
+                changeViewImg();
+            });
+        }
+
+        //大视窗看图
+        function mouseover(e) {
+            if ($("#winSelector").css("display") == "none") {
+                $("#winSelector,#bigView").show();
+            }
+
+            $("#winSelector").css(fixedPosition(e));
+            e.stopPropagation();
+        }
+
+
+        function mouseOut(e) {
+            if ($("#winSelector").css("display") != "none") {
+                $("#winSelector,#bigView").hide();
+            }
+            e.stopPropagation();
+        }
+
+
+        $("#midimg").mouseover(mouseover); //中图事件
+        $("#midimg,#winSelector").mousemove(mouseover).mouseout(mouseOut); //选择器事件
+
+        var $divWidth = $("#winSelector").width(); //选择器宽度
+        var $divHeight = $("#winSelector").height(); //选择器高度
+        var $imgWidth = $("#midimg").width(); //中图宽度
+        var $imgHeight = $("#midimg").height(); //中图高度
+        var $viewImgWidth = $viewImgHeight = $height = null; //IE加载后才能得到 大图宽度 大图高度 大图视窗高度
+
+        function changeViewImg() {
+            $("#bigView img").attr("src", $("#midimg").attr("src").replace("mid", "big"));
+        }
+
+        changeViewImg();
+
+        $("#bigView").scrollLeft(0).scrollTop(0);
+        function fixedPosition(e) {
+            if (e == null) {
+                return;
+            }
+            var $imgLeft = $("#midimg").offset().left; //中图左边距
+            var $imgTop = $("#midimg").offset().top; //中图上边距
+            X = e.pageX - $imgLeft - $divWidth / 2; //selector顶点坐标 X
+            Y = e.pageY - $imgTop - $divHeight / 2; //selector顶点坐标 Y
+            X = X < 0 ? 0 : X;
+            Y = Y < 0 ? 0 : Y;
+            X = X + $divWidth > $imgWidth ? $imgWidth - $divWidth : X;
+            Y = Y + $divHeight > $imgHeight ? $imgHeight - $divHeight : Y;
+
+            if ($viewImgWidth == null) {
+                $viewImgWidth = $("#bigView img").outerWidth();
+                $viewImgHeight = $("#bigView img").height();
+                if ($viewImgWidth < 200 || $viewImgHeight < 200) {
+                    $viewImgWidth = $viewImgHeight = 800;
+                }
+                $height = $divHeight * $viewImgHeight / $imgHeight;
+                $("#bigView").width($divWidth * $viewImgWidth / $imgWidth);
+                $("#bigView").height($height);
+            }
+
+            var scrollX = X * $viewImgWidth / $imgWidth;
+            var scrollY = Y * $viewImgHeight / $imgHeight;
+            $("#bigView img").css({ "left": scrollX * -1, "top": scrollY * -1 });
+            $("#bigView").css({ "top": 0, "left": $(".preview").offset().left + $(".preview").width() + 15 });
+
+            return { left: X, top: Y };
+        }
+
+    });
+</script>
+

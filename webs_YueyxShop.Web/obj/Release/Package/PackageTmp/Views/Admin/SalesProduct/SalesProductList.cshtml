@@ -1,0 +1,98 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@using webs_YueyxShop.Model
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<script type="text/javascript">
+
+    function go() {
+        var str = "";
+        $("input[name='p_ID']:checkbox").each(function () {
+            if ($(this).attr("checked")) {
+                str += $(this).val() + ","
+            }
+        })
+        $("#spagepid_xlist").val(str);
+    }
+    function getcheck() {
+        go();
+    }
+    function checkall() {
+        go();
+    }
+
+</script>
+<table class="table" width="100%" layouth="138" rel="spBox">
+    <colgroup width="10px" />
+    <colgroup width="20px" />
+    <colgroup width="50px" />
+    <colgroup width="150px" />
+    <colgroup width="80px" />
+    <colgroup width="60px" />
+    <colgroup width="60px" />
+    <colgroup width="200px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+            <input type="checkbox" id="selectall" class="checkboxCtrl" group="p_ID" onchange="checkall()"/>
+            </th>
+            <th>
+                序号
+            </th>
+            <th>
+                所属类别
+            </th>
+            <th>
+                名称
+            </th>
+            <th>
+                计量单位
+            </th>
+            <th>
+                所在地
+            </th>
+            <th>
+                状态
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewData["ProductsList"]).AsEnumerable())
+        {
+            <tr target="dli_id" rel="@item["p_ID"]|@item["pt_ID"]|@item["p_Sort"]|@item["p_Province"]" ondblclick="OpenMenuBaseEdit('@item["p_ID"]|@item["pt_ID"]|@item["p_Sort"]|@item["p_Province"]')">
+                <td>
+                    <input type="checkbox" value="@item["p_ID"]" name="p_ID"  class="pcheckbox" onchange="getcheck()"/>
+                </td>
+                <td>
+                    @item["p_ID"]
+                </td>
+                <td>
+                    @item["pt_Name"]
+                </td>
+                <td>
+                    @item["p_Name"]
+                </td>
+                <td>
+                    @item["p_MeasurementUnit"]
+                </td>
+                <td style="height:auto">
+                    @item["Province"]-@item["city"]-@item["country"]
+                </td>
+                <td>
+                    <span style="color: Red">@item["p_StatusCode"].ToString().Replace("0", "启用").Replace("1", "禁用")</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="spBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

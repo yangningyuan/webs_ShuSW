@@ -1,0 +1,351 @@
+﻿@{
+    Layout = "~/Views/ShuSW/sswMaster/LayoutPage.cshtml";
+}
+
+<link rel="stylesheet" href="/Content/css/etalage.css">
+<link href="/css/kaych.prolist.css" rel="stylesheet" />
+<script src="/Content/js/jquery.etalage.min.js"></script>
+
+
+
+<style>
+    .buyNub-nubinput {
+        width: 40px;
+        height: 36px;
+        border:1px solid rgba(0, 0, 0, 0.15);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15) inset;
+        padding:0px 5px;
+    }
+
+
+
+    #pchima,#pyanse {
+        /* Size and position */
+        position: relative; /* Enable absolute positionning for children and pseudo elements */
+        width: 120px;
+        margin: 0 auto;
+        padding: 0px 10px;
+        /* Styles */
+        background: #fff;
+        border-left: 3px solid grey;
+        cursor: pointer;
+        outline: none;
+        border-top: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+        #pchima option {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            border-left: 6px solid;
+            padding: 5px;
+            -webkit-transition: all 0.3s ease-out;
+            -moz-transition: all 0.3s ease-out;
+            -ms-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+        }
+        #pyanse option {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            border-left: 6px solid;
+            padding: 5px;
+            -webkit-transition: all 0.3s ease-out;
+            -moz-transition: all 0.3s ease-out;
+            -ms-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+        }
+</style>
+
+
+
+<script type="text/javascript" src="/js/wap/custominput.js"></script><!--表单美化-->
+<script type="text/javascript" src="/js/wap/payfor.js"></script><!--商品数量加减JS-->
+<script type="text/javascript" src="/js/wap/modal.js"></script><!--弹出层JS-->
+<script type="text/javascript" src="/js/wap/jquery.event.drag-1.5.min.js"></script><!--轮播图JS-->
+<script type="text/javascript" src="/js/wap/jquery.touchSlider.js"></script><!--轮播图JS-->
+
+
+<!--弹出层JS-->
+<script type="text/javascript">
+    function insertintoCart() {
+        var skuid = $("#skuid").val();
+        var count = $("#qty_item_1").val();
+        $.ajax({
+            type: "post",
+            url: "/wapProDetail/insertintoCart?skuid=" + skuid + "&count=" + count,
+            success: function (data) {
+                if (data != "nologon" && data != "fail"&& data != "库存不足，无法购买！") {
+                    window.location.href = "/wapChart/Chart";
+                }
+                else if (data == "nologon") {
+                    window.location.href = "/wapLogin/Login";
+                }
+                else if (data == "库存不足，无法购买！") {
+                    var windowW = $(window).width(); //获取当前窗口宽度
+                    var windowH = $(window).height(); //获取当前窗口高度
+                    $("#chart-modal").empty();
+                    var html = "<div class=\"wrap relative\"><a class=\"chart-close\" data-dismiss=\"modal\"></a><div class=\"chart-cont\"><div class=\"goods-order\"><dl class=\"goods-title\"><dd><strong>库存不足，无法购买！</strong></dd></dl></div><a class=\"yes-buy \" href=\"javascript:void(0)\"  data-dismiss=\"modal\">确定</a><div class=\"clear\"></div></div><div class=\"clear\"></div></div>";
+
+                    $("#chart-modal").append(html);
+
+                }
+                else {
+                }
+            }
+        });
+
+    }
+    function gotoOrder() {
+        var skuid = $("#skuid").val();
+        var count = 1;
+        $.ajax({
+            type: "post",
+            url: "/wapProDetail/insertintoCart?skuid=" + skuid + "&count=" + count,
+            success: function (data) {
+                if (data != "nologon" && data != "fail" && data != "库存不足，无法购买！") {
+                    window.location.href = "/wapOrder/Order?ids=" + data;
+                }
+                else if (data == "nologon") {
+                    window.location.href = "/wapLogin/Login";
+                }
+                else if (data == "库存不足，无法购买！") {
+                    var windowW = $(window).width(); //获取当前窗口宽度
+                    var windowH = $(window).height(); //获取当前窗口高度
+                    $("#chart-modal2").attr("style", "display:block");
+                    var html = "<div class=\"modal-backdrop  in blackground\" ></div>";
+                    $("body").append(html);
+
+                }
+                else {
+                }
+            }
+        });
+    }
+
+</script>
+<script type="text/javascript">
+    $(function () {
+
+        function strToJson(str){
+            var json=eval('('+str+')');
+            return json;
+        }
+
+
+        $("#joinsub").click(function () {
+            var p_id = $("#p_id").val();
+            var p_chima = $("#pchima").val();
+            var p_yanse = $("#pyanse").val();
+            var p_commoditynum = $("#qty_item_1").val();
+            $.ajax({
+                url: "/_ashx/dataSave_manager_json.ashx?type=shopcart",
+                type: "post",
+                data: { p_id: p_id, p_chima: p_chima, p_yanse: p_yanse, p_commoditynum: p_commoditynum },
+                success: function (data)
+                {
+                    var re=strToJson(data);
+                    if (re.result == "success") {
+                        alert("已加入购物车，请继续购物！");
+                        window.location.reload();
+                    } else if (re.result == "error_login") {
+                        alert("请登录！");
+                        window.location.href = "/sswLogin/Login";
+                    } else if (re.result == "error_chima") {
+                        alert("请选择尺码！");
+                    } else if (re.result == "error_yanse"){
+                        alert("请选择一种颜色！");
+                    } else{
+                        alert("数据有误，请联系管理员！");
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+
+
+<script>
+    jQuery(document).ready(function ($) {
+
+        $('#etalage').etalage({
+            thumb_image_width: 300,
+            thumb_image_height: 300,
+            source_image_width: 900,
+            source_image_height: 1200,
+            show_hint: true,
+            click_callback: function (image_anchor, instance_id) {
+                alert('Callback example:\nYou clicked on an image with the anchor: "' + image_anchor + '"\n(in Etalage instance: "' + instance_id + '")');
+            }
+        });
+
+    });
+</script>
+<input type="hidden" id="p_id" value="@ViewData["p_id"]" />
+<div class="men">
+    <div class="container">
+        <div class="single_top">
+            <div class="col-md-9 single_right">
+                <div class="grid images_3_of_2">
+                    <ul id="etalage">
+                        @{
+                            if (Model.pimglist != null) 
+                            {
+                                for (int i = 0; i < Model.pimglist.Count; i++)
+                                {
+                                    <li>
+                                        <img class="etalage_thumb_image" src="@Model.pimglist[i].pi_Url" class="img-responsive" />
+                                        <img class="etalage_source_image" src="@Model.pimglist[i].pi_Url" class="img-responsive" title="" />
+                                    </li>   
+                                }
+                            }
+                        }
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="desc1 span_3_of_2">
+                    <h5>@Model.vmpinfolist[0].p_Name</h5>
+                    <p class="m_5"><span style="font-size:14px;">促销价： </span><span style="color:rgb(255, 0, 0);">￥@Model.vmpinfolist[0].sku_Price </span><span class="reducedfrom">￥.@Model.vmpinfolist[0].sku_scPric </span> @*<a href="#">click for offer</a>*@</p>
+
+                    @{
+                        
+                        if (ViewData["ifcmys"] == "0")
+                        {
+
+                        }
+                        else { 
+                        <div style="margin-top:20px;" id="divchima">
+                        <span style="color:rgb(128, 128, 128);">尺码：</span>
+
+                        @Html.DropDownList("pchima")
+
+                    </div>
+
+                    <div style="margin-top:20px; " id="divyanse">
+                        <span style="color:rgb(128, 128, 128);">颜色：</span>
+
+                        @Html.DropDownList("pyanse")
+
+                    </div>
+                        }
+                    }
+                    
+
+
+                    <div class="buy-num" style="margin-top:20px;">
+                        <span style="color:rgb(128, 128, 128);">数量：</span>
+                        <a class="reduce" style="border:1px solid rgba(0, 0, 0, 0.15); padding:7px 4px 7px 4px;" onclick="setAmount.reduce('#qty_item_1')" href="javascript:void(0)">-</a>
+                        <input type="text" name="qty_item_1" value="1" id="qty_item_1" onkeyup="setAmount.modify('#qty_item_1')" class="buyNub-nubinput" />
+                        <a class="add" style="border:1px solid rgba(0, 0, 0, 0.15); padding:7px 4px 7px 4px;" onclick="setAmount.add('#qty_item_1')" href="javascript:void(0)">+</a>
+                    </div><!--buy-num end-->
+
+                    <div class="btn_form">
+                        
+                            <input type="submit" id="joinsub" value="加入购物车" title="">
+                        
+                    </div>
+                    
+                    <!--测试-->
+                    <div class="chart-cont">
+                             
+                        <div class="clear"></div>
+                    </div><!--chart-cont end-->
+                    
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-md-3">
+                
+                <!-- FlexSlider -->
+                <section class="slider_flex">
+                    <div class="flexslider">
+                        <ul class="slides">
+                            @{
+                                if (ViewData["相似商品"] != null) 
+                                {
+                                    foreach (System.Data.DataRow dtxssp in ((System.Data.DataTable)ViewData["相似商品"]).Rows)
+                                    {
+                                            <li style="text-align:center;"><img src="@dtxssp["pi_Url"]" class="img-responsive" alt="" /><a href="/sswCommodity/CommodityDetails?p_id=@dtxssp["p_ID"]" style="font-size:0.8em; cursor:pointer;">@dtxssp["p_Name"]</a></li>            
+                                    }
+                                }
+                            }
+
+                            
+                        </ul>
+                    </div>
+                </section>
+                <!-- FlexSlider -->
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <div class="toogle">
+            <h2>商品介绍</h2>
+            <hr />
+            <p class="m_text2">
+                
+
+                @for (int i = 0; i < Model.proattr.Count; i++)
+                {
+                    <span>@Model.proattr[i].pa_Alias：@Model.proattr[i].pa_Name</span><br/>
+                }
+            </p>
+        </div>
+        <div class="toogle">
+            
+            <p class="m_text2">
+                @{
+                        if (Model.productinfo.Count > 0)
+                        {
+                            <p> @Html.Raw(Model.productinfo[0].pin_Content)        </p>
+                        }
+                    }
+
+                
+            </p>
+        </div>
+        
+        <h4 class="head_single" style="font-size:1em;"><i class="promote_icon" style="margin-top:25px; "> </i>促销商品/Promotional merchandise</h4>
+        <div class="span_3">
+
+            @{
+                if (ViewData["pc首页促销"] != null) 
+                {
+                    foreach (System.Data.DataRow dtcuxiao in ((System.Data.DataTable)ViewData["pc首页促销"]).Rows)
+                    {
+                        <div class="col-sm-3 grid_1">
+                            <a href="/sswCommodity/CommodityDetails?p_id=@dtcuxiao["p_id"]">
+                                <img src="@dtcuxiao["pi_Url"]" class="img-responsive" alt="" />
+                                <h3>@dtcuxiao["p_Name"]</h3>
+                                <p>@dtcuxiao["b_Name"]</p>
+                                <h4 style="color:rgb(255, 0, 0);"><span class="reducedfrom">￥@dtcuxiao["sku_scPric"]</span>￥@dtcuxiao["sku_Price"]</h4>
+                            </a>
+                        </div>
+                    }
+                }
+            }
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<link href="/Content/css/flexslider.css" rel='stylesheet' type='text/css' />
+<script defer src="/Content/js/jquery.flexslider.js"></script>
+<script type="text/javascript">
+    $(function () {
+        SyntaxHighlighter.all();
+    });
+    $(window).load(function () {
+        $('.flexslider').flexslider({
+            animation: "slide",
+            start: function (slider) {
+                $('body').removeClass('loading');
+            }
+        });
+    });
+</script>
+
+
+

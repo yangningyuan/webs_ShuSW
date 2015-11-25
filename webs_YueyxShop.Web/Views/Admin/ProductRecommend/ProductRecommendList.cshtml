@@ -1,0 +1,74 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" layouth="138" rel="ProductRecommendBox">
+    <colgroup width="10px" />
+    <colgroup width="150px" />
+    <colgroup width="70px" />
+    <colgroup width="70px" />
+    <colgroup width="70px" />
+    <colgroup width="70px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                产品名称
+            </th>
+            <th>
+                所属分类
+            </th>
+            <th>
+                所属品牌
+            </th>
+            <th>
+                销售状态
+            </th>
+            <th>
+                推荐状态
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewData["PageList"]).AsEnumerable())
+        {
+            <tr target="prd_ID" rel="@item["prd_ID"]">
+                <td>
+                </td>
+                <td>
+                    @item["p_Name"]
+                </td>
+                <td>
+                    @item["pt_Name"]
+                </td>
+                <td>
+                    @item["b_Name"]
+                </td>
+                <td>
+                    <span style="color: Red">@item["p_SellStatus"].ToString().Replace("0","默认").Replace("1","上架").Replace("2","下架")</span>
+                </td>
+                <td>
+                    @if (item["prd_Status"].ToString() == "False")
+                    {
+                        <span style="color:green;">启用</span>
+                    }
+                    else { 
+                        <span style="color:red;">禁用</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="ProductRecommendBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

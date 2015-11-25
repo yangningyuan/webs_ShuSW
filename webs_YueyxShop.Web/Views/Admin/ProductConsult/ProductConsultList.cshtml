@@ -1,0 +1,100 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.vm_PCdetails>
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<table class="table" width="100%" layouth="138" rel="pcBox">
+    <colgroup width="5px" />
+    <colgroup width="60px" />
+    <colgroup width="40px" />
+    <colgroup width="40px" />
+    <colgroup width="130px" />
+    <colgroup width="40px" />
+    <colgroup width="20px" />
+    <colgroup width="20px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                商品名称
+            </th>
+            <th>
+                商品编码
+            </th>
+            <th>
+                咨询会员
+            </th>
+            <th>
+                咨询内容
+            </th>
+            <th>
+                咨询时间
+            </th>
+            <th>
+                状态
+            </th>
+            <th>
+                回复
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr target="dli_id" rel="@item.pc_ID" ondblclick="OpenMenuBaseEdit('@item.pc_ID')">
+                <td>
+                </td>
+                <td>
+                    @item.p_Name
+                </td>
+                <td>
+                    @item.sku_Code
+                </td>
+                <td>
+                    @item.m_UserName
+                </td>
+                <td>
+                @{
+            if (item.pc_Content.Length>20)
+               {
+                        @item.pc_Content.Substring(0,20)
+               }
+            else
+            {
+                      @item.pc_Content
+            }
+                    }
+                    
+                </td>
+                <td>
+                    @item.pc_CreatedOn.ToString("yyyy-MM-dd HH:mm:ss")
+                </td>
+                <td style="color: Red">
+                    @item.pc_StatusCode.ToString().Replace("0", "启用").Replace("1", "禁用")
+                </td>
+                <td>
+                    @{
+            if (item.pc_huifu== 0)
+               {
+                        <span style="color: Red">未回复</span>
+               }
+               else
+               {
+                        <span style="color: Green">已回复</span>
+               }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="pcBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

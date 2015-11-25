@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            var otype = $("#hfOtype", $.pdialog.getCurrent()).val(); //操作状态
+        });
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("Save", "RolesInfo")"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)">
+    @Html.Hidden("hfOtype", @ViewData["hfOtype"])
+    @Html.Hidden("hfRid", @ViewData["hfRid"])
+    @Html.Hidden("hf_IsManage", @ViewData["hf_IsManage"])
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="58">
+            <div class="unit">
+                <label>
+                    角色名：</label>
+                @Html.TextBox("txtRname", ViewData["txtRname"], new { @class = "required", @maxlength = "20", @size = "40" })
+            </div>
+            <div class="unit">
+                <label>
+                    排序*：</label>
+                @Html.TextBox("txtRPaix", ViewData["txtRPaix"], new { @class = "digits", @alt = "输入数字", @size = "40" })
+            </div>
+            <div class="unit">
+                <label>
+                    描述：</label>
+                @Html.TextArea("txtRMiaos", ViewData["txtRMiaos"].ToString(), new { @rows = "10", @cols = "40", @maxlength = "200" })
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li id="save">
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit">
+                                    保存 @*保存*@</button></div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消 @*取消*@</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

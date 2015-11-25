@@ -1,0 +1,89 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<script type="text/javascript">
+    function go() {
+        var str = "";
+        $("input[name='p_ID']:checkbox").each(function () {
+            if ($(this).attr("checked")) {
+                str += $(this).val() + ",";
+            }
+        })
+        $("#pid_list").val(str);
+    }
+    function getcheck() {
+        go();
+    }
+    function checkall() {
+        var isChecked = $('#selectall').attr('checked');
+        if (isChecked) {
+        }
+        else {
+            isChecked = false;
+        }
+        $("input[name='p_ID']:checkbox").each(function () {
+            $(this).attr('checked', isChecked);
+        });
+        go();
+    }
+</script>
+<table class="table" width="100%" layouth="167" rel="precBox">
+    <colgroup width="20px" />
+    <colgroup width="150px" />
+    <colgroup width="150px" />
+    <colgroup width="200px" />
+    <colgroup width="80px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+                <input type="checkbox" id="selectall" class="checkboxCtrl" group="pt_ID" onchange="checkall()"/>
+            </th>
+            <th>
+                产品名称
+            </th>
+            <th>
+                所属分类
+            </th>
+            <th>
+                所属品牌
+            </th>
+            <th>
+                销售状态
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.ProductsList)
+        {
+            <tr target="p_ID" rel="@item.p_ID">
+                <td >
+                    <input type="checkbox" value="@item.p_ID" name="p_ID"  class="pcheckbox" onchange="getcheck()"/>
+                </td>
+                <td>
+                    @item.p_Name
+                </td>
+                <td>
+                    @item.pt_Name
+                </td>
+                <td>
+                    @item.b_Name
+                </td>
+                <td>
+                    <span style="color: Red">@item.p_SellStatus.ToString().Replace("0","默认").Replace("1","上架").Replace("2","下架")</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="precBox" targettype="dialog" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

@@ -1,0 +1,17 @@
+﻿
+@model IEnumerable<webs_YueyxShop.Model.GroupPurchaseBase>
+
+@{
+    Layout = null;
+}
+@foreach (var i in ViewBag.zuizhong)
+{ <li>
+        <a href="/ProDetail/ProDetail?skuid=@i.productSkuInfo.sku_ID"><img name="page_cnt_1" _src="@i.productImgInfo.pi_Url" alt="@i.p_Name" /></a>
+        <p><a href="/ProDetail/ProDetail?skuid=@i.productSkuInfo.sku_ID">@i.p_Name @i.productAttrInfo.pa_Name</a></p>
+        <p> 
+        <b>￥@i.productSkuInfo.sku_Price</b>
+        <del>￥@i.productSkuInfo.sku_scPric</del></p>
+        <a  href="javascript:void(0)" onclick="TuiinsertintoCart(@i.productSkuInfo.sku_ID)" class="buy-button" value="@i.productSkuInfo.sku_ID" pric="@i.productSkuInfo.sku_Price" ><em></em>加入购物车</a>
+        <div class="clear"></div>
+    </li>
+}

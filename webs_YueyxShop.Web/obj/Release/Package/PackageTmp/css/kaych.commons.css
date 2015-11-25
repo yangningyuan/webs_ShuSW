@@ -1,0 +1,47 @@
+/* CSS Document 
+作者：王军凯
+编写时间：2014-06-03
+联系QQ:466085876
+*/
+.alignleft{
+	float:left;
+	} 
+.alignright{
+	float:right;
+	} 
+.clear{
+	display:block;
+	clear:both;
+	overflow:hidden;
+	}
+.clearh{
+	height:10px; 
+	clear:both;
+	overflow:hidden;
+	}	
+.line1{
+	height:15px;
+	}
+.line2{
+	height:20px;
+	}
+.line3{
+	height:40px;
+	}
+.relative{
+	position:relative;
+	}	
+hr{height:0; border-bottom:1px solid #fff; border-top:1px solid #e1e1e1; border-left:none; border-right:none; overflow:hidden; clear:both;} 	
+.hide{
+	display:none;
+	}
+.clearfix:after {content: "."; display: block; height: 0; clear: both; visibility: hidden;}
+.clearfix {zoom:1;}	
+
+.borders{
+	border:1px solid #ddd;
+	}
+.border-nonetop{
+	border-top:none;
+	}	
+	

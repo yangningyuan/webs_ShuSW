@@ -1,0 +1,105 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@using webs_YueyxShop.Model
+
+<script type="text/javascript">
+
+
+</script> 
+@Html.Hidden("hfPId", @ViewData["hfPId"])          
+<table class="table" width="100%" layouth="138" rel="pskuBox">
+    <colgroup width="30px" />
+    <colgroup width="300px" />
+    <colgroup width="50px" />
+    <colgroup width="50px" />
+    <colgroup width="50px" />
+    <colgroup width="50px" />
+    <colgroup width="50px" />
+    <colgroup width="100px" />
+    <colgroup width="80px" />
+    <colgroup width="180px" />
+    <thead>
+        <tr>
+            <th>
+            序号
+            </th>
+            <th>
+                商品名称
+            </th>
+            <th>
+                市场价
+            </th>
+            <th>
+                销售价
+            </th>
+            <th>
+                成本价
+            </th>
+            <th>
+                现有库存
+            </th>
+            <th>
+                已售数量
+            </th>
+            <th>
+                产品编码
+            </th>
+            <th>
+                状态
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewData["PageList"]).AsEnumerable())
+        {
+            <tr target="Psku_id" rel="@item["sku_ID"]|@item["p_ID"]" ondblclick="OpenMenuBaseEdit('@item["sku_ID"]|@item["p_ID"]">
+                <td>
+                 @item["sku_ID"]
+                </td>
+                <td>
+                    @item["p_Name"]
+                </td>
+                <td>
+                    @item["sku_scPric"]
+                </td>
+                <td>
+                    @item["sku_Price"]
+                </td>
+                <td style="height:auto">
+                    @item["sku_CostPrice"]
+                </td>
+                <td>
+                    @item["sku_Stock"]
+                </td>
+                <td>
+                    @item["sku_SalesCount"]
+                </td>
+                <td style="height:auto">
+                    @item["sku_Code"]
+                </td>
+                <td>
+                    <span style="color: Red">@item["sku_StatusCode"].ToString().Replace("0", "启用").Replace("1", "禁用")</span>
+                </td>
+                <td>
+                    <a class="details" href="@Url.Action("ProductAttMsg?dli_id=" + @item["sku_ID"] + "&pid=" + @item["p_ID"])"  target="navTab"  rel="ProductAttMsg">
+                      <span>商品参数</span>
+                      </a>
+                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                      <a class="details" href="@Url.Action("ProductImgMsg?dli_id=" + @item["sku_ID"] + "&pid=" + @item["p_ID"])" target="navTab"  rel="ProductImgMsg">
+                      <span>商品图册</span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="MenuBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

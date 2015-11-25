@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            var otype = $("#hfOtype", navTab.getCurrentPanel()).val();
+            var o_ID = '@ViewData["o_ID"]';
+            if (o_ID != "") {//bm 部门编辑页面的员工列表
+                $("#div_bmxx", navTab.getCurrentPanel()).hide();
+            }
+        });
+        function EmployE_check() {
+            var zhiwjb = $("#PositionLevel", navTab.getCurrentPanel()).val().length;
+            if (zhiwjb == 0) {
+                alertMsg.error("请选择职位级别！");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("TeacherSave", "EmployeeBase")"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone)">
+    @Html.Hidden("hfEid", @ViewData["hfEid"])
+    @Html.Hidden("hfOtype", @ViewData["hfOtype"])
+    @Html.Hidden("hf_CreatedBy", @ViewData["hf_CreatedBy"])
+    @Html.Hidden("hf_CreatedOn", @ViewData["hf_CreatedOn"])
+    @Html.Hidden("hf_DeleteStateCode", @ViewData["hf_DeleteStateCode"])
+    @Html.Hidden("hf_StateCode", @ViewData["hf_StateCode"])
+    @Html.Hidden("hf_MiM", @ViewData["hf_MiM"])
+    @Html.Hidden("hf_did", @ViewData["o_ID"])
+    @Html.Hidden("hf_cid", @ViewData["hf_cid"])<!--公司id-->
+    @Html.Hidden("hf_IsManage", @ViewData["hf_IsManage"])<!--管理-->
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="52">
+            <div class="unit">
+                <label>
+                    教师姓名：</label>
+                @Html.TextBox("txtEname", ViewData["txtEname"], new { @class = "required" })
+            </div>
+            <div class="unit" id="YGGH">
+                <label>
+                    教师工号：</label>
+                @Html.TextBox("txtGongh", ViewData["txtGongh"], new { @class = "required" })
+            </div>
+            @*            <div class="unit">
+                <label>
+                    用户类别：</label>
+                @Html.DropDownList("ddlLeib", ViewData["LeiBtype"] as IEnumerable<SelectListItem>, new { @class = "required" })
+            </div>*@ @*  <div class="unit">
+                <label>
+                    用户名：</label>
+                @Html.TextBox("txtYongh", ViewData["txtYongh"], new { @class = "required" })
+            </div>*@
+            <div class="unit">
+                <label>
+                    部门：</label>
+                @Html.Hidden("orgLookup.id", @ViewData["departId"], new { @id = "orgLookupid" })
+                @Html.TextBox("orgLookup.orgName", ViewData["departname"], new { @class = "required", @id = "orgLookuporgName", @size = "20", @lookupgroup = "orgLookup", @readonly = "readonly" })
+                <a  id="div_bmxx" class="btnLook" href="@Url.Action("SelectDepartmentBaseMsg", "DepartmentBase")" lookupgroup="orgLookup">
+                    选择带回 </a>
+            </div>
+            <div class="unit">
+                <label>
+                    性别：</label>
+                @Html.DropDownList("selectXingb")
+            </div>
+            <div class="unit">
+                <label>
+                    生日：</label>
+                @Html.TextBox("txtDatebir", ViewData["txtDatebir"], new { @class = "required", onclick = "WdatePicker({dateFmt:'yyyy-MM-dd'})" })
+            </div>
+            <div class="unit">
+                <label>
+                    QQ：</label>
+                @Html.TextBox("txtQQ", ViewData["txtQQ"])
+            </div>
+            <div class="unit">
+                <label>
+                    E-Mail：</label>
+                @Html.TextBox("txtEmail", ViewData["txtEmail"], new { @class = "email" })
+            </div>
+            <div class="unit">
+                <label>
+                    手机：</label>
+                @Html.TextBox("txtTel", ViewData["txtTel"])
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li id="save">
+                        <div class="buttonActive" id="submit" runat="server">
+                            <div class="buttonContent">
+                                <button type="submit">
+                                    保存
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,444 @@
+﻿@{
+    ViewBag.Title = "月月兴食品商行-帮助中心";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+
+
+<link rel="stylesheet" type="text/css" href="/css/kaych.prolist.css"><!--产品相关页面CSS-->
+<script type="text/javascript" src="/js/ddsmoothmenu.js"></script><!--下拉导航JS-->
+<script type="text/javascript">
+    $(function () {
+        if ($('#nid').val() != "") {
+            GetHref($('#nid').val());
+        }
+    });
+    function GetHref(id) {
+        $.ajax({
+            type: 'post',
+            url: "/HelpCenter/Detial?id=" + id,
+            async: true,
+            success: function (data) {
+                $('#detial').html(data);
+            }
+        })
+    }
+</script>
+
+<input type="hidden" id="currentUl" value="@ViewData["currentUl"]" />
+<input type="hidden" id="nid" value="@ViewData["nid"]" />
+
+<div class="wrap">
+	<div class="side-bar alignleft">
+    	<div class="side-nav">
+        	<div class="nav-title"><em></em><span>帮助中心</span></div>
+            <div class="nav-cont">
+            	<ul class="nav-list">
+                	<li>
+                    	<div class="header">
+                        	<span class="nav-icon icon1"></span>
+                            <span class="label">新手入门</span>
+                            <span class="arrows up"></span>
+                        </div>
+                        <ul class="menu">
+                        @{
+                            if (ViewData["mHelper"] != null)
+                            {
+                                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["mHelper"]))
+                                {
+                        	        <li><a onclick="GetHref(@newsB.n_ID)" ><span>@newsB.n_Title</span><em></em></a></li>
+                                }
+                            }
+                        }
+                        </ul>
+                    </li>
+                    <li>
+                    	<div class="header">
+                        	<span class="nav-icon icon2"></span>
+                            <span class="label">关于我们</span>
+                            <span class="arrows up"></span>
+                        </div>
+                        <ul class="menu">
+                        @{
+                            if (ViewData["mHelper"] != null)
+                            {
+                                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["mAboutUs"]))
+                                {
+                        	        <li><a onclick="GetHref(@newsB.n_ID)" ><span>@newsB.n_Title</span><em></em></a></li>
+                                }
+                            }
+                        }
+                        </ul>
+                    </li>
+                    <li>
+                    	<div class="header">
+                        	<span class="nav-icon icon3"></span>
+                            <span class="label">配送方式</span>
+                            <span class="arrows up"></span>
+                        </div>
+                        <ul class="menu">
+                        @{
+                            if (ViewData["mHelper"] != null)
+                            {
+                                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["mShipType"]))
+                                {
+                        	        <li><a onclick="GetHref(@newsB.n_ID)" ><span>@newsB.n_Title</span><em></em></a></li>
+                                }
+                            }
+                        }
+                        </ul>
+                    </li>
+                    <li>
+                    	<div class="header">
+                        	<span class="nav-icon icon4"></span>
+                            <span class="label">支付方式</span>
+                            <span class="arrows up"></span>
+                        </div>
+                        <ul class="menu">
+                        @{
+                            if (ViewData["mHelper"] != null)
+                            {
+                                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["mPaymentType"]))
+                                {
+                        	        <li><a onclick="GetHref(@newsB.n_ID)" ><span>@newsB.n_Title</span><em></em></a></li>
+                                }
+                            }
+                        }
+                        </ul>
+                    </li>
+                    <li>
+                    	<div class="header">
+                        	<span class="nav-icon icon5"></span>
+                            <span class="label">售后服务</span>
+                            <span class="arrows up"></span>
+                        </div>
+                        <ul class="menu">
+                        @{
+                            if (ViewData["mHelper"] != null)
+                            {
+                                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["mService"]))
+                                {
+                        	        <li><a onclick="GetHref(@newsB.n_ID)" ><span>@newsB.n_Title</span><em></em></a></li>
+                                }
+                            }
+                        }
+                        </ul>
+                    </li>
+                    <li>
+                    	<div class="header">
+                        	<span class="nav-icon icon6"></span>
+                            <span class="label">特色服务</span>
+                            <span class="arrows up"></span>
+                        </div>
+                        <ul class="menu">
+                        @{
+                            if (ViewData["mHelper"] != null)
+                            {
+                                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["mCharacteristicService"]))
+                                {
+                        	        <li><a onclick="GetHref(@newsB.n_ID)" ><span>@newsB.n_Title</span><em></em></a></li>
+                                }
+                            }
+                        }
+                        </ul>
+                    </li>
+                </ul>
+            </div><!--nav-cont end-->
+        </div>
+    </div><!--side-bar end-->
+    <div class="side-cont alignright">
+        <div class="side-content borders">
+            <div id="detial" class="wrappers">
+        	    @Html.Action("Detial", "HelpCenter")
+            </div><!--wrappers end-->
+        </div><!--pro-cont end-->
+    </div><!--side-cont end-->
+</div><!--wrap end-->
+
+
+<!--产品分类搜索JS-->
+<script type="text/javascript">
+    var dlNum = $("#classify").find("dl");
+    for (i = 0; i < dlNum.length; i++) {
+        $(".chose-results .choselist").append("<div class=\"conditions selectedShow\" style=\"display:none\"><span></span><label></label><em></em></div>");
+    }
+
+    var refresh = "true";
+
+    $(".list-cont a ").live("click", function () {
+        var text = $(this).text();
+        var selectedShow = $(".selectedShow");
+        var textTypeIndex = $(this).parents("dl").index();
+        var textType = $(this).parent("dd").siblings("dt").text();
+        index = textTypeIndex - (2);
+        $(".clearDd").show();
+        $(".selectedShow").eq(index).show();
+        $(this).addClass("selected").siblings().removeClass("selected");
+        selectedShow.eq(index).find("span").text(textType);
+        selectedShow.eq(index).find("label").text(text);
+        var show = $(".selectedShow").length - $(".selectedShow:hidden").length;
+        if (show > 1) {
+            $(".delete").show();
+        }
+
+    });
+    $(".selectedShow em").live("click", function () {
+        $(this).parents(".selectedShow").hide();
+        var textTypeIndex = $(this).parents(".selectedShow").index();
+        index = textTypeIndex;
+        $(".list-cont").eq(index).find("a").removeClass("selected");
+
+        if ($(".list-cont .selected").length < 2) {
+            $(".delete").hide();
+        }
+    });
+
+    $(".delete").live("click", function () {
+        $(".selectedShow").hide();
+        $(this).hide();
+        $(".list-cont a ").removeClass("selected");
+    }); 
+</script>
+<script type="text/javascript">
+    //导航下拉菜单横导航
+    ddsmoothmenu.init({
+
+        mainmenuid: "smoothmenu1", //menu DIV id
+
+        orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+
+        classname: 'navCon-menu'
+
+    });
+
+    //帮助中心左侧导航JS
+    $(document).ready(function () {
+
+        /* 滑动/展开 */
+        $("ul.nav-list li > div.header").click(function () {
+
+            var arrows = $(this).find("span.arrows");
+
+            if (arrows.hasClass("up")) {
+                arrows.removeClass("up");
+                arrows.addClass("down");
+            } else if (arrows.hasClass("down")) {
+                arrows.removeClass("down");
+                arrows.addClass("up");
+            }
+
+            $(this).parent().find("ul.menu").slideToggle();
+
+        });
+
+    });
+
+    //首页团购banner下方的广告轮播JS
+    jQuery(".ad-banner").slide({ mainCell: ".pic", effect: "left", autoPlay: true, delayTime: 300 });
+
+    //首页产品分类里的广告轮播JS
+    jQuery(".pro-banner").slide({ mainCell: ".pic", effect: "left", autoPlay: true, delayTime: 300 });
+
+    //首页品牌推荐大图轮播
+    jQuery("#iFocus li a").hover(function () { $(this).css("opacity", 1).siblings().css("opacity", 0.7) }, function () { $(this).css("opacity", 1).siblings().css("opacity", 1) }); //鼠标移到图片上时聚焦效果
+    jQuery("#iFocus").slide({ titCell: ".btn span", mainCell: "ul", effect: "left", autoPlay: true });
+
+    //首页小品牌无缝滚动JS
+    jQuery(".picScroll").slide({ mainCell: "ul", effect: "leftMarquee", vis: 9, autoPlay: true, interTime: 50, switchLoad: "_src" });
+
+    //侧边栏一周销量排行榜JS
+    jQuery(".sales-list").slide({ titCell: "li", triggerTime: 0 });
+
+
+    //图片延迟加载
+    (function () {
+
+        var th = this;
+
+        th.pageSize = 1000; /* 每屏大概高度为1000px */
+
+        th.pageQuotiety = 0.5; /* 提前下载量 */
+
+        th.imgName = "page_cnt_"; /* 图片通用名 */
+
+        th.imgs = []; /* 每屏图片 [每屏所有图片，第一张图片，第一张图片绝对top:加载图片的top] */
+
+        var B = {}; /* Browser check */
+
+        B.ua = window.navigator.userAgent.toLowerCase();
+
+        B.ie = /msie/.test(B.ua);
+
+        B.moz = /gecko/.test(B.ua);
+
+        B.opera = /opera/.test(B.ua);
+
+        B.safari = /safari/.test(B.ua);
+
+        var $N = function (s, docu) {
+            var doc = docu ? docu : document;
+            return (typeof s == "object") ? s : doc.getElementsByName(s);
+        };
+
+        th.getWindowSize = function () {
+            var a = {};
+            if (window.self && self.innerWidth) {
+                a.width = self.innerWidth;
+                a.height = self.innerHeight;
+                return a;
+            } if (document.documentElement && document.documentElement.clientHeight) {
+                a.width = document.documentElement.clientWidth;
+                a.height = document.documentElement.clientHeight;
+                return a;
+            }
+            a.width = document.body.clientWidth;
+            a.height = document.body.clientHeight;
+            return a;
+        }
+
+        th.getObjPosition = function (obj) {
+            var a = {};
+            a.x = obj.offsetLeft, a.y = obj.offsetTop;
+            while (obj = obj.offsetParent) {
+                a.x += obj.offsetLeft;
+                a.y += obj.offsetTop;
+            }
+            return a;
+        }
+
+        th._getPageScroll = function () {
+            var s;
+            if (typeof (window.pageYOffset) != "undefined") {
+                s = window.pageYOffset;
+            } else if (document.documentElement && document.documentElement.scrollTop) {
+                s = document.documentElement.scrollTop;
+            } else if (document.body) {
+                s = document.body.scrollTop;
+            }
+            return s;
+        }
+
+        th._loadImages = function (a) {
+            if (!a) return;
+            var obj = a;
+            if (typeof a == "string") {
+                obj = $N(a);
+            } for (var i = 0; i < obj.length; i++) {
+                var s = obj[i];
+                if (typeof s == "object") {
+                    if (s.getAttribute("_src")) {
+                        s.setAttribute("src", s.getAttribute("_src"));
+                        s.removeAttribute("_src", 0);
+                    }
+                }
+            }
+            delete obj;
+            obj = null;
+        }
+
+        th._loadAllImgs = function () {
+            var i = 0;
+            while (th.imgs[i]) {
+                th._loadImages(th.imgs[i][0]);
+                i++;
+            }
+        }
+
+        th.getImgPosition = function () {
+            var i = 1;
+            var p = $N(th.imgName + i);
+            while (p && p.length > 0) {
+                var p = $N("page_cnt_" + i);
+                var t = th.getImgLoadPosition(p[0]);
+                th.imgs.push([p, p[0], t]);
+                i++;
+                p = $N(th.imgName + i);
+            }
+        }
+
+        th.getImgLoadPosition = function (a) {
+            var t = { imgTop: 0, pageTop: 0 };
+            if (a) {
+                var w = th.getWindowSize();
+                t.imgTop = parseInt(th.getObjPosition(a).y);
+                t.pageTop = parseInt((t.imgTop / 1000 - th.pageQuotiety) * 1000);
+            }
+            return t;
+        }
+
+        th._addScrollEven = function () {
+            if (B.ie) {
+                window.attachEvent("onscroll", th._scrollFn);
+            } else {
+                window.addEventListener("scroll", th._scrollFn, false);
+            }
+        }
+
+        th._removeScrollEven = function () {
+            if (B.ie) {
+                window.detachEvent("onscroll", th._scrollFn);
+            } else {
+                window.removeEventListener("scroll", th._scrollFn, false);
+            }
+        }
+
+        th._scrollFn = function () {
+            var y = th._getPageScroll();
+            var w = th.getWindowSize().height;
+            if (w == 0) {
+                th._loadAllImgs();
+                return;
+            }
+            var i = 0;
+            var j = 0;
+            while (th.imgs[i]) {
+                if (!(y + w < th.imgs[i][2].pageTop)) {
+                    th._loadImages(th.imgs[i][0]);
+                    j++
+                }
+                i++;
+                if (j >= th.imgs.length) {
+                    th._removeScrollEven();
+                }
+            }
+        }
+
+        th.getImgPosition();
+        th._addScrollEven();
+        th._scrollFn();
+
+    })()
+</script>
+<script type='text/javascript' src='/js/main.js'></script><!--散乱JS合集 重要 此JS放置位置要注意，需放置在导航及banner用的JS下方..-->
+<!--分类导航滑倒顶部固定在顶部的JS-->
+<script type="text/javascript">
+    $.fn.smartFloat = function () {
+        var position = function (element) {
+            var top = element.position().top, pos = element.css("position");
+            $(window).scroll(function () {
+                var scrolls = $(this).scrollTop();
+                if (scrolls > top) {
+                    if (window.XMLHttpRequest) {
+                        element.css({
+                            position: "fixed",
+                            top: 0
+                        });
+                    } else {
+                        element.css({
+                            top: scrolls
+                        });
+                    }
+                } else {
+                    element.css({
+                        position: pos,
+                        top: top
+                    });
+                }
+            });
+        };
+        return $(this).each(function () {
+            position($(this));
+        });
+    };
+    //绑定
+    $(".middle-nav").smartFloat();
+</script>

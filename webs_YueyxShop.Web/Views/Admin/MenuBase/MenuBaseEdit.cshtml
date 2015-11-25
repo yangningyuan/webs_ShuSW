@@ -1,0 +1,82 @@
+﻿@model webs_YueyxShop.Model.MenuBase
+<!DOCTYPE html>
+<html>
+<head id="Head1">
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        $(function () {
+            if ('@ViewData["hfShow"]' == "True")
+                $("#mIsShow", $.pdialog.getCurrent()).attr("checked", "checked");
+            else
+                $("#mIsShow", $.pdialog.getCurrent()).removeAttr("checked");
+        })
+
+        function ClickIsShow() {
+            var mIsShow = document.getElementById("mIsShow").checked;
+            if (mIsShow)
+                $("#hfShow", $.pdialog.getCurrent()).val("true");
+            else
+                $("#hfShow", $.pdialog.getCurrent()).val("false");
+        }
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("MenuBaseEdit", "MenuBase")"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+    @Html.HiddenFor(model => model.m_ID)
+    @Html.HiddenFor(model => model.m_CreatedOn)
+    @Html.Hidden("texOtype", @ViewData["texOtype"])
+    @Html.Hidden("hfPId", @ViewData["hfPId"])
+    @Html.Hidden("hfShow", @ViewData["hfShow"])
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="50">
+            <dl>
+                <dt>名称:</dt>
+                <dd>@Html.TextBoxFor(model => model.m_MingCh, new { @class = "required" })</dd>
+            </dl>
+            <dl>
+                <dt>链接:</dt>
+                <dd>@Html.TextBoxFor(model => model.m_Path, new { @size = "40" })</dd>
+            </dl>
+            @if (Convert.ToBoolean(ViewData["IsShow"]))
+            {
+                <dl>
+                    <dt>资讯类型:</dt>
+                    <dd>
+                        @Html.DropDownListFor(model => model.m_PageType, ViewData["mPageType"] as IEnumerable<SelectListItem>, new { @class = "required combox", @style = "width:100px;" })
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>导航是否显示:</dt>
+                    <dd>
+                        @*@Html.CheckBoxFor(model => model.m_IsShow, new { @checked = true }) *@
+                        <input onclick="" type="checkbox" id="mIsShow" name="mIsShow"/>
+                        是</dd>
+                </dl>
+            }
+        </div>
+        <div class="formBar">
+            <ul>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" id="save">
+                                    保存</button></div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

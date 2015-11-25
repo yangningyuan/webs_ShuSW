@@ -1,0 +1,220 @@
+@model webs_YueyxShop.Model.ProductBase
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        //商品分类联动下拉菜单
+        $("#dtype>select").change(function () {
+            var valueid = $("#dtype>select").val();
+            $.get("/ProductAttributes/GetBattr?code=" + valueid, function (data) {
+                if (data != "refresh") {
+                    var string = eval('(' + data + ')');
+                    var zu = new Array;
+                    zu = string.toString().split(",");
+                    var html = "<select  class=\"valid\" name=\"selectType2\" id=\"selectType2\" onchange=\"getbrand()\" >"
+                    for (var i = 0; i < zu.length; i++) {
+                        if (zu[i] == valueid) {
+                            html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                        }
+                        else {
+                            html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                        }
+                        i += 1;
+                    }
+                    html += "</select>";
+                    $("#ztype").empty().html(html);
+                    $("#xtype").empty().html("<select  class=\"valid\" name=\"selectType3\" id=\"selectType3\" ><option value=\"chose\" selected=\"selected\">请选择</option></select>")
+                }
+                else {
+                    $("#ztype").empty().html("<select  class=\"valid\" name=\"selectType2\" id=\"selectType2\" onChange=\"getselectType2()\"><option value=\"chose\" selected=\"selected\">请选择</option></select>");
+
+                    $("#xtype").empty().html("<select  class=\"valid\" name=\"selectType3\" id=\"selectType3\" ><option value=\"chose\" selected=\"selected\">请选择</option></select>")
+
+                }
+            });
+        });
+
+        function getbrand() {
+            var valueid = $("#ztype>select").val();
+            $.get("/Products/Getbrand?code=" + valueid, function (data) {
+                if (data != "refresh") {
+                    var string = eval('(' + data + ')');
+                    var zu = new Array;
+                    zu = string.toString().split(",");
+                    var html = "<select  class=\"combox\" name=\"brands\" id=\"brands\" >"
+                    for (var i = 0; i < zu.length; i++) {
+                        if (zu[i] == valueid) {
+                            html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                        }
+                        else {
+                            html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                        }
+                        i += 1;
+                    }
+                    html += "</select>";
+                    $("#brand").empty().html(html);
+                }
+                else {
+                    $("#brand").empty().html("<select  class=\"combox\" name=\"brands\" id=\"brands\" ><option value=\"chose\" selected=\"selected\">请选择</option></select>")
+                }
+            });
+        };
+//        function getselectType2() {
+//            var valueid = $("#ztype>select").val();
+//            $.get("/ProductAttributes/GetMattr?code=" + valueid, function (data) {
+//                if (data != "refresh") {
+//                    var string = eval('(' + data + ')');
+//                    var zu = new Array;
+//                    zu = string.toString().split(",");
+//                    var html = "<select  class=\"combox\" name=\"selectType3\" id=\"selectType3\" >"
+//                    for (var i = 0; i < zu.length; i++) {
+//                        if (zu[i] == valueid) {
+//                            html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+//                        }
+//                        else {
+//                            html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+//                        }
+//                        i += 1;
+//                    }
+//                    html += "</select>";
+//                    $("#xtype").empty().html(html);
+//                }
+//                else {
+//                    $("#xtype").empty().html("<select  class=\"valid\" name=\"selectType3\" id=\"selectType3\" ><option value=\"chose\" selected=\"selected\">请选择</option></select>")
+//                }
+//            });
+//        };
+
+        //地区联动下拉菜单
+        $("#SProvince>select").change(function () {
+            var valueid = $("#SProvince>select").val();
+            alert(valueid);
+            $.get("/Products/GetCity?code=" + valueid, function (data) {
+                alert(data);
+                if (data != "refresh") {
+                    var string = eval('(' + data + ')');
+                    var zu = new Array;
+                    zu = string.toString().split(",");
+                    var html = "<select  class=\"valid\" name=\"City\" id=\"City\" onChange=\"getCity()\">"
+                    for (var i = 0; i < zu.length; i++) {
+                        if (zu[i] == valueid) {
+                            html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                        }
+                        else {
+                            html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                        }
+                        i += 1;
+                    }
+                    html += "</select>";
+                    $("#SCity").empty().html(html);
+                    $("#SCountry").empty().html("<select  class=\"valid\" name=\"Country\" id=\"Country\" ><option value=\"1\" selected=\"selected\">请选择</option></select>")
+                }
+                else {
+                    $("#SCity").empty().html("<select  class=\"valid\" name=\"City\" id=\"City\" onChange=\"getCity()\"><option value=\"1\" selected=\"selected\">请选择</option></select>");
+
+                    $("#Country").empty().html("<select  class=\"valid\" name=\"Country\" id=\"Country\" ><option value=\"1\" selected=\"selected\">请选择</option></select>")
+
+                }
+            });
+        });
+        function getCity() {
+            var valueid = $("#SCity>select").val();
+            alert(valueid);
+            $.get("/Products/GetCountry?code=" + valueid, function (data) {
+                alert(data);
+                if (data != "refresh") {
+                    var string = eval('(' + data + ')');
+                    var zu = new Array;
+                    zu = string.toString().split(",");
+                    var html = "<select  class=\"combox\" name=\"Country\" id=\"Country\" >"
+                    for (var i = 0; i < zu.length; i++) {
+                        if (zu[i] == valueid) {
+                            html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                        }
+                        else {
+                            html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                        }
+                        i += 1;
+                    }
+                    html += "</select>";
+                    $("#SCountry").empty().html(html);
+                }
+                else {
+                    $("#SCountry").empty().html("<select  class=\"valid\" name=\"Country\" id=\"Country\" ><option value=\"1\" selected=\"selected\">请选择</option></select>")
+                }
+            });
+        };
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("SalesProductsEdit", "SalesProduct")"  enctype="multipart/form-data"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+    @Html.Hidden("texOtype", @ViewData["texOtype"])
+    @Html.Hidden("hfPId", @ViewData["hfPId"])
+        <div class="pageContent">
+            <div class="pageFormContent" layouth="52">
+                <div class="unit">
+                    <label>
+                        所属分类：</label>
+                    <span id="dtype">@Html.DropDownList("pType")</span>
+                    <span id="ztype">@Html.DropDownList("zType")</span>
+                </div>
+                <div class="unit">
+                    <label>
+                        所属品牌：</label>
+                    <span id="brand">@Html.DropDownList("brands")</span>
+                </div>
+                <div class="unit">
+                    <label>
+                        商品名称：</label>
+                    @Html.TextBoxFor(model => model.p_Name, new { @class = "required" })
+                </div>
+                <div class="unit">
+                    <label>
+                        计量单位：</label>
+                    @Html.TextBoxFor(model => model.p_MeasurementUnit, new { @class = "required" })
+                </div>
+                <div class="unit">
+                    <label>
+                        所在省：</label>
+                    <span id="SProvince">@Html.DropDownList("Province")</span>
+                </div>
+                <div class="unit">
+                    <label>
+                        所在市：</label>
+                    <span id="SCity">@Html.DropDownList("City")</span>
+                </div>
+                <div class="unit">
+                    <label>
+                        所在县：</label>
+                    <span id="SCountry">@Html.DropDownList("Country")</span>
+                </div>
+                <div class="unit">
+                    <label>
+                        运费模板：</label>
+                         <span id="ct">@Html.DropDownList("carriageTemplete")</span>
+                </div>
+            </div>
+            <div class="formBar">
+                <ul>
+                    <li id="save">
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" >
+                                    保存</button></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="button">
+                            <div class="buttonContent">
+                                <button type="button" class="close">
+                                    取消</button></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

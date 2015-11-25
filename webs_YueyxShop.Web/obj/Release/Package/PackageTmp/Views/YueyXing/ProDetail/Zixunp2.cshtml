@@ -1,0 +1,81 @@
+﻿@using webs_YueyxShop.Model
+
+@{
+    Layout = null;
+}
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        var page = $('#zxp2curpage').val();
+        frPage4(page);
+    });
+</script>
+
+<input type="hidden" value="@ViewData["zxp2count"]" id="zxp2count" />
+<input type="hidden" value="@ViewData["zxp2page"]" id="zxp2curpage" />
+<input type="hidden" value="@ViewData["zxp2pagerows"]" id="zxp2pagerows" />   
+<div class="inBd hide" id="tabcontenth3" name="divNumberh">
+    <div class="pj-cont">
+                       	   	   
+        <ul class="question-answer">
+
+            @foreach (var item in ViewBag.zx2)
+            {
+            <li>
+                <dl>
+                    <dt>
+                        <div class="q-icon"></div>
+                        <div class="q-cont">
+                            <p><span class="alignleft">@item.member.m_UserName</span><font class="alignright">@item.pc_CreatedOn</font></p>
+                            <p>@item.pc_Content</p>
+                        </div>
+                    </dt>
+                    <dd>
+                        <div class="a-icon"></div>
+                        <div class="a-cont">
+                            <p><span class="alignleft">月月兴食品商行客服回复：</span><font class="alignright">@item.preply.pr_CreatedOn</font></p>
+                            <p>@item.preply.pr_Content</p>
+                        </div>
+                    </dd>
+                </dl>
+            </li>
+            }
+
+        </ul>
+        <div class="page" id="p2page">
+        </div>
+    </div><!--pj-cont end-->
+</div><!--tabcontenth3 end-->
+
+    
+        
+
+<script type="text/javascript">
+    function goPage4(pageIndex) {
+        var count = $('#zxp2count').val();
+        var pagerows = $('#zxp2pagerows').val();
+        jsPage2('p2page', count, pagerows, pageIndex, 'goPage4');
+        pagejump4(pageIndex);
+    }
+    function frPage4(pageIndex) {
+        var count = $('#zxp2count').val();
+        var pagerows = $('#zxp2pagerows').val();
+        jsPage2('p2page', count, pagerows, pageIndex, 'goPage4');
+    }
+    function pagejump4(page) {
+        var skuid = $("#skuid").val();
+        $.ajax({
+            type: "post",
+            url: "/ProDetail/all?pageNum=" + page+"&skuid="+skuid+"&type=2",
+            success: function (data) {
+
+                $("#tabcontenth3>div>ul").empty();
+                $(data).appendTo('#tabcontenth3>div>ul');
+
+            }
+
+        });
+    }
+</script>

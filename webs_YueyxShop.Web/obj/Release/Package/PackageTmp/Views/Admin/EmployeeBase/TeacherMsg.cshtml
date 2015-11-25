@@ -1,0 +1,117 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), 'TeacherBox');
+            var o_ID = $("#hf_did", navTab.getCurrentPanel()).val();
+            if (o_ID != "") {//bm 部门编辑页面的员工列表
+                $("#td_bm", navTab.getCurrentPanel()).hide();
+                $("#td_bmxx", navTab.getCurrentPanel()).hide();
+                $("#orgLookuporgName", navTab.getCurrentPanel()).hide();
+                $("#a_edit").attr('href', $("#a_edit").attr("href") + "&o_ID={hf_did}");
+                $("#a_details").attr('href', $("#a_details").attr("href") + "&o_ID={hf_did}");
+
+                $("#a_qy").attr('href', $("#a_qy").attr("href") + "&type=bm"); //启用
+                $("#a_jy").attr('href', $("#a_jy").attr("href") + "&type=bm"); //禁用
+            }
+        });
+        function EmployM_detail(rel) {
+            var o_ID = $("#hf_did", navTab.getCurrentPanel()).val();
+            navTab.openTab("w_employedit", "/EmployeeBase/TeacherEdit?otype=details&type=details&" + rel, { title: "详细信息", fresh: true, external: false });
+        }
+
+        function reload() {
+            document.getElementById("btn_Select").click();
+        }
+        function EmployM_add() {
+            var o_ID = $("#hf_did", navTab.getCurrentPanel()).val();
+            navTab.openTab("w_employedit", "/EmployeeBase/TeacherEdit?otype=add&type=add", { title: "添加员工", fresh: true, external: false });
+        }
+      
+    </script>
+</head>
+<body>
+    <form id="pagerForm" method="post" action="@Url.Action("TeacherList", "EmployeeBase")" onsubmit="return divSearch(this,'TeacherBox');"
+    runat="server">
+    <input type="hidden" name="action" value="pager" />
+    @Html.Hidden("hf_did", @ViewData["o_ID"])
+    <!-- 功能权限-->
+    @Html.Hidden("hf_ManageAuth", @ViewData["hf_ManageAuth"], new { @id = "hf_ManageAuth" })<!--管理-->
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td>
+                        姓名：
+                    </td>
+                    <td>
+                        <input type="text" name="txtEMingc" />
+                    </td>
+                    <td id="td_bm">
+                        院系：
+                    </td>
+                    <td>
+                        <input type="hidden" id="orgLookupid" name="orgLookup.id" value="@ViewData["o_ID"]" />
+                        <input type="text" name="orgLookup.orgName" value="" readonly="readonly" id="orgLookuporgName"
+                            size="15" lookupgroup="orgLookup" />
+                    </td>
+                    <td id="td_bmxx">
+                        <a class="btnLook" href="@Url.Action("SelectDepartmentBaseMsg", "DepartmentBase")"lookupgroup="orgLookup">
+                            选择院系部门 </a>
+                    </td>
+                </tr>
+            </table>
+            <div class="subBar">
+                <ul>
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" id="btn_Select">
+                                    检索
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="reset">
+                                    重置
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                <li><a class="details" id="a_details" href="@Url.Action("TeacherEdit?otype=modify&type=details&e_ID={e_ID}", "EmployeeBase")" target="navTab"
+                    rel="w_employedit"title="详细信息"><span>详细信息</span></a></li>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li class="line">line</li>
+                    <li><a class="add" id="a_add" href="javascript:void()" onclick="return EmployM_add();">
+                        <span>添加</span></a></li>
+                    <li><a class="edit" id="a_edit" href="@Url.Action("TeacherEdit?otype=modify&e_ID={e_ID}", "EmployeeBase")" target="navTab"
+                    rel="w_employedit"><span>编辑</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="unlock" id="a_qy" href="@Url.Action("Enable?otype=enable&list=teacher&e_ID={e_ID}", "EmployeeBase")"
+                    target="ajaxTodo"><span>启用</span></a></li>
+                    <li><a class="lock" id="a_jy" href="@Url.Action("Enable?otype=disable&list=teacher&e_ID={e_ID}", "EmployeeBase")"
+                    target="ajaxTodo" ><span>禁用</span></a></li>
+                }
+            </ul>
+        </div>
+        <div id="TeacherBox">
+        </div>
+    </div>
+    </form>
+</body>
+</html>

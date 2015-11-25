@@ -1,0 +1,77 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.BrandBase>
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" layouth="138" rel="BrandBox">
+    <colgroup width="30px" />
+    <colgroup width="100px" />
+    <colgroup width="200px" />
+    <colgroup width="100px" />
+    <colgroup width="100px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                品牌名称
+            </th>
+            @*<th>
+                查询关键字
+            </th>*@
+            <th>
+                品牌图片预览
+            </th>
+            <th>
+                分类
+            </th>
+            <th>
+                创建时间
+            </th>
+            <th>
+                品牌官方地址
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr target="b_ID" rel="@item.b_ID" @*ondblclick="OpenBrandEdit('@item.b_ID')"*@ ondblclick="OpenBrandLogo('@item.b_LogoUrl')">
+                <td>
+                </td>
+                <td>
+                    @item.b_Name
+                </td>
+                @*<td>
+                    @item.b_Key
+                </td>*@
+                <td>
+                    <img style=" width:100px; height :100px;" alt="@item.b_Name"  src="../../@item.b_LogoUrl" onclick="OpenBrandLogo('@item.b_LogoUrl')"/>
+                </td>
+                <td>
+                  <a href="@Url.Action("BrandEdit?otype=modify&b_ID=" + @item.b_ID)"  rel="w_CarriageEdit"
+                            target="navTab" >查看所属分类</a>
+                </td>
+                <td>
+                    @item.b_CreatedOn.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @item.b_SiteUrl
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>  
+<div id="bigimg" onclick="none()"><img style="margin-top:150px;margin-left:-450px;max-width:600px;max-height:600px;position:fixed;opacity:0.9;"/></div>
+
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="BrandBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

@@ -1,0 +1,99 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@using webs_YueyxShop.Model;
+@model IEnumerable<webs_YueyxShop.Model.FunctionBase>
+<html>
+<head runat="server">
+    <title>月月兴食品商行后台管理系统</title>
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            var items = $("#hfItems", navTab.getCurrentPanel()).val() + "#";
+            items = items.replace(",#", "").replace("#", "");
+            var arr = items.split(',');
+            $.each(arr, function (i) {//绑定值
+                $("#" + arr[i]).attr("checked", true);
+            });
+        });
+        function RolesFunc_InAndDel(t) {
+            var funid = t.value;
+            var roid = $("#hfRoleId", navTab.getCurrentPanel()).val();
+            var otype = "";
+            $("#" + funid)
+            if (t.checked) { otype = "add"; }
+            else { otype = "del"; }
+            $.ajax({
+                url: "../../RolesInfo/AddFRolesFunc",
+                data: { funid: funid, roelid: roid, otype: otype },
+                dataType: "html",
+                success: function (data) {
+                    alertMsg.info(data);
+                }
+            });
+        }
+    </script>
+    <style type="text/css">
+        DIV.roleList
+        {
+            width: 90%;
+            float: left;
+        }
+        DIV.roleList DIV
+        {
+            width: 120px;
+            float: left;
+            line-height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+    @Html.Hidden("hfItems", @ViewData["hfItems"])
+    @Html.Hidden("hfRoleId", @ViewData["hfRoleId"])
+    <div class="tabs" layouth="5" style=" margin-left:5px; margin-right:5px; margin-top:5px;">
+        <div class="tabsHeader">
+            <div class="tabsHeaderContent">
+                <ul>
+                     @foreach (FunctionBase item in Model.Where(c => c.f_CengJ == 1))
+                    {
+                        <li><a href="#"><span>@item.f_MingCh</span></a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="tabsContent" style="height: 551px; background-color: White;">
+           @* @foreach (var item in Model)*@
+            @foreach (FunctionBase item in Model.Where(c => c.f_CengJ == 1))
+            {   
+                <div>
+                  @*  @foreach (var it in item.ChildKeys.OrderBy(it => it.f_PaiX))*@
+                             @foreach (FunctionBase it in Model.Where(c => c.f_ParentId == item.f_ID).OrderBy(i => i.f_PaiX))
+                             {
+                                 if (it.f_DeleteStateCode == 0)
+                                 { 
+                        <fieldset>
+                            <legend class="collapse">
+                                <input type="checkbox" class="checkboxCtrl" id="@it.f_ID" value="@it.f_ID" group="@it.f_MingCh" onclick="RolesFunc_InAndDel(this);"/><label for="@it.f_ID">@it.f_MingCh</label>
+                            </legend>
+                            <div class="roleList">
+                              @*  @foreach (var i in it.ChildKeys.OrderBy(i => i.f_PaiX))*@
+                                @foreach (FunctionBase it2 in Model.Where(c => c.f_ParentId == it.f_ID).OrderBy(i => i.f_PaiX))
+                                {
+                                    if (it2.f_DeleteStateCode == 0)
+                                    {
+                                    <div>
+                                        <input type="checkbox" id="@it2.f_ID" value="@it2.f_ID" name="@it2.f_MingCh" onclick="RolesFunc_InAndDel(this);"/>
+                                        <label for="@it2.f_ID">@it2.f_MingCh</label>
+                                    </div>
+                                    }
+                                }
+                            </div>
+                        </fieldset>
+                                 }
+                             }
+                </div>   
+            }
+        </div>
+    </div>
+    </form>
+</body>
+</html>

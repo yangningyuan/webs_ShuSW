@@ -1,0 +1,135 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            FunctionM_dhValue();
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "functionBox");
+        });
+        //导航值改变时，所必须的值
+        function FunctionM_dhValue() {
+            $("#FunctionM_divDH", navTab.getCurrentPanel()).html("<a  onclick='FunctionM_DhfuClick()'><span>" + "顶级列表" + "</span></a>");
+            FunctionM_addFid();
+        }
+        //导航单击事件（父）
+        function FunctionM_DhfuClick() {
+            $("#hfPid", navTab.getCurrentPanel()).val("00000000-0000-0000-0000-000000000000");
+            $("#hf_cengj", navTab.getCurrentPanel()).val("0"); //层级0
+            FunctionM_dhValue();
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "functionBox");
+        }
+        //导航单击事件（子）
+        function FunctionM_DhziClick(vcid) {
+            $("#hfPid", navTab.getCurrentPanel()).val(vcid);
+            $("#" + vcid, navTab.getCurrentPanel()).nextAll().remove(); //移除<a>
+            var cengji = $("#FunctionM_divDH", navTab.getCurrentPanel()).children("a").length - 1;
+            $("#hf_cengj", navTab.getCurrentPanel()).val(cengji); //移除a后的层级
+            FunctionM_addFid();
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "functionBox");
+        }
+        //查询子级控件
+        function FunctionM_searchChild() {
+            if ($("#f_ID", navTab.getCurrentPanel()).length == 1) {
+                var searchValue = $("#f_ID", navTab.getCurrentPanel()).val(); //从List中取rel的值
+                var id = searchValue.split('|')[0];  //id
+                var name = searchValue.split('|')[1]; //name
+                var cengji = searchValue.split('|')[2]; //层级
+                if (cengji == 3) {
+                    alertMsg.info("暂无数据！！");
+                    return false;
+                }
+                $("#hf_cengj", navTab.getCurrentPanel()).val(searchValue.split('|')[2]); //层级
+                $("#hfPid", navTab.getCurrentPanel()).val(id); //查询的父id
+                FunctionM_addFid();
+                var aa = '"' + id + '"';
+                var daohang = $("#FunctionM_divDH", navTab.getCurrentPanel()).html() + "<a class='aName' id='" + id + "'  onclick='FunctionM_DhziClick(" + aa + ")'><span>&gt;&gt;" + name + "</span></a>";    //现在导航的值
+                $("#FunctionM_divDH", navTab.getCurrentPanel()).html(daohang); //给导航追加值
+                divSearch(navTab.getCurrentPanel().find("#pagerForm"), "functionBox");
+            }
+            else {
+                alertMsg.info("请选择所要查询的父级!");
+            }
+        }
+        //添加时所要传的参数
+        function FunctionM_addFid() {
+            var fid = $("#hfPid", navTab.getCurrentPanel()).val(); //父id
+            var pCengj = navTab.getCurrentPanel().find("#hf_cengj").val(); //父层级
+            $("#hf_add", navTab.getCurrentPanel()).val(fid + "|" + pCengj); //添加时需要传的参数
+        }
+
+
+        //查看详细
+        function FunctionM_details(rel) {
+            $.pdialog.open("/FunctionBase/FunctionEdit?otype=modify&type=details&" + rel, "w_functionedit", "详细信息", { width: 453, height: 300 });
+        }
+        //添加
+        function FunctionM_add() {
+            var hfadd = $("#hf_add", navTab.getCurrentPanel()).val();
+            $.pdialog.open("/FunctionBase/FunctionEdit?otype=add&type=add&hf_add=" + hfadd, "w_functionedit", "添加功能", { width: 453, height: 300 });
+        }
+    </script>
+</head>
+<body>
+    <form id="pagerForm" method="post" action="@Url.Action("FunctionList", "FunctionBase")" onsubmit="return divSearch(this,'functionBox');"
+    runat="server">
+    <input type="hidden" name="action" value="pager" />
+    <input type="hidden" id="hfPid" name="hfPid" value="00000000-0000-0000-0000-000000000000" />
+    <input type="hidden" id="hf_daohang" name="hf_daohang" />
+    <input type="hidden" id="hf_cengj" name="hf_cengj" value="0" />
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent" style="width: 100%;">
+                <colgroup>
+                    <col style="width: 40px;" />
+                    <col />
+                </colgroup>
+                <tr>
+                    <td>
+                        @* 导航*@ 导航：
+                    </td>
+                    <td>
+                        <div id="FunctionM_divDH" style="text-align: left;">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="unitBox" style="margin-left: 246px;">
+            <!-- 父级id-->
+            <input type="hidden" id="hf_add" name="hf_add" />
+        </div>
+    </div>
+    <!--列表-->
+    <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                <li><a class="details" onclick="FunctionM_searchChild();"><span>查询子集</span></a></li><li>
+                    <a class="details" href="@Url.Action("FunctionEdit?otype=modify&type=details&f_ID={f_ID}", "FunctionBase")"
+                    target="dialog" rel="w_functionedit" title="详细信息"><span>详细信息</span></a></li>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li class="line">line</li>
+                    <li><a class="add" href="javascript:void()" onclick="return FunctionM_add();"><span>
+                        添加</span></a> </li>
+                    <li><a class="edit" href="@Url.Action("FunctionEdit?otype=modify&type=Update&f_ID={f_ID}", "FunctionBase")"
+                    target="dialog" rel="w_functionedit"  height="300" width="453"><span>编辑</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="delete"  href="@Url.Action("DataDel?otype=delete&f_ID={f_ID}", "FunctionBase")"
+                    target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="unlock"  href="@Url.Action("Enable?otype=enable&f_ID={f_ID}", "FunctionBase")"
+                    target="ajaxTodo"><span>启用</span></a></li>
+                    <li><a class="lock"  href="@Url.Action("Enable?otype=disable&f_ID={f_ID}", "FunctionBase")"
+                    target="ajaxTodo" ><span>禁用</span></a></li>
+                }
+            </ul>
+        </div>
+        <div id="functionBox">
+        </div>
+    </div>
+    </form>
+</body>
+</html>

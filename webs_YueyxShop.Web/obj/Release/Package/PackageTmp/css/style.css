@@ -1,0 +1,406 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+body {
+	background-color: #fffff3;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-image: url(../img/bg.jpg);
+	background-repeat: repeat-x;
+	background-attachment:fixed;
+	background-position: center;
+}
+a:link {
+	color: #ada274;
+	text-decoration: none;
+}
+a:visited {
+	color: #ada274;
+	text-decoration: none;
+}
+a:hover {
+	color: #ada274;
+	text-decoration: none;
+}
+a:active {
+	color: #ada274;
+	text-decoration: none;
+}
+
+/* HERO EDIT */
+.main-container{
+	width:960px;
+	margin:0 auto;
+	padding:0;
+}
+
+.stepcarousel{
+position: relative; /*leave this value alone*/
+border:0;
+overflow: scroll; /*leave this value alone*/
+width: 546px;
+height: 226px; /*Height should enough to fit largest content's height*/
+}
+
+.stepcarousel .belt{
+position: absolute; /*leave this value alone*/
+left: 0;
+top: 0;
+}
+
+.stepcarousel .panel{
+float: left; /*leave this value alone*/
+overflow: hidden; /*clip content that go outside dimensions of holding panel DIV*/
+margin: 2px 5px 2px 2px; /*margin around each panel*/
+width: 178px; /*Width of each panel holding each content. If removed, widths should be individually defined on each content DIV then. */
+border:0;
+padding-top:4px;
+}
+
+.newsletter{
+background:url(../img/bg-newsletter.jpg) repeat-x;
+width:260px;
+height:250px;
+}
+
+.newsletter_btn{
+background:url(../img/newsletter-btn.jpg) no-repeat;
+width:60px;
+height:20px;
+border:0;
+cursor:pointer;
+}
+
+.dining_navi{
+font-size:12px;
+color:#FFFFFF;
+}
+
+.dining_navi a {
+text-decoration:none;
+color:#FFFFFF;
+}
+
+.dining_navi a:hover {
+text-decoration:none;
+color:#FFFFFF;
+}
+
+.lifestyle_navi{
+font-size:12px;
+
+color:#FFF;
+}
+
+.lifestyle_navi a {
+font-size:12px;
+text-decoration:none;
+color:#FFFFFF;
+
+}
+
+.lifestyle_navi a:hover {
+font-size:12px;
+text-decoration:none;
+color:#FFF;
+
+}
+.lifestyle_subcontent{
+text-decoration:none;
+font-size:10px;
+color:#A7080A;
+
+}
+
+.career_navi{
+font-size:12px;
+color:#FFFFF3;
+}
+
+.career_dept{
+font-style:normal;
+font-size:12px;
+color:#FFFFF3;
+}
+
+.career_navi a:link {
+text-decoration:none;
+color:#FFFFF3;
+}
+
+.career_navi a:visited {
+text-decoration:none;
+color:#FFFFF3;
+}
+
+.career_navi a:hover {
+text-decoration:none;
+color:#ada274;
+}
+
+.sitemap_content {
+text-decoration:none;
+font-size:11px;
+color:#917745;
+}
+
+.sitemap_title {
+text-decoration:none;
+font-size:11px;
+font-weight:bold;
+color:#917745;
+}
+
+.aboutus_content {
+text-decoration:none;
+font-size:12px;
+color:#a78a52;
+}
+
+.AccomodationboxTitle {
+background-color: #c3b263;
+font-size:12px;
+opacity:0.8;
+filter:alpha(opacity=80);
+-moz-opacity:0.8;
+-khtml-opacity:0.8;
+color:#FFFFFF;
+}
+.AccomodationboxTab_selected {
+background-color: #A7080A;
+opacity:0.8;
+filter:alpha(opacity=80);
+-moz-opacity:0.8;
+-khtml-opacity:0.8;
+font-size:12px;
+color:#FFFFFF;
+
+}
+
+.AccomodationboxTab_selected a {
+font-size:12px;
+color:#FFF;
+text-decoration:none;
+
+}
+
+.AccomodationboxTab_selected a:hover {
+font-size:12px;
+color:#FFF;
+text-decoration:none;
+}
+
+.AccomodationboxTab {
+background-color: #c3b263;
+opacity:0.8;
+filter:alpha(opacity=80);
+-moz-opacity:0.8;
+-khtml-opacity:0.8;
+font-size:12px;
+color:#FFFFFF;
+
+}
+
+.AccomodationboxTab a {
+font-size:12px;
+color:#FFF;
+text-decoration:none;
+
+}
+
+.AccomodationboxTab a:hover {
+font-size:12px;
+color:#FFF;
+text-decoration:none;
+
+}
+
+.AccomodationboxTabText {
+font-size:12px;
+color:#FFF;
+
+}
+.AccomodationboxContent {
+background-color: #c3b263;
+opacity:0.8;
+filter:alpha(opacity=80);
+-moz-opacity:0.8;
+-khtml-opacity:0.8;
+font-size:12px;
+color:#FFF;
+padding:10px;
+}
+
+.springboxTitle {
+background-color: #ac9a64;
+font-size:12px;
+opacity:0.8;
+filter:alpha(opacity=80);
+-moz-opacity:0.8;
+-khtml-opacity:0.8;
+color:#FFFFFF;
+}
+
+.springboxTab_selected {
+background-color: #A7080A;
+opacity:0.8;
+filter:alpha(opacity=80);
+-moz-opacity:0.8;
+-khtml-opacity:0.8;
+font-size:12px;
+color:#FFFFFF;
+}
+
+.springboxTab_selected a {
+font-size:12px;
+color:#FFF;
+text-decoration:none;
+}
+
+.springboxTab_selected a:hover {
+font-size:12px;
+color:#FFF;
+text-decoration:none;
+}
+
+.springboxTab {
+background-color: #ac9a64;
+opacity:0.8;
+filter:alpha(opacity=80);
+-moz-opacity:0.8;
+-khtml-opacity:0.8;
+font-size:12px;
+color:#FFFFFF;
+}
+
+.springboxTab a {
+font-size:12px;
+color:#FFF;
+text-decoration:none;
+}
+
+.springboxTab a:hover {
+font-size:12px;
+color:#FFF;
+text-decoration:none;
+}
+
+.WellnessboxTab_selected {
+background-color: #A7080A;
+opacity:0.8;
+filter:alpha(opacity=80);
+-moz-opacity:0.8;
+-khtml-opacity:0.8;
+font-size:11px;
+color:#FFFFFF;
+}
+
+.WellnessboxTab_selected a {
+font-size:11px;
+color:#FFF;
+text-decoration:none;
+}
+
+.WellnessboxTab_selected a:hover {
+font-size:11px;
+color:#FFF;
+text-decoration:none;
+}
+
+.WellnessboxTab{
+background-color: #ac9a64;
+opacity:0.8;
+filter:alpha(opacity=80);
+-moz-opacity:0.8;
+-khtml-opacity:0.8;
+font-size:11px;
+color:#FFFFFF;
+}
+
+.WellnessboxTab a {
+font-size:11px;
+color:#FFF;
+text-decoration:none;
+}
+
+.WellnessboxTab a:hover {
+font-size:11px;
+color:#FFF;
+text-decoration:none;
+}
+
+.springboxTabText {
+font-size:12px;
+color:#FFF;
+}
+.springboxContent {
+background-color: #ac9a64;
+opacity:0.8;
+filter:alpha(opacity=80);
+-moz-opacity:0.8;
+-khtml-opacity:0.8;
+font-size:12px;
+color:#FFF;
+padding:10px;
+}
+.arial-11{
+font-size:10px;
+color:#ada274;
+}
+
+.arial-12-white-bold{
+font-size:12px;
+color:#FFFFFF;
+font-weight:bold;
+}
+
+.getting_content {
+text-decoration:none;
+font-size:12px;
+color:#ada274;
+letter-spacing:0.2em;
+}
+
+.getting_title {
+text-decoration:none;
+font-size:13px;
+color:#ada274;
+font-weight:bold;
+letter-spacing:0.2em;
+}
+
+.getting_infotitle {
+text-decoration:none;
+font-size:13px;
+color:#ffffff;
+font-weight:bold;
+letter-spacing:0.2em;
+}
+
+.getting_infocontent {
+text-decoration:none;
+font-size:12px;
+color:#ffffff;
+font-style:normal;
+letter-spacing:0.2em;
+
+
+}
+
+.style4{
+font-size:11px;
+}
+
+.style5{
+color:#ADA274;
+font-size:10px;
+}
+
+.footer {	
+	font-size: 11px;
+}
+.footermenu {
+	font-size: 16px;
+}

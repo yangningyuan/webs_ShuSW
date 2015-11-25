@@ -1,0 +1,7 @@
+G:\项目\书生网\webs_YueyxShop\trunk\webs_YueyxShop.IDAL\bin\Release\webs_YueyxShop.IDAL.dll
+G:\项目\书生网\webs_YueyxShop\trunk\webs_YueyxShop.IDAL\bin\Release\webs_YueyxShop.IDAL.pdb
+G:\项目\书生网\webs_YueyxShop\trunk\webs_YueyxShop.IDAL\bin\Release\webs_YueyxShop.Model.dll
+G:\项目\书生网\webs_YueyxShop\trunk\webs_YueyxShop.IDAL\bin\Release\webs_YueyxShop.Model.pdb
+G:\项目\书生网\webs_YueyxShop\trunk\webs_YueyxShop.IDAL\obj\Release\webs_YueyxShop.IDAL.csprojResolveAssemblyReference.cache
+G:\项目\书生网\webs_YueyxShop\trunk\webs_YueyxShop.IDAL\obj\Release\webs_YueyxShop.IDAL.dll
+G:\项目\书生网\webs_YueyxShop\trunk\webs_YueyxShop.IDAL\obj\Release\webs_YueyxShop.IDAL.pdb

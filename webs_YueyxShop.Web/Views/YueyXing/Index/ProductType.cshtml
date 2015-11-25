@@ -1,0 +1,163 @@
+﻿
+    <div class="pro-class borders">
+    	<div class="pro-title">
+        	<h2>@ViewData["typeName"] </h2>
+            <p>
+            @{
+                var list = ViewData["subType"] as List<webs_YueyxShop.Model.ProductTypeBase>;
+                if(list != null)
+                {
+                    if(list.Count>7)
+                    {
+                    for(int i = 0;i < 7;i++)
+                    {
+                        if(i!=0)
+                        {
+                            @Html.Raw("|")
+                        }
+                        <a href="/ProList/ProList?ptype=@list[i].pt_ID" target="_blank">@list[i].pt_Name</a>
+                    }
+                    }
+                    else
+                    {
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (i != 0)
+                        {
+                            @Html.Raw("|")
+                        }
+                        <a href="/ProList/ProList?ptype=@list[i].pt_ID" target="_blank">@list[i].pt_Name</a>
+                    }
+                    }
+                }
+            }
+            </p>
+            <a href="/ProList/ProList?ptype=@ViewData["typeID"]">选你所爱</a>
+        </div><!--pro-title end-->
+        <div class="side-pro alignleft">
+        	<div class="pro-banner"><!--侧边广告-->
+        		<ul class="pic">
+                    @{
+                        if (ViewData["AdBanner"] != null)
+                        {
+                            foreach (var ad in (List<webs_YueyxShop.Model.Adert>)ViewData["AdBanner"])
+                            {
+					            <li><a href="@ad.a_Link" target="_blank"><img style="width:210xp;height:334px;" name="page_cnt_1" src="@ad.a_Image"/></a></li>
+                            }
+                        }
+                    }
+				</ul>
+				<ul class="hd">
+                    @{
+                        if (ViewData["AdBanner"] != null)
+                        {
+                            foreach (var ad in (List<webs_YueyxShop.Model.Adert>)ViewData["AdBanner"])
+                            {
+					            <li></li>
+                            }
+                        }
+                    }
+				</ul>
+        	</div><!--pro-banner end-->
+            <div class="clear"></div>
+            <ul class="hot-pro">
+            @{
+                if (ViewData["热门推荐list"] != null)
+                {
+            	    @Html.Raw("<li>")<!--热门推荐-->
+                        @Html.Raw("<dl>")
+                    	    <dt><strong>热门推荐</strong></dt>
+                   int index = 0;
+                   foreach (System.Data.DataRow row in ((System.Data.DataTable)ViewData["热门推荐list"]).Rows)
+                   {
+                                <dd><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]" target="_blank">
+                                @if (row["p_Name"].ToString().Length > 7)
+                                {
+                                @row["p_Name"].ToString().Substring(0, 7)
+                                }
+                                else
+                                {
+                                @row["p_Name"].ToString()
+                                }
+                                </a></dd>
+                                index++;
+                                if (index >= 4)
+                                {
+                                    break;
+                                }
+                   }
+                        @Html.Raw("</dl>")
+                    @Html.Raw("</li>")
+                }
+            }
+            @{
+                if (ViewData["最新优惠list"] != null)
+                {
+            	    @Html.Raw("<li>")<!--最新优惠-->
+                        @Html.Raw("<dl>")
+                    	    <dt><strong>最新优惠</strong></dt>
+                   int index = 0;
+                   foreach (System.Data.DataRow row in ((System.Data.DataTable)ViewData["最新优惠list"]).Rows)
+                   {
+                                <dd><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]" target="_blank">
+                                 @if (row["p_Name"].ToString().Length > 7)
+                                 {
+                                @row["p_Name"].ToString().Substring(0, 7)
+                                 }
+                                 else
+                                 {
+                                @row["p_Name"].ToString()
+                                 }
+                                </a></dd>
+                                 index++;
+                                 if (index >= 4)
+                                 {
+                                     break;
+                                 }
+                   }
+                        @Html.Raw("</dl>")
+                    @Html.Raw("</li>")
+                }
+            }
+            </ul>
+        </div><!--side-pro end-->
+        <div class="pro-cont alignright"><!--产品-->
+        	<ul class="pro-class-list">
+            @{
+                if (ViewData["productInfoList"] != null)
+                {
+                    int index = 0;
+                    foreach (System.Data.DataRow row in ((System.Data.DataTable)ViewData["productInfoList"]).Rows)
+                    {
+                        @Html.Raw("<li>")
+                        @Html.Raw("<dl>")
+                    	    <dt><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]"><img style="width:186px;height:165px;" name="page_cnt_1" src="@row["pi_Url"]" alt="@row["p_Name"]" /></a></dt>
+                            <dd><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]">@row["p_Name"] @row["property"]</a></dd>
+                            <dd><span>￥@row["sku_Price"]</span><del>￥@row["sku_scPric"]</del></dd>
+                        @Html.Raw("</dl>")
+                        @Html.Raw("</li>")
+                   index++;
+                   if (index >= 10)
+                   {
+                       break;
+                   }
+                    }
+                }
+            }
+            </ul>
+        </div><!--pro-cont end-->
+    </div><!--pro-class end-->
+    <div class="clearh"></div>
+    <div class="ad-big">
+        @{
+            if (ViewData["AdBottom"] != null)
+            {
+                foreach (var ad in (List<webs_YueyxShop.Model.Adert>)ViewData["AdBottom"])
+                {
+                    <a href="@ad.a_Link"><img style="width:1200xp;height:90px;" name="page_cnt_1" src="@ad.a_Image" alt="@ad.a_Title" /></a>
+                }
+            }
+        }
+        @*<a href="#"><img name="page_cnt_1" src="/images/AD/big_ad_03.jpg" alt="广告" /></a>*@
+    </div><!--底部广告-->
+    <div class="clearh"></div>

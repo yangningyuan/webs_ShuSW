@@ -1,0 +1,20 @@
+/* CSS Document 
+作者：王军凯
+编写时间：2014-06-03
+联系QQ:466085876
+*/
+
+
+
+/*浮动购物车、收藏、返回顶部*/
+#jump{position:fixed;bottom:20px;right:60px;width:48px;z-index:4000; list-style:none;}
+#jump li{height:48px;overflow:hidden; margin-top:5px; width:48px;}
+#top,#chart-f,#myshop{display:block;width:48px;height:48px;overflow:hidden;cursor:pointer; position:relative;}
+#top{background:url(/images/headFooter/top_icon.png) no-repeat;}
+#top:hover{background:url(/images/headFooter/top_icon.png) no-repeat;}
+#chart-f{background:url(/images/headFooter/chart_icon.png) no-repeat;}
+#chart-f:hover{background:url(/images/headFooter/chart_icon.png) no-repeat;}
+#myshop{background:url(/images/headFooter/collect_icon.png) no-repeat;}
+#myshop:hover{background:url(/images/headFooter/collect_icon.png) no-repeat;}
+#math{ position:absolute; right:3px; top:3px; padding:3px; background:#ff7200; font-size:12px; line-height:12px; color:#fff;}
+

@@ -1,0 +1,110 @@
+﻿@model webs_YueyxShop.Model.CarriageBase
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var regionlist = $("#regionList").val();
+            $("#area").val('@ViewData["regName"]');
+            $("#measurementUnits2").val($("#measurementUnits").val());
+            if ($("#area").val() == "全国") {
+                $("input[name='moren']:checkbox").attr("checked", true);
+            }
+        });
+
+        function getcheck() {
+            if ($("input[name='moren']:checkbox").attr("checked")) {
+                $("#area").val("全国");
+                $("#regionList").val("all");
+            }
+        }
+        $("#measurementUnits").change(function(){
+            $("#measurementUnits2").val($("#measurementUnits").val());
+        });
+        $("#measurementUnits2").change(function () {
+            $("#measurementUnits").val($("#measurementUnits2").val());
+        });
+    </script>
+</head>
+<body>
+       <form id="form1" runat="server" method="post" action="@Url.Action("CarriageEdit", "Carriage")"  enctype="multipart/form-data"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+    @Html.HiddenFor(model => model.car_ID)
+    @Html.HiddenFor(model => model.car_CreateOn)
+    @Html.Hidden("texOtype", @ViewData["texOtype"])
+    @Html.Hidden("hfPId", @ViewData["hfPId"])
+    @Html.Hidden("regionList", @ViewData["reglist"])
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="52">
+            
+            <div class="unit" >
+                <label>
+                    配送地区：</label>
+                   @Html.TextArea("area",  new { @style = "width:400px;height:200px" }) 
+                <a class="btnLook" href="@Url.Action("RegionBase?cartype={texOtype}&pid={hfPId}", "Carriage")" target="dialog"  width="550" height="450" >选择地区</a>
+            </div> 
+            <div class="unit" >
+                <label>
+                    配送方式：</label>
+                    @Html.DropDownList("shipType") 
+            </div>
+            <div class="unit" >
+                <label>
+                    运费金额：</label>
+            </div>
+            <div class="unit" >
+                <label style="width:70px;margin-left:100px;">
+                     首：</label>
+                @Html.TextBoxFor(model => model.car_shouCount, new { @class = "required digits", @style = "width:40px;" })
+                    @Html.DropDownList("measurementUnits") 
+            </div>
+            <div class="unit" >
+                <label style="width:70px;margin-left:100px;">
+                     运费：</label>
+                @Html.TextBoxFor(model => model.car_shouCarriage, new { @class = "required number", @style = "width:40px;" })<label style="width:10px;">元</label>
+            </div>
+            <div class="unit" >
+                <label style="width:70px;margin-left:100px;">
+                     每增加</label>
+                @Html.TextBoxFor(model => model.car_xuCount, new { @class = "required digits", @style = "width:40px;" })
+                     @Html.DropDownList("measurementUnits2") 
+            </div>
+            <div class="unit" >
+                <label style="width:70px;margin-left:100px;">
+                     增加运费：</label>
+                @Html.TextBoxFor(model => model.car_xuCarriage, new { @class = "required number", @style = "width:40px;" })<label style="width:10px;">元</label>
+            </div>
+            <div class="unit" >
+                   <label style="width:20px;margin-left:100px;" > 
+                   <input type="checkbox"  name="moren"   onchange="getcheck()"/>
+                   </label>
+                   <label style="text-align:left;width:500px;"> 设为默认(选择设为默认时将设置运送地区为全国)</label>
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li id="save">
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" >
+                                    保存</button></div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+
+</body>
+</html>

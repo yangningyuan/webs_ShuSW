@@ -1,0 +1,106 @@
+﻿
+@model IEnumerable<webs_YueyxShop.Model.ProductTypeBase>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>月月兴食品商行-类目</title>
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+<!--设备原始宽度，不允许缩放，user-scalable是否允许用户手动缩放 inital-scale初始缩放比例 以及允许用户缩放到的最大和最小比例-->
+<meta content="yes" name="apple-mobile-web-app-capable" />  
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />  
+<!--在IOS系统中以上两个meta会让网页内容以应用程序风格显示，并使状态栏透明 上面一个content有俩值yes和no 此meta作用是删除默认的苹果工具栏和菜单栏，如果需要显示时不加此行meta 第二个meta的content有三个值default（白色） black(黑色) black-translucent（灰色半透明）若值为“black-translucent”将会占据页面px位置，浮在页面上方（会覆盖页面20px高度–iphone4和itouch4的Retina屏幕为40px）。-->
+<meta name="format-detection" content="telephone=no">
+<meta content="email=no" name="format-detection" />
+<!--以上两条mate作用为：告诉设备忽略将页面中的数字识别为电话号码 将不识别邮箱-->
+<link type="text/css" href="/css/wap/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件-->
+<link type="text/css" href="/css/wap/kaych.framework.css" rel="stylesheet"/><!--页面框架css文件-->
+<link type="text/css" href="/css/wap/kaych.ui-visual.css" rel="stylesheet"/><!--视觉效果（即样式，与框架分离）css属性文件-->
+<link type="text/css" href="/css/wap/kaych.indexLayout.css" rel="stylesheet"/><!--页面细致布局css文件--> 
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.commons.css"><!--页面通用CSS文件-->
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.media.screen.css"><!--页面分辨率检测启用不同布局CSS文件-->
+<!--[if lt IE 9]>
+<script src="../js/html5.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script type="text/javascript" src="../js/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<script src="/js/wap/jquery-1.8.3.min.js"></script>
+<script>
+    function search() {
+        var text = $('#searchText').val();
+        if (text == "") {
+            return;
+        }
+
+        var par = "condition=" + text;
+        par = encodeURI(par);
+        par = encodeURI(par);
+
+        window.location.href = '/wapProList/wapProTuiList?' + par;
+    }
+    
+     function searchtext () {
+       $("#sespan").text("");
+    };
+    function showtishi() {
+        if ($("#searchText").val() == "") {
+            $("#sespan").text("请输入搜索关键字...");
+        }
+    };
+
+</script>
+<script type="text/javascript" src="/js/wap/jquery.flexslider-min.js"></script><!--banner轮播图JS-->
+</head>
+
+<body>
+<header>
+	<div class="wrap hidden">
+       <form id="form1"  >
+            <label class="search-btn alignleft w65"><span id="sespan">请输入搜索关键字...</span><input type="text" id="searchText" onfocus="searchtext()" onblur="showtishi()"/></label>
+            <label class="search-icon alignright"><span></span><input type="button" value="搜索" onclick="search()" /></label>
+        </form>
+    </div><!--wrap end-->
+</header>
+<div class="zw-div"></div>
+<div class="wrap">
+<div class="wrapper hidden">
+    <ul class="class-list">
+    	@if (ViewBag.producttype != null)
+     {
+         foreach (var item in ViewBag.producttype)
+         {
+        <li>
+        	<a href="/wapProList/wapProList?ptype=@item.pt_ID">
+            	<div class="classify-img"><img src="@item.pt_ImgUrl" alt="@item.pt_Name" /></div>
+                <dl>
+                	<dt>@item.pt_Name</dt>
+                    <dd>
+                        @{ int i = 0;
+                    foreach (webs_YueyxShop.Model.ProductTypeBase pt in Model.Where(ptid => ptid.pt_ParentId == item.pt_ID))
+                    {
+                    <span>@pt.pt_Name</span>
+                        if (++i ==6)
+                        {
+                            break;
+                        }
+                        
+                    }
+                    } 
+                    </dd>
+                </dl>
+            </a>
+        </li>
+         }
+     }
+    </ul>
+</div><!--wrapper end-->
+</div><!--wrap end-->
+<div class="clearh"></div>
+<div class="zw-div"></div>
+<div class="footer-nav">
+    @Html.Action("bottomMenu", "wapvipCenter")    
+</div><!--footer-nav end-->
+</body>
+</html>

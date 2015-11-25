@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "月月兴食品商行-商家入驻-商家展示";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="/css/kaych.prolist.css"><!--产品相关页面CSS-->
+
+
+<div class="breadcrumb">
+	<a href="/Index/Index"><strong>首页</strong></a> > 商家入驻-商家展示 
+</div><!--breadcrumb end-->
+<div class="clearh"></div>
+<div class="wrap">
+	<div class="side-bar alignleft">
+    	<div class="side-div borders">
+        	<div class="side-tip"><h2>热卖推荐</h2></div>
+            <ul class="side-ul1">
+            	@Html.Action("Partialremaituijian", "Company")
+            	@*<li>
+                	<a href="#"><img name="page_cnt_1" src="/images/products/pro_ad_01.jpg" alt="产品图片" /></a>
+                    <p><b>￥69.90</b><del>￥88.00</del></p>
+                    <p><a href="#">刀郎有机原枣（三星）500g/袋*3袋</a></p>
+                    <p>评论<span>158条</span></p>
+                </li>
+                <li>
+                	<a href="#"><img name="page_cnt_1" src="/images/products/pro_ad_02.jpg" alt="产品图片" /></a>
+                    <p><b>￥300.90</b><del>￥350.90</del></p>
+                    <p><a href="#">芭苛斯特级初榨橄榄油3000ml（铁桶装）</a></p>
+                    <p>评论<span>358条</span></p>
+                </li>
+                <li>
+                	<a href="#"><img name="page_cnt_1" src="/images/products/pro_ad_03.jpg" alt="产品图片" /></a>
+                    <p><b>￥35.90</b><del>￥42.00</del></p>
+                    <p><a href="#">朴博士有机天然优黑米750g</a></p>
+                    <p>评论<span>24条</span></p>
+                </li>*@
+            </ul>
+        </div><!--side-div end-->
+        <div class="clearh"></div>
+
+        @*<div class="side-div borders">
+        	<div class="side-tip"><h2>一周销量排行榜</h2></div>
+            <div class="sales-list">
+            	<ul>
+                	<li>
+                		<div class="math-list">1</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li>
+                    <li>
+                		<div class="math-list">2</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li>
+                    <li>
+                		<div class="math-list">3</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li>
+                    <li>
+                		<div class="math-list">4</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li>
+                    <li>
+                		<div class="math-list">5</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li>
+                    <li>
+                		<div class="math-list">6</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li><li>
+                		<div class="math-list">7</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li><li>
+                		<div class="math-list">8</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li>
+                </ul>
+            </div><!--sales-list end-->
+        </div><!--side-div end-->*@
+
+        <div class="side-ad"><a href="#"><img name="page_cnt_1" src="/images/products/ad_01.jpg" alt="产品广告图片链接" /></a></div>
+        <div class="side-ad"><a href="#"><img name="page_cnt_1" src="/images/products/ad_01.jpg" alt="产品广告图片链接" /></a></div>
+    </div><!--side-bar end-->
+    <div class="side-cont alignright">
+      <div class="pro-cont"> 
+          <ul class="company-list">
+          @{
+              if (ViewData["companyEnter"] != null)
+                {
+                    foreach (var member in (List<webs_YueyxShop.Model.MemberBase>)ViewData["companyEnter"])
+                    {
+                        <li>
+              	          <div class="companys">
+                  	          <div class="company-logo"><img style="width:180px;height:110px;" name="page_cnt_1" src="@member.m_HeadImg" alt="商家LOGO" /></div>
+                              <p><strong>@member.m_GongSiName</strong></p>
+                              <p>@*<span>经营类别：</span>调味品类*@<span>所在地区：</span>@member.m_GongSiAddress</p>
+                              <p><span>商家简介：</span>@member.m_Introduction</p>
+                          </div>
+                          <div class="com-contact">
+                  	          <h3>联系方式</h3>
+                              <ul>
+                      	          <li>联系人：@member.m_RealName</li>
+                                  <li>联系电话：@member.m_Phone</li>
+                                  @*<li>网址：<a href="http://www.kbt.com" target="_blank">www.kbt.com</a></li>*@
+                                  <li>邮箱：@member.m_Email</li>
+                                  <li>QQ:@member.m_QQ</li>
+                              </ul>
+                          </div>
+                      </li>
+                    }
+                }
+           }
+          </ul>
+            <div class="clearh"></div>
+            <div class="page">
+            	@*<a href="#">上一页</a><a href="#" class="cur-hover">1</a><a href="#">2</a></a><a href="#">3</a><a href="#">4</a></a><a href="#">下一页</a>*@
+            </div>
+        </div><!--pro-cont end-->
+    </div><!--side-cont end-->
+</div><!--wrap end-->

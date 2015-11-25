@@ -1,0 +1,120 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@using webs_YueyxShop.Model;
+@model IEnumerable<webs_YueyxShop.Model.MenuBase>
+<html>
+<head runat="server">
+    <title>月月兴食品商行后台管理系统</title>
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            $(".tree UL").each(function () {
+                if ($(this).children().length == 0) {
+                    $(this).remove();
+                }
+            });
+
+            ///选中树形菜单
+            var items = $("#hfItems", $.pdialog.getCurrent()).val() + "#";
+            items = items.replace(",#", "").replace("#", "");
+            var arr = items.split(',');
+            $.each(arr, function (i) {
+                $(".tree a[tvalue=" + arr[i] + "]").attr("checked", true);
+            });
+            //管理权限
+            var ismanage = $("#hf_IsManage", $.pdialog.getCurrent()).val(); //是否是创建人
+            var otype = $("#hfOtype", $.pdialog.getCurrent()).val(); //操作状态
+            //            if (ismanage != "True") {
+            //                $("#save", $.pdialog.getCurrent()).hide();
+            //            }
+        });
+        function MenuAuthority_GetValue() {
+            var result = "";
+            $(".tree div.checked").each(function (i) {
+                result += $(this).find("input").val() + ",";
+            });
+            $(".tree div.indeterminate").each(function (i) {
+                result += $(this).find("input").val() + ",";
+            });
+            $("#hfItems", $.pdialog.getCurrent()).val(result);
+        }
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post"  action="@Url.Action("AddMenuAuthority", "RolesInfo")"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+    <div class="pageContent">
+        @Html.Hidden("hfItems", @ViewData["hfItems"])
+        @Html.Hidden("hfRoleId", @ViewData["hfRoleId"])
+        @Html.Hidden("hf_IsManage", @ViewData["hf_IsManage"])
+        <div class="pageFormContent" layouth="56">
+            <div layouth="60" style="float: left; display: block; overflow: auto; width: 240px;
+                border: solid 1px #CCC; line-height: 21px; background: #fff">
+                <ul class="tree treeFolder treeCheck expand">
+                  @*  @foreach (var item in Model)*@
+                    @foreach (MenuBase item in Model.Where(c => c.m_CengJ == 1))
+                    {
+                        if (item.m_DeleteStateCode == 0)
+                        {
+                        <li id="@item.m_MingCh"><a tname="@item.m_MingCh" tvalue="@item.m_ID">@item.m_MingCh</a>
+                         @*   @foreach (var it in item.ChildKeys.OrderBy(it => it.m_PaiX))*@
+                         @foreach (MenuBase it in Model.Where(c => c.m_ParentId == item.m_ID).OrderBy(i => i.m_PaiX))
+                            {
+                                if (it.m_DeleteStateCode == 0)
+                                { 
+                                <ul>
+                                    <li id="@it.m_MingCh"><a tname="@it.m_MingCh" tvalue="@it.m_ID">@it.m_MingCh</a>
+                                   @*     @foreach (var i in it.ChildKeys.OrderBy(i => i.m_PaiX))*@
+                                      @foreach (MenuBase it2 in Model.Where(c => c.m_ParentId == it.m_ID).OrderBy(i => i.m_PaiX))
+                                        {
+                                            if (it2.m_DeleteStateCode == 0)
+                                            {  
+                                            <ul>
+                                                <li id="@it2.m_MingCh"><a tname="@it2.m_MingCh" tvalue="@it2.m_ID">@it2.m_MingCh</a>
+                                                   @* @foreach (var j in i.ChildKeys.OrderBy(j => j.m_PaiX))*@
+                                                     @foreach (MenuBase j in Model.Where(c => c.m_ParentId == it2.m_ID).OrderBy(i => i.m_PaiX))
+                                                    {
+                                                        if (j.m_DeleteStateCode == 0)
+                                                        {    
+                                                        <ul>
+                                                            <li id="@j.m_MingCh"><a tname="@j.m_MingCh" tvalue="@j.m_ID">@j.m_MingCh</a> </li>
+                                                        </ul> 
+                                                        }
+                                                    }
+                                                </li>
+                                            </ul> 
+                                            }
+                                        }
+                                    </li>
+                                </ul> 
+                                }
+                            }
+                        </li> 
+                        }
+                    }
+                </ul>
+            </div>
+            <div id="jbsxBox" style="margin-left: 245px;">
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                <li id="save">
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit" onclick="MenuAuthority_GetValue();">
+                                保存</button></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,15 @@
+G:\项目\书生网\webs_YueyxShop\trunk\Common\bin\Release\Common.dll
+G:\项目\书生网\webs_YueyxShop\trunk\Common\bin\Release\Common.pdb
+G:\项目\书生网\webs_YueyxShop\trunk\Common\bin\Release\LitJSON.dll
+G:\项目\书生网\webs_YueyxShop\trunk\Common\bin\Release\log4net.dll
+G:\项目\书生网\webs_YueyxShop\trunk\Common\bin\Release\NetDimension.Weibo.dll
+G:\项目\书生网\webs_YueyxShop\trunk\Common\bin\Release\Newtonsoft.Json.Net35.dll
+G:\项目\书生网\webs_YueyxShop\trunk\Common\bin\Release\NPOI.dll
+G:\项目\书生网\webs_YueyxShop\trunk\Common\bin\Release\OpenSmtp.dll
+G:\项目\书生网\webs_YueyxShop\trunk\Common\bin\Release\webs_YueyxShop.Model.dll
+G:\项目\书生网\webs_YueyxShop\trunk\Common\bin\Release\webs_YueyxShop.Model.pdb
+G:\项目\书生网\webs_YueyxShop\trunk\Common\bin\Release\NetDimension.Weibo.pdb
+G:\项目\书生网\webs_YueyxShop\trunk\Common\bin\Release\NetDimension.Weibo.xml
+G:\项目\书生网\webs_YueyxShop\trunk\Common\obj\Release\Common.csprojResolveAssemblyReference.cache
+G:\项目\书生网\webs_YueyxShop\trunk\Common\obj\Release\Common.dll
+G:\项目\书生网\webs_YueyxShop\trunk\Common\obj\Release\Common.pdb

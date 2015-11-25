@@ -1,0 +1,85 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.NewsBase>
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" layouth="138" rel="YouQingLinkBox">
+    <colgroup width="30px" />
+    <colgroup width="150px" />
+    <colgroup width="120px" />
+    <colgroup width="50px" />
+    <colgroup width="30px" />
+    <colgroup width="30px" />
+    <colgroup width="200px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                链接名
+            </th>
+            <th>
+                链接地址
+            </th>
+            <th>
+                排序
+            </th>
+            <th>
+                创建时间
+            </th>
+            <th>
+                状态 
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr target="n_ID" rel="@item.n_ID" @*ondblclick="OpenBrandEdit('@item.b_ID')"*@ ondblclick="OpenBrandLogo('@item.n_PicUrl')">
+                <td>
+                    @item.n_ID
+                </td>
+                <td>
+                    @if (item.n_Title.ToString().Length < 25)
+                    {
+                        <span>@item.n_Title</span>
+                    }
+                    else
+                    {
+                        <span>@item.n_Title.ToString().Substring(0, 25).ToString()</span><span>......</span>
+                    }
+                </td>
+                <td>
+                        @item.n_RedirectUrl
+                </td>
+                <td>@item.n_Sort
+                </td>
+                <td>
+                    @item.n_CreatedOn.ToString("yyyy-MM-dd hh:mm:ss")
+                </td>
+                <td>
+                    @if (item.n_StatusCode == 0)
+                    {
+                        <label style="color:Green;">启用</label>
+                    }
+                    else
+                    { 
+                        <label style="color:Red;">禁用</label>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="YouQingLinkBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

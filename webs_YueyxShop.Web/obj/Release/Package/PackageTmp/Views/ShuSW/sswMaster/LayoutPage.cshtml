@@ -1,0 +1,615 @@
+﻿@using webs_YueyxShop.Model
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <meta name="keywords" content="书生网,大学生,购物,阿迪达斯,耐克,李宁,新百伦,自然堂,百雀羚,保健品,财富金" />
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    </script>
+    <link href="/Content/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- Custom Theme files -->
+    <link href="/Content/css/style.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="/Content/css/jquery.countdown.css" />
+
+    <link href="/css/kaych.framework.css" rel="stylesheet" />
+    <!-- Custom Theme files -->
+    <!--webfont-->
+    <link href='http://fonts.useso.com/css?family=Raleway:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="/Content/js/jquery-1.11.1.min.js"></script>
+    <!-- dropdown -->
+    <script src="/Content/js/jquery.easydropdown.js"></script>
+    <!-- start menu -->
+    <link href="/Content/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="/Content/js/megamenu.js"></script>
+    <script>$(document).ready(function () { $(".megamenu").megamenu(); });</script>
+    <script src="/Content/js/responsiveslides.min.js"></script>
+
+   
+
+    <script>
+        $(function () {
+            $("#slider").responsiveSlides({
+                auto: true,
+                nav: false,
+                speed: 500,
+                namespace: "callbacks",
+                pager: true,
+            });
+        });
+    </script>
+    <script src="/Content/js/jquery.countdown.js"></script>
+    <script src="/Content/js/jquery.countdown.min.js"></script>
+    <script src="/Content/js/script.js"></script>
+
+
+
+
+    <script type="text/javascript">
+        function tuichu() {
+            $.ajax({
+                url: "/_ashx/dataSave_manager_json.ashx?type=removecookie",
+                type: "POST",
+                data: "",
+                async: false,
+                error: function (request) {
+                    alert("regist error");
+                },
+                success: function (data) {
+                    window.location = "/sswHome/Index";
+                    data = strToJson(data);
+                    alert(data);
+                }
+            });
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        //定义加入收藏夹函数
+
+        function join_favorite(siteUrl, siteName) {
+
+            //捕获加入收藏过程中的异常
+
+            try {
+
+                //判断浏览器是否支持document.all
+
+                if (document.all) {
+
+                    //如果支持则用external方式加入收藏夹
+
+                    window.external.addFavorite(siteUrl, siteName);
+
+                } else if (window.sidebar) {
+
+                    //如果支持window.sidebar，则用下列方式加入收藏夹
+
+                    window.sidebar.addPanel(siteName, siteUrl, '');
+
+                }
+
+            }
+
+            //处理异常
+
+            catch (e) {
+
+                alert("加入收藏夹失败，请使用Ctrl+D快捷键进行添加操作!");
+
+            }
+
+        }
+
+    </script>
+
+
+</head>
+<body>
+    <div class="header_top">
+        <div class="container">
+            <div class="header_top-box">
+                <div class="header-top-left">
+                    <div class="box">
+                        <div class="cssmenu">
+                            <ul>
+                                <li class="active" style="float:left; font-size:13px; margin-top:2px;"><a href="javascript:void(0)" onclick="join_favorite(window.location,document.title);">收藏本站</a></li>
+                               
+                                </ul>
+                            </div>
+                        
+                        </div>
+
+                        
+                    </div>
+                <div class="cssmenu">
+                    <ul>
+                        <li class="active" style="float:left;"><a href="login.html">账户中心</a></li>
+                        @{
+                            ViewData[":LoginStatus"] = "";
+                            if (System.Web.HttpContext.Current.Request.Cookies[":userlogin"] == null || System.Web.HttpContext.Current.Request.Cookies[":userlogin"].Value == "")
+                            {
+                                ViewData[":LoginStatus"] = "fou";
+                            }
+                            else
+                            {
+                                ViewData[":LoginStatus"] = "shi";
+                                MemberBase mimodel = CookieEncrypt.DeserializeObject(System.Web.HttpContext.Current.Request.Cookies[":userlogin"].Value) as MemberBase;
+                                ViewData[":LoginName"] = mimodel.m_NickName;
+                                ViewData[":LoginID"] = mimodel.m_ID;
+                                
+                                
+                                dataWork dw=new dataWork();
+                                 System.Data.DataTable dtshoplist= dw.GetTab("select sc_ID from ShoppingCartBase where m_ID="+mimodel.m_ID+" and sc_IsDel=0 and sc_Status=0 and sc_IsGP=0");
+                                 ViewData[":shopcart"] = dtshoplist.Rows.Count;
+                            }
+                        }
+
+                        @{
+                            if (ViewData[":LoginStatus"] == "fou")
+                            {
+                                <li><a href="/sswLogin/Login">登录</a></li>
+                                <li><a href="/sswRegister/Register">注册</a></li>
+                            }
+                            else { 
+                                <li><a href="/sswLogin/Login">@ViewData[":LoginName"]</a></li>
+                                <li><a href="javascript:void(0)" onclick="tuichu()">退出</a></li>
+                            }
+                        }
+                        }
+
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="header_bottom">
+        <div class="container">
+            <div class="header_bottom-box">
+                <div class="header_bottom_left">
+                    <div class="logo">
+                        <a href="/sswHome/Index"><img src="/Content/images/logo2.png" width="167" height="76" alt="" /></a>
+                    </div>
+                    <ul class="clock">
+                        <i class="clock_icon"> </i>
+                        <li class="clock_desc">Justo 24/h</li>
+                    </ul>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="header_bottom_right">
+                    <div class="search">
+                        <input type="text" value="您的电子邮件地址" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '您的电子邮件地址';}">
+                        <input type="submit" value="">
+                    </div>
+                    <ul class="bag">
+                        <a href="#"><i class="bag_left"> </i></a>
+                        @{
+                                if (ViewData[":LoginStatus"] == "fou")
+                                {
+                                    <a href="javascript:void(0)" onclick="alert('您还未登录，不能加入购物车！'); window.location.href = '/sswLogin/Login';"><li class="bag_right"><p>0件商品</p> </li></a>
+                                }
+                                else
+                                {
+                                    <a href="/sswShopCart/ShopCartList?mid=@ViewData[":LoginID"] "><li class="bag_right"><p>@ViewData[":shopcart"]件商品</p> </li></a>
+                                }
+}
+
+                        <div class="clearfix"> </div>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+    <div class="menu">
+        <div class="container">
+            <div class="menu_box">
+                <ul class="megamenu skyblue">
+                    <li class="active grid"><a class="color2" href="/sswHome/Index">首&nbsp;&nbsp;页</a></li>
+                    <!--<li><a class="color4" href="men.html">Special</a></li>-->
+                    <li>
+                        <a class="color3" href="javascript:void(0)">&nbsp;&nbsp;美妆&nbsp;&nbsp;</a>
+                        <div class="megapanel">
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="h_nav">
+                                        <h4>
+                                            自然堂<br />
+                                            /CHANDO
+                                        </h4>
+                                        <ul>
+                                            @{
+                                                dataWork dwzrt = new dataWork();
+                                                System.Data.DataTable ptbase = dwzrt.GetTab("select b_ID,b_Name from brandbase where b_ID in(select b_ID from ProductTypeBrandBase where pt_ID=490) and b_StatusCode=0 and b_IsDel=0 order by b_Sort asc;");
+                                                for (int i = 0; i < ptbase.Rows.Count; i++)
+                                                {
+                                                    <li><a href="/sswCommodity/Commodity?b_id=@ptbase.Rows[i]["b_ID"]">@ptbase.Rows[i]["b_Name"]</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="h_nav">
+                                        <h4>
+                                            百雀羚<br />
+                                            /PECHOIN
+                                        </h4>
+                                        <ul>
+                                            @{
+                                                dataWork dwbql = new dataWork();
+                                                System.Data.DataTable ptbqlbase = dwbql.GetTab("select b_ID,b_Name from brandbase where b_ID in(select b_ID from ProductTypeBrandBase where pt_ID=491) and b_StatusCode=0 and b_IsDel=0 order by b_Sort asc;");
+                                                for (int i = 0; i < ptbqlbase.Rows.Count; i++)
+                                                {
+                                                    <li><a href="/sswCommodity/Commodity?b_id=@ptbqlbase.Rows[i]["b_ID"]">@ptbqlbase.Rows[i]["b_Name"]</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+                                <div class="col2">
+                                    <div class="h_nav">
+                                        <h4>美妆特卖场</h4>
+                                        <ul>
+
+                                            @{
+                                                System.Data.DataTable dtmztm = new webs_YueyxShop.BLL.SKUBase().GetDefaultSKUDetial(" and p_id in( select p_ID from ProductRecommendDetail where prt_ID=11 ) and pi_type=1 and pt_IsDel=0 and pt_StatusCode=0 and b_IsDel=0 and sku_IsDel=0 and sku_StatusCode=0 and pi_StatusCode=0 and pi_IsDel=0 and p_IsDel=0 and p_StatusCode=0");
+                                                if (dtmztm.Rows.Count > 0)
+                                                {
+                                                    for (int i = 0; i < dtmztm.Rows.Count; i++)
+                                                    {
+                                                        <li>
+                                                            <div class="p_left">
+                                                                <img src="@dtmztm.Rows[i]["pi_Url"]" class="img-responsive71" title="@dtmztm.Rows[i]["p_Name"]" alt="@dtmztm.Rows[i]["p_Name"]" />
+                                                            </div>
+                                                            <div class="p_right">
+                                                                <h4><a href="/sswCommodity/CommodityDetails?p_id=@dtmztm.Rows[i]["p_ID"]">@dtmztm.Rows[i]["p_Name"]</a></h4>
+                                                                <span class="item-cat"><small><a href="/sswCommodity/Commodity?b_id=@dtmztm.Rows[i]["b_id"]">@dtmztm.Rows[i]["b_Name"]</a></small></span>
+                                                                <span class="price">优惠价：￥@dtmztm.Rows[i]["sku_Price"] </span>
+                                                            </div>
+                                                            <div class="clearfix"> </div>
+                                                        </li>
+                                                    }
+                                                }
+                                            }
+
+
+
+                                            @*@{
+                                                    dataWork dwmztm = new dataWork();
+                                                    System.Data.DataTable dtmztm = dwmztm.GetTab("select * from ProductBase where p_id in(select p_ID from ProductRecommendDetail where prt_ID=11 and prd_IsDelete=0 and prd_Status=0) and p_statuscode=0 and p_Isdel=0 and p_SellStatus=1;");
+                                                    for (int i = 0; i < dtmztm.Rows.Count; i++)
+                                                    {
+                                                         <li>
+                                                            <div class="p_left">
+                                                                <img src="/Content/images/t1.jpg" class="img-responsive71" alt="" />
+                                                            </div>
+                                                            <div class="p_right">
+                                                                <h4><a href="#@dtmztm.Rows[i]["p_id"]">@dtmztm.Rows[i]["p_Name"]</a></h4>
+                                                                <span class="item-cat">
+                                                                    <small>
+                                                                        @{
+                                                                                BrandBase mztmxlmodel = new webs_YueyxShop.BLL.BrandBase().GetModel(int.Parse(dtmztm.Rows[i]["b_id"].ToString()));
+                                                                                <a href="#@mztmxlmodel.b_ID">@mztmxlmodel.b_Name</a>
+                                                                        }
+                                                                    </small></span>
+
+                                                                    @{
+                                                                        string skmid = new webs_YueyxShop.BLL.SKUBase().GetList(" sku_StatusCode=0 and sku_IsDel=0 and p_ID="+dtmztm.Rows[i]["p_id"].ToString()).Tables[0].Rows[0]["sku_id"].ToString();
+                                                                        System.Data.DataTable mztmpricemodel = new webs_YueyxShop.BLL.SKUBase().GetDefaultSKUDetial(" and p_id in( select p_ID from ProductRecommendDetail where prt_ID=11 ) and pi_type=0 and pt_IsDel=0 and pt_StatusCode=0 and b_IsDel=0 and sku_IsDel=0 and sku_StatusCode=0 and pi_StatusCode=0 and pi_IsDel=0 and p_IsDel=0 and p_StatusCode=0");
+                                                                        <span class="price">优惠价： </span>
+                                                                        for (int p = 0; p < mztmpricemodel.Rows.Count; p++)
+                                                                        {
+
+                                                                        }
+                                                                    }
+                                                            </div>
+                                                            <div class="clearfix"> </div>
+                                                        </li>
+                                                    }
+                                                }*@
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="color9" href="javascript:void(0)">&nbsp;&nbsp;男鞋&nbsp;&nbsp;</a>
+                        <div class="megapanel">
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="h_nav">
+                                        <h4>
+                                            阿迪达斯<br />
+                                            /Adidas
+                                        </h4>
+                                        <ul>
+                                            @{
+                                                dataWork dwadds = new dataWork();
+                                                System.Data.DataTable ptaddsbase = dwadds.GetTab("select b_ID,b_Name from brandbase where b_ID in(select b_ID from ProductTypeBrandBase where pt_ID=492) and b_StatusCode=0 and b_IsDel=0 order by b_Sort asc;");
+                                                for (int i = 0; i < ptaddsbase.Rows.Count; i++)
+                                                {
+                                                    <li><a href="/sswCommodity/Commodity?b_id=@ptaddsbase.Rows[i]["b_ID"]">@ptaddsbase.Rows[i]["b_Name"]</a></li>
+                                                }
+                                            }
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="h_nav">
+                                        <h4>
+                                            耐克<br />
+                                            /NIKE
+                                        </h4>
+                                        <ul>
+                                            @{
+                                                dataWork dwnk = new dataWork();
+                                                System.Data.DataTable ptnkbase = dwnk.GetTab("select b_ID,b_Name from brandbase where b_ID in(select b_ID from ProductTypeBrandBase where pt_ID=493) and b_StatusCode=0 and b_IsDel=0 order by b_Sort asc;");
+                                                for (int i = 0; i < ptnkbase.Rows.Count; i++)
+                                                {
+                                                    <li><a href="/sswCommodity/Commodity?b_id=@ptnkbase.Rows[i]["b_ID"]">@ptnkbase.Rows[i]["b_Name"]</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="col1">
+                                    <div class="h_nav">
+                                        <h4>
+                                            新百伦<br />
+                                            /NEW BALANCE
+                                        </h4>
+                                        <ul>
+                                            @{
+                                                dataWork dwxbl = new dataWork();
+                                                System.Data.DataTable ptxblbase = dwxbl.GetTab("select b_ID,b_Name from brandbase where b_ID in(select b_ID from ProductTypeBrandBase where pt_ID=494) and b_StatusCode=0 and b_IsDel=0 order by b_Sort asc;");
+                                                for (int i = 0; i < ptxblbase.Rows.Count; i++)
+                                                {
+                                                    <li><a href="/sswCommodity/Commodity?b_id=@ptxblbase.Rows[i]["b_id"]">@ptxblbase.Rows[i]["b_Name"]</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="h_nav">
+                                        <h4>男鞋特卖场</h4>
+                                        <ul>
+                                            @{
+                                                System.Data.DataTable dtnxtm = new webs_YueyxShop.BLL.SKUBase().GetDefaultSKUDetial(" and p_id in( select p_ID from ProductRecommendDetail where prt_ID=12 ) and pi_type=1 and pt_IsDel=0 and pt_StatusCode=0 and b_IsDel=0 and sku_IsDel=0 and sku_StatusCode=0 and pi_StatusCode=0 and pi_IsDel=0 and p_IsDel=0 and p_StatusCode=0");
+                                                if (dtnxtm.Rows.Count > 0)
+                                                {
+                                                    for (int i = 0; i < dtnxtm.Rows.Count; i++)
+                                                    {
+                                                        <li>
+                                                            <div class="p_left">
+                                                                <img src="@dtnxtm.Rows[i]["pi_Url"]" class="img-responsive71" alt="" />
+                                                            </div>
+                                                            <div class="p_right">
+                                                                <h4><a href="/sswCommodity/CommodityDetails?p_id=@dtnxtm.Rows[i]["p_ID"]">@dtnxtm.Rows[i]["p_Name"]</a></h4>
+                                                                <span class="item-cat"><small><a href="/sswCommodity/Commodity?b_id=@dtnxtm.Rows[i]["b_ID"]">@dtnxtm.Rows[i]["b_Name"]</a></small></span>
+                                                                <span class="price">优惠价：￥@dtnxtm.Rows[i]["sku_Price"] </span>
+                                                            </div>
+                                                            <div class="clearfix"> </div>
+                                                        </li>
+                                                    }
+                                                }
+
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="color10" href="javascript:void(0)">&nbsp;&nbsp;女鞋&nbsp;&nbsp;</a>
+                        <div class="megapanel">
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="h_nav">
+                                        <h4>
+                                            阿迪达斯<br />
+                                            /ADIDAS
+                                        </h4>
+                                        <ul>
+                                            @{
+                                                dataWork dwnadds = new dataWork();
+                                                System.Data.DataTable ptnaddsbase = dwnadds.GetTab("select b_ID,b_Name from brandbase where b_ID in(select b_ID from ProductTypeBrandBase where pt_ID=495) and b_StatusCode=0 and b_IsDel=0 order by b_Sort asc;");
+                                                for (int i = 0; i < ptnaddsbase.Rows.Count; i++)
+                                                {
+                                                    <li><a href="/sswCommodity/Commodity?b_id=@ptnaddsbase.Rows[i]["b_id"]">@ptnaddsbase.Rows[i]["b_Name"]</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="h_nav">
+                                        <h4>
+                                            耐克<br />
+                                            /NIKE
+                                        </h4>
+                                        <ul>
+                                            @{
+                                                dataWork dwnnk = new dataWork();
+                                                System.Data.DataTable ptnnkbase = dwnnk.GetTab("select b_ID,b_Name from brandbase where b_ID in(select b_ID from ProductTypeBrandBase where pt_ID=496) and b_StatusCode=0 and b_IsDel=0 order by b_Sort asc;");
+                                                for (int i = 0; i < ptnnkbase.Rows.Count; i++)
+                                                {
+                                                    <li><a href="/sswCommodity/Commodity?b_id=@ptnnkbase.Rows[i]["b_id"]">@ptnnkbase.Rows[i]["b_Name"]</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="col1">
+                                    <div class="h_nav">
+                                        <h4>新百伦</h4>
+                                        /NEW BALANCE
+                                        <ul>
+                                            @{
+                                                dataWork dwnxbl = new dataWork();
+                                                System.Data.DataTable ptnxblbase = dwnxbl.GetTab("select b_ID,b_Name from brandbase where b_ID in(select b_ID from ProductTypeBrandBase where pt_ID=497) and b_StatusCode=0 and b_IsDel=0 order by b_Sort asc;");
+                                                for (int i = 0; i < ptnxblbase.Rows.Count; i++)
+                                                {
+                                                    <li><a href="/sswCommodity/Commodity?b_id=@ptnxblbase.Rows[i]["b_id"]">@ptnxblbase.Rows[i]["b_Name"]</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="h_nav">
+                                        <h4>女鞋特卖场</h4>
+                                        <ul>
+                                            @{
+                                                System.Data.DataTable dtnnxtm = new webs_YueyxShop.BLL.SKUBase().GetDefaultSKUDetial(" and p_id in( select p_ID from ProductRecommendDetail where prt_ID=13 ) and pi_type=1 and pt_IsDel=0 and pt_StatusCode=0 and b_IsDel=0 and sku_IsDel=0 and sku_StatusCode=0 and pi_StatusCode=0 and pi_IsDel=0 and p_IsDel=0 and p_StatusCode=0");
+                                                if (dtnnxtm.Rows.Count > 0)
+                                                {
+                                                    for (int i = 0; i < dtnnxtm.Rows.Count; i++)
+                                                    {
+                                                        <li>
+                                                            <div class="p_left">
+                                                                <img src="@dtnnxtm.Rows[i]["pi_Url"]" class="img-responsive71" alt="" />
+                                                            </div>
+                                                            <div class="p_right">
+                                                                <h4><a href="/sswCommodity/CommodityDetails?p_id=@dtnnxtm.Rows[i]["p_ID"]">@dtnnxtm.Rows[i]["p_Name"]</a></h4>
+                                                                <span class="item-cat"><small><a href="/sswCommodity/Commodity?b_id=@dtnnxtm.Rows[i]["b_ID"]">@dtnnxtm.Rows[i]["b_Name"]</a></small></span>
+                                                                <span class="price">优惠价：￥@dtnnxtm.Rows[i]["sku_Price"] </span>
+                                                            </div>
+                                                            <div class="clearfix"> </div>
+                                                        </li>
+                                                    }
+                                                }
+
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!--<li><a class="color3" href="404.html">Accessories</a></li>-->
+                    <li>
+                        <a class="color7" href="javascript:void(0)">&nbsp;&nbsp;保健品&nbsp;&nbsp;</a>
+                        <div class="megapanel">
+                            <div class="row">
+                                <div class="col1">
+                                    <div class="h_nav">
+                                        <h4>安利<br />/Amway</h4>
+                                        <ul>
+                                            @{
+                                                dataWork dwal = new dataWork();
+                                                System.Data.DataTable ptalbase = dwal.GetTab("select b_ID,b_Name from brandbase where b_ID in(select b_ID from ProductTypeBrandBase where pt_ID=498) and b_StatusCode=0 and b_IsDel=0 order by b_Sort asc;");
+                                                for (int i = 0; i < ptalbase.Rows.Count; i++)
+                                                {
+                                                    <li><a href="/sswCommodity/Commodity?b_id=@ptalbase.Rows[i]["b_id"]">@ptalbase.Rows[i]["b_Name"]</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <div class="h_nav">
+                                        <h4>普丽普莱/Puritan’s Pride</h4>
+                                        <ul>
+                                            @{
+                                                dataWork dwplpl = new dataWork();
+                                                System.Data.DataTable ptplplbase = dwplpl.GetTab("select b_ID,b_Name from brandbase where b_ID in(select b_ID from ProductTypeBrandBase where pt_ID=499) and b_StatusCode=0 and b_IsDel=0 order by b_Sort asc;");
+                                                for (int i = 0; i < ptplplbase.Rows.Count; i++)
+                                                {
+                                                    <li><a href="/sswCommodity/Commodity?b_id=@ptplplbase.Rows[i]["b_id"]">@ptplplbase.Rows[i]["b_Name"]</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col3">
+                                    <div class="h_nav">
+                                        <h4>保健品特卖场</h4>
+                                        <ul>
+                                            @{
+                                                System.Data.DataTable dtbjptm = new webs_YueyxShop.BLL.SKUBase().GetDefaultSKUDetial(" and p_id in( select p_ID from ProductRecommendDetail where prt_ID=14 ) and pi_type=1 and pt_IsDel=0 and pt_StatusCode=0 and b_IsDel=0 and sku_IsDel=0 and sku_StatusCode=0 and pi_StatusCode=0 and pi_IsDel=0 and p_IsDel=0 and p_StatusCode=0");
+                                                if (dtbjptm.Rows.Count > 0)
+                                                {
+                                                    for (int i = 0; i < dtbjptm.Rows.Count; i++)
+                                                    {
+                                                        <li>
+                                                            <div class="p_left">
+                                                                <img src="@dtbjptm.Rows[i]["pi_Url"]" class="img-responsive71" alt="" />
+                                                            </div>
+                                                            <div class="p_right">
+                                                                <h4><a href="/sswCommodity/CommodityDetails?p_id=@dtbjptm.Rows[i]["p_ID"]">@dtbjptm.Rows[i]["p_Name"]</a></h4>
+                                                                <span class="item-cat"><small><a href="/sswCommodity/Commodity?b_id=@dtbjptm.Rows[i]["b_ID"]">@dtbjptm.Rows[i]["b_Name"]</a></small></span>
+                                                                <span class="price">优惠价：￥@dtbjptm.Rows[i]["sku_Price"] </span>
+                                                            </div>
+                                                            <div class="clearfix"> </div>
+                                                        </li>
+                                                    }
+                                                }
+
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a class="color8" target="_blank" href="/sswNews/NewsList">&nbsp;&nbsp;财富金&nbsp;&nbsp;</a></li>
+                    <div class="clearfix"> </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+    @RenderBody()
+
+
+    <div class="footer">
+
+        
+        <div class="container">
+            
+            
+            
+            <img src="/Content/images/pay.png" class="" alt="" />
+            <ul class="footer_nav">
+                
+                <li><a href="/sswHome/Index">首页</a></li>
+                <li><a href="/sswCommodity/Commodity?pt_id=490">美妆</a></li>
+                <li><a href="/sswCommodity/Commodity?pt_id=490">男鞋</a></li>
+                <li><a href="/sswCommodity/Commodity?pt_id=490">女鞋</a></li>
+                <li><a href="/sswCommodity/Commodity?pt_id=490">保健品</a></li>
+                <li><a href="/sswNews/NewsList">财富金</a></li>
+                <li><a href="#">关于我们</a></li>
+            </ul>
+            <p class="copy">违法和不良信息举报电话：4006561155  Copyright   &copy; 2015.Company name All rights reserved. <a href="shusheng360.com">shusheng360.com</a> 版权所有</p>
+        </div>
+    </div>
+
+    <ul id="jump">
+        
+        @{
+            if (ViewData[":LoginStatus"] == "fou")
+            {
+                <li><a id="chart-f" href="javascript:void(0)" onclick="alert('您还未登录，不能加入购物车！'); window.location.href = '/sswLogin/Login';"><div id="math">0</div></a></li>
+            }
+            else
+            {
+                <li><a id="chart-f" href="/sswShopCart/ShopCartList?mid=@ViewData[":LoginID"]" ><div id="math">@ViewData[":shopcart"]</div></a></li>
+            }
+        }
+    </ul>
+
+</body>
+        </html>

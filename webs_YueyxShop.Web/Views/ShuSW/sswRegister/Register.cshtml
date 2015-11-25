@@ -1,0 +1,132 @@
+﻿@{
+    Layout = "~/Views/ShuSW/sswMaster/LayoutPage.cshtml";
+}
+<script src="~/Content/js/jquery.js"></script>
+<script language="javascript" type="text/javascript">
+    $(function () {
+        $("#formsubmit").click(function () {
+            var nickname = $("#nickname").val();
+            var phone = $("#phone").val();
+            var address = $("#address").val();
+            var email = $("#email").val();
+            var password = $("#password").val();
+            var repassword = $("#repassword").val();
+
+
+            if (nickname == "" || nickname == null || nickname.length > 8 || nickname.length < 2) {
+                alert("您输入的昵称不合法，请输入2-8位字母或数字！");
+                $("#nickname").focus();
+                return false;
+            }
+
+            var pattern = /^1[3|4|5|7|8][0-9]\d{4,8}$/;
+            if (!(pattern.test(phone)) || phone == "") {
+                alert(" 不是正确的手机号码！");
+                $("#phone").focus();
+                return false;
+            }
+            paemail = /^([a-zA-Z0-9_\.\-])+\@@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if (!(paemail.test(email)) || email == "") {
+                alert("邮箱格式不正确，请查验后再次提交！");
+                $("#email").focus();
+                return false;
+            }
+
+            if (password == "" || password == null || password.length > 16 || password.length < 6) {
+                alert("请正确输入密码，6-16位字母数字！");
+                $("#password").focus();
+                return false;
+            }
+            if (repassword == "" || repassword == null || repassword.length > 16 || repassword.length < 6) {
+                alert("请正确输入密码，6-16位字母数字！");
+                $("#repassword").focus();
+                return false;
+            }
+            if (password != repassword) {
+                alert("两次输入密码不同，请查验后再次输入！");
+                $("#repassword").focus();
+                return false;
+            }
+
+
+
+            function strToJson(str) {
+                var json = eval('(' + str + ')');
+                return json;
+            }
+
+            $.ajax({
+                url: "/_ashx/dataSave_manager_json.ashx?type=pcregister",
+                type: "post",
+                data: { nickname: nickname, phone: phone, address: address, email: email, password: password },
+                success: function (data) {
+                    var re = strToJson(data);
+                    if (re.result == "保存成功！") {
+                        alert("注册成功！");
+                        window.location.href = "/sswLogin/Login";
+                    } else if (re.result == "被注册！") {
+                        alert("邮箱已被注册！请检查数据！");
+                        $("#email").focus();
+                        return false;
+                    } else {
+                        alert("数据提交失败，请联系管理员！");
+                        return false;
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+<div class="men">
+    <div class="container">
+        <div class="col-md-12 register">
+            
+                <div class="register-top-grid">
+                    <h3>注册-个人信息</h3>
+                    <div>
+                        <span>昵称<label>*</label></span>
+                        <input type="text" id="nickname">
+                    </div>
+                    <div>
+                        <span>联系电话<label>*</label></span>
+                        <input type="text" id="phone">
+                    </div>
+                    <div>
+                        <span>联系地址<label></label></span>
+                        <input type="text" id="address">
+                    </div>
+                    <div class="clearfix"> </div>
+                    <a class="news-letter" href="#">
+                       
+                    </a>
+                </div>
+                <div class="register-bottom-grid">
+                    <h3>登录信息</h3>
+                    <div>
+                        <span>E-mail（用户名）<label>*</label></span>
+                        <input type="text" id="email">
+                    </div>
+                    <div>
+                        <span>密码<label>*</label></span>
+                        <input type="password" id="password">
+                    </div>
+                    <div>
+                        <span>确认密码<label>*</label></span>
+                        <input type="password" id="repassword">
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            
+            <div class="clearfix"> </div>
+            <div class="register-but">
+                    <input type="submit" value="提交" id="formsubmit">
+                    <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+</div>

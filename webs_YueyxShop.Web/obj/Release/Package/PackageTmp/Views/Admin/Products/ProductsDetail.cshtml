@@ -1,0 +1,232 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            divSearch($("#pagerForm1", navTab.getCurrentPanel()), "pseoBox");
+        });
+        function showSEOinfo() {
+            divSearch($("#pagerForm1", navTab.getCurrentPanel()), "pseoBox");
+        }
+        function showinfo() {
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), "piBox");
+            $("#hf_add").val($("#Pinfo_id", navTab.getCurrentPanel()).val());
+        }
+        function showSKU() {
+            divSearch($("#pagerFormSKU", navTab.getCurrentPanel()), "pskuBox");
+        }
+    </script>
+</head>
+<body>
+<div class="pageContent">  
+    <div class="tabs" currentindex="0" eventtype="click">
+	    <div class="tabsHeader">
+		    <div class="tabsHeaderContent">
+			    <ul>
+				    <li><a href="javascript:;" onclick="showSEOinfo()"><span>商品SEO信息</span></a></li>
+				    <li><a href="javascript:;" onclick="showinfo()"><span>商品介绍</span></a></li>
+				    <li><a href="javascript:;" onclick="showSKU()" ><span>商品单品信息</span></a></li>
+			    </ul>
+		    </div>
+	    </div>
+	    <div class="tabsContent" style="height:800px;">
+		    <div loaded="true" >
+                <form id="pagerForm1" method="post"  action="@Url.Action("ProductSEOList", "Products")" onsubmit="return divSearch(this,'pseoBox');">
+                <input type="hidden" id="hf_adds" name="hf_adds" value="@ViewData["hfPId"]" />
+                <input type="hidden" id="PinfoPids" name="hfPids" value="@ViewData["hfPId"]" />
+                    <div class="pageHeader">
+                        <div class="searchBar">
+                            <table class="searchContent" style="width: 100%;">
+                                <colgroup>
+                                    <col style="width: 40px;" />
+                                    <col />
+                                </colgroup>
+                                <tr>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <label >
+                                        </label>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="subBar">
+                                <ul>
+                                    <li>
+                                    </li>
+                                    <li>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--列表-->
+                    <div class="pageContent">
+                        <div class="panelBar">
+                            <ul class="toolBar">
+                                <li  class="line">line</li>
+                                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                                { 
+                                    <li><a class="add" href="@Url.Action("ProductSEOEdit?otype=add&dli_id={hf_adds}", "Products")" rel="w_ProductSEOEdit" target="navTab"  ><span>添加</span></a></li>
+                                    <li><a class="edit" href="@Url.Action("ProductSEOEdit?otype=modify&dli_id={seo_id}", "Products")" rel="w_ProductSEOEdit" target="navTab"  ><span>编辑</span></a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div id="pseoBox">
+
+                        </div>
+                    </div>
+                </form>           
+            </div>
+		    <div  loaded="true">
+                <form id="pagerForm" method="post"  action="@Url.Action("ProductinfoList", "Products")" onsubmit="return divSearch(this,'piBox');">
+                <input type="hidden" id="hf_add" name="hf_add" value="@ViewData["hfPId"]" />
+                <input type="hidden" id="PinfoPid" name="hfPid" value="@ViewData["hfPId"]" />
+                    <div class="pageHeader">
+                        <div class="searchBar">
+                            <table class="searchContent" style="width: 100%;">
+                                <colgroup>
+                                    <col style="width: 40px;" />
+                                    <col />
+                                </colgroup>
+                                <tr>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <label >
+                                        </label>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="subBar">
+                                <ul>
+                                    <li>
+                                       
+                                    </li>
+                                    <li>
+                                        
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--列表-->
+                    <div class="pageContent">
+                        <div class="panelBar">
+                            <ul class="toolBar">
+                                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                                {
+                                    <li><a class="add" href="@Url.Action("ProductinfoEdit?otype=add&dli_id={hf_add}", "Products")"  target="dialog" width="970" height="640"
+
+    rel="w_ProductinfoEdit">
+                                        <span>添加</span></a></li>
+                                    <li class="line">line</li>
+                                    <li><a class="edit" href="@Url.Action("ProductinfoEdit?otype=modify&dli_id={Pinfo_id}", "Products")" rel="w_ProductinfoEdit"  width="970" height="640"
+                                        target="dialog"  ><span>编辑</span></a></li>
+                                    <li class="line">line</li>
+                                    <li><a class="delete" href="@Url.Action("ProductinfoDelete?dli_id={Pinfo_id}", "Products")" rel="w_ProductinfoDelete"
+                                    target="ajaxTodo" title='确定删除' warn="请选择信息！！
+
+    ！"><span>删除</span></a></li>
+                                    <li class="line">line</li>
+                                    <li><a class="unlock"  href="@Url.Action("ProductinfoEnable?otype=enable&dli_id={Pinfo_id}", "Products")"
+                                    target="ajaxTodo" warn="请选择信息！！！"><span>启用
+
+    </span></a></li>
+                                    <li><a class="lock"  href="@Url.Action("ProductinfoEnable?otype=disable&dli_id={Pinfo_id}", "Products")"
+                                    target="ajaxTodo" warn="请选择信息！！！"><span>禁用
+
+    </span></a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div id="piBox">
+
+                        </div>
+                    </div>
+                </form>                    
+            </div>
+		    <div loaded="true">
+                <form id="pagerFormSKU" method="post"  action="@Url.Action("ProductSKUList", "Products")" onsubmit="return divSearch(this,'pskuBox');">
+                <input type="hidden" id="sku_add" name="hf_add" value="@ViewData["hfPId"]" />
+                <input type="hidden" id="PskuPid" name="hfPid" value="@ViewData["hfPId"]" />
+                    <div class="pageHeader">
+                        <div class="searchBar">
+                            <table class="searchContent">
+                                <tr>
+                                    <td id="td_name">
+                                        编码：
+                                    </td>
+                                    <td>
+                                        <input type="text" name="txtSkucode" />
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="subBar">
+                                <ul>
+                                    <li>
+                                        <div class="buttonActive">
+                                            <div class="buttonContent">
+                                                <button type="submit" id="btn_Select">
+                                                    检索</button></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="buttonActive">
+                                            <div class="buttonContent">
+                                                <button type="reset">
+                                                    重置</button></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--列表-->
+                    <div class="pageContent">
+                        <div class="panelBar">
+                            <ul class="toolBar">
+                                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                                {
+                                    <li><a class="add" href="@Url.Action("ProductSKUEdit?otype=add&dli_id={hf_add}", "Products")"  target="dialog" 
+    rel="w_ProductSKUEdit">
+                                        <span>添加</span></a></li>
+                                    <li class="line">line</li>
+                                    <li><a class="edit" href="@Url.Action("ProductSKUEdit?otype=modify&dli_id={Psku_id}", "Products")" rel="w_ProductSKUEdit"
+                                        target="dialog"  ><span>编辑</span></a></li>
+                                    <li class="line">line</li>
+                                    <li><a class="delete" href="@Url.Action("ProductSKUDelete?dli_id={Psku_id}", "Products")" rel="w_ProductSKUDelete"
+                                    target="ajaxTodo" title='确定删除' warn="请选择信息！！
+
+    ！"><span>删除</span></a></li>
+                                    <li class="line">line</li>
+                                    <li><a class="unlock"  href="@Url.Action("ProductSKUEnable?otype=enable&dli_id={Psku_id}", "Products")"
+                                    target="ajaxTodo" warn="请选择信息！！！"><span>启用
+
+    </span></a></li>
+                                    <li><a class="lock"  href="@Url.Action("ProductSKUEnable?otype=disable&dli_id={Psku_id}", "Products")"
+                                    target="ajaxTodo" warn="请选择信息！！！"><span>禁用
+
+    </span></a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div id="pskuBox">
+
+                        </div>
+                    </div>
+                </form>    
+            </div>
+	    </div>
+    </div>
+	
+
+</div>
+
+</body>
+</html>

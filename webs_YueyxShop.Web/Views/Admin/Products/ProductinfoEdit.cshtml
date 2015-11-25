@@ -1,0 +1,56 @@
+﻿@model webs_YueyxShop.Model.ProductInfoBase
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("ProductinfoEdit", "Products")"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+    @Html.HiddenFor(model => model.pin_ID)
+    @Html.HiddenFor(model => model.pin_CreatedOn)
+    @Html.Hidden("texOtype", @ViewData["texOtype"])
+    @Html.Hidden("hfPId", @ViewData["hfPId"])
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="50">
+            <dl>
+                <dt>信息分类:</dt>
+                <dd>@Html.DropDownList("infoType")</dd>
+            </dl>
+            <dl>
+                <dt>标题:</dt>
+                <dd>@Html.TextBoxFor(model => model.pin_Title, new { @class = "required" })</dd>
+            </dl>
+            <dl>
+                <dt>内容:</dt>
+                <dd style="color:red;width:300px;">（上传图片不大于2M,建议宽度:930px,高度不限）</dd>
+                <dd> @Html.TextAreaFor(model => model.pin_Content, new { style = "height:500px;width:755px", @class = "kindeditor required" })
+               </dd>
+                
+            </dl>
+        </div>
+        <div class="formBar">
+            <ul>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" id="save">
+                                    保存</button></div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

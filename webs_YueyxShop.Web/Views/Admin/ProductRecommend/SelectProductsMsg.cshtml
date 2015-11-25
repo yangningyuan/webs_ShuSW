@@ -1,0 +1,133 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            divSearch($.pdialog.getCurrent().find("#pagerForm"), "precBox");
+        });
+        //商品分类联动下拉菜单
+        $("#ptuibtype>select").change(function () {
+            var valueid = $("#ptuibtype>select").val();
+            $.get("/ProductAttributes/GetBattr?code=" + valueid, function (data) {
+                var string = eval('(' + data + ')');
+                var zu = new Array;
+                zu = string.toString().split(",");
+                var html = "<select  class=\"valid\" name=\"selectTypeTui2\" id=\"selectTypeTui2\" >"
+                for (var i = 0; i < zu.length; i++) {
+                    if (zu[i] == valueid) {
+                        html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                    }
+                    else {
+                        html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                    }
+                    i += 1;
+                }
+                html += "</select>";
+
+                $("#pmtuitype").empty().html(html);
+            });
+        });
+    </script>
+    
+    <script language="javascript" type="text/javascript">
+        function saveData() {
+            $.ajax({
+                type: "POST",
+                url: "../../_ashx/dataSave_manager_json.ashx?type=ProductRecommendDetail",
+                dataType: "json",
+                data: { pids: $("#pid_list").val(), prtID: $("#prt_ID").val() },
+                async: false,
+                success: function (data) {
+                    var d1 = { "statusCode": "200",
+                        "navTabId": "",
+                        "rel": "ProductRecommendBox",
+                        "callbackType": ""
+                    };
+                    alert(data.result);
+                    if (data.result == "保存成功！") {
+                        navTabAjaxDone(d1);
+                        CloseCurrentDialog();
+                    }
+                }
+            });
+        }
+
+        function CloseCurrentDialog() {
+            $.pdialog.closeCurrent();
+        }
+    </script>
+
+</head>
+<body>
+    <form id="pagerForm" method="post"  action="@Url.Action("SelectProductsList", "ProductRecommend")" onsubmit="return divSearch(this,'precBox');">
+    <input type="hidden" id="prt_ID" name="prt_ID" value="@ViewData["prt_ID"]" />
+    <input type="hidden" id="pid_list" name="pid_list" value=""/>
+        <div class="pageHeader">
+            <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td id="td_type">
+                        编码：
+                    </td>
+                    <td>
+                        <input type="text" name="txtPrCode" />
+                    </td>
+                    <td id="td_name">
+                        名称：
+                    </td>
+                    <td>
+                        <input type="text" name="txtPrName" />
+                    </td>
+                    <td>
+                        商品分类：
+                    </td>
+                    <td id="ptuibtype">
+                        @Html.DropDownList("selectTypeTui")
+                    </td>
+                    <td id="pmtuitype">
+                    </td>
+                </tr>
+            </table>
+                <div class="subBar">
+                    <ul>
+                        <li>
+                            <div class="buttonActive">
+                                <div class="buttonContent">
+                                    <button type="submit" id="btn_Select">
+                                        检索</button></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="buttonActive">
+                                <div class="buttonContent">
+                                    <button type="reset">
+                                        重置</button></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--列表-->
+        <div class="pageContent" layouth="90">
+            <div class="panelBar">
+                <ul class="toolBar">
+                    @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                    {
+                        <li><a class="add" onclick="saveData()" >
+                            <span>确定</span></a></li>
+                        <li class="line">line</li>
+                        <li><a class="delete" onclick="CloseCurrentDialog()">
+                            <span>取消</span></a></li>
+                    }
+                </ul>
+            </div>
+        <div id="precBox">
+        </div>
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,505 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>月月兴食品商行-邮箱验证成功</title>
+<link type="text/css" href="/css/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+<link type="text/css" href="/css/kaych.commons.css" rel="stylesheet"/><!--页面公用css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+<link type="text/css" href="/css/kaych.framework.css" rel="stylesheet"/><!--页面大框架css文件-->
+<link rel="stylesheet" type="text/css" href="/css/kaych.loginregister.css"><!--会员登录注册CSS文件-->
+<!--[if IE 6]>
+<script type="text/javascript" src="/js/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script src="/js/html5.js"></script>
+<![endif]-->
+<script src="/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/js/jquery.flexslider-min.js"></script><!--banner轮播图JS-->
+<script type="text/javascript" src="/js/jquery.SuperSlide.2.1.1.js"></script><!--页面小广告bannerJS库-->
+<script src="/js/script.js" type="text/javascript"></script><!--全部商品导航JS-->
+<script type='text/javascript' src='/js/tuan.js'></script><!--团购页面内活动特效-->
+<script type='text/javascript' src="/js/jquery.lazyload.min.js"></script><!--图片延迟加载JS-->
+<script type="text/javascript" src="/js/custominput.js"></script><!--表单美化JS-->
+<script type="text/javascript" src="/js/ddsmoothmenu.js"></script><!--下拉导航JS-->
+<script type="text/javascript" src="/js/payfor.js"></script><!--商品数量增加减少 算总价JS-->
+</head>
+
+<body>
+<div class="login-header">
+	<div class="header-cont">
+    @if (Convert.ToBoolean(ViewData["IsLogin"]))
+    {
+		<h1 class="alignleft"><a href="#"><img name="page_cnt_1" _src="/images/headFooter/logo.png" alt="月月兴食品商行" /></a></h1>
+        <span>您好，欢迎光临月月兴食品商行<a href="/Index/Index"><b>去购物</b></a><a href="/HelpCenter/Index">帮助中心</a></span>
+    }
+    else
+    {
+		<h1 class="alignleft"><a href="#"><img name="page_cnt_1" _src="/images/headFooter/logo.png" alt="月月兴食品商行" /></a></h1>
+        <span>您好，欢迎光临月月兴食品商行<a href="/Logon/Logon"><b>请登录</b></a><a href="/HelpCenter/Index">帮助中心</a></span>
+    }
+	</div><!--header-cont end-->
+</div>    
+<div class="clear line2"></div>
+<div class="wrap">
+	<dl class="register-success">
+    	<dt><img name="page_cnt_1" _src="/images/loginregister/success-registerImg.png" alt="注册成功" /></dt>
+        <dd>@ViewData["ueername"] </dd>
+    </dl>
+    <div class="vip-info">
+       <br />
+       <br />
+       <br />
+       <br />
+       <br />
+        <br />
+       <br />
+       <br />
+       <br />
+       <br />
+       <br />
+        <br />
+       <br />
+    </div>
+    <div class="clearh"></div>
+    <div class="wraps borders bgcolor1">
+    	<div class="mail-verify">
+        	<div class="mail-cont">
+            	
+            </div><!--mail-cont end-->
+            <br />
+            <div class="none-mail">
+                	<p>请先检查是否在垃圾邮件中</p>
+                    <p>稍等几分钟，若还未收到<a href="#" class="sendmail">重新发送邮件</a></p>
+                    <p>重新发送还未收到？请试试 <a href="#">更换邮箱></a></p>
+                </div><!--none-mail end-->
+        </div><!--mail-verify end-->
+    </div><!--wraps end-->
+</div><!--wrap end-->
+<div class="clear line1"></div>
+<footer>
+	<hr />
+    <div class="wrap">
+    	<ul class="shop-protects">
+        	<li>
+            	<dl>
+                	<dt><img name="page_cnt_1" src="/images/headFooter/security_icon_01.jpg" alt="正品保障" /></dt>
+                    <dd><strong>正品保障</strong></dd>
+                    <dd>品牌厂商 直接供货</dd>
+                </dl>
+            </li>
+            <li>
+            	<dl>
+                	<dt><img name="page_cnt_1" src="/images/headFooter/security_icon_02.jpg" alt="免运费" /></dt>
+                    <dd><strong>免运费</strong></dd>
+                    <dd>购买满额 免运费</dd>
+                </dl>
+            </li>
+            <li>
+            	<dl>
+                	<dt><img name="page_cnt_1" src="/images/headFooter/security_icon_03.jpg" alt="放心购" /></dt>
+                    <dd><strong>放心购</strong></dd>
+                    <dd>2000县市 货到付款</dd>
+                </dl>
+            </li>
+            <li>
+            	<dl>
+                	<dt><img name="page_cnt_1" src="/images/headFooter/security_icon_04.jpg" alt="方便付款" /></dt>
+                    <dd><strong>方便付款</strong></dd>
+                    <dd>多种支付 任您选择</dd>
+                </dl>
+            </li>
+            <li>
+            	<dl>
+                	<dt><img name="page_cnt_1" src="/images/headFooter/security_icon_05.jpg" alt="开箱验" /></dt>
+                    <dd><strong>开箱验</strong></dd>
+                    <dd>当场验货 放心付款</dd>
+                </dl>
+            </li>
+            <li>
+            	<dl>
+                	<dt><img name="page_cnt_1" src="/images/headFooter/security_icon_06.jpg" alt="好服务" /></dt>
+                    <dd><strong>好服务</strong></dd>
+                    <dd>7*24小时 贴心服务</dd>
+                </dl>
+            </li>
+        </ul>
+        <div class="footer-nav">
+        	<ul>
+            	<li>
+                	<dl>
+                    	<dt>新手入门</dt>
+                        @{
+                            if (ViewData["Helper"] != null)
+                            {
+                                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["Helper"]))
+                                {
+                                    <dd><a href="/helpcenter/index?id=@newsB.n_ID">@newsB.n_Title</a></dd>
+                                }
+                            }
+                        }
+                    </dl>
+                </li>
+                <li>
+                	<dl>
+                    	<dt>关于我们</dt>
+                        @{
+                            if (ViewData["AboutUs"] != null)
+                            {
+                                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["AboutUs"]))
+                                {
+                                    <dd><a href="/helpcenter/index?id=@newsB.n_ID">@newsB.n_Title</a></dd>
+                                }
+                            }
+                        }
+                    </dl>
+                </li>
+                <li>
+                	<dl>
+                    	<dt>配送方式</dt>
+                        @{
+                            if (ViewData["ShipType"] != null)
+                            {
+                                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["ShipType"]))
+                                {
+                                    <dd><a href="/helpcenter/index?id=@newsB.n_ID">@newsB.n_Title</a></dd>
+                                }
+                            }
+                        }
+                    </dl>
+                </li>
+                <li>
+                	<dl>
+                    	<dt>支付方式</dt>
+                        @{
+                            if (ViewData["PaymentType"] != null)
+                            {
+                                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["PaymentType"]))
+                                {
+                                    <dd><a href="/helpcenter/index?id=@newsB.n_ID">@newsB.n_Title</a></dd>
+                                }
+                            }
+                        }
+                    </dl>
+                </li>
+                <li>
+                	<dl>
+                    	<dt>售后服务</dt>
+                        @{
+                            if (ViewData["Service"] != null)
+                            {
+                                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["Service"]))
+                                {
+                                    <dd><a href="/helpcenter/index?id=@newsB.n_ID">@newsB.n_Title</a></dd>
+                                }
+                            }
+                        }
+                    </dl>
+                </li>
+                <li>
+                	<dl>
+                    	<dt>特色服务</dt>
+                        @{
+                            if (ViewData["CharacteristicService"] != null)
+                            {
+                                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["CharacteristicService"]))
+                                {
+                                    <dd><a href="/helpcenter/index?id=@newsB.n_ID">@newsB.n_Title</a></dd>
+                                }
+                            }
+                        }
+                    </dl>
+                </li>
+            </ul>
+        </div><!--footer-nav end-->
+        <div class="blog">
+        	<div class="wap-ewm borders1">
+            	<div class="ewms alignleft"><img name="page_cnt_1" src="/images/headFooter/erweima_01.png" alt="二维码" style="width:58px;height:58px;"/></div>
+                <dl>
+                	<dt><strong>手机月月兴食品商行网</strong></dt>
+                	<dd>轻按手指，轻松购物！随时随地乐享美味生活！</dd>
+                </dl>    
+            </div><!--wap-ewm end-->
+            <div class="weixin-ewm borders1">
+            	<div class="ewms alignleft"><img name="page_cnt_1" src="/images/headFooter/erweima_01.png" alt="二维码"  style="width:58px;height:58px;"/></div>
+                <dl>
+                	<dt><strong>月月兴食品商行网官方微信</strong></dt>
+                	<dd>扫描二维码，即刻与月月兴食品商行的亲们互动，还有劲爆优惠等你来拿！</dd>
+                </dl>
+            </div><!--weixin-ewm end-->
+            <div class="sina borders1">
+            	<a href="#"><img name="page_cnt_1" src="/images/headFooter/sina.jpg" alt="新浪" /></a>
+            </div><!--sina end-->
+        </div><!--blog end-->
+        <div class="footer-main-nav">
+        @{
+            if (ViewData["Link"] != null)
+            {
+                bool first = true;
+                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["Link"]))
+                {
+                    if (first)
+                    {
+                        <a href="@newsB.n_RedirectUrl">@newsB.n_Title</a>
+                                                  first = false;
+                    }
+                    else
+                    {
+                        @Html.Raw(" | ")
+                        <a href="@newsB.n_RedirectUrl">@newsB.n_Title</a>
+                    }
+                }
+            }
+        }
+        </div>
+        <address>© <a href="#">月月兴食品商行</a> 2014 <a href="/Index/Index">www.yyxfood.com</a> All Rights Reselved 豫ICP 备1100796号-1 豫公安网备1101050100221</address>
+        <div class="footer-links">
+        	<a href="#"><img name="page_cnt_1" src="/images/headFooter/footer_lins_01.jpg" alt="可信网站示范单位" /></a><a href="#"><img name="page_cnt_1" src="/images/headFooter/footer_lins_02.jpg" alt="网络社会征信网" /></a><a href="#"><img name="page_cnt_1" src="/images/headFooter/footer_lins_03.jpg" alt="经营性网站备案信息" /></a><a href="#"><img name="page_cnt_1" src="/images/headFooter/footer_lins_04.jpg" alt="AAA信用网站" /></a><a href="#"><img name="page_cnt_1" src="/images/headFooter/footer_lins_05.jpg" alt="中国信用企业" /></a>
+        </div><!--footer-links end-->
+    </div><!--wrap end-->
+</footer>
+<script type='text/javascript' src='/js/main.js'></script><!--散乱JS合集 重要 此JS放置位置要注意，需放置在导航及banner用的JS下方..-->
+<script type="text/javascript" src="/js/address.js"></script><!--确认订单页面省市区三级联动JS-->
+<script type="text/javascript">
+//表单美化JS
+$(function(){
+	
+	$('input').customInput();
+	
+	$('.pj-input').each(function(){
+		$('div:first',this).addClass('first');
+		$('div:last',this).addClass('last');	
+	}); 
+});
+//确认订单页面省市区三级联动JS
+$(function(){
+
+	$("#sjld").sjld("#shenfen","#chengshi","#quyu");
+	
+});
+
+//新增收获地址滑动JS
+$(document).ready(function(){
+$(".new-add").click(function(){
+    $(".new-addCont").slideToggle("slow");
+  });
+});
+
+//注册成功页面没有收到邮件滑动JS
+$(document).ready(function(){
+$(".none").click(function(){
+    $(".none-mail").slideToggle("slow");
+  });
+});
+
+<!--全选反选-->
+$(function(){
+	//单独选择某一个
+	$("input[name='check_item']").click(function(){
+			var index=$("input[name='check_item']").index(this);
+			$("input[name='check_item']").eq(index).toggleClass("checked");//伪复选
+	});	
+	//全选
+	$("#check_all,#box_all").click(function(){
+     $("input[name='check_item']").attr("checked",$(this).attr("checked"));
+	 $("input[name='check_item'],#check_all,#box_all").toggleClass("checked");
+	});
+
+});
+
+//导航下拉菜单横导航
+ddsmoothmenu.init({
+
+	mainmenuid: "smoothmenu1", //menu DIV id
+	
+	orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+	
+	classname: 'navCon-menu'
+
+});
+
+//购物车页面下方商品滚动JS
+jQuery(".slideBox").slide({ mainCell:"ul",vis:4,prevCell:".sPrev",nextCell:".sNext",effect:"leftLoop"});
+
+//产品详细页左侧浏览历史JS
+jQuery(".ani-side-pro").slide({ mainCell:".sales-list-history", effect:"left", delayTime:400,pnLoop:false,easing:"easeOutCubic" });
+
+
+//首页团购banner下方的广告轮播JS
+jQuery(".ad-banner").slide({ mainCell:".pic",effect:"left", autoPlay:true, delayTime:300});
+
+//首页产品分类里的广告轮播JS
+jQuery(".pro-banner").slide({ mainCell:".pic",effect:"left", autoPlay:true, delayTime:300});
+
+//首页品牌推荐大图轮播
+jQuery("#iFocus li a").hover(function(){ $(this).css("opacity",1).siblings().css("opacity",0.7) },function(){ $(this).css("opacity",1).siblings().css("opacity",1) });//鼠标移到图片上时聚焦效果
+jQuery("#iFocus").slide({ titCell:".btn span", mainCell:"ul",effect:"left", autoPlay:true});
+
+//首页小品牌无缝滚动JS
+jQuery(".picScroll").slide({ mainCell:"ul", effect:"leftMarquee", vis:9, autoPlay:true, interTime:50, switchLoad:"_src" });
+
+//侧边栏一周销量排行榜JS
+jQuery(".sales-list").slide({ titCell:"li",triggerTime:0 });
+
+
+//图片延迟加载
+(function(){
+	
+	var th=this;
+	
+	th.pageSize=1000;/* 每屏大概高度为1000px */
+	
+	th.pageQuotiety=0.5;/* 提前下载量 */
+	
+	th.imgName="page_cnt_";/* 图片通用名 */
+	
+	th.imgs=[];/* 每屏图片 [每屏所有图片，第一张图片，第一张图片绝对top:加载图片的top] */
+	
+	var B = {};/* Browser check */
+	
+	B.ua = window.navigator.userAgent.toLowerCase();
+	
+	B.ie = /msie/.test(B.ua);
+	
+	B.moz = /gecko/.test(B.ua);
+	
+	B.opera = /opera/.test(B.ua);
+	
+	B.safari = /safari/.test(B.ua);
+	
+	var $N=function(s,docu){
+		var doc=docu?docu:document;
+		return(typeof s=="object")?s:doc.getElementsByName(s);
+	};
+	
+	th.getWindowSize=function(){
+		var a={};
+		if(window.self&&self.innerWidth){
+			a.width=self.innerWidth;
+			a.height=self.innerHeight;
+			return a;
+		}if(document.documentElement&&document.documentElement.clientHeight){
+			a.width=document.documentElement.clientWidth;
+			a.height=document.documentElement.clientHeight;
+			return a;
+		}
+		a.width=document.body.clientWidth;
+		a.height=document.body.clientHeight;
+		return a;
+	}
+	
+	th.getObjPosition=function(obj){
+		var a={};
+		a.x = obj.offsetLeft,a.y = obj.offsetTop;
+		while(obj=obj.offsetParent){
+			a.x += obj.offsetLeft;
+			a.y += obj.offsetTop;
+		}
+		return a;
+	}
+	
+	th._getPageScroll=function(){
+		var s;
+		if (typeof(window.pageYOffset)!="undefined"){
+			s = window.pageYOffset;
+		}else if (document.documentElement && document.documentElement.scrollTop){
+			s = document.documentElement.scrollTop;
+		}else if (document.body){
+			s = document.body.scrollTop;
+		}
+		return s;
+	}
+	
+	th._loadImages=function(a){
+		if(!a)	return;
+		var obj = a;
+		if(typeof a == "string"){
+			obj=$N(a);
+		}for(var i=0;i<obj.length;i++){
+			var s = obj[i];
+			if(typeof s == "object"){
+				if(s.getAttribute("_src")){
+					s.setAttribute("src",s.getAttribute("_src"));
+					s.removeAttribute("_src",0);
+				}
+			}
+		}
+		delete obj;
+		obj=null;
+	}
+	
+	th._loadAllImgs=function(){
+		var i=0;
+		while(th.imgs[i]){
+			th._loadImages(th.imgs[i][0]);
+			i++;
+		}
+	}
+	
+	th.getImgPosition=function(){
+		var i=1;
+		var p=$N(th.imgName+i);
+		while(p&&p.length>0){
+			var p=$N("page_cnt_"+i);
+			var t=th.getImgLoadPosition(p[0]);
+			th.imgs.push([p,p[0],t]);
+			i++;
+			p=$N(th.imgName+i);
+		}
+	}
+	
+	th.getImgLoadPosition=function(a){
+		var t={imgTop:0,pageTop:0};
+		if(a){
+			var w=th.getWindowSize();
+			t.imgTop=parseInt(th.getObjPosition(a).y);
+			t.pageTop=parseInt((t.imgTop/1000-th.pageQuotiety)*1000);
+		}
+		return t;
+	}
+	
+	th._addScrollEven=function(){
+		if(B.ie){
+			window.attachEvent("onscroll",th._scrollFn);
+		}else{
+			window.addEventListener("scroll",th._scrollFn,false);
+		}
+	}
+	
+	th._removeScrollEven=function(){
+		if(B.ie){
+			window.detachEvent("onscroll",th._scrollFn);
+		}else{
+			window.removeEventListener("scroll",th._scrollFn,false);
+		}
+	}
+	
+	th._scrollFn=function(){
+		var y=th._getPageScroll();
+		var w=th.getWindowSize().height;
+		if(w==0){
+			th._loadAllImgs();
+			return;
+		}
+		var i=0;
+		var j=0;
+		while(th.imgs[i]){
+			if(!( y+w < th.imgs[i][2].pageTop )){
+				th._loadImages(th.imgs[i][0]);
+				j++
+			}
+			i++;
+			if(j>=th.imgs.length){
+				th._removeScrollEven();
+			}
+		}
+	}
+	
+	th.getImgPosition();
+	th._addScrollEven();
+	th._scrollFn();
+	
+})()
+</script>
+</body>
+</html>

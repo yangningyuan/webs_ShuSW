@@ -1,0 +1,317 @@
+﻿@{
+    ViewBag.Title = "月月兴食品商行-成功提交订单";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+
+@model webs_YueyxShop.Model.OrderBase
+
+
+<link rel="stylesheet" type="text/css" href="/css/kaych.chartOrder.css"><!--页面支付系统css文件-->
+<link rel="stylesheet" type="text/css" href="/css/kaych.place.css"><!--省市区三级联动CSS-->
+
+<script type='text/javascript' src="/js/jquery.lazyload.min.js"></script><!--图片延迟加载JS-->
+<script type="text/javascript" src="/js/custominput.js"></script><!--表单美化JS-->
+<script type="text/javascript" src="/js/ddsmoothmenu.js"></script><!--下拉导航JS-->
+<script type="text/javascript" src="/js/payfor.js"></script><!--商品数量增加减少 算总价JS-->
+
+<script type="text/javascript">
+    $(function () {
+        //该页面不需要主页商品头部
+        $('#publicHead').remove();
+    })
+</script>
+
+<div class="header-cont">
+	<h1 class="alignleft"><a href="/Index/Index"><img name="page_cnt_1" src="/images/headFooter/logo.png" alt="月月兴食品商行" /></a></h1>
+    <div class="chart-step alignright"><img  name="page_cnt_1" src="/images/img/chart_step_03.jpg" alt="购物车" /></div>
+</div><!--header-cont end-->
+<div class="clearh"></div>
+<div class="wrap">
+	<div class="order-titles"><span>订单提交结果信息</span></div>
+    @{
+        if (Model != null)
+        {
+            <div class="success-order">
+    	        <div class="order-img"><img name="page_cnt_1" src="/images/img/success.png" alt="成功订单" /></div>
+                <dl>
+        	        <dt>恭喜您，订单已成功提交！</dt>
+                    <dd>请勿关闭浏览器，<a href="/Vipscore/vipMyOrder?centerindex=0" onclick="history.go(-1)"><span id="sec">12</span></a>秒后将自动跳转至订单查询页面   <a href="/Vipscore/vipMyOrder?centerindex=0">立即跳转</a></dd>
+                    <dd>现在的您可以：<a href="/Vipscore/vipMyOrder?centerindex=0">查看订单详情</a>   <a href="/Index/Index">继续购物</a></dd>
+                </dl>
+                <script type="text/javascript">
+                    $(function () {
+                        setTimeout("lazyGo();", 1000);
+                    });
+                    function lazyGo() {
+                        var sec = $("#sec").text();
+                        $("#sec").text(--sec);
+                        if (sec > 0)
+                            setTimeout("lazyGo();", 1000);
+                        else
+                            window.location.href = "/Vipscore/vipMyOrder?centerindex=0";
+                    }
+                    </script>
+            </div><!--success-order end-->
+        
+            <table class="order-table">
+    	        <tbody>
+        	        <tr>
+            	        <td width="145" class="bg1" align="right">订单编号：</td>
+                        <td class="bg2"><font>@Model.o_Code</font></td>
+                        <td width="145" class="bg1" align="right">交易日期：</td>
+                        <td class="bg2"><font>@Model.o_CreateOn.Value</font></td>
+                    </tr>
+                    <tr>
+            	        <td class="bg1" align="right">商品总价（元）：</td>
+                        <td class="bg2"><font>￥@Model.o_Pric</font></td>
+                        <td class="bg1" align="right">配送方式：</td>
+                        <td class="bg2"><font>@ViewData["shipTypeName"]</font></td>
+                    </tr>
+                    <tr>
+                        <td class="bg1" align="right">订单状态：</td>
+                        <td colspan="3" class="bg2"><span>@ViewData["OrderStatus"]</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="failure-order">
+    	        <div class="order-img"><img name="page_cnt_1" src="/images/img/failure.png" alt="失败订单" /></div>
+                <dl>
+        	        <dt>操作失败！</dt>
+                    <dd>十分抱歉，您提交的订单未成功，   <a href="/Chart/Chart">返回购物车</a></dd>
+                </dl>
+            </div><!--success-order end-->
+        }
+    }
+</div><!--wrap end-->
+
+
+<script type='text/javascript' src='/js/main.js'></script><!--散乱JS合集 重要 此JS放置位置要注意，需放置在导航及banner用的JS下方..-->
+<script type="text/javascript" src="/js/address.js"></script><!--确认订单页面省市区三级联动JS-->
+<script type="text/javascript">
+
+//确认订单页面省市区三级联动JS
+$(function(){
+
+	$("#sjld").sjld("#shenfen","#chengshi","#quyu");
+	
+});
+
+//新增收获地址滑动JS
+$(document).ready(function(){
+$(".new-add").click(function(){
+    $(".new-addCont").slideToggle("slow");
+  });
+});
+
+<!--全选反选-->
+$(function(){
+	//单独选择某一个
+	$("input[name='check_item']").click(function(){
+			var index=$("input[name='check_item']").index(this);
+			$("input[name='check_item']").eq(index).toggleClass("checked");//伪复选
+	});	
+	//全选
+	$("#check_all,#box_all").click(function(){
+     $("input[name='check_item']").attr("checked",$(this).attr("checked"));
+	 $("input[name='check_item'],#check_all,#box_all").toggleClass("checked");
+	});
+
+});
+
+//导航下拉菜单横导航
+ddsmoothmenu.init({
+
+	mainmenuid: "smoothmenu1", //menu DIV id
+	
+	orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+	
+	classname: 'navCon-menu'
+
+});
+
+//购物车页面下方商品滚动JS
+jQuery(".slideBox").slide({ mainCell:"ul",vis:4,prevCell:".sPrev",nextCell:".sNext",effect:"leftLoop"});
+
+//产品详细页左侧浏览历史JS
+jQuery(".ani-side-pro").slide({ mainCell:".sales-list-history", effect:"left", delayTime:400,pnLoop:false,easing:"easeOutCubic" });
+
+
+//首页团购banner下方的广告轮播JS
+jQuery(".ad-banner").slide({ mainCell:".pic",effect:"left", autoPlay:true, delayTime:300});
+
+//首页产品分类里的广告轮播JS
+jQuery(".pro-banner").slide({ mainCell:".pic",effect:"left", autoPlay:true, delayTime:300});
+
+//首页品牌推荐大图轮播
+jQuery("#iFocus li a").hover(function(){ $(this).css("opacity",1).siblings().css("opacity",0.7) },function(){ $(this).css("opacity",1).siblings().css("opacity",1) });//鼠标移到图片上时聚焦效果
+jQuery("#iFocus").slide({ titCell:".btn span", mainCell:"ul",effect:"left", autoPlay:true});
+
+//首页小品牌无缝滚动JS
+jQuery(".picScroll").slide({ mainCell:"ul", effect:"leftMarquee", vis:9, autoPlay:true, interTime:50, switchLoad:"_src" });
+
+//侧边栏一周销量排行榜JS
+jQuery(".sales-list").slide({ titCell:"li",triggerTime:0 });
+
+
+//图片延迟加载
+(function(){
+	
+	var th=this;
+	
+	th.pageSize=1000;/* 每屏大概高度为1000px */
+	
+	th.pageQuotiety=0.5;/* 提前下载量 */
+	
+	th.imgName="page_cnt_";/* 图片通用名 */
+	
+	th.imgs=[];/* 每屏图片 [每屏所有图片，第一张图片，第一张图片绝对top:加载图片的top] */
+	
+	var B = {};/* Browser check */
+	
+	B.ua = window.navigator.userAgent.toLowerCase();
+	
+	B.ie = /msie/.test(B.ua);
+	
+	B.moz = /gecko/.test(B.ua);
+	
+	B.opera = /opera/.test(B.ua);
+	
+	B.safari = /safari/.test(B.ua);
+	
+	var $N=function(s,docu){
+		var doc=docu?docu:document;
+		return(typeof s=="object")?s:doc.getElementsByName(s);
+	};
+	
+	th.getWindowSize=function(){
+		var a={};
+		if(window.self&&self.innerWidth){
+			a.width=self.innerWidth;
+			a.height=self.innerHeight;
+			return a;
+		}if(document.documentElement&&document.documentElement.clientHeight){
+			a.width=document.documentElement.clientWidth;
+			a.height=document.documentElement.clientHeight;
+			return a;
+		}
+		a.width=document.body.clientWidth;
+		a.height=document.body.clientHeight;
+		return a;
+	}
+	
+	th.getObjPosition=function(obj){
+		var a={};
+		a.x = obj.offsetLeft,a.y = obj.offsetTop;
+		while(obj=obj.offsetParent){
+			a.x += obj.offsetLeft;
+			a.y += obj.offsetTop;
+		}
+		return a;
+	}
+	
+	th._getPageScroll=function(){
+		var s;
+		if (typeof(window.pageYOffset)!="undefined"){
+			s = window.pageYOffset;
+		}else if (document.documentElement && document.documentElement.scrollTop){
+			s = document.documentElement.scrollTop;
+		}else if (document.body){
+			s = document.body.scrollTop;
+		}
+		return s;
+	}
+	
+	th._loadImages=function(a){
+		if(!a)	return;
+		var obj = a;
+		if(typeof a == "string"){
+			obj=$N(a);
+		}for(var i=0;i<obj.length;i++){
+			var s = obj[i];
+			if(typeof s == "object"){
+				if(s.getAttribute("_src")){
+					s.setAttribute("src",s.getAttribute("_src"));
+					s.removeAttribute("_src",0);
+				}
+			}
+		}
+		delete obj;
+		obj=null;
+	}
+	
+	th._loadAllImgs=function(){
+		var i=0;
+		while(th.imgs[i]){
+			th._loadImages(th.imgs[i][0]);
+			i++;
+		}
+	}
+	
+	th.getImgPosition=function(){
+		var i=1;
+		var p=$N(th.imgName+i);
+		while(p&&p.length>0){
+			var p=$N("page_cnt_"+i);
+			var t=th.getImgLoadPosition(p[0]);
+			th.imgs.push([p,p[0],t]);
+			i++;
+			p=$N(th.imgName+i);
+		}
+	}
+	
+	th.getImgLoadPosition=function(a){
+		var t={imgTop:0,pageTop:0};
+		if(a){
+			var w=th.getWindowSize();
+			t.imgTop=parseInt(th.getObjPosition(a).y);
+			t.pageTop=parseInt((t.imgTop/1000-th.pageQuotiety)*1000);
+		}
+		return t;
+	}
+	
+	th._addScrollEven=function(){
+		if(B.ie){
+			window.attachEvent("onscroll",th._scrollFn);
+		}else{
+			window.addEventListener("scroll",th._scrollFn,false);
+		}
+	}
+	
+	th._removeScrollEven=function(){
+		if(B.ie){
+			window.detachEvent("onscroll",th._scrollFn);
+		}else{
+			window.removeEventListener("scroll",th._scrollFn,false);
+		}
+	}
+	
+	th._scrollFn=function(){
+		var y=th._getPageScroll();
+		var w=th.getWindowSize().height;
+		if(w==0){
+			th._loadAllImgs();
+			return;
+		}
+		var i=0;
+		var j=0;
+		while(th.imgs[i]){
+			if(!( y+w < th.imgs[i][2].pageTop )){
+				th._loadImages(th.imgs[i][0]);
+				j++
+			}
+			i++;
+			if(j>=th.imgs.length){
+				th._removeScrollEven();
+			}
+		}
+	}
+	
+	th.getImgPosition();
+	th._addScrollEven();
+	th._scrollFn();
+	
+})()
+</script>

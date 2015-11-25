@@ -1,0 +1,372 @@
+﻿@{
+    Layout = "~/Views/ShuSW/sswMaster/LayoutPage.cshtml";
+}
+
+<div class="index_slider">
+    <div class="container">
+        <div class="callbacks_container">
+            <ul class="rslides" id="slider">
+                @{
+                    if (ViewData["pc首页轮播图"] != null)
+                    {
+                        foreach (webs_YueyxShop.Model.Adert adert in ((List<webs_YueyxShop.Model.Adert>)ViewData["pc首页轮播图"]))
+                        {
+                            <li><a href="@adert.a_Link" title="@adert.a_Title"><img src="@adert.a_Image" class="img-responsive" alt="@adert.a_Title" /></a></li>
+                        }
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="content_top">
+    <div class="container">
+        <div class="grid_1">
+            <div class="col-md-3">
+                <div class="box2">
+                    <ul class="list1">
+                        <i class="lock"> </i>
+                        <li class="list1_right"><p>品类齐全，轻松购物<br />正品行货，精致服务</p></li>
+                        <div class="clearfix"> </div>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="box3">
+                    <ul class="list1">
+                        <i class="clock1"> </i>
+                        <li class="list1_right"><p>品质保证，七天无理由退换货</p></li>
+                        <div class="clearfix"> </div>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="box4">
+                    <ul class="list1">
+                        <i class="vehicle"> </i>
+                        <li class="list1_right"><p>多仓发货，极速配送<br />天天低价，畅选无忧</p></li>
+                        <div class="clearfix"> </div>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="box5">
+                    <ul class="list1">
+                        <i class="dollar"> </i>
+                        <li class="list1_right"><p>购物更加方便，省钱更省心</p></li>
+                        <div class="clearfix"> </div>
+                    </ul>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <div class="column_center">
+            <h1> Students' favorite shopping platform </h1>
+            <h2>                Innovation, quality, service, conservation, dedication, Thanksgiving</h2>
+        </div>
+        <div class="sellers_grid">
+            <ul class="sellers">
+                <i class="star"> </i>
+                <li class="sellers_desc"><h2>最畅销</h2></li>
+                <div class="clearfix"> </div>
+            </ul>
+        </div>
+        <div class="grid_2">
+
+            @{
+                if (ViewData["pc首页最畅销"] != null)
+                {
+                    foreach (System.Data.DataRow changxiao in ((System.Data.DataTable)ViewData["pc首页最畅销"]).Rows)
+                    {
+                        <div class="col-md-3 span_6">
+                            <div class="box_inner">
+                                <a href="/sswCommodity/CommodityDetails?p_id=@changxiao["p_id"]"><img src="@changxiao["pi_Url"]" class="img-responsive" alt="" /></a>
+                                <div class="sale-box"> </div>
+                                <div class="desc">
+                                    <h5>@changxiao["p_Name"]</h5>
+
+                                    <h4><span class="reducedfrom">￥@changxiao["sku_scPric"]</span>￥@changxiao["sku_Price"] </h4>
+                                    @*<ul class="list2">
+                                            <li class="list2_left"><span class="m_1"><a href="#" class="link">加入购物车</a></span></li>
+                                            <li class="list2_right"><span class="m_2"><a href="#" class="link1">立即购买</a></span></li>
+                                            <div class="clearfix"> </div>
+                                        </ul>*@
+                                    @*<div class="heart"> </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+
+
+
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+<div class="content_middle">
+    <div class="container">
+        <ul class="promote">
+            <i class="promote_icon"> </i>
+            <li class="promote_head"><h3>促销商品</h3></li>
+        </ul>
+        <ul id="flexiselDemo3">
+
+            @{
+                if (ViewData["pc首页促销"] != null)
+                {
+                    foreach (System.Data.DataRow cuxiao in ((System.Data.DataTable)ViewData["pc首页促销"]).Rows)
+                    {
+                        <li>
+                            <a href="/sswCommodity/CommodityDetails?p_id=@cuxiao["p_id"]"><img src="@cuxiao["pi_Url"]" class="img-responsive" /></a><div class="grid-flex">
+                                <h5>@cuxiao["p_Name"]</h5><p><span class="reducedfrom">￥@cuxiao["sku_scPric"]</span>￥@cuxiao["sku_Price"]</p>
+                                <div class="m_3"><a href="#@cuxiao["p_id"]" class="link2">添加到购物车</a></div>
+                                <div class="ticket"> </div>
+                            </div>
+                        </li>
+                    }
+                }
+            }
+
+
+
+        </ul>
+        <script type="text/javascript">
+            $(window).load(function () {
+                $("#flexiselDemo3").flexisel({
+                    visibleItems: 6,
+                    animationSpeed: 1000,
+                    autoPlay: true,
+                    autoPlaySpeed: 3000,
+                    pauseOnHover: true,
+                    enableResponsiveBreakpoints: true,
+                    responsiveBreakpoints: {
+                        portrait: {
+                            changePoint: 480,
+                            visibleItems: 1
+                        },
+                        landscape: {
+                            changePoint: 640,
+                            visibleItems: 2
+                        },
+                        tablet: {
+                            changePoint: 768,
+                            visibleItems: 3
+                        }
+                    }
+                });
+
+            });
+        </script>
+        <script type="text/javascript" src="/Content/js/jquery.flexisel.js"></script>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var SysSecond;
+    var InterValObj;
+
+    $(document).ready(function () {
+        SysSecond = parseInt($("#remainSeconds").html()); //这里获取倒计时的起始时间
+        InterValObj = window.setInterval(SetRemainTime, 1000); //间隔函数，1秒执行
+    });
+
+    //将时间减去1秒，计算天、时、分、秒
+    function SetRemainTime() {
+        if (SysSecond > 0) {
+            SysSecond = SysSecond - 1;
+            var second = Math.floor(SysSecond % 60);             // 计算秒
+            var minite = Math.floor((SysSecond / 60) % 60);      //计算分
+            var hour = Math.floor((SysSecond / 3600) % 24);      //计算小时
+            var day = Math.floor((SysSecond / 3600) / 24);        //计算天
+
+            $("#remainTime").html(day + "天" + hour + "小时" + minite + "分" + second + "秒");
+        } else {//剩余时间小于或等于0的时候，就停止间隔函数
+            window.clearInterval(InterValObj);
+            //这里可以添加倒计时时间为0后需要执行的事件
+        } 
+    }
+</script> 
+
+
+
+<div id="remainSeconds" style="display:none">@ViewData["datetime"]</div>
+
+    <div class="container">
+        <div class="content_middle_bottom">
+            <div class="col-md-4">
+                <ul class="spinner">
+                    <i class="spinner_icon"> </i>
+                    <li class="spinner_head"><h3>限时秒杀</h3></li>
+                    <div class="clearfix"> </div>
+                </ul>
+
+                @{
+                    if ( ViewData["pc首页限时秒杀"]!="")
+                    {
+                        System.Data.DataTable dtxsms = (System.Data.DataTable)ViewData["pc首页限时秒杀"];
+                        <div class="timer_box">
+                    <div  style="width: 100%; height: 275px; display: block; border-bottom: 3px solid #8cb273;">
+                        <img width="100%" height="275" src="@dtxsms.Rows[0]["pi_Url"]" />
+                    </div>
+                    <div class="timer_grid">
+                        <div id="remainTime" style="margin-top:10px; margin-left:40px;  font-size:30px;font-weight:800;color:#FF9900"></div>
+                        <ul class="navigation">
+                            <li>
+                                <p class="timeRefDays">DAYS</p>
+                            </li>
+                            <li>
+                                <p class="timeRefHours">HOURS</p>
+                            </li>
+                            <li>
+                                <p class="timeRefMinutes">MINUTES</p>
+                            </li>
+                            <li>
+                                <p class="timeRefSeconds">SECONDS</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="thumb_desc">
+                        <h3> @dtxsms.Rows[0]["p_Name"]</h3>
+                        <div class="price">
+                            <span class="reducedfrom">￥@dtxsms.Rows[0]["sku_scPric"]</span>
+                            <span class="actual">￥@dtxsms.Rows[0]["sku_Price"]</span>
+                        </div>
+                    </div>
+                            <a href="/sswCommodity/CommodityDetails?p_id=@dtxsms.Rows[0]["p_id"]"><div class="m_3 deal"><div class="link3">&nbsp;马上去抢购~</div></div></a>
+                </div>
+                        
+                        
+                    }
+                    else { 
+                        <div class="timer_box">
+                    <div  style="width: 100%; height: 275px; display: block; border-bottom: 3px solid #8cb273;">
+                        <h1 style="text-align:center;">暂未上架商品~</h1>
+                    </div>
+                    <div class="timer_grid">
+                        <div id="remainTime" style="margin-top:10px; margin-left:40px;  font-size:30px;font-weight:800;color:#FF9900"></div>
+                        <ul class="navigation">
+                            <li>
+                                <p class="timeRefDays">DAYS</p>
+                            </li>
+                            <li>
+                                <p class="timeRefHours">HOURS</p>
+                            </li>
+                            <li>
+                                <p class="timeRefMinutes">MINUTES</p>
+                            </li>
+                            <li>
+                                <p class="timeRefSeconds">SECONDS</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="thumb_desc">
+                        <h3> </h3>
+                        @*<div class="price">
+                            <span class="reducedfrom">￥@dtxsms.Rows[0]["sku_scPric"]</span>
+                            <span class="actual">￥@dtxsms.Rows[0]["sku_Price"]</span>
+                        </div>*@
+                    </div>
+                            <a href="javascript:void(0)"><div class="m_3 deal"><div class="link3">&nbsp;马上去抢购~</div></div></a>
+                </div>
+                    }
+                }
+
+
+                
+            </div>
+            <div class="col-md-8">
+                <ul class="spinner">
+                    <i class="paperclip"> </i>
+                    <li class="spinner_head"><h3>财富金</h3></li>
+                    <div class="clearfix"> </div>
+                </ul>
+
+                @{
+                    if (ViewData["dtcfjlist"] != null)
+                    {
+                        foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewData["dtcfjlist"]).Rows)
+                        {
+                            <div class="a-top">
+                                <div class="left-grid">
+                                    <img src="@item["n_PicUrl"]" class="img-responsive71" alt="" />
+                                </div>
+                                <div class="right-grid">
+                                    <h4><a href="/sswNews/NewsDetails?nid=@item["n_ID"]">@item["n_Title"]</a></h4>
+                                    <p>@Html.Raw(item["n_Content"].ToString().Length > 120 ? item["n_Content"].ToString().Substring(0, 120) : item["n_Content"].ToString())</p>
+                                </div>
+                                <div class="but">
+                                    <a class="arrow" href="/sswNews/NewsDetails?nid=@item["n_ID"]"> </a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        }
+                    }
+                }
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="content_bottom">
+            <div class="col-md-3 span_1">
+                <ul class="spinner">
+                    <i class="box_icon"> </i>
+                    <li class="spinner_head"><h3>关于我们</h3></li>
+                    <div class="clearfix"> </div>
+                </ul>
+                <img src="/Content/images/t8.jpg" class="img-responsive" alt="" />
+            </div>
+            <div class="col-md-3 span_1">
+                <ul class="spinner">
+                    <i class="bubble"> </i>
+                    <li class="spinner_head"><h3>公司简介</h3></li>
+                    <div class="clearfix"> </div>
+                </ul>
+                <p>
+                    深圳市大麦科技有限公司系列产品深受世界各国的喜爱，如英国，西班牙，法国，德国，美国，迪拜和巴西，韩国等30多个国家和地区。经过我们不断改善的优良品质，优雅的 风格和出色的 搭配效果在海外获得了供不应求的大好市场，赢得了大批国外家居饰品进口商的青睐和首肯。
+
+                    多年的发展历程，公司始终坚持“创新，品质，服务，节约，敬业，感恩”12字理念。
+                </p>
+            </div>
+            <div class="col-md-3 span_1">
+                <ul class="spinner">
+                    <i class="mail"> </i>
+                    <li class="spinner_head"><h3>意见反馈</h3></li>
+                    <div class="clearfix"> </div>
+                </ul>
+                <ul class="social">
+                    <li><a href=""> <i class="fb"> </i> </a></li>
+                    <li><a href=""><i class="tw"> </i> </a></li>
+                    <li><a href=""><i class="google"> </i> </a></li>
+                    <li><a href=""><i class="linkedin"> </i> </a></li>
+                    <li><a href=""><i class="skype"> </i> </a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 span_1">
+                <ul class="spinner">
+                    <i class="mail"> </i>
+                    <li class="spinner_head"><h3>联系我们</h3></li>
+                    <div class="clearfix"> </div>
+                </ul>
+                <p>深圳市大麦科技有限公司,</p>
+                <p>,</p>
+                <p>Phone: 400-685-9925</p>
+                <p><a href="http://www.dmqun.com"> dmqun.com</a></p>
+                <br />
+                <p>加入我们，更多精彩！</p>
+                <img src="/Content/images/20151030155610.jpg" width="30%" height="30%" style="border-radius:5px;" class="" alt="" />
+            </div>
+            <div class="clearfix"> </div>
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>

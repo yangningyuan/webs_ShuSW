@@ -1,0 +1,63 @@
+﻿.pageFormContent
+{
+    padding:20px;
+    
+}
+.allProvince
+{
+    width:120px;
+    height:auto;
+    position:relative;
+    float:left;
+}
+.Province
+{
+    width:120px;
+    height:30px;
+    float:left;
+}
+.Province>label
+{
+    width:auto;
+}
+.Province>label>span
+{
+    width:auto;
+}
+.bcolor
+{
+   background-color:#FFFEC6;
+    border:solid 1px #F7E4A5;
+    border-bottom:solid 1px #FFFEC6;/* */
+}
+.trigger
+{
+    
+}
+.pon
+{
+    position:absolute;
+    z-index:1000;
+}
+.city
+{
+    width:300px;
+    height:auto;
+    display:none;
+    float:left;
+    position:absolute;
+    background-color:#FFFEC6;
+    border:solid 1px #F7E4A5;
+    margin-left:0px;
+    margin-top:20px;
+    z-index:100;
+}
+.city>label
+{
+    width:auto;
+}
+.city>p
+{
+    width:300px;
+    text-align:right;
+}

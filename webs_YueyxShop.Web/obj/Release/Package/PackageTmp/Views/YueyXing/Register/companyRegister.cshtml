@@ -1,0 +1,752 @@
+﻿@{
+    ViewBag.Title = "月月兴食品商行";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+<link type="text/css" href="/css/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+<link type="text/css" href="/css/kaych.commons.css" rel="stylesheet"/><!--页面公用css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+<link type="text/css" href="/css/kaych.framework.css" rel="stylesheet"/><!--页面大框架css文件-->
+<link rel="stylesheet" type="text/css" href="/css/kaych.loginregister.css"><!--会员登录注册CSS文件-->
+<!--[if IE 6]>
+<script type="text/javascript" src="js/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script src="js/html5.js"></script>
+<![endif]-->
+<script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/js/jquery.flexslider-min.js"></script><!--banner轮播图JS-->
+<script type="text/javascript" src="/js/jquery.SuperSlide.2.1.1.js"></script><!--页面小广告bannerJS库-->
+<script src="/js/script.js" type="text/javascript"></script><!--全部商品导航JS-->
+<script type='text/javascript' src='/js/tuan.js'></script><!--团购页面内活动特效-->
+<script type='text/javascript' src="/js/jquery.lazyload.min.js"></script><!--图片延迟加载JS-->
+<script type="text/javascript" src="/js/custominput.js"></script><!--表单美化JS-->
+<script type="text/javascript" src="/js/ddsmoothmenu.js"></script><!--下拉导航JS-->
+<script type="text/javascript" src="/js/payfor.js"></script><!--商品数量增加减少 算总价JS-->
+<script>
+    $(function () {
+        $("#valiCode").bind("click", function () {
+            this.src = "/Register/GetValidateCode?time=" + (new Date()).getTime();
+        });
+
+        $("#top-head").css("display", 'none');
+        $("#publicHead").css("display", 'none');
+        $(".shop-protects").css("display", 'none');
+        $(".footer-nav").css("display", 'none');
+        $(".blog").css("display", 'none');
+    });
+</script>  
+<script  type="text/javascript">
+    $(function () {
+        var ok1 = false;
+        var ok2 = false;
+        var ok3 = false;
+        var ok4 = false;
+        var ok6 = false;
+        var ok7 = false;
+        var ok8 = false;
+        var ok9 = false;
+        var ok10 = false;
+        var ok11 = false;
+        var ok12 = false;
+        var ok13 = false;
+        var ok14 = false;
+        //验证验证码
+        //验证验证码
+        $("#code").blur(function () {
+            var yanzheng = $("#code").attr("value");
+            $.ajax({
+                type: 'POST',
+                url: '/Register/Num',
+                data: "yanzheng=" + yanzheng,
+                success: function (data) {
+                    //FALSE即输入有误
+                    if (data == "FALSE") {
+                        $("#state14").attr("style", 'color:red;');
+                        $("#state14").text('验证码有误');
+                        return;
+                    }
+                    //PASS
+                    else if (data == "PASS") {
+                        $("#state14").attr("style", 'color:green;');
+                        $("#state14").text("√");
+                        ok14 = true;
+                    }
+                }
+            });
+        });
+
+        //验证用户名 并验证是否已被注册
+        $("#email").focus(function () {
+            $("#state1").attr("style", "color:red; ");
+            $("#state1").text('请输入正确的邮箱地址');
+        });
+        $("#email").blur(function () {
+            var txtname = $("#email").val();
+            if ($(this).val().search(/\w+([-+.]\w+)*\w+([-.]\w+)*\.\w+([-.]\w+)*/) != -1 && $(this).val() != '') {
+                var scoreval = $("#email").val();
+                $.get("/Register/validateemal?name=" + scoreval, function (data) {
+                    if (data != "error") {
+                        if (/[\u4E00-\u9FA5]/i.test(txtname)) {
+                            $("#state1").attr("style", "color:red; ");
+                            $("#state1").text('不能输入中文！');
+                        } else {
+                            ok1 = true;
+                            $("#state1").attr("style", 'color:green;  ');
+                            $("#state1").text('√');
+                        }
+                    } else {
+                        $("#state1").attr("style", "color:red; ");
+                        $("#state1").text('邮箱已被注册！');
+                    }
+                });
+            } else {
+                $("#state1").attr("style", "color:red; ");
+                $("#state1").text('请输入正确的邮箱地址');
+            }
+        });
+
+        // 验证密码
+        $('#password').focus(function () {
+            if ($(this).val().length >= 6 && $(this).val().length <= 20 && $(this).val() != '') {
+                $("#state2").attr("style", 'color:green;');
+                $("#state2").text('√');
+            } else {
+                $("#state2").attr("style", "color:red;");
+                $("#state2").text('密码为6-20位之间');
+            }
+        }).blur(function () {
+            if ($(this).val().length >= 6 && $(this).val().length <= 20 && $(this).val() != '') {
+                $("#state2").attr("style", 'color:green;');
+                $("#state2").text('√');
+                ok2 = true;
+            } else {
+                $("#state2").attr("style", 'color:red; ');
+                $("#state2").text('密码为6-20位之间');
+            }
+        });
+        // 验证确认密码
+        $('#repassword').focus(function () {
+            if ($(this).val().length >= 6 && $(this).val().length <= 20 && $(this).val() != '' && $(this).val() == $("#password").val()) {
+                $("#state3").attr("style", 'color:green;');
+                $("#state3").text('√');
+            } else {
+                $("#state3").attr("style", "color:red;");
+                $("#state3").text('两次输入密码不一致！');
+            }
+        }).blur(function () {
+            if ($(this).val().length >= 6 && $(this).val().length <= 20 && $(this).val() != '' && $(this).val() == $("#password").val()) {
+                $("#state3").attr("style", 'color:green;');
+                $("#state3").text('√');
+                ok3 = true;
+            } else {
+                $("#state3").attr("style", 'color:red; ');
+                $("#state3").text('两次输入密码不一致！');
+            }
+        });
+        // 验证联系人姓名
+        $('#lxname').focus(function () {
+            if ($(this).val().length >= 2 && $(this).val().length <= 20 && $(this).val() != '') {
+                $("#state4").attr("style", 'color:green;');
+                $("#state4").text('√');
+            } else {
+                $("#state4").attr("style", "color:red;");
+                $("#state4").text('联系人为2-20位字符！');
+            }
+        }).blur(function () {
+            if ($(this).val().length >= 2 && $(this).val().length <= 20 && $(this).val() != '') {
+                $("#state4").attr("style", 'color:green;');
+                $("#state4").text('√');
+                ok4 = true;
+            } else {
+                $("#state4").attr("style", 'color:red; ');
+                $("#state4").text('联系人为2-20位字符！');
+            }
+        });
+        // 验证手机号
+        $('#phone').focus(function () {
+            if ($(this).val().search(/^1[3|4|5|7|8][0-9]{9}$/) != -1 && $(this).val() != '') {
+                $("#state6").attr("style", 'color:green;');
+                $("#state6").text('√');
+            } else {
+                $("#state6").attr("style", "color:red;");
+                $("#state6").text('请输入正确的手机号！');
+            }
+        }).blur(function () {
+            if ($(this).val().search(/^1[3|4|5|7|8][0-9]{9}$/) != -1 && $(this).val() != '') {
+                $("#state6").attr("style", 'color:green;');
+                $("#state6").text('√');
+                ok6 = true;
+            } else {
+                $("#state6").attr("style", 'color:red; ');
+                $("#state6").text('请输入正确的手机号！');
+            }
+        });
+        // 验证邮箱
+        $('#lxemail').focus(function () {
+            if ($(this).val().search(/\w+([-+.]\w+)*\w+([-.]\w+)*\.\w+([-.]\w+)*/) != -1 && $(this).val() != '') {
+                $("#state7").attr("style", 'color:green;');
+                $("#state7").text('√');
+            } else {
+                $("#state7").attr("style", "color:red;");
+                $("#state7").text('请输入正确的邮箱格式！');
+            }
+        }).blur(function () {
+            if ($(this).val().search(/\w+([-+.]\w+)*\w+([-.]\w+)*\.\w+([-.]\w+)*/) != -1 && $(this).val() != '') {
+                $("#state7").attr("style", 'color:green;');
+                $("#state7").text('√');
+                ok7 = true;
+            } else {
+                $("#state7").attr("style", 'color:red; ');
+                $("#state7").text('请输入正确的邮箱格式！');
+            }
+        });
+        // 验证QQ
+        $('#qq').focus(function () {
+            if ($(this).val() != '') {
+                $("#state8").attr("style", 'color:green;');
+                $("#state8").text('√');
+            } else {
+                $("#state8").attr("style", "color:red;");
+                $("#state8").text('请输入常用的QQ号码！');
+            }
+        }).blur(function () {
+            if ($(this).val() != '') {
+                $("#state8").attr("style", 'color:green;');
+                $("#state8").text('√');
+                ok8 = true;
+            } else {
+                $("#state8").attr("style", 'color:red; ');
+                $("#state8").text('请输入常用的QQ号码！');
+            }
+        });
+        // 验证公司名称
+        $('#gsname').focus(function () {
+            if ($(this).val().length >= 2 && $(this).val().length <= 24 && $(this).val() != '') {
+                $("#state9").attr("style", 'color:green;');
+                $("#state9").text('√');
+            } else {
+                $("#state9").attr("style", "color:red;");
+                $("#state9").text('公司名称为2-24位字符！');
+            }
+        }).blur(function () {
+            if ($(this).val().length >= 2 && $(this).val().length <= 24 && $(this).val() != '') {
+                $("#state9").attr("style", 'color:green;');
+                $("#state9").text('√');
+                ok9 = true;
+            } else {
+                $("#state9").attr("style", 'color:red; ');
+                $("#state9").text('公司名称2-24位字符！');
+            }
+        });
+        // 验证营业执照
+        $('#yyzz').focus(function () {
+            if ($(this).val() != '') {
+                $("#state10").attr("style", 'color:green;');
+                $("#state10").text('√');
+            } else {
+                $("#state10").attr("style", "color:red;");
+                $("#state10").text('请输入有效营业执照！');
+            }
+        }).blur(function () {
+            if ($(this).val() != '') {
+                $("#state10").attr("style", 'color:green;');
+                $("#state10").text('√');
+                ok10 = true;
+            } else {
+                $("#state10").attr("style", 'color:red; ');
+                $("#state10").text('请输入有效营业执照！');
+            }
+        });
+        // 验证营业执照
+        $('#xxadress').focus(function () {
+            if ($(this).val() != '') {
+                $("#state12").attr("style", 'color:green;');
+                $("#state12").text('√');
+            } else {
+                $("#state12").attr("style", "color:red;");
+                $("#state12").text('请输入公司详细地址！');
+            }
+        }).blur(function () {
+            if ($(this).val() != '') {
+                $("#state12").attr("style", 'color:green;');
+                $("#state12").text('√');
+                ok12 = true;
+            } else {
+                $("#state12").attr("style", 'color:red; ');
+                $("#state12").text('请输入公司详细地址！');
+            }
+        });
+
+        $('#sub').click(function () {
+            if (ok1 == false) {
+                $("#state1").attr("style", "color:red; ");
+                $("#state1").text('请输入正确的邮箱格式');
+            }
+            if (ok2 == false) {
+                $("#state2").attr("style", "color:red; ");
+                $("#state2").text('密码为6-20位之间');
+            }
+            if (ok3 == false) {
+                $("#state3").attr("style", 'color:red; ');
+                $("#state3").text('两次输入密码不一致！');
+            }
+            if (ok4 == false) {
+                $("#state4").attr("style", 'color:red; ');
+                $("#state4").text('联系人为2-20位字符！');
+            }
+            if (ok6 == false) {
+                $("#state6").attr("style", 'color:red; ');
+                $("#state6").text('请输入正确的手机号！');
+            }
+            if (ok7 == false) {
+                $("#state7").attr("style", "color:red; ");
+                $("#state7").text('请输入正确的邮箱格式');
+            }
+            if (ok8 == false) {
+                $("#state8").attr("style", 'color:red; ');
+                $("#state8").text('请输入常用的QQ号码！');
+            }
+            if (ok9 == false) {
+                $("#state9").attr("style", 'color:red; ');
+                $("#state9").text('公司名称为2-24位字符！');
+            }
+            if (ok10 == false) {
+                $("#state10").attr("style", 'color:red; ');
+                $("#state10").text('请输入有效营业执照！');
+            }
+            if (ok12 == false) {
+                $("#state12").attr("style", 'color:red; ');
+                $("#state12").text('请输入公司详细地址！');
+            }
+            //验证是否选定协议
+            var issf = $("input[type='checkbox']").attr("checked");
+            if (issf == "checked") {
+                ok13 = true;
+            } else {
+                ok13 = false;
+            }
+            if (ok14 == false) {
+                $("#state14").attr("style", "color:red;");
+                $("#state14").text('请输入验证码！');
+            }
+            if ($("#selectType").val() == "chose" || $("#selectType2").val() == "chose" || $("#selectType").val() == "chose") {
+                ok11 = false;
+                $("#state11").attr("style", "color:red;");
+                $("#state11").text('请选择地区！');
+            }
+            if ($("#selectType").val() != "chose" && $("#selectType2").val() != "chose" && $("#selectType").val() != "chose") {
+                ok11 = true;
+                $("#state11").attr("style", 'color:green;');
+                $("#state11").text('√');
+            }
+            if (ok1 && ok2 && ok3 && ok4 && ok6 && ok7 && ok8 && ok9 && ok10 && ok11 && ok12 && ok13 && ok14) {
+                $('#form2').submit();
+            } else {
+                return false;
+            }
+        });
+    });
+</script>
+
+@*//联动代码*@
+<script type="text/javascript">
+    $(function () {
+        $("#bigtype>select").change(function () {
+            var valueid = $("#bigtype>select").val();
+            $.get("/Register/GetBattr?code=" + valueid, function (data) {
+                if (data != "refresh") {
+                    var string = eval('(' + data + ')');
+                    var zu = new Array;
+                    zu = string.toString().split(",");
+                    var html = "<select  class=\"valid\" name=\"selectType2\" id=\"selectType2\" onChange=\"getselectType2()\">";
+                    for (var i = 0; i < zu.length; i++) {
+                        valueid = "";
+                        if (zu[i] == valueid) {
+                            html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                        }
+                        else {
+                            html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                        }
+                        i += 1;
+                    }
+                    html += "</select>";
+
+                    $("#midtype").empty().html(html);
+                }
+                else {
+                    $("#midtype").empty().html("<select  class=\"valid\" name=\"selectType2\" id=\"selectType2\" onChange=\"getselectType2()\"><option value=\"0\" selected=\"selected\">请选择</option></select>");
+                    $("#smatype").empty().html("<select  class=\"valid\" name=\"selectType3\" id=\"selectType3\" ><option value=\"0\" selected=\"selected\">请选择</option></select>");
+                }
+            });
+        });
+    });
+
+    function getselectType2() {
+        var valueid = $("#midtype>select").val();
+        $.get("/Register/GetBattr?code=" + valueid, function (data) {
+            var string = eval('(' + data + ')');
+            var zu = new Array;
+            zu = string.toString().split(",");
+            var html = "<select  class=\"combox\" name=\"selectType3\" id=\"selectType3\" >";
+            for (var i = 0; i < zu.length; i++) {
+                if (zu[i] == valueid) {
+                    html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                }
+                else {
+                    html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                }
+                i += 1;
+            }
+            html += "</select>";
+            $("#smatype").empty().html(html);
+        });
+    };
+
+    function showxieyi() {
+        $("#chart-modal").attr("style", "display:block");
+    }
+    function colseit() {
+        $("#chart-modal").attr("style", "display:none");
+    }
+</script>
+</head>
+
+<body>
+<div class="login-header">
+	<div class="header-cont">
+		<h1 class="alignleft"><a href="/Index/Index"><img name="page_cnt_1" _src="/images/headFooter/logo.png" alt="月月兴食品商行" /></a></h1>
+        <span>您好，欢迎光临月月兴食品商行<a href="/Logon/Logon"><b>请登录</b></a><a href="/HelpCenter/Index">帮助中心</a></span>
+	</div><!--header-cont end-->
+</div>
+<div class="clear line2"></div>
+<div class="wrap">
+	<div class="wraps borders">
+    	<div class="comregister-content">
+            <h2 class="loginregister-title mar1"><strong>企业会员注册</strong><span>（* 手机号、固定电话选填一项，其余均为必填项）</span></h2>
+            <form id="form2" action="/Register/companyRegisterAdd" method="post">
+            <div class="Deta-title"><h3>帐号信息</h3></div> 
+                <table class="register-table">
+                	<tr>
+                    	<td width="80"><span>登录邮箱：</span></td>
+                        <td><label><span>请输入您的常用邮箱</span><input type="text" id="email" name="email" class="input01" /></label></td><td width="160" ><label id='state1' ></label></td>
+                    </tr>
+                    <tr>
+                    	<td><span>设置密码：</span></td>
+                        <td><label><span>6-20位大小写英文字母、数字或符号</span><input type="password" id="password" name="password" class="input01" /></label></td><td width="160" ><label id='state2' ></label></td>
+                    </tr>
+                    <tr>
+                    	<td><span>确认密码：</span></td>
+                        <td><label><span>请再次输入密码</span><input type="password" id="repassword" name="repassword" class="input01" /></label></td><td width="160" ><label id='state3' ></label></td>
+                    </tr>
+                </table>
+                <div class="Deta-title"><h3>联系人信息</h3></div>
+                <table class="register-table">
+                	<tr>
+                    	<td width="80"><span>联系人：</span></td>
+                        <td><label><span>请输入联系人姓名</span><input type="text" id="lxname" name="lxname" class="input01" /><label id='state4' ></label></label></td><td width="160" ></td>
+                    </tr>
+                    <tr>
+                    	<td><span>固定电话：</span></td>
+                        <td><label><span>区号</span><input type="text" id="quhao" name="quhao" class="input03" /></label><font>-</font><label><span>电话号码</span><input type="text" id="gdhaoma" name="gdhaoma" class="input04" /></label><font>-</font><label><span>分机</span><input type="text" id="fenji" name="fenji" class="input05" /></label></td><td width="160" ><label id='state5' ></label></td>
+                    </tr>
+                    <tr>
+                    	<td><span>手机号码：</span></td>
+                        <td><label><span>请输入您的手机号码</span><input type="text" id="phone" name="phone" class="input01" /><label id='state6' ></label></label></td><td width="160" ></td>
+                    </tr>
+                    <tr>
+                    	<td><span>电子邮箱：</span></td>
+                        <td><label><span>请输入您的电子邮箱</span><input type="text" id="lxemail" name="lxemail" class="input01" /><label id='state7' ></label></label></td><td width="160" ></td>
+                    </tr>
+                    <tr>
+                    	<td><span>QQ号码：</span></td>
+                        <td><label><span>请输入您的QQ号码</span><input type="text" id="qq" name="qq" class="input01" /></label><label id='state8' ></label></td><td width="160" ></td>
+                    </tr>
+                </table>
+                <div class="Deta-title"><h3>企业信息</h3></div>
+                <table class="register-table">
+                    <tr>
+                    	<td><span>公司名称：</span></td>
+                        <td><label><span>请按营业执照填写</span><input type="text" id="gsname" name="gsname" class="input01" /></label><label id='state9' ></label></td><td width="160" ></td>
+                    </tr>
+                    <tr>
+                    	<td><span>营业执照：</span></td>
+                        <td><label><span>请输入您的营业执照号</span><input type="text" id="yyzz" name="yyzz" class="input01" /></label><label id='state10' ></label></td><td width="160" ></td>
+                    </tr>
+                    <tr>
+                    	<td><span>公司地区：</span></td>
+                        <td>
+										<label id="bigtype"  style="min-width:100px; ">@Html.DropDownList("selectType") </label>
+										<label id="midtype"  style="min-width:100px;">@Html.DropDownList("selectType2") </label>
+										<label id="smatype"  style="min-width:90px;">@Html.DropDownList("selectType3") </label><label id='state11' ></label>
+                        </td><td width="160" ></td>
+                    </tr>
+                    <tr>
+                    	<td><span>详细地址：</span></td>
+                        <td><label><span>请输入您公司的详细地址</span><input type="text" id="xxadress" name="xxadress" class="input01" /></label><label id='state12' ></label>
+                    </tr>
+                    <tr>
+                    	<td><span>验证码：</span></td>
+                        <td><label><span>请输入验证码</span><input type="text" id="code"  name="code" class="input02" /><img id="valiCode" style="cursor: pointer;" src="/Register/GetValidateCode" alt="验证码" /></label><label  id='state14' ></label></td>
+                    </tr>
+                    <tr>
+                    	<td colspan="2"><div class="agree-rule"><input type="checkbox" checked="checked" name="agree" id="agree" /><label for="agree">我已阅读并愿意遵守</label></div><a href="javascript:void(0)" onclick="showxieyi()">《月月兴食品商行会员协议》</a></td>
+                    </tr>
+                    <tr>
+                    	<td colspan="2"><input type="submit" id="sub" value="立即注册" /></td>
+                    </tr>
+                </table>
+                </form>
+            <div class="clear"></div>
+        </div><!--login-cont end-->
+    </div><!--wraps end-->
+</div><!--wrap end-->
+<div class="clear line1"></div>
+<div class="modal" id="chart-modal" >
+    <span class="xieyiheader">月月兴食品商行会员协议</span>
+	<a class="close" data-dismiss="modal" onclick="colseit()">X</a>
+    <div class="yes-chart" style="width:900px;height:380px;">
+        <div id="TextArea1"  style="width:900px;height:320px;margin-bottom:30px; overflow-y:auto;">@Html.Raw(ViewBag.xieyi)</div>
+        <div  class="total-chart"  onclick="colseit()">同意并继续</div>
+    </div><!--yes-chart end-->
+    <div class="clear"></div>
+</div><!--chart-modal end-->
+
+<script type='text/javascript' src='/js/main.js'></script><!--散乱JS合集 重要 此JS放置位置要注意，需放置在导航及banner用的JS下方..-->
+<script type="text/javascript" src="/js/address.js"></script><!--确认订单页面省市区三级联动JS-->
+<script type="text/javascript">
+//表单美化JS
+$(function(){
+	
+	$('input').customInput();
+	
+	$('.pj-input').each(function(){
+		$('div:first',this).addClass('first');
+		$('div:last',this).addClass('last');	
+	}); 
+});
+//确认订单页面省市区三级联动JS
+$(function(){
+
+	$("#sjld").sjld("#shenfen","#chengshi","#quyu");
+	
+});
+
+//新增收获地址滑动JS
+$(document).ready(function(){
+$(".new-add").click(function(){
+    $(".new-addCont").slideToggle("slow");
+  });
+});
+
+<!--全选反选-->
+$(function(){
+	//单独选择某一个
+	$("input[name='check_item']").click(function(){
+			var index=$("input[name='check_item']").index(this);
+			$("input[name='check_item']").eq(index).toggleClass("checked");//伪复选
+	});	
+	//全选
+	$("#check_all,#box_all").click(function(){
+     $("input[name='check_item']").attr("checked",$(this).attr("checked"));
+	 $("input[name='check_item'],#check_all,#box_all").toggleClass("checked");
+	});
+
+});
+
+//导航下拉菜单横导航
+ddsmoothmenu.init({
+
+	mainmenuid: "smoothmenu1", //menu DIV id
+	
+	orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+	
+	classname: 'navCon-menu'
+
+});
+
+//购物车页面下方商品滚动JS
+jQuery(".slideBox").slide({ mainCell:"ul",vis:4,prevCell:".sPrev",nextCell:".sNext",effect:"leftLoop"});
+
+//产品详细页左侧浏览历史JS
+jQuery(".ani-side-pro").slide({ mainCell:".sales-list-history", effect:"left", delayTime:400,pnLoop:false,easing:"easeOutCubic" });
+
+
+//首页团购banner下方的广告轮播JS
+jQuery(".ad-banner").slide({ mainCell:".pic",effect:"left", autoPlay:true, delayTime:300});
+
+//首页产品分类里的广告轮播JS
+jQuery(".pro-banner").slide({ mainCell:".pic",effect:"left", autoPlay:true, delayTime:300});
+
+//首页品牌推荐大图轮播
+jQuery("#iFocus li a").hover(function(){ $(this).css("opacity",1).siblings().css("opacity",0.7) },function(){ $(this).css("opacity",1).siblings().css("opacity",1) });//鼠标移到图片上时聚焦效果
+jQuery("#iFocus").slide({ titCell:".btn span", mainCell:"ul",effect:"left", autoPlay:true});
+
+//首页小品牌无缝滚动JS
+jQuery(".picScroll").slide({ mainCell:"ul", effect:"leftMarquee", vis:9, autoPlay:true, interTime:50, switchLoad:"_src" });
+
+//侧边栏一周销量排行榜JS
+jQuery(".sales-list").slide({ titCell:"li",triggerTime:0 });
+
+
+//图片延迟加载
+(function(){
+	
+	var th=this;
+	
+	th.pageSize=1000;/* 每屏大概高度为1000px */
+	
+	th.pageQuotiety=0.5;/* 提前下载量 */
+	
+	th.imgName="page_cnt_";/* 图片通用名 */
+	
+	th.imgs=[];/* 每屏图片 [每屏所有图片，第一张图片，第一张图片绝对top:加载图片的top] */
+	
+	var B = {};/* Browser check */
+	
+	B.ua = window.navigator.userAgent.toLowerCase();
+	
+	B.ie = /msie/.test(B.ua);
+	
+	B.moz = /gecko/.test(B.ua);
+	
+	B.opera = /opera/.test(B.ua);
+	
+	B.safari = /safari/.test(B.ua);
+	
+	var $N=function(s,docu){
+		var doc=docu?docu:document;
+		return(typeof s=="object")?s:doc.getElementsByName(s);
+	};
+	
+	th.getWindowSize=function(){
+		var a={};
+		if(window.self&&self.innerWidth){
+			a.width=self.innerWidth;
+			a.height=self.innerHeight;
+			return a;
+		}if(document.documentElement&&document.documentElement.clientHeight){
+			a.width=document.documentElement.clientWidth;
+			a.height=document.documentElement.clientHeight;
+			return a;
+		}
+		a.width=document.body.clientWidth;
+		a.height=document.body.clientHeight;
+		return a;
+	}
+	
+	th.getObjPosition=function(obj){
+		var a={};
+		a.x = obj.offsetLeft,a.y = obj.offsetTop;
+		while(obj=obj.offsetParent){
+			a.x += obj.offsetLeft;
+			a.y += obj.offsetTop;
+		}
+		return a;
+	}
+	
+	th._getPageScroll=function(){
+		var s;
+		if (typeof(window.pageYOffset)!="undefined"){
+			s = window.pageYOffset;
+		}else if (document.documentElement && document.documentElement.scrollTop){
+			s = document.documentElement.scrollTop;
+		}else if (document.body){
+			s = document.body.scrollTop;
+		}
+		return s;
+	}
+	
+	th._loadImages=function(a){
+		if(!a)	return;
+		var obj = a;
+		if(typeof a == "string"){
+			obj=$N(a);
+		}for(var i=0;i<obj.length;i++){
+			var s = obj[i];
+			if(typeof s == "object"){
+				if(s.getAttribute("_src")){
+					s.setAttribute("src",s.getAttribute("_src"));
+					s.removeAttribute("_src",0);
+				}
+			}
+		}
+		delete obj;
+		obj=null;
+	}
+	
+	th._loadAllImgs=function(){
+		var i=0;
+		while(th.imgs[i]){
+			th._loadImages(th.imgs[i][0]);
+			i++;
+		}
+	}
+	
+	th.getImgPosition=function(){
+		var i=1;
+		var p=$N(th.imgName+i);
+		while(p&&p.length>0){
+			var p=$N("page_cnt_"+i);
+			var t=th.getImgLoadPosition(p[0]);
+			th.imgs.push([p,p[0],t]);
+			i++;
+			p=$N(th.imgName+i);
+		}
+	}
+	
+	th.getImgLoadPosition=function(a){
+		var t={imgTop:0,pageTop:0};
+		if(a){
+			var w=th.getWindowSize();
+			t.imgTop=parseInt(th.getObjPosition(a).y);
+			t.pageTop=parseInt((t.imgTop/1000-th.pageQuotiety)*1000);
+		}
+		return t;
+	}
+	
+	th._addScrollEven=function(){
+		if(B.ie){
+			window.attachEvent("onscroll",th._scrollFn);
+		}else{
+			window.addEventListener("scroll",th._scrollFn,false);
+		}
+	}
+	
+	th._removeScrollEven=function(){
+		if(B.ie){
+			window.detachEvent("onscroll",th._scrollFn);
+		}else{
+			window.removeEventListener("scroll",th._scrollFn,false);
+		}
+	}
+	
+	th._scrollFn=function(){
+		var y=th._getPageScroll();
+		var w=th.getWindowSize().height;
+		if(w==0){
+			th._loadAllImgs();
+			return;
+		}
+		var i=0;
+		var j=0;
+		while(th.imgs[i]){
+			if(!( y+w < th.imgs[i][2].pageTop )){
+				th._loadImages(th.imgs[i][0]);
+				j++
+			}
+			i++;
+			if(j>=th.imgs.length){
+				th._removeScrollEven();
+			}
+		}
+	}
+	
+	th.getImgPosition();
+	th._addScrollEven();
+	th._scrollFn();
+	
+})()
+</script>
+</body>
+</html>
+

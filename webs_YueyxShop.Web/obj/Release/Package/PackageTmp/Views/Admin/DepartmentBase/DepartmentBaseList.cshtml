@@ -1,0 +1,76 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.DepartmentBase>
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" layouth="112" rel="DepartmentBox">
+    <colgroup width="30px" />
+    <colgroup width="200px" />
+    <colgroup width="150px" />
+    <colgroup width="150px" />
+    <colgroup width="100px" />
+    <colgroup width="100px" />
+    <colgroup/>
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                部门名称
+            </th>
+            <th>
+                主要电话
+            </th>
+            <th>
+                传真
+            </th>
+            <th>
+                邮箱
+            </th>
+            <th>
+                创建时间
+            </th>
+            <th>
+                状态
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+      @*  @foreach (DataRow item in (ViewData["PageList"] as DataTable).Rows)*@
+      @foreach (var item in Model)
+        {
+            <tr target="dli_id" onclick="DepartmentBaseM_setRow('@item.d_StateCode.ToString()')" rel="@item.d_ID|@item.d_MingCh|@item.d_CengJ|@item.d_BianM"  title="双击查看详细信息"  @*ondblclick ="DepartmentBaseM_dbltable('dli_id=@item.d_ID.ToString()|@item.d_MingCh.ToString()|@item.d_CengJ.ToString()|@item.d_BianM.ToString()')"*@ ondblclick="DepartmentBaseM_searchChild();">
+                <td>
+                </td>
+                <td style="text-align: left;">
+                    @item.d_MingCh
+                </td>
+                <td>
+                    @item.d_ZhuYDH
+                </td>
+                <td>
+                    @item.d_ChuanZ
+                </td>
+                <td>
+                    @item.d_YouX
+                </td>
+                <td>
+                    @Convert.ToDateTime(item.d_CreatedOn).ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    <span style="color: Red;">@item.d_StateCode.ToString().Replace("0", "存在").Replace("1", "停用")</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="DepartmentBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

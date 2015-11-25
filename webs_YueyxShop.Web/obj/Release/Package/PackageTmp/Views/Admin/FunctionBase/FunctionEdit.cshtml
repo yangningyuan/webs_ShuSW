@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            var fid = $("#hfPid", $.pdialog.getCurrent()).val();
+            if (fid == "00000000-0000-0000-0000-000000000000") { $("#div_pid", $.pdialog.getCurrent()).hide(); }
+            //管理权限
+            var ismanage = $("#hf_IsManage", $.pdialog.getCurrent()).val(); //是否有管理权限
+        });                
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("Save", "FunctionBase")"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)">
+    @Html.Hidden("hfid", @ViewData["hfid"])
+    @Html.Hidden("hfOtype", @ViewData["hfOtype"])
+    @Html.Hidden("hf_Cengj", @ViewData["hf_Cengj"])
+    @Html.Hidden("hfbianm", @ViewData["hfbianm"])
+    @Html.Hidden("hf_IsManage", @ViewData["hf_IsManage"])
+    <input type="hidden" id="hfPid" name="hfPid" value='@ViewData["hfPid"]' />
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="58">
+            <div class="unit" id="div_pid">
+                <label>
+                    上级ID：</label>
+                @Html.TextBox("txtPid", ViewData["txtPid"], new { @readonly = "readonly" })
+            </div>
+            <div class="unit">
+                <label>
+                    功能名称</label>
+                @Html.TextBox("txtMingc", ViewData["txtMingc"], new { @class = "required" })
+            </div>
+            <div class="unit">
+                <label>
+                    排序</label>
+                @Html.TextBox("txtPaix", ViewData["txtPaix"], new { @class = "digits", @alt = "输入数字" })
+            </div>
+            <div class="unit">
+                <label>
+                    描述</label>
+                @Html.TextArea("txtMiaos", ViewData["txtMiaos"])
+            </div>
+            <div class="unit">
+                <label>
+                    助记码</label>
+                @Html.TextBox("txtZhujm", ViewData["txtZhujm"])
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li id="save">
+                        <div class="buttonActive" runat="server">
+                            <div class="buttonContent">
+                                <button type="submit">
+                                    保存 @*保存*@</button></div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消 @*取消*@</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

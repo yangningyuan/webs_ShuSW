@@ -1,0 +1,105 @@
+@model webs_YueyxShop.Model.vm_GroupInfo
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        function saveData() {
+            $.post('/_ashx/dataSave_manager_json.ashx?type=saveGPdetails&pid=' + $('#pid').val() + '&gpcount=' + $('#gpcount').val() + '&gpprice=' + $('#gpprice').val() + '&gplogo=' + encodeURI($('#gplogo').val()) + '&gpslogan=' + encodeURI($('#gpslogan').val())
+            + '&starttime=' + $('#starttime').val() + '&endtime=' + $('#endtime').val() + '&otype=' + $('#texOtype').val() + '&id=' + $('#hfGPId').val(), function (data) {
+                var d1 = { "statusCode": "200",
+                    "navTabId": "",
+                    "rel": "gpBox",
+                    "callbackType": ""
+                };
+                alert(data);
+                if (data == "保存成功") {
+                    CloseCurrentDialog();
+                    navTabAjaxDone(d1);
+                }
+            });
+        }
+
+        function CloseCurrentDialog() {
+            $.pdialog.closeCurrent();
+        }
+        
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("GroupPurchaseEdit", "GroupPurchase")"  enctype="multipart/form-data"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+    @Html.Hidden("texOtype", @ViewData["texOtype"], new { @id = "texOtype" })
+    @Html.Hidden("hfGPId", @ViewData["hfPId"], new { @id = "hfGPId" })
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="52">
+            <div class="unit">
+                <label>
+                    <div class="buttonContent">
+                        选择商品
+                    </div>
+                </label>
+                @Html.Hidden("orgLookup.id", @ViewData["p_ID"], new { @id = "pid", @lookupgroup = "orgLookup" })
+                @Html.TextBox("orgLookup.orgName", ViewData["p_Name"], new { @id = "pname", @size = "20", @lookupgroup = "orgLookup", @readonly = "readonly", @class = "required" })
+                <a class="btnLook" href="@Url.Action("ProductsMsg", "GroupPurchase")" lookupgroup="orgLookup">
+                </a>
+            </div>
+            <div class="unit">
+                <label>
+                    团购数量：</label>
+                @Html.TextBoxFor(model => model.gp_pCount, new { @class = "digits required", @id = "gpcount" })
+            </div>
+            <div class="unit">
+                <label>
+                    团购价格：</label>
+                @Html.TextBoxFor(model => model.gp_pPric, new { @class = "number required", @id = "gpprice" })
+            </div>
+            <div class="unit">
+                <label>
+                    团购标语：</label>
+                @Html.TextBoxFor(model => model.gp_Logo, new { @class = "required", @id = "gplogo" })
+            </div>
+            <div class="unit">
+                <label>
+                    团购口号：</label>
+                @Html.TextBoxFor(model => model.gp_Slogan, new { @id = "gpslogan" })
+            </div>
+            <div class="unit">
+                <label>
+                    开始时间：</label>
+                <input type="text" id="starttime" name="starttime" value="@if (@ViewData["starttime"] != null)
+                                                                          {@ViewData["starttime"].ToString().Replace("/", "-")}
+                                                                          else
+                                                                          {@ViewData["starttime"]}" class="date required" dateFmt="yyyy-MM-dd HH:mm:ss" />
+            </div>
+            <div class="unit">
+                <label>
+                    结束时间：</label>
+                <input type="text" id="endtime" name="endtime" value="@if (@ViewData["endtime"] != null)
+                                                                      {@ViewData["endtime"].ToString().Replace("/", "-")}
+                                                                      else
+                                                                      {@ViewData["endtime"]}" class="date required" dateFmt="yyyy-MM-dd HH:mm:ss" />
+            </div>
+        </div>
+    </div>
+    <div class="formBar">
+        <ul>
+            <li id="save">
+                <div class="buttonActive">
+                    <div class="buttonContent">
+                        <button type="button" onclick="saveData();">
+                            保存</button></div>
+                </div>
+            </li>
+            <li>
+                <div class="button">
+                    <div class="buttonContent">
+                        <button type="button" class="close">
+                            取消</button></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    </form>
+</body>
+</html>

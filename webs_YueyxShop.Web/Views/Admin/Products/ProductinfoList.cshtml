@@ -1,0 +1,59 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.ProductInfoBase>
+           
+<table class="table" width="100%" layouth="138" rel="piBox">
+    <colgroup width="30px" />
+    <colgroup width="50px" />
+    <colgroup width="100px" />
+    <colgroup width="400px" />
+    <colgroup width="30px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>序号
+            </th>
+            <th>
+                信息分类
+            </th>
+            <th>
+                标题
+            </th>
+            <th>
+                内容
+            </th>
+            <th>
+                状态
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr target="Pinfo_id" rel="@item.pin_ID|@item.p_ID" ondblclick="OpenMenuBaseEdit('@item.pin_ID|@item.p_ID')">
+                <td>@item.pin_ID
+                </td>
+                <td>
+                    @item.pin_Type
+                </td>
+                <td>
+                    @item.pin_Title
+                </td>
+                <td style="height:auto">
+                    @item.pin_Content
+                </td>
+                <td>
+                    <span style="color: Red">@item.pin_StatusCode.ToString().Replace("0", "启用").Replace("1", "禁用")</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="MenuBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

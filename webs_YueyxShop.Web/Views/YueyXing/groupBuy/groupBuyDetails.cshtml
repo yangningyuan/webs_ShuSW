@@ -1,0 +1,215 @@
+﻿@{
+    ViewBag.Title = "月月兴食品商行-团购商品详情";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+@model Models.ListModel
+<link rel="stylesheet" type="text/css" href="/css/kaych.prolist.css"><!--产品相关页面CSS-->
+
+           <script type="text/javascript" src="/js/ddsmoothmenu.js"></script><!--下拉导航JS-->
+<script type="text/javascript" src="/js/payfor.js"></script><!--商品数量增加减少 算总价JS-->
+    
+<script type="text/javascript" src="/js/modal.js"></script>
+<script type="text/javascript">
+    //大商品
+    function insertintoCart(id) {
+        var skuid = id;
+        var count = 1;
+        var pric = $("#gppric").val();
+        $.ajax({
+            type: "post",
+            url: "/groupBuy/insertintoCart?skuid=" + skuid + "&count=" + count+"&pric="+pric,
+            success: function (data) {
+                if (data != "nologon" && data != "fail" ) {
+                    $("#groupkuang").html(data);
+                    $("#chart-modal").attr("style", "display:block");
+                }
+                else if (data == "nologon") {
+                    window.location.href = "/Logon/Logon";
+                }
+                else if (data == "数量不足") {
+                    $("#groupkuang").html(data);
+                    $("#chart-modal").attr("style", "display:block");
+                }
+            }
+        });
+
+    }
+    function closeit() {
+        $("#chart-modal").attr("style", "display:none");
+    };
+    //推荐商品
+    function TuiinsertintoCart(id) {
+        var skuid = id;
+        var count = 1;
+        $.ajax({
+            type: "post",
+            url: "/ProDetail/insertintoCart?skuid=" + skuid + "&count=" + count,
+            success: function (data) {
+                if (data != "" && data != "fail") {
+                    $("#kuang").html(data);
+                    $("#chart-modal").attr("style", "display:block");
+                }
+                else if (data == "fail")
+                { }
+                else {
+                    location.href = "Logon/Logon";
+                }
+            }
+        });
+
+    }
+      
+</script>
+
+<link type="text/css" href="/css/kaych.groupBuyList.css" rel="stylesheet" />
+<input type="hidden" value="@Model.gbmodel.gp_pPric" id="gppric" /> 
+<div class="breadcrumb">
+    <a href="/Index/Index"><strong>首页</strong></a> > <a href="/groupBuy/index"><strong>团购</strong></a>
+</div>
+<!--breadcrumb end-->
+<div class="clearh">
+</div>
+<div class="wrap">
+    <section class="alignleft">
+		<div class="goods-wrap borderStyle">
+    		<div class="goods-name">
+        		<h2>@Model.gbmodel.p_Name</h2>
+            	<p>@Model.gbmodel.gp_Slogan</p>
+        	</div><!--goods-name end-->
+            <div class="goods-message alignleft">
+            	<div class="goods-price">
+                	<div class="group-price"><span>￥</span>@Model.gbmodel.gp_pPric</div><div class="buy-button"><a href="javascript:void(0)" onclick="insertintoCart(@Model.gbmodel.sku_ID)" value="@Model.gbmodel.sku_ID">抢 购</a></div>
+                </div><!--goods-price end-->
+                <div class="goods-cont">
+                	<div class="discount">
+              			<ul>
+                			<li>
+                  				<p>市场价</p>
+                  				<del id="marketPrice">@Model.gbmodel.sku_scPrice</del>
+                            </li>
+                			<li>
+                  				<p>折扣</p>
+                  				<span id="zhekou"> @Math.Round(Convert.ToDouble(Model.gbmodel.gp_pPric / Model.gbmodel.sku_scPrice) * 10.0, 1)折</span>
+                            </li>
+                			<li>
+                  				<p>节省</p>
+                 			 	<span id="jiesheng">¥  @(Model.gbmodel.sku_Price - Model.gbmodel.gp_pPric)</span>
+                            </li>
+						</ul>
+              			<div class="clear"></div>
+            		</div><!--discount end-->
+                    <div class="dOrder-buyNub">
+                    	<div class="buyNub-tit">数量:</div>
+                        <div class="buyNub-nub">
+							<div class="buyNub-nub-wrap">
+								<i class="buyNub-nub-blus-c" onClick="setAmount.reduce('#qty_item_2')"></i>
+                                <input name="qty_item_2" type="text"  value="1" id="qty_item_2" onKeyUp="setAmount.modify('#qty_item_2')">
+								<i class="buyNub-nub-top" onClick="setAmount.add('#qty_item_2')"></i>
+                            </div>
+                        </div><!--buyNub-nub end-->
+                        <div class="clear"></div>
+                    </div><!--dOrder-buyNub end-->
+                    <div class="countdownTime" id="p-@Model.gbmodel.gp_ID">
+                    	<span><font class="day">-</font>天<font class="hour">-</font>时<font class="minute">-</font>分<font class="second">-</font>秒</span>
+				 	</div><!--countdownTime end-->
+                    <script type="text/javascript">
+                        $(function () {
+                            countDown("@Model.gbmodel.gp_EndTime", "#p-@Model.gbmodel.gp_ID .day", "#p-@Model.gbmodel.gp_ID .hour", "#p-@Model.gbmodel.gp_ID .minute", "#p-@Model.gbmodel.gp_ID .second");
+                        });
+                    </script>
+            		<div class="totalBuy"> 
+                    	<span>@Model.gbmodel.gp_SaleCount</span>人已购买
+              			<p>数量有限，下手要快哦！</p>
+            		</div><!--totalBuy end-->
+                </div><!--goods-cont end-->
+                <div class="clear"></div>
+                <div class="shares">
+                	<em></em><span>分享到：</span><div class="bdsharebuttonbox alignleft share-bd"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+<script>
+    window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+</script>
+                </div><!--shares end-->
+            </div><!--goods-message end-->
+            <div class="goods-img alignright"><img style="width:345px;height:400px;" name="page_cnt_1" _src="@Model.gbmodel.pi_Url" alt="@Model.gbmodel.p_Name"/></div>
+            <div class="clear"></div>
+    	</div><!--goods-wrap end-->
+        <div class="clear line1"></div>
+        <div class="goodsWrap borderStyle">
+            <div class="ul-cont">
+                <div class="tab-cont">
+                @foreach (var item in Model.pinfoList)
+                {
+                    <div class="goods-partDiv">
+                		<h4 class="h4-goods"><i></i><span>@item.pin_Title</span></h4>
+                        <div class="goods-content">
+                        	@item.pin_Content
+                        </div><!--goods-content end-->
+                    </div><!--goods-partDiv end-->
+                }
+                </div>
+            </div><!--ul-cont end-->
+        </div><!--goods-wrap end-->
+	</section>
+    <!--section end-->
+    <aside class="alignright">
+		<div class="buy-math borderStyle">
+        	<div class="goods-imgs"><img style="width:60px;height:70px;" name="page_cnt_1" _src="@Model.gbmodel.pi_Url" alt="@Model.gbmodel.p_Name" /></div>
+            <p><strong>@System.Web.HttpContext.Current.Application["UserCount"] </strong>人</p>
+            <p>正在与您同时浏览本产品下手要快哦！</p>
+        </div><!--buy-math end-->
+        @for (int i = 0; i < 2 && i < Model.adlist.Count; i++)
+        {
+            <div class="goods-ad borderStyle"><a href="@Model.adlist[i].a_Link"><img name="page_cnt_1" _src="@Model.adlist[i].a_Image" alt="@Model.adlist[i].a_Title" /></a></div>
+        }
+        
+        <div class="clearh"></div>
+        <div class="goods-listWrap borderStyle">
+        	<h4 class="goods-listTitle">购买该商品的客户还关注</h4>
+            <div class="goods-list">
+            	<div class="bd">
+                	<div class="ulWrap">
+                	<ul>
+                    @foreach (var i in ViewBag.pinfo)
+                    { 
+                    	<li>
+                        	<div class="pic"><a href="/ProDetail/ProDetail?skuid=@i.sku_ID"><img name="page_cnt_1" _src="@i.pi_Url" alt="@i.p_Name" style="width:55px;height:70px;"/></a></div>
+                            <p><a href="#">@i.p_Name @i.shuxing</a></p>
+                            <p><span>￥@i.sku_Price</span><del>￥@i.sku_scPric</del></p>
+                            <p>@i.gz 人已关注</p>
+                        </li>
+                    
+                    }
+                    </ul>
+                	<ul>
+                    @foreach (var i in ViewBag.pinfo2)
+                    { 
+                    	<li>
+                        	<div class="pic"><a href="/ProDetail/ProDetail?skuid=@i.sku_ID"><img name="page_cnt_1" _src="@i.pi_Url" alt="@i.p_Name" style="width:55px;height:70px;"/></a></div>
+                            <p><a href="#">@i.p_Name @i.shuxing</a></p>
+                            <p><span>￥@i.sku_Price</span><del>￥@i.sku_scPric</del></p>
+                            <p>@i.gz 人已关注</p>
+                        </li>
+                    
+                    }
+                    </ul>
+                    </div>
+                </div><!--goods-cont end-->
+                <div class="hd">
+                	<a class="prev"></a><!--<ul></ul>--><a class="next"></a> 
+                </div><!--hd end-->
+            </div><!--goods-list end-->
+        </div><!--goods-listWrap end-->
+        
+        <script type="text/javascript">
+			/*
+				多行/多列的滚动解决思路在于：把每次滚动的n个li放到1个ul里面，然后用SuperSlide每次滚动1个ul，相当于每次滚动n个li
+			*/
+			jQuery(".goods-list").slide({titCell:".hd ul",mainCell:".bd .ulWrap",autoPage:true,effect:"top",autoPlay:true,});
+
+		</script>
+	</aside>
+    <!--aside end-->
+</div>
+<!--wrap end-->
+<div id="groupkuang"><!--成功加入购物车弹出框-->
+</div>

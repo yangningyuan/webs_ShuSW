@@ -1,0 +1,141 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head id="Head1">
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            ProductType_dhValue1();
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), "btBox");
+            $('.checkboxCtrl').attr("style", "display:block");
+            $('.pcheckbox').attr("style", "display:block");
+
+        });
+
+        //导航值改变时，所必须的值
+        function ProductType_dhValue1() {
+            $("#div_daohang", navTab.getCurrentPanel()).html("<a href='#' onclick='ProductType_daohangfuClick()'><span>顶级菜单</span></a>");
+            ProductType_addFid1();
+        }
+
+        //查看子集
+        function ProductType_searchChild() {
+            if ($("#dli_id", navTab.getCurrentPanel()).length == 1) {
+                searchValue = $("#dli_id", navTab.getCurrentPanel()).val();
+                var id = searchValue.split("|")[0]; //id
+                var name = searchValue.split('|')[1]; //name
+                var cengji = searchValue.split('|')[2]; //层级
+                var bianma = searchValue.split('|')[3]; //编码
+                $("#hf_cengj", navTab.getCurrentPanel()).val(searchValue.split('|')[2]); //层级
+                $("#hf_bianma", navTab.getCurrentPanel()).val(searchValue.split('|')[3])
+                $("#hfPid", navTab.getCurrentPanel()).val(id); //查询的父id
+                ProductType_addFid1();
+                var aa = '"' + id + '"';
+                var daohang = $("#div_daohang", navTab.getCurrentPanel()).html() + "<span>&nbsp;&nbsp;&gt;&gt;&nbsp;&nbsp;</span><a href='#' class='aName' id='" + id + "'  onclick='ProductType_daohangziClick(" + aa + ")'>" + name + "</a>";    //现在导航的值
+                $("#div_daohang", navTab.getCurrentPanel()).html(daohang); //给导航追加值
+                divSearch(navTab.getCurrentPanel().find("#pagerForm"), "btBox");
+                $("#jibie").val($("#dli_id", navTab.getCurrentPanel()).val().split('|')[2]);
+                if ($("#dli_id", navTab.getCurrentPanel()).val().split('|')[2] == 1) {
+                    $('#lilayert').attr("style", "display:none");
+                    $('#lilinet').attr("style", "display:none");
+                    $('.checkboxCtrl').attr("style", "display:block");
+                    $('.pcheckbox').attr("style", "display:block");
+                }
+            }
+            else {
+                alertMsg.info("请选择信息！！！");
+            }
+        }
+
+        //添加时所要传的参数
+        function ProductType_addFid1() {
+            var fid = $("#hfPid", navTab.getCurrentPanel()).val(); //父id
+            var pCengj = navTab.getCurrentPanel().find("#hf_cengj").val(); //父层级
+            var bianma = navTab.getCurrentPanel().find("#hf_bianma").val();
+            $("#hf_add", navTab.getCurrentPanel()).val(fid + "|" + pCengj + "|" + bianma); //添加时需要传的参数
+        }
+        //导航单击事件（fu）
+        function ProductType_daohangfuClick() {
+            $("#hfPid", navTab.getCurrentPanel()).val("0"); //查询的父id
+            ProductType_addFid1();
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "btBox");
+            ProductType_dhValue1();
+            $('#lilayert').attr("style", "display:block");
+            $('#lilinet').attr("style", "display:block");
+            $('.checkboxCtrl').attr("style", "display:none");
+            $('.pcheckbox').attr("style", "display:none");
+
+        }
+        //导航单击事件（子）
+        function ProductType_daohangziClick(id) {
+
+            //            alert($("#div_daohang", navTab.getCurrentPanel()).html());
+            $("#hfPid", navTab.getCurrentPanel()).val(id);
+            $("#" + id).nextAll().remove();
+            var cengji = $("#div_daohang").children("a").length - 1;
+            ProductType_addFid1();
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "btBox");
+        }
+
+        $("#addptype").click(function () {
+            if ($("#type_list").val() != "") {
+                navTab.closeCurrentTab();
+            }
+        });
+    </script>
+</head>
+<body>
+    <form id="pagerForm" method="post"  action="@Url.Action("BrandTypeList", "BrandBase")" onsubmit="return divSearch(this,'btBox');">
+    <input type="hidden" id="hfPid" name="hfPid" value="0" />
+    <input type="hidden" id="hf_add" name="hf_add"/>
+    <input type="hidden" id="hf_daohang" name="hf_daohang" />
+    <input type="hidden" id="hf_cengj" name="hf_cengj" value="0" />
+    <input type="hidden" id="hf_bianma" name="hf_bianma" />
+    <input type="hidden" id="type_list" name="type_list"/>
+    <input type="hidden" id="jibie" name="jibie"/>
+    @Html.Hidden("texOtype", @ViewData["texOtype"])
+    @Html.Hidden("b_ID", @ViewData["b_ID"])
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent" style="width: 100%;">
+                <colgroup>
+                    <col style="width: 40px;" />
+                    <col />
+                </colgroup>
+                <tr>
+                    <td>
+                        导航:
+                    </td>
+                    <td>
+                        <label id="div_daohang">
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--列表-->
+    <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                <li id="lilayert"><a class="details" onclick="ProductType_searchChild();"><span>查看子集</span></a></li>
+                    @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                    { 
+                        <li id="lilinet" class="line">line</li>
+                        <li><a class="add" id="addptype" href="@Url.Action("BrandEdit?otype={texOtype}&pt_id={type_list}&b_ID={b_ID}", "BrandBase")" warn="请选择子集中的类别！" target="navTab" rel="w_BrandEdit">
+                        <span>确定</span></a></li>
+                    }
+                <li class="line">line</li>
+                @*<li><a class="edit"  rel="w_ProductsTypeEdit"
+                    target="navTab"  ><span>取消</span></a></li>
+                <li class="line">line</li>*@
+            </ul>
+        </div>
+        <div id="btBox">
+            
+       </div>
+    </div>
+    </form>
+</body>
+</html>

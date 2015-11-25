@@ -1,0 +1,88 @@
+﻿@model webs_YueyxShop.Model.DepartmentBase
+<!DOCTYPE html>
+<html>
+<head id="Head1">
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@ViewData["depManager"]' == "False") {
+                $("#li_Save", navTab.getCurrentPanel()).hide();
+            }
+        });
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("DepartmentBaseEdit", "DepartmentBase")"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
+    @Html.HiddenFor(model => model.d_ID)
+    @Html.HiddenFor(model => model.d_ParentId)
+    @Html.HiddenFor(model => model.d_BianM)
+    @Html.HiddenFor(model => model.d_CengJ)
+    @Html.HiddenFor(model => model.d_CreatedBy)
+    @Html.HiddenFor(model => model.d_CreatedOn)
+    @Html.HiddenFor(model => model.d_DeleteStateCode)
+    @Html.HiddenFor(model => model.d_StateCode)
+    @Html.Hidden("texOtype", @ViewData["texOtype"])
+    @Html.Hidden("pid", @ViewData["pid"])
+    @Html.Hidden("hfcengj", @ViewData["hfcengj"])
+    @Html.Hidden("hfbianm", @ViewData["hfbianm"])
+    <div class="pageContent">
+        <div class="pageFormContent nowrap" layouth="66">
+            <dl>
+                <dt>部门名称:</dt>
+                @Html.TextBoxFor(model => model.d_MingCh, new { @class = "required", @size = "30" })
+            </dl>
+           @* <dl>
+                <dt>所属院系:</dt>
+                <div>
+                    @Html.Hidden("orgLookup.id", @ViewData["c_id"], new { @id = "orgLookupid" })
+                    @Html.TextBox("orgLookup.orgName", ViewData["c_name"], new { @class = "required", @id = "orgLookuporgName", @size = "30", @lookupgroup = "orgLookup", @readonly = "readonly" })
+                    @if (ViewData["texOtype"].ToString() == "add" && ViewData["pid"].ToString() != "00000000-0000-0000-0000-000000000000")
+                    {
+
+                    }
+                    else
+                    {
+                         <a  id="div_bmxx" class="btnLook" href="@Url.Action("SelectCollegeSchoolBaseMsg", "CollegeSchoolBase")" lookupgroup="orgLookup">
+                            选择院系 </a> 
+                    }
+                </div>
+            </dl>*@
+            <dl>
+                <dt>主要电话:</dt>
+                @Html.TextBoxFor(model => model.d_ZhuYDH, new { @size = "30" })
+            </dl>
+            <dl>
+                <dt>传真:</dt>
+                @Html.TextBoxFor(model => model.d_ChuanZ, new { @size = "30" })
+            </dl>
+            <dl>
+                <dt>邮箱:</dt>
+                @Html.TextBoxFor(model => model.d_YouX, new { @size = "30" ,@class="email"})
+            </dl>
+        </div>
+        <div class="formBar">
+            <ul>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit">
+                                    保存</button></div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "~/Views/ShuSW/sswMaster/LayoutPage.cshtml";
+}
+
+
+<div class="men">
+    <div class="container">
+        <div class="pages">
+            <h3>@Model.n_Title</h3>
+            <i class="date"> </i><span> </span>@Convert.ToDateTime(Model.n_CreatedOn).ToString("MM-dd-yyyy")
+
+
+            <p class="m_10">
+                @Html.Raw(Model.n_Content)
+            </p>
+            
+            
+        </div>
+    </div>
+</div>

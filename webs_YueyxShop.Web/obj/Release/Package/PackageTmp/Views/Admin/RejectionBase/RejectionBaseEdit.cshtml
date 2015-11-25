@@ -1,0 +1,50 @@
+﻿@model webs_YueyxShop.Model.RejectionBase
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("RejectionBaseEdit", "RejectionBase")"  enctype="multipart/form-data"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
+    @Html.Hidden("otype", @ViewData["otype"])
+    @Html.Hidden("hfPId", @ViewData["hfPId"])
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="52">
+            <div class="unit">
+                <label>
+                    支付名称：</label>
+                <input id="txtst_Name" type="text" />
+            </div>
+            <div class="unit">
+                <label>
+                    支付链接：</label>
+                <input id="txtst_Name" type="text" />
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li id="save">
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" >
+                                    保存</button></div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

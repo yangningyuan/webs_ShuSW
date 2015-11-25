@@ -1,0 +1,56 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.CarriageTempleteBase>
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" layouth="138" rel="carrtBox">
+    <colgroup width="10px" />
+    <colgroup width="100px" />
+    <colgroup width="100px" />
+    <colgroup width="80px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>序号
+            </th>
+            <th>
+                模板名称
+            </th>
+            <th>
+                计价方式
+            </th>
+            <th>
+                状态
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr target="ct_id" rel="@item.ct_ID|@item.ct_Name" ondblclick="OpenMenuBaseEdit('@item.ct_ID|@item.ct_Name')">
+                <td>
+                    @item.ct_ID
+                </td>
+                <td>
+                    @item.ct_Name
+                </td>
+                <td>
+                    <span >@item.ct_ValuationType.ToString().Replace("1", "按件数").Replace("2", "按重量").Replace("3", "按体积")</span>
+                </td>
+                <td>
+                    <span style="color: Red">@item.ct_StatusCode.ToString().Replace("0", "启用").Replace("1", "禁用")</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="carrtBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

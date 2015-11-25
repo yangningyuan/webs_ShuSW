@@ -1,0 +1,96 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), "cBox");
+            $("#cartable").find("tr").each(function () { alert(this.val()); })
+        });
+        function lookup() {
+            $(this).next().attr("style", "display:block");
+        }
+    </script>
+</head>
+<body>
+    <form id="pagerForm" method="post"  action="@Url.Action("CarriageList", "Carriage")" onsubmit="return divSearch(this,'cBox');">
+        <input type="hidden" id="hfPid" name="hfPid" value="@ViewData["ctId"]" />
+        <input type="hidden" id="at_add" name="at_add" />
+        <input type="hidden" id="hf_daohang" name="hf_daohang" />
+        <input type="hidden" id="hf_cengj" name="hf_cengj" value="1" />
+        <input type="hidden" id="hf_bianma" name="hf_bianma" />
+        <input type="hidden" id="hf_type" name="type" />
+        <div class="pageHeader">
+            <div class="searchBar">
+                <table class="searchContent">
+                    <tr>
+                        <td >
+                        </td>
+                        <td>
+                        </td>
+                        <td id="td_name">
+@*                            名称：
+*@                        </td>
+                        <td>
+@*                            <input type="text" name="txtPAname" />
+*@                        </td>
+                        <td id="btype">
+                        </td>
+                        <td id="mtype">
+                       </td>
+                        <td id="stype">
+                        </td>
+                    </tr>
+                </table>
+                <div class="subBar">
+@*                    <ul>
+                        <li>
+                            <div class="buttonActive">
+                                <div class="buttonContent">
+                                    <button type="submit" id="btn_Select">
+                                        检索</button></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="buttonActive">
+                                <div class="buttonContent">
+                                    <button type="reset" id="reset" >
+                                        重置</button></div>
+                            </div>
+                        </li>
+                    </ul>
+*@                </div>
+            </div>
+            </div>
+            <!--列表-->
+            <div class="pageContent">
+            <div class="panelBar">
+                <ul class="toolBar">
+
+                    @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                    {
+                        <li><a class="add" href="@Url.Action("CarriageEdit?otype=add&dli_id={hfPid}", "Carriage")"  target="dialog" rel="w_CarriageEdit"  width="850" height="650"> 
+                            <span>添加</span></a></li>
+                        <li class="line">line</li>
+                        <li><a class="edit" href="@Url.Action("CarriageEdit?otype=modify&dli_id={car_id}", "Carriage")" rel="w_CarriageEdit"
+                            target="dialog"   width="850" height="650"><span>编辑</span></a></li>
+                        <li class="line">line</li>
+                        <li><a class="delete" href="@Url.Action("CarriageDelete?dli_id={car_id}", "Carriage")" rel="w_CarriageDelete"
+                        target="ajaxTodo" title='确定删除' warn="请选择信息！！！"><span>删除</span></a></li>
+                        <li class="line">line</li>
+                        <li><a class="unlock"  href="@Url.Action("CarriageEnable?otype=enable&dli_id={car_id}", "Carriage")"
+                        target="ajaxTodo" warn="请选择信息！！！"><span>启用</span></a></li>
+                        <li><a class="lock"  href="@Url.Action("CarriageEnable?otype=disable&dli_id={car_id}", "Carriage")"
+                        target="ajaxTodo" warn="请选择信息！！！"><span>禁用</span></a></li>
+                    }
+                </ul>
+            </div>
+            <div id="cBox">
+
+            </div>
+        </div>
+    </form>
+</body>
+</html>

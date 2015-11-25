@@ -1,0 +1,17 @@
+﻿@using webs_YueyxShop.Model
+
+@{
+    Layout = null;
+}
+<ul>
+@foreach (var item in ViewBag.history)
+{ <li>
+        <div class="dis_pi">
+            <a href="/ProDetail/ProDetail?skuid=@item.sku_ID" target="_blank"><img name="page_cnt_1" _src="@item.pi_Url" alt="产品图片" /></a> 
+            <dl>
+                <dt><a href="/ProDetail/ProDetail?skuid=@item.sku_ID" target="_blank">@item.p_Name </a></dt>
+                <dd>￥@item.sku_Price </dd>
+            </dl> 
+        </div>
+    </li>
+}   

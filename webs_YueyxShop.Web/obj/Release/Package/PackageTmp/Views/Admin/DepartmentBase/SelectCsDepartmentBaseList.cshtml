@@ -1,0 +1,76 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.DepartmentBase>
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" layouth="112" rel="SelectCsDepartmentBox">
+    <colgroup width="30px" />
+    <colgroup width="150px" />
+    <colgroup width="150px" />
+    <colgroup width="100px" />
+    <colgroup width="100px" />
+    <colgroup width="100px" />
+    <colgroup width="50px" />
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                院系部门
+            </th>
+            <th>
+                主要电话
+            </th>
+            <th>
+                传真
+            </th>
+            <th>
+                邮箱
+            </th>
+            <th>
+                创建时间
+            </th>
+            <th>
+                选择
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr target="dli_id"  rel="@item.d_ID.ToString()|@item.d_MingCh.ToString()|@item.d_CengJ.ToString()|@item.d_BianM.ToString()"  title="双击查看详细信息"  >
+                <td>
+                </td>
+                <td>
+                    @item.d_MingCh
+                </td>
+                <td>
+                    @item.d_ZhuYDH
+                </td>
+                <td>
+                    @item.d_ChuanZ
+                </td>
+                <td>
+                    @item.d_YouX
+                </td>
+                <td>
+                    @item.d_CreatedOn.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    <a class="btnSelect" title="查找带回" href="javascript:$.bringBack({id:'@item.d_ID',orgName:'@item.d_MingCh'})" >
+                        选择</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="SelectCsDepartmentBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

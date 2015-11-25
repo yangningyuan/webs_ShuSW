@@ -1,0 +1,35 @@
+﻿@using webs_YueyxShop.Model
+
+@{
+    Layout = null;
+}
+    
+<div class="wrap">
+    <ul class="footer-nav-list">
+        <li>
+            <a href="/wapIndex/Index">
+                <div class="footer-nav-icon home"></div>
+                <p>首页</p>
+            </a>
+        </li>
+        <li>
+            <a href="/wapIndex/productType?ptid=0">
+                <div class="footer-nav-icon classify"></div>
+                <p>类目</p>
+            </a>
+        </li>
+        <li>
+            <a href="/wapChart/Chart">
+                <div class="footer-nav-icon chart"></div>
+                <p>购物车</p>
+                <span>@ViewData["count"]</span>
+            </a>
+        </li>
+        <li>
+            <a href="/wapvipCenter/VipCenterIndex">
+                <div class="footer-nav-icon vip"></div>
+                <p>会员中心</p>
+            </a>
+        </li>
+    </ul>
+</div><!--wrap end-->

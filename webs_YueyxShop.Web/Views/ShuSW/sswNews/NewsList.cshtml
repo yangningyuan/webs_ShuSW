@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "~/Views/ShuSW/sswMaster/LayoutPage.cshtml";
+}
+
+
+<div class="men">
+    <div class="container">
+        <div class="blog-top">
+
+            @{
+                if (ViewData["dtcfjlist"] != null) 
+                {
+                    foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewData["dtcfjlist"]).Rows)
+                    {
+                        <div class="col-md-6 grid_3">
+                        <h3><a target="_blank" href="/sswNews/NewsDetails?nid=@item["n_ID"]">@item["n_Title"]</a></h3>
+                            <a target="_blank" href="/sswNews/NewsDetails?nid=@item["n_ID"]"><img src="@item["n_PicUrl"]" class="img-responsive" alt="@item["n_Title"]" /></a>
+                        <div class="blog-poast-admin">
+                            <a target="_blank" href="/sswNews/NewsDetails?nid=@item["n_ID"]"><img src="@item["n_PicUrl"]" class="img-responsive2" title="admin" alt="@item["n_Title"]" /></a>
+                        </div>
+                        <div class="blog-poast-info">
+                            <ul>
+                                <li style="margin-left:350px;"><i class="date"> </i><span> </span>@Convert.ToDateTime(item["n_CreatedOn"]).ToString("MM-dd-yyyy")</li>
+                            </ul>
+                        </div>
+                        <p>@Html.Raw(item["n_Content"].ToString().Length>120?item["n_Content"].ToString().Substring(0, 120):item["n_Content"].ToString())</p>
+                        <div class="button"><a target="_blank" href="/sswNews/NewsDetails?nid=@item["n_ID"]">Read More</a></div>
+                    </div>
+                    }
+                }
+            }
+
+            <div class="clearfix"></div>
+        </div>
+        
+    </div>
+</div>

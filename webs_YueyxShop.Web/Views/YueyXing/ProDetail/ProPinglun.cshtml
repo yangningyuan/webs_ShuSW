@@ -1,0 +1,303 @@
+﻿@using webs_YueyxShop.Model
+
+@{
+Layout = null;
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var page = $('#curpage').val();
+
+        frPage(page);
+
+        $(".showstart").each(function () {
+            var fen = $(this).attr("value");
+            var width = fen * 1 * 68 / 5;
+            $(this).attr("style", "width:" + width+"px");
+        });
+    });
+</script>
+
+<input type="hidden" value="@ViewData["pingluncount"]" id="count" />
+<input type="hidden" value="@ViewData["page"]" id="curpage" />
+<input type="hidden" value="@ViewData["pagerows"]" id="pagerows" />            
+<div class="inBox hide" id="tabcontent2" name="divNumber">
+    <div class="inBd border-nonetop borders">
+        <div class="pj-cont">
+            <div class="border-div">
+                <div class="pf-total alignleft">
+                    <div class="source alignleft"><span>@ViewData["pinglunscore"]</span>分</div>
+                    <div class="pf-cont alignleft">
+                        <div class="pf-list">
+                            <ul>
+                                <li class="s1">非常不满意</li>
+                                <li class="s2">不满意</li>
+                                <li class="s3">一般</li>
+                                <li class="s4">满意</li>
+                                <li class="s5">非常满意</li>
+                            </ul>
+                            <div class="pf-socure" style="left:@ViewData["tiao"]%;">@ViewData["pinglunscore"]</div>
+                        </div>
+                        <div class="pf-total-people">共有<span>@ViewData["midcount"]</span>位会员参与评分</div>
+                    </div><!--pf-cont end-->
+                </div><!--pf-total end-->
+                <div class="pj-beg alignright">
+                    <p>所有打分及评论来自已购买本产品的用户</p>
+                    <a href="#mao1">我要评价</a>
+                </div>
+                <div class="clear"></div>
+            </div><!--border-div end-->
+            <div class="pj-result">
+                <ul class="vip-pj-list">
+                @foreach (var item in ViewBag.pinlun)
+                {
+                    <li>
+                        <div class="head-img">
+                        <dl>
+                            <dt><img name="page_cnt_1" _src="@item.member.m_HeadImg" alt="会员头像" /></dt>
+                            <dd>@item.member.m_UserName</dd>
+                        </dl>
+                        </div>
+                        <div class="borders vip-pj">
+                            <div class="dashed-div">
+                                <div class="pj-star alignleft"><span><em class="showstart" value="@item.pa_Satisfied"></em></span></div>
+                                <div class="say-time alignright">@item.pa_CreatedOn</div>
+                                <div class="clear"></div>
+                            </div><!--dashed-div end-->
+                            <div class="dashed-div">
+                                <div class="pj-font">评价：</div>
+                                <div class="pj-fonts">
+                                    <p>@item.pa_Content</p>
+@*                                                  <p><span>购买日期：</span><font>2014-06-22 08:15:20</font></p>
+*@                                              </div>
+                            </div><!--dashed-div end-->
+                            @*<div class="button-pointer">
+                                <div class="hands"></div>
+                                <span value="@item.pa_ID">赞（<i>@item.pa_PraiseCount</i>）</span>
+                            </div>*@<!--button-pointer end-->
+                        </div><!--vip-pj end-->
+                    </li>
+                }
+                </ul>
+            </div><!--pj-result end-->
+            <div class="page" id="plpage">
+          	</div>
+        </div><!--pj-cont end-->
+        <a name="mao1"></a>
+    </div><!--inBd end-->
+    <div class="clearh"></div>
+    <div class="side-content borders">
+        <div class="pj-form alignleft">
+            <h3><em></em><span>评价：<font>@ViewBag.vmpinfolist.p_Name @ViewBag.vmpinfolist.shuxing</font></span></h3>
+            <div class="pj-form-bg"></div>
+            @if (!Convert.ToBoolean(ViewData["logon"]))
+            { 
+            <p>购买过此商品的月月兴食品商行用户才可以评论，<a href="/Logon/Logon">立即登录</a></p>
+            }
+            <div class="form-pj">
+                <div class="tip-title alignleft">评分：</div>
+                <div class="pj-conts alignleft">
+                    <div id="star">
+						<ul>
+							<li>
+                                <dl>
+                                    <dt><a href="javascript:;">1</a></dt>
+                                    <dd>1分</dd>
+                                    <dd>非常不满意</dd>
+                                </dl>
+                            </li>
+							<li>
+                                <dl>
+                                    <dt><a href="javascript:;">2</a></dt>
+                                    <dd>2分</dd>
+                                    <dd>不满意</dd>
+                                </dl>
+                            </li>
+							<li>
+                                <dl>
+                                    <dt><a href="javascript:;">3</a></dt>
+                                    <dd>3分</dd>
+                                    <dd>一般</dd>
+                                </dl>
+                            </li>
+							<li>
+                                <dl>
+                                    <dt><a href="javascript:;">4</a></dt>
+                                    <dd>4分</dd>
+                                    <dd>满意</dd>
+                                </dl>
+                            </li>
+							<li>
+                                <dl>
+                                    <dt><a href="javascript:;" >5</a></dt>
+                                    <dd>5分</dd>
+                                    <dd>非常满意</dd>
+                                </dl>
+                            </li>
+						</ul>
+					</div><!--star end-->
+                </div><!--pj-conts end-->
+            </div><!--form-pj end-->
+            <div class="form-pj">
+                <div class="tip-title alignleft">评价：</div>
+                <div class="pj-conts alignleft">
+                    <textarea id="pinglun"></textarea>
+                </div><!--pj-conts end-->
+            </div><!--form-pj end-->
+            <div class="form-pj">
+                <input type="submit" value="发表评价"  onclick="tijiaopinglun()"/>
+            </div><!--form-pj end-->
+        </div><!--pj-form end-->
+        <div class="pj-rule alignright">
+            <h4>商品评论说明：</h4>
+           @Html.Raw(ViewBag.pinglunshuoming)
+        </div><!--pj-rule end-->
+        <div class="clear"></div>
+    </div><!--side-content end-->
+</div><!--inBox end-->
+<script type="text/javascript">
+
+    var jsPage = function (el, count, pageStep, pageNum, fnGo) {
+        this.getLink = function (fnGo, index, pageNum, text) {
+            var s = '<a  onclick="' + fnGo + '(' + index + ');" ';
+            if (index == pageNum) {
+                s += 'class="cur-hover" ';
+            }
+            text = text || index;
+            s += '>' + text + '</a> ';
+            return s;
+        }
+
+        //总页数
+        var pageNumAll = Math.ceil(count / pageStep);
+        if (pageNumAll == 1) {
+
+            var divPage = document.getElementById(el);
+            divPage.innerHTML = '<a>上一页</a><a class="cur-hover">1</a><a>上一页</a>';
+            return;
+        }
+        var itemNum = 3; //当前页左右两边显示个数
+        pageNum = Math.max(pageNum, 1);
+        pageNum = Math.min(pageNum, pageNumAll);
+        var s = '';
+        if (pageNum > 1) {
+            s += this.getLink(fnGo, pageNum - 1, pageNum, '上一页');
+        } else {
+            s += '<a>上一页</a> ';
+        }
+        var begin = 1;
+        if (pageNum - itemNum > 1) {
+            s += this.getLink(fnGo, 1, pageNum) + '... ';
+            begin = pageNum - itemNum;
+        }
+        var end = Math.min(pageNumAll, begin + itemNum * 2);
+        if (end == pageNumAll - 1) {
+            end = pageNumAll;
+        }
+        for (var i = begin; i <= end; i++) {
+            s += this.getLink(fnGo, i, pageNum);
+        }
+        if (end < pageNumAll) {
+            s += '... ' + this.getLink(fnGo, pageNumAll, pageNum);
+        }
+        if (pageNum < pageNumAll) {
+            s += this.getLink(fnGo, pageNum + 1, pageNum, '下一页');
+        } else {
+            s += '<a>下一页</a> ';
+        }
+        var divPage = document.getElementById(el);
+        divPage.innerHTML = s;
+    }
+
+
+
+    jsRand.rand = function (min, max, len) {
+        min = min || 0;
+        max = max || 1000;
+        var val = min + Math.round(Math.random() * (max - min));
+        if (len) {
+            while (('' + val).length < len) {
+                val = '0' + val;
+            }
+        }
+        return val;
+    }
+
+    function goPage(pageIndex) {
+        var count = $('#count').val();
+        var pagerows = $('#pagerows').val();
+        jsPage('plpage', count, pagerows, pageIndex, 'goPage');
+        pagejump(pageIndex);
+    }
+    function frPage(pageIndex) {
+        var count = $('#count').val();
+        var pagerows = $('#pagerows').val();
+        jsPage('plpage', count, pagerows, pageIndex, 'goPage');
+    }
+    function pagejump(page) {
+        var skuid = $("#skuid").val();
+        $.ajax({
+            type: "post",
+            url: "/ProDetail/ProPinglun2?pageNum=" + page+"&skuid="+skuid,
+            success: function (data) {
+                $(".pj-result").empty();
+                $(data).appendTo('.pj-result');
+
+            }
+
+        });
+    }
+
+    function tijiaopinglun() {
+        var i = 0;
+        $("#star>ul>li>dl>dt").each(function () {
+            if ($(this).attr("class") == "on") {
+                i++;
+            }
+        });
+        var skuid = $("#skuid").val();
+        var pinglun = $("#pinglun").val();
+
+        var url = "/ProDetail/Tijiao?type=pinglun&content=" + pinglun + "&skuid=" + skuid + "&radio=" + i,
+        url = encodeURI(url)
+        $.ajax({
+            type: "post",
+            url: url,
+            success: function (data) {
+                if (data == "提交成功") {
+                    $("#img").removeClass("no-icon").addClass("no2-icon");
+                    $("#tishiyu").text("您的咨询/评价已成功发表，请等待管理员进行审核（审核通过的咨询/评价内容才能正常显示）");
+                    $("#yes").text("确定");
+                    $("#yes").attr("href", "javascript:void(0)");
+                    $("#yes").click(function () {
+                        $("#chart-modal2").attr("style", "display:none");
+                        window.location.reload();
+                        $("#pinglun").text();
+
+                    });
+
+                    $("#chart-modal2").attr("style", "display:block");
+                }
+                else if (data == "请给商品评分") {
+                    $("#tishiyu").text("请给商品评分！");
+                    $("#yes").text("确定");
+                    $("#yes").attr("href", "javascript:void(0)");
+                    $("#yes").click(function () { $("#chart-modal2").attr("style", "display:none"); });
+
+                    $("#chart-modal2").attr("style", "display:block");
+                }
+                else if (data == "请输入200个以内的字符") {
+                    $("#tishiyu").text("请输入200个以内的字符！");
+                    $("#yes").text("确定");
+                    $("#yes").attr("href", "javascript:void(0)");
+                    $("#yes").click(function () { $("#chart-modal2").attr("style", "display:none"); });
+
+                    $("#chart-modal2").attr("style", "display:block");
+                }
+                else if (data == "不登陆没有发言权") {
+                    $("#chart-modal2").attr("style", "display:block");
+                }
+            }
+        });
+    }
+</script>
+

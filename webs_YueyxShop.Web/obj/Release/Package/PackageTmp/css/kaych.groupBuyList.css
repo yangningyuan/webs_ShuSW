@@ -1,0 +1,447 @@
+/* CSS Document 
+作者：王军凯
+编写时间：2014-06-03
+联系QQ:466085876
+*/
+
+/*团购详细页CSS*/
+.shares{
+	height:20px;
+	margin:5px 14px 10px;
+	}	
+.share-sc a{
+	display:block;
+	height:20px;
+	margin:14px;
+	color:#666;
+	line-height:20px;
+	}
+.share-sc a:hover{
+	color:#e60012;
+	}		
+.share-sc a em{
+	display:block;
+	float:left;
+	width:14px;
+	height:12px;
+	background:url(../images/img/proDetails-sprint.png) -60px top no-repeat;
+	margin:5px 5px 0px 0px;
+	}
+.shares em{
+	display:block;
+	float:left;
+	width:11px;
+	height:16px;
+	background:url(../images/img/proDetails-sprint.png) -40px top no-repeat;
+	margin:2px 5px 0px 0px;
+	}
+.shares span{
+	line-height:20px;
+	color:#999;
+	float:left;
+	}	
+.share-bd{
+	position:relative;
+	top:-4px;
+	}
+.borderStyle{
+	border:1px solid #ddd;
+	background:#fff;
+	}
+section{
+	width:970px;
+	}
+aside{
+	width:220px;
+	}
+	
+.goods-wrap{
+	width:968px;
+	}
+.goods-name{
+	padding:20px;
+	overflow:hidden;
+	width:928px;
+	}	
+.goods-name h2{
+	font:24px/36px "Microsoft Yahei",Helvetica,Arial,sans-serif;;
+	color:#dd000d;
+	font-weight:bold;
+	margin:0;
+	padding:0;
+	}
+.goods-name p{
+	height:72px;
+	overflow:hidden;
+	font:24px/36px "Microsoft Yahei",Helvetica,Arial,sans-serif;
+	color:#333;
+	font-weight:bold;
+	}	
+.goods-message{
+	width:320px;
+	}
+.goods-price{
+	width:320px;
+	position:relative;
+	left:-10px;
+	background:url(../images/groupBuy/price_bg.png) left top no-repeat;
+	height:68px;
+	z-index:10;
+	}	
+.group-price{
+	width:150px;
+	padding-left:10px;
+	height:60px;
+	color:#fff;
+	font:32px/60px "Microsoft Yahei",Helvetica,Arial,sans-serif;
+	float:left;
+	}
+.group-price span{
+	color:#fff;
+	font:24px/75px "Microsoft Yahei",Helvetica,Arial,sans-serif;
+	}	
+.buy-button{
+	width:84px;
+	height:36px;
+	float:left; 
+	margin:16px 10px;
+	}
+.buy-button a{
+	display:block;
+	width:84px;
+	height:36px;
+	-moz-border-radius:5px; 
+	-webkit-border-radius:5px; 
+	-o-border-radius:5px; 
+	border-radius:5px;
+	background: #fdd24f;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fcde70), to(#ffc72d));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #fcde70, #ffc72d);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #fcde70, #ffc72d);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #fcde70, #ffc72d);/* IE 9 10 */
+	background: -o-linear-gradient(top, #fcde70, #ffc72d);/* Opera 11.10+ */
+	background: linear-gradient(top, #fcde70, #ffc72d);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#fcde70,endColorStr=#ffc72d);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#fcde70, endColorStr=#ffc72d);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	box-shadow: 0px 1px 2px 0px #ca000d; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 1px 0px 2px 0px #ca000d;
+	-moz-box-shadow: 0px 1px 2px 0px #ca000d;
+	color:#e40010;
+	font:22px/32px "Microsoft Yahei",Helvetica,Arial,sans-serif;
+	text-align:center;
+	text-shadow:0px 1px 1px #ffffff;
+	-webkit-text-shadow:0px 1px 1px #ffffff;
+	-moz-text-shadow:0px 1px 1px #ffffff;
+	}
+.buy-button a:hover{
+	display:block;
+	width:84px;
+	height:36px;
+	-moz-border-radius:5px; 
+	-webkit-border-radius:5px; 
+	-o-border-radius:5px; 
+	border-radius:5px;
+	background: #fece3d;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fcde70), to(#ff9f07));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #fcde70, #ff9f07);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #fcde70, #ff9f07);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #fcde70, #ff9f07);/* IE 9 10 */
+	background: -o-linear-gradient(top, #fcde70, #ff9f07);/* Opera 11.10+ */
+	background: linear-gradient(top, #fcde70, #ff9f07);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#fcde70,endColorStr=#ff9f07);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#fcde70, endColorStr=#ff9f07);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	box-shadow: 0px 1px 2px 0px #ca000d; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 1px 0px 2px 0px #ca000d;
+	-moz-box-shadow: 0px 1px 2px 0px #ca000d;
+	color:#e40010;
+	font:22px/32px "Microsoft Yahei",Helvetica,Arial,sans-serif;
+	text-align:center;
+	text-shadow:0px 1px 0px #ffffff;
+	-webkit-text-shadow:0px 1px 0px #ffffff;
+	-moz-text-shadow:0px 1px 0px #ffffff;
+	}	
+.goods-cont{
+	width:260px;
+	background:#f5f5f5;
+	height:305px;
+	padding-top:10px;
+	position:relative;
+	left:0px; top:-10px;
+	}			
+.goods-img{
+	width:600px;
+	height:420px;
+	overflow:hidden;
+	text-align:center;
+	}	
+.goods-img img{
+	display:block;
+	vertical-align:middle;
+	text-align:center;
+	margin:auto;
+	width:400px;
+	height:420px;
+	}							
+	
+.discount{ padding-bottom:8px; border-bottom:1px dashed #dddddd; margin:0px 15px;}
+.discount ul{ padding-top:10px; list-style:none;}
+.discount li{ float:left; width:75px; text-align:center; line-height:22px; font-size:14px; color:#333;}
+.discount li del{ font-size:14px; color:#aaaaaa; font-weight:bold;}
+.discount li span{ font-size:16px; color:#333333; font-weight:bold;}	
+
+.take_box{padding:15px 10px; border-bottom:1px dashed #dddddd; margin:0px 15px;}
+.take_text { border: 1px solid #DDDDDD; color: #333333; display: inline-block; height: 36px; line-height:22px; margin: 0 5px; padding: 0 5px; text-align: center; vertical-align: middle; width: 34px;}
+.dOrder-buyNub{ padding:15px 10px; border-bottom:1px dashed #dddddd; margin:0px 15px;}
+.dOrder-buyNub .buyNub-tit{ float:left; line-height:34px;}
+.buyNub-nub{ float:left; padding-left:15px; height:34px;-moz-user-select:none;}
+.buyNub-nub-wrap{ height:32px;border:1px solid #B2B2B2; float:left;}
+.buyNub-nub input{ width:40px; height:16px; text-align:center; line-height:16px;padding:8px 5px; font-size:20px; border-left:1px solid #bfbfbf; border-right:1px solid #bfbfbf; border-top:none; border-bottom:none; background:#fff; vertical-align:middle; font-family:"微软雅黑"; float:left;box-shadow:1px 1px 2px rgba(0, 0, 0, 0.15) inset;}
+/*.buyNub-nub em{ display:inline-block; width:22px; height:46px; border-top:1px solid #bfbfbf; border-bottom:1px solid #bfbfbf; border-right:1px solid #bfbfbf; vertical-align:middle; float:left;}*/
+.buyNub-nub i,.dLeft-weiboCon .wc-icon i{ background:url(../images/img/x_spr.png) no-repeat 0 0; display:inline-block; float:left; width:15px; height:32px; cursor:pointer;}
+.buyNub-nub .buyNub-nub-top{ background-position:-38px -37px;}
+.buyNub-nub .buyNub-nub-top-s{ background-position:-78px -37px; cursor: default;}
+.buyNub-nub .buyNub-nub-blus-c{ background-position:-38px 0; cursor:pointer;}
+.buyNub-nub .buyNub-nub-blus{ background-position:-78px 0px; cursor: default;}
+
+.buyNub-buy-wrap{ height:90px; padding:10px 0 10px 68px;}
+.buyNub-buy{ float:left; position:relative; z-index:2; height:48px; margin-top:21px;}
+.buyNub-buy .u-buy{ background:#d0010e; display:block; width:154px; height:48px; font-family:"微软雅黑"; line-height:48px; font-size:18px; color:#fff; float:left; cursor:pointer;}
+.buyNub-buy .u-buy-orderbuy{ background:#d0010e; display:block; width:154px; height:48px; font-family:"微软雅黑"; line-height:48px; font-size:18px; color:#fff; float:left; cursor:pointer;}
+.buyNub-buy .u-buy i{ background-position:0 0; width:27px; height:21px; display:inline-block; float:left; margin:14px 5px 0 15px;}
+.buyNub-buy .u-buy-orderbuy i{ background-position:0 0; width:27px; height:21px; display:inline-block; float:left; margin:14px 5px 0 15px;}
+.buyNub-buy .u-buy span{ float:left; display:block;}
+.buyNub-buy .u-buy:hover{ color:#fff; text-decoration:none; background:#e50411;}
+.buyNub-buy .u-buy-orderbuy span{ float:left; display:block;}
+.buyNub-buy .u-buy-orderbuy:hover{ color:#fff; text-decoration:none; background:#e50411;}
+.buyNub-buy .u-buy-over{ background:#7c7c7c; display:block; width:154px; height:48px; font-family:"微软雅黑"; line-height:48px; font-size:18px; color:#fff; text-align:center; cursor:default; float:left;}
+.buyNub-buy .u-buy-over:hover{ text-decoration:none; color:#fff;}
+
+
+
+.countdownTime{ height:35px; line-height:35px; border-bottom:1px dashed #dddddd; background:url(../images/groupBuy/time_icon.png) 10px 25px no-repeat; margin:0px 15px; padding:20px 0px 20px 35px;}
+.countdownTime span{
+	font:12px/35px "Microsoft Yahei",Helvetica,Arial,sans-serif;
+	color:#666;
+	}
+.countdownTime span font{ font-family:"Microsoft Yahei",Helvetica,Arial,sans-serif; font-size:20px; color:#e80113; padding:0px 3px;}
+
+.totalBuy{ padding-left:60px;  margin-top:20px; background:url(../images/groupBuy/people_icon.png) 25px top no-repeat;}
+.totalBuy span{ font-family:"Tahoma"; font-size:20px; color:#e80113; padding-right:5px;}
+.totalBuy p{ background:url(../images/groupBuy/talk_bg.png) left top no-repeat; width:156px; height:29px; line-height:34px; text-align:center; margin-top:0px; color:#666;}
+
+
+
+
+.goodsWrap{
+	width:968px;
+	overflow:hidden;
+	}
+.tab1 .ul-cont{
+	width:968px;
+	overflow:hidden;
+	}	
+.tab1 .tab-cont{
+	padding:0px 0px 20px;
+	overflow:hidden;
+	}	
+
+.goods-partDiv{
+	width:968px;
+	overflow:hidden;
+	margin-top:10px;
+	}
+.h4-goods{
+	background:url(../images/img/deta_title_bg.jpg) left top repeat-x;
+	height:24px;
+	}
+.h4-goods i{
+	width:8px;
+	height:8px;
+	background:#c41921;
+	display:inline-block;
+	float:left;
+	margin:8px 10px;
+	}
+.h4-goods span{
+	font:14px/24px "Microsoft Yahei",Helvetica,Arial,sans-serif;
+	color:#666;
+	font-weight:bold;
+	}	
+.goods-content{
+	margin:10px 15px 10px;
+	overflow:hidden;
+	color:#666;
+	}
+.goods-content img{ max-width:938px; margin:10px auto; }		
+	
+.dRight_bottom{ margin-top:10px;}
+.u-comments-area{ float:left; width:474px; padding:0 8px;}
+.u-comments-title{ height:40px; line-height:40px; border-bottom:2px solid #ddd; position:relative;}
+.u-comments-title i{ background:url(../images/detail_icon1.png) no-repeat -76px 0; width:25px; height:26px; display:inline-block; float:left; margin:8px 0 0 8px;}
+.u-comments-title strong{ float:left; display:inline-block; padding-left:8px; font-size:14px; color:#333; height:40px; width:433px; overflow:hidden;}
+.u-comments-title span{ width:85px; height:2px; background:#cf0400; display:block; position:absolute; bottom:-2px; left:0; overflow:hidden;}
+.u-comments-login{ height:20px; line-height:20px; margin:10px 0px;padding-left:17px;color:#cc0000; }
+.u-comments-login a{ color:#0068CB;}
+.login-cell{padding-left:36px;}
+.u-comments-score{ padding:0 0 20px 16px; margin-top:20px;}
+.u-comments-s{ width:36px; float:left; line-height:20px; color:#444;}
+.u-comments-slist{ float:left; width:420px;}
+.u-comments-slist li{ float:left; width:84px; text-align: center;}
+.u-comments-slist li .u-comments-star{ width:21px; height:21px; margin:0 auto;}
+.u-comments-slist li .u-comments-star a{ background:url(../images/detail_icon1.png) no-repeat -85px -34px; width:21px; height:21px; display:block;}
+.u-comments-slist li .u-comments-star a:hover{ background:url(../images/detail_icon1.png) no-repeat -85px -34px; width:21px; height:21px;}
+.u-comments-slist li .u-comments-font{ margin-top:5px;}
+.u-comments-slist li .u-comments-font p{ line-height:18px; color:#333;}
+.u-comments-com{ padding-left:16px;}
+.u-comments-j{ float:left; width:420px;}
+.u-comments-f{ border:1px solid #ddd; width:418px; height:165px; color:#999; line-height:16px; font-size:12px; resize:none;}
+.u-comments-btn{ background:#d00404; border:none; width:86px; height:27px; line-height:27px; text-align:center; color:#fff; cursor:pointer; margin-top:15px;}
+.u-comments-rule{ width:250px; float:left; border-left:1px solid #ddd; padding:0 8px; margin:15px 0; color:#333;}
+.u-comments-rule h4{ line-height:30px; font-size:12px;}
+.u-comments-rule p{ background: url(../images/sds.jpg) no-repeat left 11px; line-height:24px; padding-left:8px;}	
+
+.peopleSay{
+	margin:10px;
+	overflow:hidden;
+	}	
+.peoplesay-box{
+	width:746px;
+	overflow:hidden;
+	}	
+dl.say-cont{
+	margin:0px 10px 10px;
+	}
+dl.say-cont dt{
+	border-bottom:1px dashed #ddd;
+	font:12px/30px "Microsoft Yahei",Helvetica,Arial,sans-serif;
+	color:#666;
+	}
+dl.say-cont dt font{
+	font-size:12px;
+	}
+dl.say-cont dt span{
+	float:right;
+	color:#999;
+	}	
+dl.say-cont dd{
+	margin-top:5px;
+	line-height:24px;
+	}
+	
+.buy-math{
+	padding:20px 14px 14px;
+	width:190px;
+	overflow:hidden;
+	position:relative;
+	}
+.goods-imgs{
+	width:60px;
+	height:70px;
+	position:absolute;
+	top:15px;
+	left:15px;
+	}
+.buy-math p{
+	margin:0px 0px 0px 70px;
+	font:12px/18px "Microsoft Yahei",Helvetica,Arial,sans-serif;
+	color:#666;
+	}		
+.buy-math p strong{
+	font-size:36px;
+	color:#e40010;
+	}	
+.goods-ad{
+	padding:4px;
+	width:210px;
+	height:290px;
+	margin-top:10px;
+	}
+.goods-ad img{width:210px; height:290px;}	
+
+.goods-listWrap{
+	width:218px;
+	overflow:hidden;
+	}	
+.goods-listTitle{
+	heigth:36px;
+	border-bottom:1px solid #ddd;
+	background:#f6f6f6;
+	color:#666;
+	font:14px/36px "Microsoft Yahei",Helvetica,Arial,sans-serif;
+	padding-left:10px;
+	}
+.goods-list {
+	margin:0px 10px 10px;
+	overflow:hidden; 
+	position:relative; 
+	width:198px;
+	}
+.goods-list .bd{
+	height:460px;
+	overflow:hidden;
+	}
+.goods-list .bd ul{
+	overflow:hidden;
+	zoom:1;
+	list-style:none;
+	}
+.goods-list .bd ul li{
+	float:left; 
+	_display:inline; 
+	overflow:hidden;
+	border-bottom:1px dashed #ddd;
+	padding:10px 0px;
+	position:relative;
+	height:70px;
+	}
+.goods-list .bd ul li .pic{
+	position:absolute;
+	top:10px;
+	left:0px;
+	width:55px;
+	height:70px;
+	}
+.goods-list .bd ul li p{
+	margin:0px 0px 0px 65px;
+	font:12px/16px "Microsoft Yahei",Helvetica,Arial,sans-serif;
+	color:#333;
+	}
+.goods-list .bd ul li p a{
+	font:12px/16px "Microsoft Yahei",Helvetica,Arial,sans-serif;
+	color:#333;
+	}
+.goods-list .bd ul li p a:hover{
+	color:#cc1503;
+	text-decoration:underline;
+	}	
+.goods-list .bd ul li p span{
+	color:#cc1503;
+	font-weight:bold;
+	margin-right:5px;
+	}
+.goods-list .bd ul li p del{
+	color:#666;
+	}	
+	
+.goods-list .hd{
+	height:28px;
+	padding-top:10px;
+	padding-bottom:5px;
+	width:120px;
+	margin:0 auto;
+	}	
+.goods-list .hd .prev,.goods-list .hd .next{
+	display:block;  
+	width:28px; 
+	height:28px; 
+	overflow:hidden;
+	float:left;
+	cursor:pointer;
+	margin-left:20px;
+	}
+.goods-list .hd .prev{
+	background:url(../images/groupBuy/prev_01_hover.png) left top no-repeat;
+	}
+.goods-list .hd .next{
+	background:url(../images/groupBuy/next_01_hover.png) left top no-repeat;
+	}

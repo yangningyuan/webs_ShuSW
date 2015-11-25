@@ -1,0 +1,127 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head id="Head1">
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), "DepartmentBox");
+            DepartmentBaseM_dhValue();
+        });
+        //导航值改变时，所必须的值
+        function DepartmentBaseM_dhValue() {
+            $("#lit_depdaohang", navTab.getCurrentPanel()).html("<a  onclick='DepartmentBaseM_daohangfuClick()'><span>顶级</span></a>");
+        }
+        //导航单击事件（父）
+        function DepartmentBaseM_daohangfuClick() {
+            $("#hf_pid", navTab.getCurrentPanel()).val("00000000-0000-0000-0000-000000000000");
+            $("#hf_cengj", navTab.getCurrentPanel()).val("0");
+            $("#hf_bianm", navTab.getCurrentPanel()).val("0000");
+            DepartmentBaseM_dhValue();
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "DepartmentBox");
+        }
+        //导航单击事件（子）
+        function DepartmentBaseM_daohangziClick(vcid) {
+            $("#hf_pid", navTab.getCurrentPanel()).val(vcid);
+            $("#" + vcid).nextAll().remove();
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "DepartmentBox");
+        }
+        //查询子级控件
+        function DepartmentBaseM_searchChild() {
+            if ($("#dli_id", navTab.getCurrentPanel()).length == 1) {
+                var searchValue = $("#dli_id", navTab.getCurrentPanel()).val(); //从ctl中rel的值
+                var vsyscodeid = searchValue.split('|')[0];  //id
+                var vsyscodename = searchValue.split('|')[1]; //name
+                var cengj = searchValue.split('|')[2]; //cengj
+                var bianma = searchValue.split('|')[3]; //bianma
+                $("#hf_pid", navTab.getCurrentPanel()).val(vsyscodeid); //查询的父id
+                $("#hf_cengj", navTab.getCurrentPanel()).val(cengj); //查询的父cengj
+                $("#hf_bianm", navTab.getCurrentPanel()).val(bianma); //查询的父编码
+                var aa = '"' + vsyscodeid + '"';
+                var daohang = $("#lit_depdaohang", navTab.getCurrentPanel()).html() + "<a class='aName' id='" + vsyscodeid + "'  onclick='DepartmentBaseM_daohangziClick(" + aa + ")'><span>&gt;&gt;" + vsyscodename + "</span></a>";    //现在导航的值
+                $("#lit_depdaohang", navTab.getCurrentPanel()).html(daohang); //给导航追加值
+                divSearch(navTab.getCurrentPanel().find("#pagerForm"), "DepartmentBox");
+            }
+            else {
+                alertMsg.error('请选择信息');
+            }
+        }
+        function DepartmentBaseM_dbltable(rel) {
+            navTab.openTab("w_DepartmentTree", "/DepartmentBase/DepartmentTree?otype=details&" + rel, { title: '详细信息' });
+        }
+        function DepartmentBaseM_setRow(statuscode) {
+            if (statuscode == "0") {
+                $("#li_Depcz", navTab.getCurrentPanel()).hide();
+                $("#li_Depgb", navTab.getCurrentPanel()).show();
+            }
+            else {
+                $("#li_Depgb", navTab.getCurrentPanel()).hide();
+                $("#li_Depcz", navTab.getCurrentPanel()).show();
+            }
+        }
+        function DepartmentBaseM_checkRole() {
+            var pid = $("#hf_pid", navTab.getCurrentPanel()).val();
+            var cengj = $("#hf_cengj", navTab.getCurrentPanel()).val();
+            var bianm = $("#hf_bianm", navTab.getCurrentPanel()).val();
+            navTab.openTab("w_DepartmentTree", "/DepartmentBase/DepartmentTree?otype=add&pid=" + pid + "&cengj=" + cengj + "&bianm=" + bianm, { title: '添加' });
+
+        }
+
+        function DepartmentBaseM_load() {
+            navTab.closeTab('w_DepartmentTree');
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "DepartmentBox");
+        }
+    </script>
+</head>
+<body>
+    <form id="pagerForm" method="post" action="@Url.Action("DepartmentBaseList", "DepartmentBase")" onsubmit="return divSearch(this,'DepartmentBox');">
+    <input type="hidden" id="hf_pid" name="hf_pid" value="00000000-0000-0000-0000-000000000000" />
+    <input type="hidden" id="hf_cengj" name="hf_cengj" value="0" />
+    <input type="hidden" id="hf_bianm" name="hf_bianm" value="0000" />
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td>
+                        导航：
+                    </td>
+                    <td>
+                        <label id="lit_depdaohang">
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--列表-->
+    <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                <li><a class="details" onclick="DepartmentBaseM_searchChild();"><span>查看子集</span></a></li>
+                <li><a class="details" rel="w_DepartmentTree" href="@Url.Action("DepartmentTree?otype=details&dli_id={dli_id}", "DepartmentBase")"   target="navTab" warn='请选择信息！！！'>
+                    <span>查看详细</span></a></li>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li class="line">line</li>
+                    <li><a class="add" onclick="DepartmentBaseM_checkRole()" href="javascript:void()"><span>
+                        添加</span></a></li>
+                    <li><a class="edit" href="@Url.Action("DepartmentTree?otype=modify&dli_id={dli_id}", "DepartmentBase")"
+                    target="navTab" warn='请选择信息！！！' rel="w_DepartmentTree"><span>编辑</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="delete" href="@Url.Action("Delete?dli_id={dli_id}", "DepartmentBase")"
+                    target="ajaxTodo" title='确定删除' warn='请选择信息！！！'><span>删除</span></a></li>
+                    <li class="line">line</li>
+                    <li id="li_Depcz"><a class="edit" href="@Url.Action("UpdateState?type=able&dli_id={dli_id}", "DepartmentBase")"
+                    target="ajaxTodo"><span>存在</span></a></li>
+                    <li id="li_Depgb"><a class="edit" href="@Url.Action("UpdateState?type=disable&dli_id={dli_id}", "DepartmentBase")"
+                    target="ajaxTodo"><span>停用</span></a></li>
+                }
+            </ul>
+        </div>
+        <div id="DepartmentBox">
+        </div>
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>月月兴食品商行-首页</title>
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+<!--设备原始宽度，不允许缩放，user-scalable是否允许用户手动缩放 inital-scale初始缩放比例 以及允许用户缩放到的最大和最小比例-->
+<meta content="yes" name="apple-mobile-web-app-capable" />  
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />  
+<!--在IOS系统中以上两个meta会让网页内容以应用程序风格显示，并使状态栏透明 上面一个content有俩值yes和no 此meta作用是删除默认的苹果工具栏和菜单栏，如果需要显示时不加此行meta 第二个meta的content有三个值default（白色） black(黑色) black-translucent（灰色半透明）若值为“black-translucent”将会占据页面px位置，浮在页面上方（会覆盖页面20px高度–iphone4和itouch4的Retina屏幕为40px）。-->
+<meta name="format-detection" content="telephone=no">
+<meta content="email=no" name="format-detection" />
+<!--以上两条mate作用为：告诉设备忽略将页面中的数字识别为电话号码 将不识别邮箱-->
+<link type="text/css" href="/css/wap/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件-->
+<link type="text/css" href="/css/wap/kaych.framework.css" rel="stylesheet"/><!--页面框架css文件-->
+<link type="text/css" href="/css/wap/kaych.ui-visual.css" rel="stylesheet"/><!--视觉效果（即样式，与框架分离）css属性文件-->
+<link type="text/css" href="/css/wap/kaych.indexLayout.css" rel="stylesheet"/><!--页面细致布局css文件--> 
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.commons.css"><!--页面通用CSS文件-->
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.media.screen.css"><!--页面分辨率检测启用不同布局CSS文件-->
+<!--[if lt IE 9]>
+<script src="../js/html5.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script type="text/javascript" src="../js/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<script src="/js/wap/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/js/wap/jquery.flexslider-min.js"></script><!--banner轮播图JS-->
+<script src="/js/wap/main.js"></script>
+
+<script type="text/javascript">
+
+    function search() {
+        var text = $('#searchText').val();
+        if (text == "") {
+            return;
+        }
+
+        var par = "condition=" + text;
+        par = encodeURI(par);
+        par = encodeURI(par);
+
+        window.location.href = '/wapProList/wapProTuiList?' + par;
+    }
+
+</script>
+
+</head>
+
+<body>
+<header>
+	<div class="wrap hidden">
+		<h1 class="alignleft"><a href="/wapIndex/Index"><img src="/images/icons/logo.png" alt="logo" /></a></h1>
+    	<form id="form1"  >
+            <label class="search-btn alignleft w40"><span>请输入搜索关键字...</span><input type="text" id="searchText" /></label>
+            <label class="search-icon alignright"><span></span><input type="button" value="搜索" onclick="search()" /></label>
+        </form>
+    </div><!--wrap end-->
+</header>
+<div class="zw-div"></div>
+<div class="block_home_slider">
+	<div id="home_slider" class="flexslider">
+    	<ul class="slides">
+        @{
+            if (ViewData["AdertTop"] != null)
+            {
+                foreach (var ad in ((List<webs_YueyxShop.Model.Adert>)ViewData["AdertTop"]))
+                {
+        	        <li><div class="slide"><a href="@ad.a_Link" target="_blank"><img style="max-width:100%;max-height:134px;" name="page_cnt_1" src="@ad.a_Image" alt="@ad.a_Title" /></a></div></li>
+                }
+            }
+        }
+        </ul>
+	</div><!--flexslider end-->
+<!--轮播图JS-->
+<script type="text/javascript">
+    $(function () {
+        $('#home_slider').flexslider({
+            animation: 'slide',
+            controlNav: true,
+            directionNav: true,
+            animationLoop: true,
+            slideshow: true,
+            useCSS: false
+        });
+    });
+</script>
+</div><!--block_home_slider end-->
+<div class="clear"></div>
+<div class="wrap hidden">
+	<ul class="nav-list">
+    	<li>
+        	<a href="/wapHelpCenter/Index?id=128">
+            	<img src="/images/icons/nav_icon_01.png" alt="公司简介" />
+                <p>公司简介</p>
+            </a>
+        </li>
+        <li>
+        	<a href="/wapProList/wapProTuiList?tui=1">
+            	<img src="/images/icons/nav_icon_02.png" alt="热卖专区" />
+                <p>热卖专区</p>
+            </a>
+        </li>
+        <li>
+        	<a href="/wapProList/wapProTuiList?tui=3">
+            	<img src="/images/icons/nav_icon_03.png" alt="新品专区" />
+                <p>新品专区</p>
+            </a>
+        </li>
+        <li>
+        	<a href="/wapProList/wapProTuiList?tui=5">
+            	<img src="/images/icons/nav_icon_04.png" alt="特价专区" />
+                <p>特价专区</p>
+            </a>
+        </li>
+        <li>
+        	<a href="/wapgroupBuy/groupBuy">
+            	<img src="/images/icons/nav_icon_05.png" alt="团购" />
+                <p>团购</p>
+            </a>
+        </li>
+        <li>
+        	<a href="/wapvipCenter/VipMyHistory">
+            	<img src="/images/icons/nav_icon_06.png" alt="浏览历史" />
+                <p>浏览历史</p>
+            </a>
+        </li>
+        <li>
+        	<a href="/wapvipCenter/VipMycollect">
+            	<img src="/images/icons/nav_icon_07.png" alt="我的收藏" />
+                <p>我的收藏</p>
+            </a>
+        </li>
+        <li>
+        	<a href="/wapHelpCenter/Index?id=130">
+            	<img src="/images/icons/nav_icon_08.png" alt="联系我们" />
+                <p>联系我们</p>
+            </a>
+        </li>
+    </ul>
+</div><!--wrap end-->
+<div class="wrap hidden">
+	<ul class="ad-list">
+    @{
+        if (ViewData["wapad1"] != null)
+        {
+            foreach (var ad in ((List<webs_YueyxShop.Model.Adert>)ViewData["wapad1"]))
+            {
+        	    <li><div class="slide"><a href="@ad.a_Link" target="_blank"><img style="width:284px;height:137px;" name="page_cnt_1" src="@ad.a_Image" alt="@ad.a_Title" /></a></div></li>
+            }
+        }
+    }
+    @{
+        if (ViewData["wapad2"] != null)
+        {
+            foreach (var ad in ((List<webs_YueyxShop.Model.Adert>)ViewData["wapad2"]))
+            {
+        	    <li><div class="slide"><a href="@ad.a_Link" target="_blank"><img style="width:284px;height:137px;" name="page_cnt_1" src="@ad.a_Image" alt="@ad.a_Title" /></a></div></li>
+            }
+        }
+    }
+    @{
+        if (ViewData["wapad3"] != null)
+        {
+            foreach (var ad in ((List<webs_YueyxShop.Model.Adert>)ViewData["wapad3"]))
+            {
+        	    <li><div class="slide"><a href="@ad.a_Link" target="_blank"><img style="width:284px;height:137px;" name="page_cnt_1" src="@ad.a_Image" alt="@ad.a_Title" /></a></div></li>
+            }
+        }
+    }
+    @{
+        if (ViewData["wapad4"] != null)
+        {
+            foreach (var ad in ((List<webs_YueyxShop.Model.Adert>)ViewData["wapad4"]))
+            {
+        	    <li><div class="slide"><a href="@ad.a_Link" target="_blank"><img style="width:284px;height:137px;" name="page_cnt_1" src="@ad.a_Image" alt="@ad.a_Title" /></a></div></li>
+            }
+        }
+    }
+    </ul>
+</div><!--wrap end-->
+<div class="wrap">
+<div class="wrapper hidden bgColor-white">
+	<div class="pro-title"><h2>手机专享</h2></div>
+    <ul class="pro-list">
+        @{
+            if (ViewData["手机专享list"] != null)
+            {
+                foreach (System.Data.DataRow row in ((System.Data.DataTable)ViewData["手机专享list"]).Rows)
+                {
+                    <li>
+        	            <a href="/wapProDetail/ProDetail?skuid=@row["sku_ID"]">
+            	            <img src="@row["pi_Url"]" alt="@row["p_Name"]" />
+                            <dl>
+                	            <dt>@row["p_Name"]</dt>
+                                <dd>@row["prt_Directions"]</dd>
+                                <dd><strong>￥@row["sku_Price"]</strong><del>￥@row["sku_scPric"]</del></dd>
+                            </dl>
+                        </a>
+                    </li>
+                }
+            }
+        }
+    	
+    </ul>
+</div><!--wrapper end-->
+</div><!--wrap end-->
+<div class="clearh"></div>
+<div class="zw-div"></div>
+<div class="footer-nav">
+    @Html.Action("bottomMenu", "wapvipCenter")    
+</div><!--footer-nav end-->
+</body>
+</html>

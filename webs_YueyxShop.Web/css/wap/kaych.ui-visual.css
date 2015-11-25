@@ -1,0 +1,213 @@
+/* CSS Document
+*作者：王军凯
+*编写时间：2014-07-07
+*所属公司：盘古科技
+*联系QQ:466085876
+*版本：1.0
+ */
+ 
+ /*视觉效果CSS*/
+ 
+.bgColor-white{ background:#ffffff; }
+/*暗深蓝色*/
+.bgColor-darkBlue{ background:#125597; }
+
+/*圆角属性*/
+.radius-nav{
+	border-radius:65px;
+	-webkit-border-radius:65px;
+	-moz-border-radius:65px;
+	-o-border-radius:65px;
+	}
+	
+/*文本阴影*/
+.textShadow{
+	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	-o-border-radius:4px;
+	text-shadow:1px 1px 1px #333333;
+	-webkit-text-shadow:1px 1px 1px #333333;
+	-moz-text-shadow:1px 1px 1px #333333;
+	}	
+/*文本阴影*/
+.textShadows{
+	text-shadow:1px 1px 1px #ffffff;
+	-webkit-text-shadow:1px 1px 1px #ffffff;
+	-moz-text-shadow:1px 1px 1px #ffffff;
+	}
+
+/*分享按钮背景*/
+.qzone{
+	border:1px solid #2b6998;
+	background:#3699d2;
+	box-shadow: 0px 1px 0px 0px #5db5f4 inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 1px 0px 0px #5db5f4 inset;
+	-moz-box-shadow: 0px 1px 0px 0px #5db5f4 inset;
+	}
+.sina{
+	border:1px solid #944131;
+	background:#d7504a;
+	box-shadow: 0px 1px 0px 0px #e57c76 inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 1px 0px 0px #e57c76 inset;
+	-moz-box-shadow: 0px 1px 0px 0px #e57c76 inset;
+	}
+.weixin{
+	border:1px solid #599739;
+	background:#42a41b;
+	box-shadow: 0px 1px 0px 0px #65c339 inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 1px 0px 0px #65c339 inset;
+	-moz-box-shadow: 0px 1px 0px 0px #65c339 inset;
+	}
+.frendCircle{
+	border:1px solid #362aa7;
+	background:#5459a7;
+	box-shadow: 0px 1px 0px 0px #8f90ff inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 1px 0px 0px #8f90ff inset;
+	-moz-box-shadow: 0px 1px 0px 0px #8f90ff inset;
+	}
+.tencent{
+	border:1px solid #31a2d2;
+	background:#41b8ef;
+	box-shadow: 0px 1px 0px 0px #69d2ff inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 1px 0px 0px #69d2ff inset;
+	-moz-box-shadow: 0px 1px 0px 0px #69d2ff inset;
+	}					
+.qzone:hover,.sina:hover,.weixin:hover,.frendCircle:hover,.tencent:hover{
+	opacity:.8;
+	filter:alpha(opacity=80);
+	}	
+	
+/*登录按钮*/
+.login-button{
+	border:1px solid #3d78b3;
+	border-radius:3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	-o-border-radius:3px;
+	box-shadow: 0px 1px 0px 0px #1661ac,0px 1px 0px 0px #6db2f6 inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 1px 0px 0px #1661ac,0px 1px 0px 0px #6db2f6 inset;
+	-moz-box-shadow: 0px 1px 0px 0px #1661ac,0px 1px 0px 0px #6db2f6 inset;
+	background: #256fba;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#3f89d3), to(#0e59a4));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #3f89d3, #0e59a4);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #3f89d3, #0e59a4);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #3f89d3, #0e59a4);/* IE 9 10 */
+	background: -o-linear-gradient(top, #3f89d3, #0e59a4);/* Opera 11.10+ */
+	background: linear-gradient(top, #3f89d3, #0e59a4);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#3f89d3,endColorStr=#0e59a4);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#3f89d3, endColorStr=#0e59a4);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+.login-button:hover	{
+	border:1px solid #2f669e;
+	border-radius:3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	-o-border-radius:3px;
+	box-shadow: 0px 1px 0px 0px #2f598b,0px 1px 0px 0px #6497d5 inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 1px 0px 0px #2f598b,0px 1px 0px 0px #6497d5 inset;
+	-moz-box-shadow: 0px 1px 0px 0px #2f598b,0px 1px 0px 0px #6497d5 inset;
+	background: #337dc7;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#3f89d3), to(#256fba));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #3f89d3, #256fba);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #3f89d3, #256fba);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #3f89d3, #256fba);/* IE 9 10 */
+	background: -o-linear-gradient(top, #3f89d3, #256fba);/* Opera 11.10+ */
+	background: linear-gradient(top, #3f89d3, #256fba);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#3f89d3,endColorStr=#256fba);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#3f89d3, endColorStr=#256fba);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+	
+.pageBtn{
+	border:1px solid #ddd;
+	box-shadow: 0px 0px 0px 1px #ffffff inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 0px 0px 1px #ffffff inset;
+	-moz-box-shadow: 0px 0px 0px 1px #ffffff inset;
+	background: #f1f1f1;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#e5e5e5));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ffffff, #e5e5e5);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ffffff, #e5e5e5);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ffffff, #e5e5e5);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ffffff, #e5e5e5);/* Opera 11.10+ */
+	background: linear-gradient(top, #ffffff, #e5e5e5);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ffffff,endColorStr=#e5e5e5);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ffffff, endColorStr=#e5e5e5);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+.pageBtn:hover{
+	border:1px solid #ddd;
+	box-shadow: 0px 0px 0px 1px #ffffff inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 0px 0px 1px #ffffff inset;
+	-moz-box-shadow: 0px 0px 0px 1px #ffffff inset;
+	background: #f1f1f1;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#dadada));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ffffff, #dadada);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ffffff, #dadada);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ffffff, #dadada);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ffffff, #dadada);/* Opera 11.10+ */
+	background: linear-gradient(top, #ffffff, #dadada);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ffffff,endColorStr=#dadada);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ffffff, endColorStr=#dadada);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}	
+.pageBtn:active{
+	border:1px solid #ddd;
+	box-shadow: 0px 0px 0px 1px #ffffff inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 0px 0px 1px #ffffff inset;
+	-moz-box-shadow: 0px 0px 0px 1px #ffffff inset;
+	background: #f1f1f1;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#dadada));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ffffff, #dadada);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ffffff, #dadada);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ffffff, #dadada);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ffffff, #dadada);/* Opera 11.10+ */
+	background: linear-gradient(top, #ffffff, #dadada);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ffffff,endColorStr=#dadada);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ffffff, endColorStr=#dadada);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+	
+/*灰白色圆形按钮*/
+.circleBtn{
+	border-radius:60px;
+	-webkit-border-radius:60px;
+	-moz-border-radius:60px;
+	-o-border-radius:60px;
+	box-shadow: 0px 1px 2px 0px #b7b9c2 inset, 0px 1px 2px 0px #ffffff; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 1px 2px 0px #b7b9c2 inset, 0px 1px 2px 0px #ffffff;
+	-moz-box-shadow: 0px 1px 2px 0px #b7b9c2 inset, 0px 1px 2px 0px #ffffff;
+	background: #f1f1f1;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#d6d6d6));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ffffff, #d6d6d6);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ffffff, #d6d6d6);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ffffff, #d6d6d6);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ffffff, #d6d6d6);/* Opera 11.10+ */
+	background: linear-gradient(top, #ffffff, #d6d6d6);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ffffff,endColorStr=#d6d6d6);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ffffff, endColorStr=#d6d6d6);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+	
+/*蓝色渐变*/
+a.footerNav-bgColor-blue{
+	background: #236eb8;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#408ad3), to(#0b57a2));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #408ad3, #0b57a2);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #408ad3, #0b57a2);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #408ad3, #0b57a2);/* IE 9 10 */
+	background: -o-linear-gradient(top, #408ad3, #0b57a2);/* Opera 11.10+ */
+	background: linear-gradient(top, #408ad3, #0b57a2);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#408ad3,endColorStr=#0b57a2);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#408ad3, endColorStr=#0b57a2);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+
+a.footerNav-bgColor-blue:hover{
+	box-shadow: 0px -5px 15px 0px #0c4884 inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px -5px 15px 0px #0c4884 inset;
+	-moz-box-shadow: 0px -5px 15px 0px #0c4884 inset;
+	background: #236eb8;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#408ad3), to(#0b57a2));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #408ad3, #0b57a2);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #408ad3, #0b57a2);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #408ad3, #0b57a2);/* IE 9 10 */
+	background: -o-linear-gradient(top, #408ad3, #0b57a2);/* Opera 11.10+ */
+	background: linear-gradient(top, #408ad3, #0b57a2);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#408ad3,endColorStr=#0b57a2);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#408ad3, endColorStr=#0b57a2);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}	

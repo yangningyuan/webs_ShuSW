@@ -1,0 +1,633 @@
+﻿@{
+    ViewBag.Title = "月月兴食品商行-我的购物车";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+<link type="text/css" href="/css/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+<link type="text/css" href="/css/kaych.commons.css" rel="stylesheet"/><!--页面公用css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+<link type="text/css" href="/css/kaych.framework.css" rel="stylesheet"/><!--页面大框架css文件-->
+<link rel="stylesheet" type="text/css" href="/css/kaych.chartOrder.css"><!--页面支付系统css文件-->
+<link rel="stylesheet" type="text/css" href="/css/kaych.place.css"><!--省市区三级联动CSS-->
+<!--[if IE 6]>
+<script type="text/javascript" src="/js/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script src="/js/html5.js"></script>
+<![endif]-->
+<script src="/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //该页面不需要主页商品头部
+        $('#publicHead').remove();
+        //全选
+        $('input[name=check_all]').click(function () {
+            var ischecked = $(this).attr("checked");
+            if (ischecked) {
+                ischecked = true;
+            } else {
+                ischecked = false;
+            }
+            $('input[name=check_all]').each(function () {
+                $(this).attr("checked", ischecked);
+            });
+            if ($(this).attr('checked')) {
+                $('input[id^=check_item_]').each(function () {
+                    if (!($(this).attr('checked'))) {
+                        //增加
+                        ChangeScore(strToNumber(11, $(this).attr("id")), true);
+                    }
+                    $(this).attr('checked', true);
+                });
+            }
+            else {
+                $('input[id^=check_item_]').each(function () {
+                    if ($(this).attr('checked')) {
+                        //减少
+                        ChangeScore(strToNumber(11, $(this).attr("id")), false);
+                    }
+                    $(this).attr('checked', false);
+                });
+            }
+        });
+        //选择事件
+        $('input[id^=check_item_]').each(function () {
+            $(this).change(function () {
+                var id = strToNumber(11, $(this).attr('id'));
+                var ischecked = $(this).attr('checked');
+                var pricechange = strToNumber(1, $('#stotal_item_' + id).text());
+                if (!ischecked) {
+                    pricechange = -pricechange;
+                    $('input[name=check_all]').each(function () {
+                        $(this).attr("checked", false);
+                    });
+                }
+                //获取总价
+                var sumPrice = strToNumber(1, $('#total_price').text());
+                //计算总价
+                sumPrice = sumPrice + pricechange;
+                //总价赋值
+                $('#total_price').text("￥" + sumPrice.toFixed(2));
+                //总分
+                $('#talScore').text(sumPrice.toFixed(0));
+            })
+        });
+    });
+
+    function ChangeScore(id, isAdd) {
+        //积分
+        var score = strToNumber(0, $('#score_' + id).text(), 3);
+        //价格
+        var price = strToNumber(1, $('#stotal_item_' + id).text());
+        //总积分
+        var totalSc = strToNumber(0, $('#talScore').text());
+        //总价格
+        var totalPri = strToNumber(1, $('#total_price').text());
+        if (isAdd) {
+            totalSc = totalSc + score;
+            totalPri = totalPri + price;
+        } else {
+            totalSc = totalSc - score;
+            totalPri = totalPri - price;
+        }
+
+        $('#talScore').text(totalSc);
+        $('#total_price').text("￥" + totalPri.toFixed(2))
+    }
+
+    //字符串转Number
+    function strToNumber(start, str, right) {
+        if (str == null || str == "") {
+            return null;
+        }
+        if (typeof (right) == "undefined") {
+            str = str.substr(start);
+        } else {
+            str = str.substr(start, str.length - start - right);
+        }
+        var num = Number(str);
+        if (isNaN(num))
+            return null;
+        return num;
+    }
+
+    //数量减
+    //id为sku_ID
+    function reduceCount(id) {
+        //修改前数量
+        var oldCount = strToNumber(0, $('#qty_item_' + id).val());
+        //数量是否正确
+        if (oldCount == 1) {
+            alert("商品数量最少为1");
+            return;
+        }
+        oldCount--;
+        UpdatePage(id, oldCount);
+    }
+
+    //手动输入
+    //id为sku_ID
+    function modifyCount(id) {
+        var count = strToNumber(0, $('#qty_item_' + id).val());
+        if (count == null) {
+            alert("请输入正确的数量！");
+            return;
+        }
+        UpdatePage(id, count);
+    }
+
+    //数量加
+    //id为sku_ID
+    function addCount(id) {
+        //修改前数量
+        var oldCount = strToNumber(0, $('#qty_item_' + id).val());
+        //数量是否正确
+        if (oldCount == 999) {
+            alert("商品数量最多为999");
+            return;
+        }
+        oldCount++;
+        UpdatePage(id, oldCount);
+    }
+
+    //修改界面上的相应内容
+    function UpdatePage(id, count) {
+
+        $.ajax({
+            type: 'post',
+            url: "/Chart/UpdateChartCount?id=" + id + "&count=" + count,
+            async: false,
+            success: function (data) {
+                $('#stock_' + id).text(data);
+            }
+        });
+
+        //修改前价格
+        var oldPrice = strToNumber(1, $('#stotal_item_' + id).text());
+        //数量赋值
+        $('#qty_item_' + id).val(count);
+        //获取单价
+        var unitPrice = strToNumber(1, $('#sc_' + id).text());
+        //计算价格
+        var newPrice = count * unitPrice;
+        //价格赋值
+        $('#stotal_item_' + id).text("￥" + newPrice.toFixed(2));
+        $('#score_' + id).text(newPrice.toFixed(0) + " 积分");
+        if ($('#check_item_' + id).attr("checked")) {
+            //获取总价
+            var sumPrice = strToNumber(1, $('#total_price').text());
+            //计算总价
+            sumPrice = sumPrice - oldPrice + newPrice;
+            //总价赋值
+            $('#total_price').text("￥" + sumPrice.toFixed(2));
+            //总分
+            $('#talScore').text(sumPrice.toFixed(0));
+        }
+    }
+
+    //获取选中的商品
+    function GetChecked(isChecked) {
+        var str = "";
+        //获取选中
+        if (isChecked) {
+            $("input[name='check_item']:checkbox").each(function () {
+                if ($(this).attr("checked")) {
+                    var id = strToNumber(11, $(this).attr("id"));
+                    str += id + ",";
+                }
+            });
+        } else { //全选
+            $("tr[name='proList']").each(function () {
+                var id = $(this).attr("id");
+                str += id + ",";
+            });
+        }
+
+        return str;
+    }
+
+    //删除选中
+    function DeleteChecked() {
+        if (!confirm("确认删除选中商品？")) {
+            return;
+        }
+        var str = GetChecked(true);
+        if (str == "") {
+            alert("未选中商品！");
+            return;
+        }
+        DeleteFromDataBase(str);
+    }
+
+    //删除所有
+    function DeleteAll() {
+        if (!confirm("确认清空购物车？")) {
+            return;
+        }
+        var str = GetChecked(false);
+        if (str == "") {
+            alert("当前购物车为空！");
+            return;
+        }
+        DeleteFromDataBase(str);
+    }
+
+    //单个删除
+    function Delete(str) {
+        if (!confirm("确认删除？")) {
+            return;
+        }
+        DeleteFromDataBase(str);
+    }
+
+    //从数据库删除
+    function DeleteFromDataBase(str) {
+        $.ajax({
+            type: 'post',
+            url: "/Chart/DeleteChartSKU?ids=" + str,
+            async: true,
+            success: function (data) {
+                if (data == "删除成功") {
+                    DeleteItem(str);
+                }
+            }
+        })
+    }
+
+    //删除标签
+    function DeleteItem(str) {
+        var ids = str.split(',');
+        for (i = 0; i < ids.length; i++) {
+            if (ids[i] != "") {
+                //重新计算价格
+                var oldPrice = strToNumber(1, $('#stotal_item_' + ids[i]).text());
+                //获取总价
+                var sumPrice = strToNumber(1, $('#total_price').text());
+                //计算总价
+                sumPrice = sumPrice - oldPrice;
+                //总价赋值
+                $('#total_price').text("￥" + sumPrice.toFixed(2));
+                //总分
+                $('#talScore').text(sumPrice.toFixed(0));
+                //删除
+                $('#' + ids[i]).remove();
+            }
+        }
+    }
+
+    //提交
+    function submitChart() {
+        var str = GetChecked(true);
+        if (str == "") {
+            alert("请选择商品后再结算！");
+            return;
+        }
+        var list = str.split(',');
+        for (i = 0; i < list.length; i++) {
+            if (list[i] != "") {
+                if ($('#stock_' + list[i]).text() == "库存不足") {
+                    alert("请选择有货的商品！");
+                    return;
+                } else if ($('#stock_' + list[i]).text() == "团购结束") {
+                    alert("商品团购时间结束，请删除后再结算");
+                    return;
+                }
+            }
+        }
+
+        window.location.href = "/Order/Order?ids=" + str;
+    }
+
+</script>
+<script type="text/javascript" src="/js/jquery.flexslider-min.js"></script><!--banner轮播图JS-->
+<script type="text/javascript" src="/js/jquery.SuperSlide.2.1.1.js"></script><!--页面小广告bannerJS库-->
+<script src="/js/script.js" type="text/javascript"></script><!--全部商品导航JS-->
+<script type='text/javascript' src='/js/tuan.js'></script><!--团购页面内活动特效-->
+<script type='text/javascript' src="/js/jquery.lazyload.min.js"></script><!--图片延迟加载JS-->
+<script type="text/javascript" src="/js/custominput.js"></script><!--表单美化JS-->
+<script type="text/javascript" src="/js/ddsmoothmenu.js"></script><!--下拉导航JS-->
+<script type="text/javascript" src="/js/payfor.js"></script><!--商品数量增加减少 算总价JS-->
+
+<div class="clearh"></div>
+<div class="header-cont">
+	<h1 class="alignleft"><a href="/Index/Index"><img name="page_cnt_1" src="/images/headFooter/logo.png" alt="月月兴食品商行" /></a></h1>
+    <div class="chart-step alignright"><img name="page_cnt_1" src="/images/img/chart_step_01.jpg" alt="购物车" /></div>
+</div><!--header-cont end-->
+<div class="clearh"></div>
+<div class="wrap">
+	<div class="chart-title">
+    	<h2 class="alignleft">我的购物车</h2>
+        @*<div class="logins alignleft">现在<a href="#">登录</a>，您购物车中的商品将永久保存</div>
+        <div class="fonts alignright">满<span>200元</span>即可免运费</div>*@
+    </div><!--chart-title end-->
+    <table class="chart-list">
+    	<tbody>
+        	<tr>
+            	<th width="70" height="35"><label><input type="checkbox" name="check_all" checked="checked" />全选</label></th>
+                <th>商品名称</th>
+                <th>价格（元）</th>
+                <th>积分</th>
+                <th>送至：<div class="place">
+                    	<div id="store-selector">
+							<div class="text"><div></div><b></b></div>
+							<div onclick="$('#store-selector').removeClass('hover')" class="close"></div>
+						</div><!--store-selector end-->
+						<div id="store-prompt"><strong></strong></div><!--store-prompt end--->
+                    </div><!--place end--></th>
+                <th>数量</th>
+                <th>商品合计</th>
+                <th width="100" align="center">操作</th>
+            </tr>
+            @{
+                if (ViewData["ChartProducts"] != null)
+                {
+                    decimal total = 0;
+                    foreach (System.Data.DataRow row in ((System.Data.DataTable)ViewData["ChartProducts"]).Rows)
+                    {
+                        //定义id
+                        string scId = "sc_" + row["sku_ID"];
+                        string qtyid = "qty_item_" + row["sku_ID"];
+                        string totalid = "stotal_item_" + row["sku_ID"];
+                        string scoreid = "score_" + row["sku_ID"];
+                        string stockid = "stock_" + row["sku_ID"];
+                        string chkId = "check_item_" + row["sku_ID"];
+                        //价格数量转换
+                        int pCount = Convert.ToInt32(row["sc_pCount"]);
+                        decimal sc_pPrice = Convert.ToDecimal(row["sku_Price"]);
+                        decimal price = sc_pPrice * pCount;
+                        int score = Convert.ToInt32(price);
+                        total += price;
+                        
+                        <tr name="proList" id="@row["sku_ID"]">
+            	            <td width="70"><input type="checkbox" class="checkbox"  name="check_item" id="@chkId" checked="checked" /></td>
+                            <td class="pro-shops">
+                	            <a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]"><img style="height:54px;width:54px;" name="page_cnt_1" src="@row["pi_Url"]" alt="@row["p_Name"]" /></a>
+                                <dl>
+                    	            <dt><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]">@row["p_Name"] @row["property"]</a></dt>
+                                    @*<dd><span>团购</span><span>促销</span></dd>*@
+                                </dl>
+                            </td>
+                            <td width="100" class="centers" id="@scId">￥@sc_pPrice</td>
+                            <td width="100" class="centers" id="@scoreid">@score 积分</td>
+                            <td width="140" class="centers" id="@stockid">@row["sc_pCountStatus"]</td>
+                            <td width="120" class="centers">
+                	            <div class="buyNub-nub">
+						            <div class="buyNub-nub-wrap">
+							            <i class="buyNub-nub-blus-c" onclick="reduceCount('@row["sku_ID"]')" ></i>
+                                        <input name="@qtyid" type="text" value="@pCount" id="@qtyid" onkeyup="modifyCount('@row["sku_ID"]')" />
+							            <i class="buyNub-nub-top" onclick="addCount('@row["sku_ID"]')"></i>
+                    	            </div>
+                                </div>
+                            </td>
+                            <td width="110" class="centers"><span id="@totalid">￥@price</span></td>
+                            <td width="98" class="cz"><a href="javascript:void(0)" onclick="Delete('@row["sku_ID"]')">删除</a></td>
+                        </tr>
+                    }
+                    ViewData["total"] = total;
+                    ViewData["talSorce"] = Convert.ToInt32(total);
+                }
+             }
+            <tr>
+            	<td height="35"><label><input type="checkbox" name="check_all" checked="checked" />全选</label></td>
+                <td class="del"><a href="javascript:void(0)" onclick="DeleteChecked()">删除选中的商品</a><a href="javascript:void(0)" onclick="DeleteAll()">清空购物车</a></td>
+                @*<td colspan="6" class="del"><font>总计已选<span>4</span>件商品</font></td>*@
+            </tr>
+            <tr>
+            	<td colspan="8" class="total">
+                	<span class="alignleft">
+                    	<a class="alignleft shopping" href="/Index/Index">继续购物</a><font class="alignleft">积分总计：<em id="talScore">@ViewData["talSorce"]</em></font>
+                    </span>
+                    <span class="alignright">
+                    	<a class="alignright payfor" href="javascript:void(0)" onclick="submitChart()">去结算<i></i></a><font class="alignright">商品合计（不含运费）：<strong id="total_price">￥@ViewData["total"]</strong></font>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="clear line2"></div>
+
+
+
+    <div class="borders wraps">
+    	<h4 class="shops"><span>购买了同样商品的客户还购买了</span></h4>
+        <div class="slideBox">
+			<a class="sPrev" href="javascript:void(0)"></a>
+			<ul class="pro-list">
+            	@Html.Action("Partialremaituijian", "Chart")
+			</ul>
+			<a class="sNext" href="javascript:void(0)"></a>
+		</div><!-- slideBox End -->
+    </div><!--wraps end-->
+</div><!--wrap end-->
+<div class="clear line2"></div>
+<script type='text/javascript' src='/js/main.js'></script><!--散乱JS合集 重要 此JS放置位置要注意，需放置在导航及banner用的JS下方..-->
+<script type="text/javascript" src="/js/location.js"></script><!--省市区三级联动JS-->
+<script type="text/javascript">
+<!--    全选反选-- >
+$(function () {
+    //单独选择某一个
+    $("input[name='check_item']").click(function () {
+        var index = $("input[name='check_item']").index(this);
+        $("input[name='check_item']").eq(index).toggleClass("checked"); //伪复选
+    });
+    //全选
+    $("#check_all,#box_all").click(function () {
+        $("input[name='check_item']").attr("checked", $(this).attr("checked"));
+        $("input[name='check_item'],#check_all,#box_all").toggleClass("checked");
+    });
+
+});
+
+    //导航下拉菜单横导航
+    ddsmoothmenu.init({
+
+        mainmenuid: "smoothmenu1", //menu DIV id
+
+        orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+
+        classname: 'navCon-menu'
+
+    });
+
+    //购物车页面下方商品滚动JS
+    jQuery(".slideBox").slide({ mainCell: "ul", vis: 4, prevCell: ".sPrev", nextCell: ".sNext", effect: "leftLoop" });
+
+    //产品详细页左侧浏览历史JS
+    jQuery(".ani-side-pro").slide({ mainCell: ".sales-list-history", effect: "left", delayTime: 400, pnLoop: false, easing: "easeOutCubic" });
+
+
+    //首页团购banner下方的广告轮播JS
+    jQuery(".ad-banner").slide({ mainCell: ".pic", effect: "left", autoPlay: true, delayTime: 300 });
+
+    //首页产品分类里的广告轮播JS
+    jQuery(".pro-banner").slide({ mainCell: ".pic", effect: "left", autoPlay: true, delayTime: 300 });
+
+    //首页品牌推荐大图轮播
+    jQuery("#iFocus li a").hover(function () { $(this).css("opacity", 1).siblings().css("opacity", 0.7) }, function () { $(this).css("opacity", 1).siblings().css("opacity", 1) }); //鼠标移到图片上时聚焦效果
+    jQuery("#iFocus").slide({ titCell: ".btn span", mainCell: "ul", effect: "left", autoPlay: true });
+
+    //首页小品牌无缝滚动JS
+    jQuery(".picScroll").slide({ mainCell: "ul", effect: "leftMarquee", vis: 9, autoPlay: true, interTime: 50, switchLoad: "_src" });
+
+    //侧边栏一周销量排行榜JS
+    jQuery(".sales-list").slide({ titCell: "li", triggerTime: 0 });
+
+
+    //图片延迟加载
+    (function () {
+
+        var th = this;
+
+        th.pageSize = 1000; /* 每屏大概高度为1000px */
+
+        th.pageQuotiety = 0.5; /* 提前下载量 */
+
+        th.imgName = "page_cnt_"; /* 图片通用名 */
+
+        th.imgs = []; /* 每屏图片 [每屏所有图片，第一张图片，第一张图片绝对top:加载图片的top] */
+
+        var B = {}; /* Browser check */
+
+        B.ua = window.navigator.userAgent.toLowerCase();
+
+        B.ie = /msie/.test(B.ua);
+
+        B.moz = /gecko/.test(B.ua);
+
+        B.opera = /opera/.test(B.ua);
+
+        B.safari = /safari/.test(B.ua);
+
+        var $N = function (s, docu) {
+            var doc = docu ? docu : document;
+            return (typeof s == "object") ? s : doc.getElementsByName(s);
+        };
+
+        th.getWindowSize = function () {
+            var a = {};
+            if (window.self && self.innerWidth) {
+                a.width = self.innerWidth;
+                a.height = self.innerHeight;
+                return a;
+            } if (document.documentElement && document.documentElement.clientHeight) {
+                a.width = document.documentElement.clientWidth;
+                a.height = document.documentElement.clientHeight;
+                return a;
+            }
+            a.width = document.body.clientWidth;
+            a.height = document.body.clientHeight;
+            return a;
+        }
+
+        th.getObjPosition = function (obj) {
+            var a = {};
+            a.x = obj.offsetLeft, a.y = obj.offsetTop;
+            while (obj = obj.offsetParent) {
+                a.x += obj.offsetLeft;
+                a.y += obj.offsetTop;
+            }
+            return a;
+        }
+
+        th._getPageScroll = function () {
+            var s;
+            if (typeof (window.pageYOffset) != "undefined") {
+                s = window.pageYOffset;
+            } else if (document.documentElement && document.documentElement.scrollTop) {
+                s = document.documentElement.scrollTop;
+            } else if (document.body) {
+                s = document.body.scrollTop;
+            }
+            return s;
+        }
+
+        th._loadImages = function (a) {
+            if (!a) return;
+            var obj = a;
+            if (typeof a == "string") {
+                obj = $N(a);
+            } for (var i = 0; i < obj.length; i++) {
+                var s = obj[i];
+                if (typeof s == "object") {
+                    if (s.getAttribute("_src")) {
+                        s.setAttribute("src", s.getAttribute("_src"));
+                        s.removeAttribute("_src", 0);
+                    }
+                }
+            }
+            delete obj;
+            obj = null;
+        }
+
+        th._loadAllImgs = function () {
+            var i = 0;
+            while (th.imgs[i]) {
+                th._loadImages(th.imgs[i][0]);
+                i++;
+            }
+        }
+
+        th.getImgPosition = function () {
+            var i = 1;
+            var p = $N(th.imgName + i);
+            while (p && p.length > 0) {
+                var p = $N("page_cnt_" + i);
+                var t = th.getImgLoadPosition(p[0]);
+                th.imgs.push([p, p[0], t]);
+                i++;
+                p = $N(th.imgName + i);
+            }
+        }
+
+        th.getImgLoadPosition = function (a) {
+            var t = { imgTop: 0, pageTop: 0 };
+            if (a) {
+                var w = th.getWindowSize();
+                t.imgTop = parseInt(th.getObjPosition(a).y);
+                t.pageTop = parseInt((t.imgTop / 1000 - th.pageQuotiety) * 1000);
+            }
+            return t;
+        }
+
+        th._addScrollEven = function () {
+            if (B.ie) {
+                window.attachEvent("onscroll", th._scrollFn);
+            } else {
+                window.addEventListener("scroll", th._scrollFn, false);
+            }
+        }
+
+        th._removeScrollEven = function () {
+            if (B.ie) {
+                window.detachEvent("onscroll", th._scrollFn);
+            } else {
+                window.removeEventListener("scroll", th._scrollFn, false);
+            }
+        }
+
+        th._scrollFn = function () {
+            var y = th._getPageScroll();
+            var w = th.getWindowSize().height;
+            if (w == 0) {
+                th._loadAllImgs();
+                return;
+            }
+            var i = 0;
+            var j = 0;
+            while (th.imgs[i]) {
+                if (!(y + w < th.imgs[i][2].pageTop)) {
+                    th._loadImages(th.imgs[i][0]);
+                    j++
+                }
+                i++;
+                if (j >= th.imgs.length) {
+                    th._removeScrollEven();
+                }
+            }
+        }
+
+        th.getImgPosition();
+        th._addScrollEven();
+        th._scrollFn();
+
+    })()
+</script>

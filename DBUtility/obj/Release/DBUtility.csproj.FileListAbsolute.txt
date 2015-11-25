@@ -1,0 +1,14 @@
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\bin\Release\DBUtility.dll
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\bin\Release\DBUtility.pdb
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\bin\Release\Common.dll
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\bin\Release\IBatisNet.Common.dll
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\bin\Release\IBatisNet.DataMapper.dll
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\bin\Release\Newtonsoft.Json.Net35.dll
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\bin\Release\NPOI.dll
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\bin\Release\webs_YueyxShop.Model.dll
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\bin\Release\OpenSmtp.dll
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\bin\Release\Common.pdb
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\bin\Release\webs_YueyxShop.Model.pdb
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\obj\Release\DBUtility.csprojResolveAssemblyReference.cache
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\obj\Release\DBUtility.dll
+G:\项目\书生网\webs_YueyxShop\trunk\DBUtility\obj\Release\DBUtility.pdb

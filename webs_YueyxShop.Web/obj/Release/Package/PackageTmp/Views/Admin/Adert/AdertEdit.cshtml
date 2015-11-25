@@ -1,0 +1,134 @@
+﻿@model webs_YueyxShop.Model.Adert
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        $(function () {
+            $("#AdertPosition", navTab.getCurrentPanel()).change(function () {
+                var seleval = $(this).children('option:selected').val();
+                $.get("/Adert/getScore?aa=" + seleval, function (data) {
+                    if (data != "errer") {
+                        $("#tishi").text("建议尺寸："+data);
+                    } else {
+                        alert("error");
+                    }
+                });
+            });
+            //加载图片
+            if ('@ViewData["picurl"]' != "") {
+                var urls = "<img src='" + '@ViewData["picurl"]' + "' style=\"width:auto;height:auto;\" />";
+                $("#fileQueue", navTab.getCurrentPanel()).html(urls);
+            }
+        })
+
+    </script>
+    <script type="text/javascript" language="javascript">
+//        var flg=true;
+//        $("#AdertFenLeiPosition", navTab.getCurrentPanel()).change(function () {
+//            alert($(this).attr("value"));
+//            if ($(this).attr("value") != "-1") {
+//                flg = false;
+//            } else {
+//                flg = true;
+//            }
+//        });
+
+        function flconfrom() {
+            var cc=$("#AdertFenLeiPosition", navTab.getCurrentPanel()).attr("value");
+            if (cc == "-1") {
+                if (confirm("不添加广告商品分类可能不能正常显示广告，确认继续？")) {
+
+                } else {
+                    return false;
+                }
+            } else {
+            return true;
+            }
+         }
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("Save", "Adert")"
+              class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone)">
+    @Html.Hidden("txbotype", @ViewData["otype"])
+    @Html.HiddenFor(model => model.a_ID)
+    <input type="hidden" id="hfFilePath" value="" />
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="52">
+            <div class="unit">
+                <label>
+                    广告标题：</label>
+                @Html.TextBoxFor(model => model.a_Title, new { @class = "required", @style = "width:300px;" })
+            </div>
+            <div class="unit">
+                <label>
+                    广告位置：</label>
+                @Html.DropDownList("AdertPosition") <label id="tishi" style="color:Red;width:300px"></label>
+            </div>
+            <div class="unit">
+                <label>
+                    广告商品分类：</label>
+                @Html.DropDownList("AdertFenLeiPosition")
+            </div>
+            <div class="unit">
+                <label>
+                    广告链接：</label>
+                @Html.TextBoxFor(model => model.a_Link, new { @class = "required url", style = "width:300px;" })
+            </div>
+            <div class="unit">
+                <label>
+                    排序：</label>
+                @Html.TextBoxFor(model => model.a_Sorting, new { @class = "required number digits", style = "width:100px;", min = "0" })<label
+                    style="width: 160px; color: Red;">正整数，0为第一</label>
+            </div>
+            <div class="unit">
+                <label>
+                    广告图：</label>
+                @Html.Hidden("FileInputEId", @ViewData["picurl"], new { @id = "FileInputEId" })
+                <span class="info">
+                    <div id="fileQueue" style="float: left; width: auto;">
+                    </div>
+                    <div style="clear: both;">
+                    </div>
+                    <input id="testFileInput" type="file" name="LogoInp" uploaderoption="{
+			swf:'/uploadify/scripts/uploadify.swf',
+			uploader:'/uploadify/scripts/uploadify.ashx',
+			formData:{controlName:'LogoInp', folder:'/_filebase/AdertImages/'},
+			fileSizeLimit:'500KB',
+			fileTypeDesc:'*.jpg;*.jpeg;*.gif;*.png;',
+			fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;',
+			auto:true,
+            queueID:'fileQueue',
+            valueID:'FileInputEId',
+            modelType:'navtab'
+		}" />
+                     </span>
+            </div>
+        </div>
+    </div>
+    <div class="formBar">
+        <ul>
+            <li id="save">
+                <div class="buttonActive" id="submit" runat="server">
+                    <div class="buttonContent">
+                        <button id="sub" type="submit" onclick="return flconfrom();">
+                            保存
+                        </button>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="button">
+                    <div class="buttonContent">
+                        <button type="button" class="close">
+                            取消
+                        </button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    </form>
+</body>
+</html>

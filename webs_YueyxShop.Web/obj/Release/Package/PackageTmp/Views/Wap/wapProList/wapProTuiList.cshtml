@@ -1,0 +1,457 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>月月兴食品商行-产品列表页</title>
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+<!--设备原始宽度，不允许缩放，user-scalable是否允许用户手动缩放 inital-scale初始缩放比例 以及允许用户缩放到的最大和最小比例-->
+<meta content="yes" name="apple-mobile-web-app-capable" />  
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />  
+<!--在IOS系统中以上两个meta会让网页内容以应用程序风格显示，并使状态栏透明 上面一个content有俩值yes和no 此meta作用是删除默认的苹果工具栏和菜单栏，如果需要显示时不加此行meta 第二个meta的content有三个值default（白色） black(黑色) black-translucent（灰色半透明）若值为“black-translucent”将会占据页面px位置，浮在页面上方（会覆盖页面20px高度–iphone4和itouch4的Retina屏幕为40px）。-->
+<meta name="format-detection" content="telephone=no">
+<meta content="email=no" name="format-detection" />
+<!--以上两条mate作用为：告诉设备忽略将页面中的数字识别为电话号码 将不识别邮箱-->
+<link type="text/css" href="/css/wap/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件-->
+<link type="text/css" href="/css/wap/kaych.framework.css" rel="stylesheet"/><!--页面框架css文件-->
+<link type="text/css" href="/css/wap/kaych.ui-visual.css" rel="stylesheet"/><!--视觉效果（即样式，与框架分离）css属性文件-->
+<link type="text/css" href="/css/wap/kaych.indexLayout.css" rel="stylesheet"/><!--页面细致布局css文件--> 
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.commons.css"><!--页面通用CSS文件-->
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.media.screen.css"><!--页面分辨率检测启用不同布局CSS文件-->
+<!--[if lt IE 9]>
+<script src="../js/html5.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script type="text/javascript" src="../js/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<script src="/js/wap/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/js/wap/slideNav.js"></script>
+<script type="text/javascript">
+
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+
+    $(document).ready(function () {
+        var page = $('#curpage').val();
+        frPage(page);
+
+        $(".insert").each(function () {
+            $(this).click(function () {
+                var type = $(this).children().next().attr("value");
+                var skuid = $(this).attr("value");
+                $this = $(this);
+                $.ajax({
+                    type: 'post',
+                    url: "/ProDetail/InsertintoCollect?skuid=" + skuid + "&type=" + type,
+                    success: function (data) {
+                        if (data == "操作成功") {
+                            $("#img").removeClass("no-icon").addClass("no2-icon");
+                            $("#tishiyu").text("已成功收藏该商品");
+                            $("#yes").text("查看我的收藏");
+                            $("#yes").attr("href", "/Vipscore/vipCollect?centerindex=2");
+
+                            $("#chart-modal2").attr("style", "display:block");
+                        }
+                        else if (data == "已收藏") {
+                            $("#img").removeClass("no2-icon").addClass("no-icon");
+                            $("#tishiyu").text("您已收藏过该商品");
+                            $("#yes").text("查看我的收藏");
+                            $("#yes").attr("href", "/Vipscore/vipCollect?centerindex=2");
+
+                            $("#chart-modal2").attr("style", "display:block");
+                        }
+                        else if (data == "未登陆") {
+                            $("#img").removeClass("no2-icon").addClass("no-icon");
+                            $("#chart-modal2").attr("style", "display:block");
+                        }
+
+                    }
+                });
+            });
+        });
+
+    });
+
+    var a = 0;
+    var Request = new Object();
+
+
+    Request = GetRequest();
+    var type = Request["tui"] == 'undefined' ? "" : Request["tui"];
+    var ptype = Request["ptype"] == 'undefined' ? "" : Request["ptype"];
+    var brand = Request["brand"] == 'undefined' ? "" : Request["brand"];
+    var price = Request["price"] == 'undefined' ? "" : Request["price"];
+    var sort = Request["sort"] == 'undefined' ? "" : Request["sort"];
+    var ptid = Request["ptid"] == 'undefined' ? "" : Request["ptid"];
+    var condition = Request["condition"] == 'undefined' ? "" : Request["condition"];
+
+
+    tui = tui == 'undefined' ? "" : tui;
+    ptype = ptype == 'undefined' ? "" : ptype;
+    brand = brand == 'undefined' ? "" : brand;
+    price = price == 'undefined' ? "" : price;
+    sort = sort == 'undefined' ? "" : sort;
+    ptid = ptid == 'undefined' ? "" : ptid;
+    condition = condition == 'undefined' ? "" : condition;
+
+    function basisType(ptype) {
+        ptype = ptype;
+        //        if (tui != undefined && tui != "") {
+        //        }
+        //        else 
+        var par = '?tui=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        if (ptid != '' && ptid != 'undefined') {
+            par += '&ptid=' + ptid;
+        }
+        if (condition != '' && condition != 'undefined') {
+            par += '&condition=' + condition;
+        }
+        window.location.href = '/wapProList/wapProTuiList' + par;
+    }
+    function basisPrice(tprice) {
+        price = tprice;
+
+        var par = '?tui=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        if (ptid != '' && ptid != 'undefined') {
+            par += '&ptid=' + ptid;
+        }
+        if (condition != '' && condition != 'undefined') {
+            par += '&condition=' + condition;
+        }
+        window.location.href = '/wapProList/wapProTuiList' + par;
+    }
+    function basisBrand(tbrand) {
+        brand = tbrand;
+
+        var par = '?tui=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        if (ptid != '' && ptid != 'undefined') {
+            par += '&ptid=' + ptid;
+        }
+        if (condition != '' && condition != 'undefined') {
+            par += '&condition=' + condition;
+        }
+        window.location.href = '/wapProList/wapProTuiList' + par;
+    }
+    function basisSort(sortby) {
+        sortby = sortby;
+
+        var par = '?tui=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        if (sort != '' && sort != 'undefined') {
+            par += '&sort=' + sortby;
+        }
+        if (ptid != '' && ptid != 'undefined') {
+            par += '&ptid=' + ptid;
+        }
+        if (condition != '' && condition != 'undefined') {
+            par += '&condition=' + condition;
+        }
+        window.location.href = '/wapProList/wapProTuiList' + par;
+    }
+
+    function clearterm() {
+        window.location.href = '/wapProList/wapProTuiList?type=' + type;
+    }
+
+    function jump() {
+
+        var par = '?tui=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        if (ptid != '' && ptid != 'undefined') {
+            par += '&ptid=' + ptid;
+        }
+        if (condition != '' && condition != 'undefined') {
+            par += '&condition=' + condition;
+        }
+        window.location.href = '/wapProList/wapProTuiList' + par;
+    }
+
+    function pagejump(page) {
+
+        var par = '?tui=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        if (page != '' && page != '' && page > 0) {
+            par += '&page=' + page;
+        }
+        if (ptid != '' && ptid != 'undefined') {
+            par += '&ptid=' + ptid;
+        }
+        if (condition != '' && condition != 'undefined') {
+            par += '&condition=' + condition;
+        }
+        window.location.href = '/wapProList/wapProTuiList' + par;
+    }
+
+
+    function nextpage() {
+        var page = $("#curpage").val();
+        var pagecount = $("#pagecount").val();
+        if (pagecount - page > 0) {
+            pagejump(page * 1 + 1);
+        }
+    }
+    function prepage() {
+        var page = $("#curpage").val();
+        var pagecount = $("#pagecount").val();
+        if (pagecount - 1 > 0) {
+            pagejump(page * 1 - 1);
+        }
+    }
+    function cancelchecktype() {
+        var par = '?tui=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=';
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        if (ptid != '' && ptid != 'undefined') {
+            par += '&ptid=' + ptid;
+        }
+        if (condition != '' && condition != 'undefined') {
+            par += '&condition=' + condition;
+        }
+        window.location.href = '/wapProList/wapProTuiList' + par;
+    }
+    function cancelcheckbrand() {
+        var par = '?tui=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=';
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        if (ptid != '' && ptid != 'undefined') {
+            par += '&ptid=' + ptid;
+        }
+        if (condition != '' && condition != 'undefined') {
+            par += '&condition=' + condition;
+        }
+        window.location.href = '/wapProList/wapProTuiList' + par;
+    }
+    function cancelcheckpric() {
+        var par = '?tui=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=';
+        }
+        if (ptid != '' && ptid != 'undefined') {
+            par += '&ptid=' + ptid;
+        }
+        if (condition != '' && condition != 'undefined') {
+            par += '&condition=' + condition;
+        }
+        window.location.href = '/wapProList/wapProTuiList' + par;
+    }
+
+
+    //加入购物车
+    function insertintoCart(skuid) {
+        var count = $("#qty_item_1").val();
+        $.ajax({
+            type: "post",
+            url: "/ProDetail/insertintoCart?skuid=" + skuid + "&count=" + count,
+            success: function (data) {
+                if (data != "nologon" && data != "fail") {
+                    $("#kuang").html(data);
+                    $("#chart-modal").attr("style", "display:block");
+                }
+                else if (data == "nologon") {
+                    window.location.href = "/Logon/Logon";
+                }
+                else {
+                }
+            }
+        });
+
+    }
+    function closeit() {
+        $("#chart-modal").attr("style", "display:none");
+        location.reload();
+    };
+    function closethis() {
+        $("#chart-modal2").attr("style", "display:none");
+    };
+
+
+</script>
+
+</head>
+
+<body>
+<header>
+	<div class="wrap ">
+        <h2 class="titles">@ViewData["typename"]</h2>
+        <a id="cd-menu-trigger" href="javascript:void(0)"><span class="cd-menu-text">筛选</span><!--<span class="cd-menu-icon"></span>--></a>
+    </div><!--wrap end-->
+</header>
+<input type="hidden" value="@ViewData["count"]" id="count" />
+<input type="hidden" value="@ViewData["page"]" id="curpage" />
+<input type="hidden" value="@ViewData["pagerows"]" id="pagerows" />
+<input type="hidden" value="@ViewData["pagecount"]" id="pagecount" />
+<div class="cd-main-content">
+	<div class="wrapper classify-list">
+    	<div class="wrap hidden">
+        	<ul>
+                    <li><a href="javascript:void(0)"  onclick="basisSort('xliang')">销量<i></i></a></li>
+                    <li><a href="javascript:void(0)"  onclick="basisSort('spric')">价格<i></i></a></li>
+                    <li><a href="javascript:void(0)"  onclick="basisSort('pinglun')">评价<i></i></a></li>
+                    <li><a href="javascript:void(0)"  onclick="basisSort('selltime')">上架时间<i></i></a></li>
+            </ul>
+        </div><!--wrap end-->
+    </div><!--wrapper end-->
+    <div class="wrap hidden">
+    	<ul class="products-list">
+        @if (Model.vmpinfolist.Count > 0)
+        {
+            for (int i = 0; i < Model.vmpinfolist.Count; i++)
+            {
+             <li>
+            	<a href="/wapProDetail/ProDetail?skuid=@Model.vmpinfolist[i].sku_ID">
+                	<div class="pro-img" ><img src="@Model.vmpinfolist[i].pi_Url" alt="@Model.vmpinfolist[i].p_Name"  />@*<span>8.8折</span>*@</div>
+                    <p><span>@Model.vmpinfolist[i].p_Name @Model.vmpinfolist[i].shuxing</span></p>
+                    <p><strong>￥@Model.vmpinfolist[i].sku_Price</strong><del>￥@Model.vmpinfolist[i].sku_scPric</del></p>
+                    <p><b>@Model.vmpinfolist[i].pinglun 人评价</b></p>
+                </a>
+            </li>
+            }
+        }
+        else
+        { 
+            <div style="font-size:16px">暂时未找到相关产品</div>
+        }
+        </ul>
+    </div><!--wrap end-->
+    <div class="clearh"></div>
+       <div class="zw-div"></div>
+<div class="footer-nav">
+	<div class="wrap">
+    	<ul class="footerNav">
+			<li></li>
+            <li><a href="javascript:void(0)" onclick="prepage()"><img src="/images/icons/prev_01.png" alt="前一页" /></a></li>
+            <li><a href="javascript:void(0)" onclick="nextpage()"><img src="/images/icons/next_01.png" alt="下一页" /></a></li>
+            <li><a href="/wapProList/wapProList?ptype=@ViewData["type"]"><img src="/images/icons/icons_01.png" alt="刷新" /></a></li>        	
+        </ul>
+    </div><!--wrap end-->
+</div><!--footer-nav end-->
+</div> <!-- cd-main-content -->
+<nav id="cd-lateral-nav">
+	<ul class="cd-navigation">
+    @if (Model.blist.Count > 0)
+    {
+		<li class="item-has-children">
+			<a href="#0">品牌</a>
+			<ul class="sub-menu">
+				<li><a href="javascript:void(0)" onclick="cancelcheckbrand()">全部</a></li>
+           @foreach (var item in Model.blist)
+           {
+				<li><a href="javascript:void(0)" values2="" values1="@item.b_ID" class="selected" onclick="basisBrand(@item.b_ID)" attrval="@item.b_Name">@item.b_Name</a></li>
+           }
+				
+			</ul>
+	  </li> <!-- item-has-children -->
+    }
+		<li class="item-has-children">
+			<a href="#0">价格</a>
+			<ul class="sub-menu">
+				<li><a href="javascript:void(0)" onclick="cancelcheckpric()" >全部</a></li>
+            @{
+                    string ppric = Context.Request.QueryString["price"] == null ? "" : Context.Request.QueryString["price"].ToString();
+                    string[] pplist = new string[6] { "1-99", "100-499", "500-999", "1000-2999", "3000-4999", "5000以上" };
+                    for (int i = 0; i < pplist.Length; i++)
+                    {
+				        <li><a href="javascript:void(0)" class="selected" onclick="basisPrice('@pplist[i]')">@pplist[i]</a></li>
+                    }
+                }
+			</ul>
+	  </li> <!-- item-has-children -->
+      @if (Model.ptlist.Count > 0)
+      {
+		<li class="item-has-children">
+			<a href="#0">分类</a>
+			<ul class="sub-menu">
+				<li><a href="javascript:void(0)"  onclick="cancelchecktype()">全部</a></li>
+           @foreach (var item in Model.ptlist)
+           {
+				<li><a  href="javascript:void(0)" values2="" values1="@item.pt_ID" attrval="@item.pt_Name" class="selected" onclick="basisType(@item.pt_ID)">
+                            @item.pt_Name</a></li>
+           }
+			</ul>
+	  </li> <!-- item-has-children -->
+      }
+	</ul> <!-- cd-navigation -->
+</nav>
+</body>
+</html>

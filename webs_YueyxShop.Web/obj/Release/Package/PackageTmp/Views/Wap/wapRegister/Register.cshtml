@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>月月兴食品商行-注册</title>
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+<!--设备原始宽度，不允许缩放，user-scalable是否允许用户手动缩放 inital-scale初始缩放比例 以及允许用户缩放到的最大和最小比例-->
+<meta content="yes" name="apple-mobile-web-app-capable" />  
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />  
+<!--在IOS系统中以上两个meta会让网页内容以应用程序风格显示，并使状态栏透明 上面一个content有俩值yes和no 此meta作用是删除默认的苹果工具栏和菜单栏，如果需要显示时不加此行meta 第二个meta的content有三个值default（白色） black(黑色) black-translucent（灰色半透明）若值为“black-translucent”将会占据页面px位置，浮在页面上方（会覆盖页面20px高度–iphone4和itouch4的Retina屏幕为40px）。-->
+<meta name="format-detection" content="telephone=no">
+<meta content="email=no" name="format-detection" />
+<!--以上两条mate作用为：告诉设备忽略将页面中的数字识别为电话号码 将不识别邮箱-->
+<link type="text/css" href="/css/wap/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件-->
+<link type="text/css" href="/css/wap/kaych.framework.css" rel="stylesheet"/><!--页面框架css文件-->
+<link type="text/css" href="/css/wap/kaych.ui-visual.css" rel="stylesheet"/><!--视觉效果（即样式，与框架分离）css属性文件-->
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.commons.css"><!--页面通用CSS文件-->
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.media.screen.css"><!--页面分辨率检测启用不同布局CSS文件-->
+<link type="text/css" href="/css/wap/kaych.indexLayout.css" rel="stylesheet"/><!--页面细致布局css文件--> 
+<!--[if lt IE 9]>
+<script src="/js/wap/html5.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script type="text/javascript" src="/js/wap/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<script src="/js/wap/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/js/wap/custominput.js"></script><!--表单美化-->
+<script type="text/javascript" src="/js/wap/jquery.SuperSlide.2.1.1.js"></script><!--页面小广告bannerJS库-->
+<script src="/js/wap/main.js"></script>
+
+<script type="text/javascript">
+
+    $(function () {
+        $('input[type="text"]').focus(function () {
+            $('.warn').hide();
+        });
+        $('input[type="password"]').focus(function () {
+            $('.warn').hide();
+        });
+    });
+
+    function showError(msg) {
+        $('.warn').html(msg);
+        $('.warn').show();
+    }
+
+    function IsEmpty(isSingle) {
+        var result = false;
+        if (isSingle) {
+            var name = $('#sname').val();
+            var pwd = $('#spwd').val();
+            var repwd = $('#srepwd').val();
+            var phone = $('#sphone').val();
+            var email = $('#semail').val();
+            if (name == "" || pwd == "" || repwd == "" || phone == "" || email == "") {
+                result = true;
+            }
+        } else {
+            var name = $('#cname').val();
+            var pwd = $('#cpwd').val();
+            var repwd = $('#crepwd').val();
+            var phone = $('#cphone').val();
+            var email = $('#cemail').val();
+            var yyzz = $('#cyyzz').val();
+            if (name == "" || pwd == "" || repwd == "" || phone == "" || email == "" || yyzz == "") {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    function ConfirmPassWord(isSingle) {
+        var result = false;
+        if (isSingle) {
+            var pwd = $('#spwd').val();
+            var repwd = $('#srepwd').val();
+            if (repwd == pwd) {
+                result = true;
+            }
+        } else {
+            var pwd = $('#cpwd').val();
+            var repwd = $('#crepwd').val();
+            if (repwd == pwd) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    function Register(isSingle) {
+        if (IsEmpty(isSingle)) {
+            showError("请将信息填写完整！");
+            return;
+        }
+        if (!ConfirmPassWord(isSingle)) {
+            showError("确认密码和密码不一致！");
+            return;
+        }
+        var par = "";
+        if (isSingle) {
+            var name = $('#sname').val();
+            var pwd = $('#spwd').val();
+            var phone = $('#sphone').val();
+            var email = $('#semail').val();
+            par = "name=" + name + "&pwd=" + pwd + "&phone=" + phone + "&email=" + email;
+            par = encodeURI(par);
+        } else {
+            var name = $('#cname').val();
+            var pwd = $('#cpwd').val();
+            var phone = $('#cphone').val();
+            var email = $('#cemail').val();
+            var yyzz = $('#cyyzz').val();
+            par = "name=" + name + "&pwd=" + pwd + "&phone=" + phone + "&email=" + email + "&yyzz=" + yyzz;
+            par = encodeURI(par);
+        }
+
+        $.ajax({
+            type: 'post',
+            url: "/wapRegister/SaveRegister?" + par,
+            async: true,
+            success: function (data) {
+                if (data == "") {
+                    window.location.href = "/wapRegister/RegisterSuccess";
+                } else {
+                    showError(data);
+                    return;
+                }
+            }
+        });
+    }
+
+</script>
+
+
+</head>
+
+<body>
+<header>
+	<div class="wrap hidden relative">
+    	<div class="side-icon left textrt"><a href="javascript:history.back()">返回</a></div>
+    	<h2 class="titles">注册</h2>
+    </div><!--wrap end-->
+</header>
+<div class="zw-div"></div>
+<div class="wrap">
+<div class="wrapper hidden">
+	<div class="register-content">
+        <form id="form2">
+        	<div class="hd">
+			<ul class="register-list">
+        		<li>个人会员注册</li>
+      			<li>企业会员注册</li>
+    		</ul>
+            </div>
+            <div class="swipe" >
+      			<ul class="box01_list">
+        			<li class="li_list">
+						<div class="table-list tables radius">
+        					<div class="register-message">
+            					<div class="alignleft list-title">用户名：</div>
+                				<div class="alignleft list-cont"><input type="text" id="sname" /></div>
+           			 		</div>
+            				<div class="register-message">
+            					<div class="alignleft list-title">设置密码：</div>
+                				<div class="alignleft list-cont"><input type="password" id="spwd" /></div>
+            				</div>
+            				<div class="register-message">
+            					<div class="alignleft list-title">确认密码：</div>
+                				<div class="alignleft list-cont"><input type="password" id="srepwd" /></div>
+            				</div>
+                            <div class="register-message">
+            					<div class="alignleft list-title">联系电话：</div>
+                				<div class="alignleft list-cont"><input type="text" id="sphone" /></div>
+            				</div>
+            				<div class="register-message">
+            					<div class="alignleft list-title">电子邮箱：</div>
+                				<div class="alignleft list-cont"><input type="text" id="semail" /></div>
+            				</div>
+        				</div>
+                        @*<div class="clear"></div>
+                        <div class="agree-rule">
+                        	<input type="checkbox" name="agree" id="agrees" value="" />
+							<label for="agrees">我已阅读并同意</label><a href="#">《月月兴食品商行注册协议》</a>
+                        </div>*@
+                        <div class="warn"></div>
+                        <div class="clear"></div>
+                        <div class="tj-btn"> <input type="button" class="red-btn" value="注册" onclick="Register(true)" /></div>
+					</li>
+        			<li class="li_list">
+						<div class="table-list tables radius">
+        					<div class="register-message">
+            					<div class="alignleft list-title">用户名：</div>
+                				<div class="alignleft list-cont"><input type="text" id="cname" /></div>
+           			 		</div>
+            				<div class="register-message">
+            					<div class="alignleft list-title">设置密码：</div>
+                				<div class="alignleft list-cont"><input type="password" id="cpwd" /></div>
+            				</div>
+            				<div class="register-message">
+            					<div class="alignleft list-title">确认密码：</div>
+                				<div class="alignleft list-cont"><input type="password" id="crepwd" /></div>
+            				</div>
+                            <div class="register-message">
+            					<div class="alignleft list-title">联系电话：</div>
+                				<div class="alignleft list-cont"><input type="text" id="cphone" /></div>
+            				</div>
+            				<div class="register-message">
+            					<div class="alignleft list-title">电子邮箱：</div>
+                				<div class="alignleft list-cont"><input type="text" id="cemail" /></div>
+            				</div>
+                            <div class="register-message">
+            					<div class="alignleft list-title">营业执照：</div>
+                				<div class="alignleft list-cont"><input type="text" id="cyyzz" /></div>
+            				</div>
+        				</div>
+                        @*<div class="clear"></div>
+                        <div class="agree-rule">
+                        	<input type="checkbox" name="agree1" id="agrees1" value="" />
+							<label for="agrees1">我已阅读并同意</label><a href="#">《月月兴食品商行注册协议》</a>
+                        </div>*@
+                        <div class="warn"></div>
+                        <div class="clear"></div>
+                        <div class="tj-btn"> <input type="button" class="red-btn" value="注册" onclick="Register(false)" /></div>
+					</li>
+      			</ul>
+      		</div>
+        </form>
+    </div><!--login-content end-->
+</div><!--wrapper end-->
+</div><!--wrap end-->
+<script type="text/javascript">
+    jQuery(".register-content").slide({ mainCell: ".box01_list", effect: "left", trigger: "click", pnLoop: false });
+</script>
+</body>
+</html>

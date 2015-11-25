@@ -1,0 +1,133 @@
+﻿@using System.Collections.Generic
+@using System.Data
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), "OrderBox");
+
+        });
+
+</script>
+</head>
+<body>
+<form id="pagerForm" method="post"  action="@Url.Action("OrderBaseList", "OrderBase")" onsubmit="return divSearch(this,'OrderBox');">
+    <input type="hidden" id="hfPid" name="hfPid" value="0" />
+    <input type="hidden" id="at_add" name="at_add" />
+    <input type="hidden" id="hf_daohang" name="hf_daohang" />
+    <input type="hidden" id="hf_cengj" name="hf_cengj" value="1" />
+    <input type="hidden" id="hf_bianma" name="hf_bianma" />
+    <input type="hidden" id="hf_type" name="type" />
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent" style="width: 100%;">
+                <colgroup>
+                    <col style="width: 40px;" />
+                    <col />
+                </colgroup>
+                <tr>
+                    <td>
+                        检索:
+                    </td>
+                    <td>
+                        <label id="div_daohang">
+                        </label>
+                    </td>
+                </tr>
+            </table>
+            <table class="searchContent">
+                <tr>
+                    <td>
+                        买家昵称：
+                    </td>
+                    <td>
+                        <input type="text" name="txtNickName" id="txtNickName" />
+                    </td>
+                    <td>
+                        订单编号：
+                    </td>
+                    <td>
+                        <input type="text" name="txtOrderCode" id="txtOrderCode" />
+                    </td>
+                    <td>
+                        成交时间：
+                    </td>
+                    <td>
+                        <input id="txtStartDate" name="txtStartDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" />
+                        <span>至</span>
+                        <input id="txtEndDate" name="txtEndDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" />
+                    </td>
+                    <td>
+                        订单状态：
+                    </td>
+                    <td>
+                        <label><input type="radio" name="o_Status" value="" checked="checked"/>全部</label>
+                        <label><input type="radio" name="o_Status" value="@webs_YueyxShop.Model.OrderStatus.提交订单.GetHashCode()" />@webs_YueyxShop.Model.OrderStatus.提交订单.ToString()</label>
+                        <label><input type="radio" name="o_Status" value="@webs_YueyxShop.Model.OrderStatus.付款成功.GetHashCode()" />@webs_YueyxShop.Model.OrderStatus.付款成功.ToString()</label>
+                        <label><input type="radio" name="o_Status" value="@webs_YueyxShop.Model.OrderStatus.商品出库.GetHashCode()" />@webs_YueyxShop.Model.OrderStatus.商品出库.ToString()</label>
+                        <label><input type="radio" name="o_Status" value="@webs_YueyxShop.Model.OrderStatus.等待收货.GetHashCode()" />@webs_YueyxShop.Model.OrderStatus.等待收货.ToString()</label>
+                        <label><input type="radio" name="o_Status" value="@webs_YueyxShop.Model.OrderStatus.交易完成.GetHashCode()" />@webs_YueyxShop.Model.OrderStatus.交易完成.ToString()</label>
+                    </td>
+                </tr>
+            </table>
+            <div class="subBar">
+                <ul>
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" id="btn_Select">
+                                    检索</button></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="reset" id="reset" >
+                                    重置</button></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        </div> 
+        <!--列表-->
+        <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li><a class="add" href="@Url.Action("OrderBaseProductMsg?o_ID={o_ID}", "OrderBase")"
+                    target="navTab" rel="w_OrderBaseEdit">
+                        <span>商品信息</span></a></li>
+                    <li><a class="add" href="@Url.Action("OrderBaseMemberEdit?o_ID={o_ID}", "OrderBase")"
+                    target="navTab" rel="w_OrderBaseEdit">
+                        <span>会员信息</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="delete" href="@Url.Action("OrderBaseDelete?o_ID={o_ID}", "OrderBase")" rel="w_OrderBaseDelete"
+                    target="ajaxTodo" title='确定删除？' warn="请选择信息！！！"><span>删除</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("OrderBaseStatus?otype=select&o_ID={o_ID}", "OrderBase")" rel="w_OrderBaseStatus"
+                        target="ajaxTodo" title='确定捡货？' warn="请选择信息！！！" ><span>捡货</span></a></li>
+                        <li><a class="edit" href="@Url.Action("OrderBaseEdit?o_ID={o_ID}", "OrderBase")"
+                            target="dialog" rel="w_OrderBaseEdit">
+                        <span>发货</span></a></li>
+                    @*<li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("OrderBaseStatus?otype=send&o_ID={o_ID}", "OrderBase")" rel="w_OrderBaseStatus"
+                        target="ajaxTodo" title='确定发货？' warn="请选择信息！！！" ><span>发货</span></a></li>*@
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("OrderBaseStatus?otype=complete&o_ID={o_ID}", "OrderBase")" rel="w_OrderBaseStatus"
+                        target="ajaxTodo" title='确定完成？' warn="请选择信息！！！" ><span>完成</span></a></li>
+                }
+            </ul>
+        </div>
+        <div id="OrderBox">
+
+        </div>
+    </div>
+</form>
+
+</body>
+</html>

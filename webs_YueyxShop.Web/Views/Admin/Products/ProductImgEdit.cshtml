@@ -1,0 +1,104 @@
+﻿@model webs_YueyxShop.Model.ProductImgBase
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        $(function () {
+            //加载图片
+            if ('@ViewData["LogoUrl"]' != "") {
+                var urls = "<img src='" + '@ViewData["LogoUrl"]' + "' style=\"width:120px;height:120px\" />";
+                $("#fileQueue", $.pdialog.getCurrent()).html(urls);
+            }
+        })
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("ProductImgEdit", "Products")"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+    @Html.Hidden("texOtype", @ViewData["texOtype"])
+    @Html.Hidden("hfPId", @ViewData["hfPId"])
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="50">
+            <div class="unit">
+                <label>
+                    图片类别：</label>
+                @Html.DropDownList("ImgType")
+            </div>
+            <div class="unit">
+                <label>
+                    图片：</label>
+                @Html.Hidden("FileInputEId", @ViewData["LogoUrl"], new { @id = "FileInputEId" })
+                <span class="info">
+                    <div id="fileQueue" style="float: left; width: auto;">
+                    </div>
+                    <div style="clear: both;">
+                    </div>
+                    <input id="testFileInput" type="file" name="LogoInp" 
+		            uploaderOption="{
+			            swf:'../../uploadify/scripts/uploadify.swf',
+			            uploader:'../../uploadify/scripts/uploadify.ashx',
+			            formData:{controlName:'LogoInp', folder:'@ViewData["hf_luj"]'},
+			            fileSizeLimit:'2MB',
+			            fileTypeDesc:'*.jpg;*.jpeg;*.gif;*.png;',
+			            fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;',
+			            auto:true,
+                        queueID:'fileQueue',
+                        valueID:'FileInputEId',
+                        modelType:'dialog'
+		                }"
+	                />
+                    <span style="color: Red;">注：上传图片小于2MB！建议尺寸：400px X 400px</span> </span>
+            </div>
+@*            <div class="unit">
+                <label>
+                    图片：</label>
+                @Html.Hidden("FileInputEId", @ViewData["LogoUrl"], new { @id = "FileInputEId" })
+                <span class="info">
+                    <div id="fileQueue" style="float: left; width: auto;">
+                    </div>
+                    <div style="clear: both;">
+                    </div>
+                    <input id="testFileInput" type="file" name="LogoInp" 
+		uploaderOption="{
+			swf:'../../uploadify/scripts/uploadify.swf',
+			uploader:'../../uploadify/scripts/uploadify.ashx',
+			formData:{controlName:'LogoInp', folder:'@ViewData["hf_luj"]'},
+			fileSizeLimit:'2MB',
+			fileTypeDesc:'*.jpg;*.jpeg;*.gif;*.png;',
+			fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;',
+			auto:true,
+            queueID:'fileQueue',
+            valueID:'FileInputEId',
+            modelType:'navtab'
+		}"
+	/>
+                    <span style="color: Red;">注：上传图片小于2MB！</span> </span>
+            </div>
+*@
+        </div>
+        <div class="formBar">
+            <ul>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" id="save">
+                                    保存</button></div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

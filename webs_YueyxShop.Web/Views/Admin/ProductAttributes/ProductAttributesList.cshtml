@@ -1,0 +1,88 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@using webs_YueyxShop.Model 
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" layouth="160" rel="patBox">
+    <colgroup width="30px" />
+    <colgroup width="200px" />
+    <colgroup width="200px" />
+    <colgroup width="80px" />
+    <colgroup width="80px" />
+    <colgroup width="200px" />
+    <colgroup width="200px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                编码
+            </th>
+            <th>
+                名称
+            </th>
+            <th>
+                层级
+            </th>
+            <th>
+                顺序
+            </th>
+            <th>
+                创建时间
+            </th>
+            <th>
+                类别 
+            </th>
+            <th>
+                所属商品分类
+            </th>
+            <th>
+                状态
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewData["PageList"]).AsEnumerable())
+        {
+            <tr target="dli_id" rel="@item["pa_ID"]|@item["pa_Name"]|@item["pa_Layer"]|@item["pa_Code"]|@item["pa_Type"]|@item["pt_ID"]" ondblclick="OpenMenuBaseEdit('@item["pa_ID"]|@item["pa_Name"]|@item["pa_Layer"]|@item["pa_Code"]|@item["pa_Type"]|@item["pt_ID"]')">
+                <td>
+                </td>
+                <td>
+                    @item["pa_Code"]
+                </td>
+                <td>
+                    @item["pa_Name"]
+                </td>
+                <td>
+                    @item["pa_Layer"]
+                </td>
+                <td>
+                    @item["pa_Sort"]
+                </td>
+                <td>
+                    @item["pa_CreatedOn"]
+                </td>
+                <td>
+                 <span >@item["pa_Type"].ToString().Replace("1", "属性").Replace("2", "规格").Replace("3","颜色")</span>
+                </td>
+                <td>
+                    <span >@item["pt_Name"]</span>
+                </td>
+                <td>
+                    <span style="color: Red">@item["pa_StatusCode"].ToString().Replace("0", "启用").Replace("1", "禁用")</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="patBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

@@ -1,0 +1,25 @@
+﻿@using webs_YueyxShop.Model
+
+@{
+    Layout = null;
+}
+
+@foreach (var i in Model)
+{ 
+   <li>
+        <div class="pro-img"><a href="#"><img name="page_cnt_1" _src="@i.productImgInfo.pi_Url" alt="产品图片" /></a><div class="sale-bg">限量</div><span><i></i>收藏</span></div>
+        <p><a href="#">@i.p_Name @i.productAttrInfo.pa_Name</a></p>
+        <p><span id="price_item_1">￥@i.productSkuInfo.sku_Price</span><del>￥@i.productSkuInfo.sku_scPric</del></p>
+        <p><a href="#">已有<font>@i.productAppInfo.pa_ID</font>人评价</a></p>
+        <div class="buy-chart">
+            <div class="chose-pro alignleft">
+                <input type="text" name="qty_item_"+@i.productSkuInfo.sku_ID value="1" id="qty_item_"+@i.productSkuInfo.sku_ID onKeyUp="setAmount.modify('#qty_item_1')" class="input01" />
+                <div class="updown">
+                    <a class="add" onClick="setAmount.add('#qty_item_1')" href="javascript:void(0)"></a>
+                    <a class="reduce" onClick="setAmount.reduce('#qty_item_1')" href="javascript:void(0)"></a>
+                </div>
+            </div>
+            <a href="#?skuid=@i.productSkuInfo.sku_ID" class="chart-button">加入购物车</a>
+        </div><!--buy-chart end-->
+    </li>
+}

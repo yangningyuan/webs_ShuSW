@@ -1,0 +1,15 @@
+﻿@using webs_YueyxShop.Model
+
+@{
+    Layout = null;
+}
+@foreach (var i in Model)
+{ 
+    <li >
+        <dl>
+            <dt><a href="/ProDetail/ProDetail?skuid=@i.productSkuInfo.sku_ID" ><img style="max-width:230px;max-height:170px;" name="page_cnt_1" src="@i.productImgInfo.pi_Url" alt="分类产品" /></a></dt>
+            <dd><a href="/ProDetail/ProDetail?skuid=@i.productSkuInfo.sku_ID">@i.p_Name @i.productAttrInfo.pa_Name</a></dd>
+            <dd><span>￥@i.productSkuInfo.sku_Price</span><del>￥@i.productSkuInfo.sku_scPric</del></dd>
+        </dl>
+    </li>
+}

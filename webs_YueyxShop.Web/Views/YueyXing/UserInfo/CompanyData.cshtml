@@ -1,0 +1,478 @@
+﻿@{
+    ViewBag.Title = "月月兴 - 企业信息";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+@model Models.ListModel
+<link rel="stylesheet" type="text/css" href="/css/kaych.vip.css">
+<!--会员中心CSS文件-->
+<link rel="stylesheet" type="text/css" href="/css/jquery.ui.datepicker.css">
+<!--我的订单页面日期选择控件CSS文件-->
+<script type="text/javascript" src="/js/custominput.js"></script>
+<script src="/js/jquery-1.8.3.min.js" type="text/javascript"></script>
+<!--表单美化JS-->
+<script type="text/javascript">
+    //确认订单页面省市区三级联动JS
+    var ok1 = false;
+    var ok2 = false;
+    var ok3 = false;
+    var ok4 = false;
+    var ok5 = false;
+    var ok6 = false;
+    var ok7 = false;
+    var ok8 = false;
+    function saveok() {
+        if ($('#lxname').val().length >= 2 && $('#lxname').val().length <= 20 && $('#lxname').val() != '') {
+            ok1 = true;
+        }
+        if ($('#phone').val().search(/^1[3|4|5|7|8][0-9]{9}$/) != -1 && $('#phone').val() != '') {
+            ok2 = true;
+        }
+        if ($('#qq').val() != '') {
+            ok4 = true;
+        }
+        if ($('#gsname').val().length >= 2 && $('#gsname').val().length <= 24 && $('#gsname').val() != '' && $(this).val() != null) {
+
+            ok5 = true;
+        }
+        if ($('#yyzz').val() != '') {
+            alert($('#yyzz').val());
+            ok6 = true;
+        }
+        if ($('#xxadress').val() != '') {
+            ok7 = true;
+        }
+    }
+    $(function () {
+
+        // 验证联系人姓名
+        $('#lxname').focus(function () {
+            if ($(this).val().length >= 2 && $(this).val().length <= 20 && $(this).val() != '') {
+                $("#state1").attr("style", 'color:green;');
+                $("#state1").text('√');
+            } else {
+                $("#state1").attr("style", "color:red;");
+                $("#state1").text('联系人为2-20位字符！');
+            }
+        }).blur(function () {
+            if ($(this).val().length >= 2 && $(this).val().length <= 20 && $(this).val() != '') {
+                $("#state1").attr("style", 'color:green;');
+                $("#state1").text('√');
+                ok1 = true;
+            } else {
+                $("#state1").attr("style", 'color:red; ');
+                $("#state1").text('联系人为2-20位字符！');
+            }
+        });
+
+
+        // 验证手机号
+        $('#phone').focus(function () {
+            if ($(this).val().search(/^1[3|4|5|7|8][0-9]{9}$/) != -1 && $(this).val() != '') {
+                $("#state2").attr("style", 'color:green;');
+                $("#state2").text('√');
+            } else {
+                $("#state2").attr("style", "color:red;");
+                $("#state2").text('请输入正确的手机号！');
+            }
+        }).blur(function () {
+            if ($(this).val().search(/^1[3|4|5|7|8][0-9]{9}$/) != -1 && $(this).val() != '') {
+                $("#state2").attr("style", 'color:green;');
+                $("#state2").text('√');
+                ok2 = true;
+            } else {
+                $("#state2").attr("style", 'color:red; ');
+                $("#state3").text('请输入正确的手机号！');
+            }
+        });
+
+        // 验证QQ
+        $('#qq').focus(function () {
+            if ($(this).val() != '') {
+                $("#state4").attr("style", 'color:green;');
+                $("#state4").text('√');
+            } else {
+                $("#state4").attr("style", "color:red;");
+                $("#state4").text('请输入常用的QQ号码！');
+            }
+        }).blur(function () {
+            if ($(this).val() != '') {
+                $("#state4").attr("style", 'color:green;');
+                $("#state4").text('√');
+                ok4 = true;
+            } else {
+                $("#state4").attr("style", 'color:red; ');
+                $("#state4").text('请输入常用的QQ号码！');
+            }
+        });
+
+        // 验证公司名称
+        $('#gsname').focus(function () {
+
+            if ($(this).val().length >= 2 && $(this).val().length <= 24 && $(this).val() != '') {
+                $("#state5").attr("style", 'color:green;');
+                $("#state5").text('√');
+            } else {
+                $("#state5").attr("style", "color:red;");
+                $("#state5").text('公司名称为2-24位字符！');
+            }
+        }).blur(function () {
+            if ($(this).val().length >= 2 && $(this).val().length <= 24 && $(this).val() != '') {
+                $("#state5").attr("style", 'color:green;');
+                $("#state5").text('√');
+                ok5 = true;
+            } else {
+                $("#state5").attr("style", 'color:red; ');
+                $("#state5").text('公司名称2-24位字符！');
+            }
+        });
+
+        // 验证营业执照
+        $('#yyzz').focus(function () {
+            if ($(this).val() != '') {
+                $("#state6").attr("style", 'color:green;');
+                $("#state6").text('√');
+            } else {
+                $("#state6").attr("style", "color:red;");
+                $("#state6").text('请输入有效营业执照！');
+            }
+        }).blur(function () {
+            if ($(this).val() != '') {
+                $("#state6").attr("style", 'color:green;');
+                $("#state6").text('√');
+                ok6 = true;
+            } else {
+                $("#state6").attr("style", 'color:red; ');
+                $("#state6").text('请输入有效营业执照！');
+            }
+        });
+
+
+        // 地址
+        $('#xxadress').focus(function () {
+            if ($(this).val() != '') {
+                $("#state7").attr("style", 'color:green;');
+                $("#state7").text('√');
+            } else {
+                $("#state7").attr("style", "color:red;");
+                $("#state7").text('请输入公司详细地址！');
+            }
+        }).blur(function () {
+            if ($(this).val() != '') {
+                $("#state7").attr("style", 'color:green;');
+                $("#state7").text('√');
+                ok7 = true;
+            } else {
+                $("#state7").attr("style", 'color:red; ');
+                $("#state7").text('请输入公司详细地址！');
+            }
+        });
+        var proviceid = '@ViewData["proviceid"]';
+        var provicename = '@ViewData["provicename"]';
+        var cityid = '@ViewData["cityid"]';
+        var cityname = '@ViewData["cityname"]';
+        var countid = '@ViewData["xianid"]';
+        var countname = '@ViewData["xianname"]';
+        $('.m_zlxg').click(function () {
+            $(this).find('.m_zlxg2').slideDown(200);
+        })
+        $('.m_zlxg').mouseleave(function () {
+            $(this).find('.m_zlxg2').slideUp(200);
+        })
+        if (proviceid != '') {
+            bindshi(proviceid, provicename);
+        }
+        if (cityid != '') {
+            bindxian(cityid, cityname);
+        }
+        if (countid != '') {
+            bindxianname(countid, countname);
+        }
+    });
+    var isok = true;
+    function save() {
+        saveok();
+        if (ok1 == false) {
+
+            $("#state1").attr("style", "color:red;");
+            $("#state1").text('联系人为2-20位字符！');
+            isok = false;
+        }
+        console.info(1);
+        if (ok2 == false) {
+            $("#state2").attr("style", "color:red;");
+            $("#state2").text('请输入正确的手机号！');
+            isok = false;
+        }
+        console.info(2);
+        if (ok4 == false) {
+            $("#state4").attr("style", 'color:red; ');
+            $("#state4").text('请输入常用的QQ号码！');
+            isok = false;
+        }
+        console.info(3);
+        if (ok5 == false) {
+            $("#state5").attr("style", 'color:red; ');
+            $("#state5").text('公司名称2-24位字符！');
+            isok = false;
+        }
+        console.info(4);
+        if (ok6 == false) {
+            $("#state6").attr("style", 'color:red; ');
+            $("#state6").text('请输入有效营业执照！');
+            isok = false;
+        }
+        console.info(5);
+        if (ok7 == false) {
+            $("#state7").attr("style", "color:red;");
+            $("#state7").text('请输入公司详细地址！');
+            isok = false;
+        }
+        console.info(6);
+        if ($("#shengid").val() == '' || $("#shiid").val() == '' || $("#xianid").val() == '') {
+            $("#state8").attr("style", 'color:red; ');
+            $("#state8").text('请选择公司所在地区！');
+            isok = false;
+        }
+        console.info(7);
+
+        return isok;
+
+
+    }
+
+    function bindshi(id, text) {
+        $('#shengp').text(text);
+        $('#shengid').val(id);
+        $.post('/_ashx/AreaManager.ashx?type=getshi&id=' + id, function (msg) {
+
+            $('#shiddl').html(msg);
+        });
+    }
+    function bindxian(id, text) {
+
+        $('#ship').text(text);
+        $('#shiid').val(id);
+        $.post('/_ashx/AreaManager.ashx?type=getxian&id=' + id, function (msg) {
+
+            $('#xianddl').html(msg);
+        });
+    }
+
+    function bindxianname(id, text) {
+        $('#xianp').text(text);
+        $('#xianid').val(id);
+    }
+</script>
+<div class="breadcrumb">
+    <a href="/Index/Index"><strong>首页</strong></a> > <a href="/UserInfo/Index">会员中心</a> > 企业信息管理 - 企业资料
+</div>
+<!--breadcrumb end-->
+<div class="clearh">
+</div>
+<div class="wrap">
+    @Html.Action("LeftMenu", "Vipscore")    
+    <!--side-bar end-->
+    <div class="side-cont alignright">
+        <div class="side-content borders">
+            <div class="wrappers">
+                <div class="vip-title">
+                    <h4>
+                        企业资料</h4>
+                </div>
+                <form id="form4" action="/_ashx/dataSave_manager_json.ashx" onsubmit="return save();">
+                <input type="hidden" name="type" value="SaveUserInfo" />
+                <div class="company-title">
+                    <span>联系人信息</span></div>
+                <table class="data-table">
+                    <tr>
+                        <td width="100">
+                            <span>联系人：</span>
+                        </td>
+                        <td>
+                            <label>
+                                <span></span>
+                                <input type="text" id="lxname" name="lxname" value="@Model.Minfo.m_RealName" class="input02" /></label><label
+                                    id='state1'></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>固定电话：</span>
+                        </td>
+                        <td>
+                            <label>
+                                <span></span>
+                                <input type="text" id="gdphone" name="gdphone" value="@Model.Minfo.m_GDPhone" class="input02" /></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>手机号码：</span>
+                        </td>
+                        <td>
+                            <label>
+                                <span></span>
+                                <input type="text" id="phone" name="phone" value="@Model.Minfo.m_Phone" class="input02" /></label><label
+                                    id='state2'></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>电子邮箱：</span>
+                        </td>
+                        <td>
+                            <label>
+                                <span></span>
+                                <input type="text" id="email" name="email" disabled="disabled" value="@Model.Minfo.m_Email" class="input02" /></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>QQ号码：</span>
+                        </td>
+                        <td>
+                            <label>
+                                <span></span>
+                                <input type="text" id="qq" name="qq" value="@Model.Minfo.m_QQ" class="input02" /></label><label
+                                    id='state4'></label>
+                        </td>
+                    </tr>
+                </table>
+                <div class="company-title">
+                    <span>企业信息</span></div>
+                <table class="data-table">
+                    <tbody>
+                        <tr>
+                            <td width="100">
+                                <span>公司名称：</span>
+                            </td>
+                            <td>
+                                <label>
+                                    <span>请按营业执照填写</span><input type="text" id="gsname" name="gsname" value="@Model.Minfo.m_GongSiName" class="input02" /></label><label
+                                        id='state5'></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>营业执照：</span>
+                            </td>
+                            <td>
+                                <label>
+                                    <span>请输入您的营业执照号</span><input type="text" id="yyzz" name="yyzz" value="@Model.Minfo.m_YingYZZ" class="input02" /></label><label
+                                        id='state6'></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>公司地区：</span>
+                            </td>
+                            <td>
+                                <div class="add-china" id="sjld">
+                                    <div class="m_zlxg" id="shenfen">
+                                        <p id="shengp" title="">
+                                            选择省</p>
+                                        <i></i>
+                                        <div id="shengddl" class="m_zlxg2">
+                                            <ul>
+                                                @foreach (var item in Model.regList)
+                                                {
+                                                    <li onclick="bindshi(@item.reg_Code,'@item.reg_Name');">@item.reg_Name</li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="m_zlxg" id="chengshi">
+                                        <p id="ship" title="">
+                                            选择市</p>
+                                        <i></i>
+                                        <div class="m_zlxg2">
+                                            <ul>
+                                                <div id="shiddl">
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="m_zlxg" id="quyu">
+                                        <p id="xianp" title="">
+                                            选择县/区</p>
+                                        <i></i>
+                                        <div class="m_zlxg2">
+                                            <ul>
+                                                <div id="xianddl">
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <label id='state8'>
+                                    </label>
+                                    <input id="shengid" name="shengid" type="hidden" value="@ViewData["proviceid"]" />
+                                    <input id="shiid" name="shiid" type="hidden" value="@ViewData["cityid"]" />
+                                    <input id="xianid" name="xianid" type="hidden" value="@ViewData["xianid"]" />
+                                </div>
+                                <!--add-china end-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>详细地址：</span>
+                            </td>
+                            <td>
+                                <label>
+                                    <span></span>
+                                    <input type="text" id="xxadress" name="xxadress" value="@Model.Minfo.m_GongSiAddress" class="input07" /></label><label
+                                        id='state7'></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>企业简介：</span>
+                            </td>
+                            <td>
+                                    <span></span>
+                                    <textarea style="width:400px;height:200px;margin-bottom:30px;border:solid 1px gray" name="qyjianjie" id="qyjianjie" />@Model.Minfo.m_Introduction</textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                                <input type="submit" id="sub" value="保存" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </form>
+                <div class="clear">
+                </div>
+            </div>
+            <!--wrappers end-->
+            <div class="clear">
+            </div>
+        </div>
+        <!--pro-cont end-->
+    </div>
+    <!--side-cont end-->
+    <div class="clear line2">
+    </div>
+    <div class="pro-titles">
+        <h3>
+            推荐商品</h3>
+    </div>
+    <ul class="pro-class-list">
+        @for (int i = 0; i < Model.dt.Rows.Count && i < 5; i++)
+        {
+            <li>
+                <dl>
+                    <dt><a href="/ProDetail/ProDetail?skuid=@Model.dt.Rows[i]["sku_id"].ToString()">
+                        <img name="page_cnt_1" _src="@Model.dt.Rows[i]["b_logourl"].ToString()" alt="@Model.dt.Rows[i]["p_name"].ToString()" /></a></dt>
+                    <dd>
+                        <a href="#">@Model.dt.Rows[i]["p_name"].ToString()</a></dd>
+                    <dd>
+                        <span>￥@Model.dt.Rows[i]["sku_price"].ToString()</span></dd>
+                </dl>
+            </li>
+        }
+       
+    </ul>
+</div>
+<!--wrap end-->

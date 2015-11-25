@@ -1,0 +1,70 @@
+/* CSS Document 
+*作者：王军凯
+*编写时间：2014-07-07
+*所属公司：盘古科技
+*联系QQ:466085876
+*版本：1.0
+*/
+@media only screen and (min-width: 641px){
+ul.ad-list li,ul.products-list li{
+	width:23.5%;
+	float:left;
+	margin-top:1em;
+	margin-right:2%;
+	}
+ul.ad-list li:nth-child(4n+4),ul.products-list li:nth-child(4n+4){margin-right:0;}	 
+.group-list li{
+	width:48%;
+	}
+.group-list li:nth-child(2n+1){margin-right:4%;}	
+}
+@media only screen and (min-width: 320px) and (max-width: 640px){
+ul.ad-list li,ul.products-list li{
+	width:45.5%;
+	float:left;
+	margin-left:3%;
+	margin-top:1em;
+	}
+	
+.group-list li{
+	width:100%;
+	}
+}
+@media only screen and (min-width: 1025px) and (max-width: 1200px){
+
+}
+@media only screen and (min-width: 1306px) and (max-width: 1440px){
+
+}
+
+@media only screen and (min-width: 881px) and (max-width: 1024px) {
+   	 
+}
+
+@media (max-width: 979px) {
+    
+}
+
+@media only screen and (min-width: 641px) and (max-width: 880px) {
+   
+}
+
+@media only screen and (min-width: 320px) and (max-width: 640px) {
+ 
+}
+
+@media only screen and (min-width: 769px) {
+
+}
+
+@media only screen and (min-width: 769px) and (max-width: 980px) {
+   
+}
+
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+  
+}
+
+@media only screen and (max-width: 319px) {
+ 
+}

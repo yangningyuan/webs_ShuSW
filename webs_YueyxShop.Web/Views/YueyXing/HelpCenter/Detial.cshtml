@@ -1,0 +1,19 @@
+﻿@model webs_YueyxShop.Model.NewsBase
+
+@{
+    Layout = null;
+}           
+
+    @if (Model != null)
+    {
+        <div class="help-title"><h4>@Model.n_Title</h4></div>
+        <div class="help-cont">
+        @{
+            if (!string.IsNullOrWhiteSpace(Model.n_PicUrl))
+            {
+                <img name="page_cnt_1" src="@Model.n_PicUrl" alt="公司简介图片" />
+            }
+            @Html.Raw(Model.n_Content.ToString());
+         }
+        </div><!--help-cont end-->
+    }

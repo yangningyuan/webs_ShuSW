@@ -1,0 +1,674 @@
+﻿@*首页母版页*@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>@ViewBag.Title</title>
+        <meta content="月月兴食品商行，在线销售各种食品，为您提供愉悦的网上商城购物体验! " name="description">
+        <meta content="月月兴食品商行" name="Keywords">
+        <link type="text/css" href="/css/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+        <link type="text/css" href="/css/kaych.commons.css" rel="stylesheet"/><!--页面公用css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+        <link type="text/css" href="/css/kaych.framework.css" rel="stylesheet"/><!--页面大框架css文件-->
+        @*<link type="text/css" href="/css/kaych.index.css" rel="stylesheet"/><!--首页细则css文件-->  *@
+        <!--[if IE 6]>
+        <script type="text/javascript" src="/js/DD_belatedPNG.js"></script>
+        <script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+        <![endif]-->
+        <!--[if lt IE 9]>
+        <script src="/js/html5.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="/js/jquery.flexslider-min.js"></script><!--banner轮播图JS-->
+        <script type="text/javascript" src="/js/jquery.SuperSlide.2.1.1.js"></script><!--页面小广告bannerJS库-->
+        <script type="text/javascript" src="/js/script.js"></script><!--全部商品导航JS-->
+        <script type="text/javascript" src="/js/tuan.js"></script><!--团购页面内活动特效-->
+        <script type="text/javascript" src="/js/jquery.lazyload.min.js"></script><!--图片延迟加载JS-->
+        <script type="text/javascript" src="/js/tuanBanner.js"></script><!--团购轮播图JS-->
+        <!--团购倒计时JS-->
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                var search = location.search;
+                if (search.indexOf("centerindex") > 0) {
+                    var i = search.substring(search.indexOf('=') + 1, search.indexOf('=') + 2);
+                    $("#menu>li>dl>dd>a").each(function (index) {
+                        if (index == i) {
+                            $(this).addClass("hover");
+                        }
+                    });
+                }
+            });
+
+            $(function () {
+                countDown("2014/9/24 23:59:59", "#time01 .day", "#time01 .hour", "#time01 .minute", "#time01 .second");
+                countDown("2014/10/10 22:59:59", "#time02 .day", "#time02 .hour", "#time02 .minute", "#time02 .second");
+                countDown("2014/11/10 22:59:59", "#time03 .day", "#time03 .hour", "#time03 .minute", "#time03 .second");
+                countDown("2014/12/24 23:59:59", "#time04 .day", "#time04 .hour", "#time04 .minute", "#time04 .second");
+                countDown("2014/12/10 22:59:59", "#time05 .day", "#time05 .hour", "#time05 .minute", "#time05 .second");
+                countDown("2014/12/20 22:59:59", "#time06 .day", "#time06 .hour", "#time06 .minute", "#time06 .second");
+                countDown("2015/1/24 23:59:59", "#time07 .day", "#time07 .hour", "#time07 .minute", "#time07 .second");
+                countDown("2015/2/10 22:59:59", "#time08 .day", "#time08 .hour", "#time08 .minute", "#time08 .second");
+                countDown("2015/3/10 22:59:59", "#time09 .day", "#time09 .hour", "#time09 .minute", "#time09 .second");
+            });
+
+            function countDown(time, day_elem, hour_elem, minute_elem, second_elem) {
+                //if(typeof end_time == "string")
+                var end_time = new Date(time).getTime(), //月份是实际月份-1
+                //current_time = new Date().getTime(),
+	        sys_second = (end_time - new Date().getTime()) / 1000;
+                var timer = setInterval(function () {
+                    if (sys_second > 0) {
+                        sys_second -= 1;
+                        var day = Math.floor((sys_second / 3600) / 24);
+                        var hour = Math.floor((sys_second / 3600) % 24);
+                        var minute = Math.floor((sys_second / 60) % 60);
+                        var second = Math.floor(sys_second % 60);
+                        day_elem && $(day_elem).text(day); //计算天
+                        $(hour_elem).text(hour < 10 ? "0" + hour : hour); //计算小时
+                        $(minute_elem).text(minute < 10 ? "0" + minute : minute); //计算分
+                        $(second_elem).text(second < 10 ? "0" + second : second); // 计算秒
+                    } else {
+                        clearInterval(timer);
+                    }
+                }, 1000);
+            }
+            function vipcenter() {
+                $.ajax({
+                    type: "post",
+                    url: "/MasterPage/GotoVipCenter",
+                    success: function (data) {
+                        if (data) {
+                            location.href = "/UserInfo/Index";
+                        }
+                        else {
+                            location.href = "/Logon/Logon";
+                        }
+                    }
+                });
+            }
+            function Chart() {
+                $.ajax({
+                    type: "post",
+                    url: "/MasterPage/GotoVipCenter",
+                    success: function (data) {
+                        if (data) {
+                            location.href = "/Chart/Chart";
+                        }
+                        else {
+                            location.href = "/Logon/Logon";
+                        }
+                    }
+                });
+            }
+            function LogOut() {
+                $.ajax({
+                    type: "post",
+                    url: "/_ashx/Logon.ashx?type=LogOut",
+                    success: function (data) {
+                        if (data == "1") {
+                            window.location.reload();
+                        }
+                        else {
+                            alert(data);
+                            return;
+                        }
+                    }
+                });
+            }
+
+            function search() {
+                var py = $('#searchSelected').text();
+                var text = $('#searchText').val();
+                if (text == "" && py == "") {
+                    return;
+                }
+
+                var par = "ptid=" + py + "&condition=" + text;
+                par = encodeURI(par);
+                par = encodeURI(par);
+
+                window.location.href = '/ProList/ProTuiList?' + par;
+            }
+
+        </script>
+        <script type="text/javascript" src="/js/ddsmoothmenu.js"></script><!--下拉导航JS-->
+        <script type="text/javascript" src="/js/payfor.js"></script><!--商品数量增加减少 算总价JS-->    
+        <script type="text/javascript">
+        </script>
+    </head>
+
+    <body>
+        <div id="top-head">
+	        <div class="top-cont">
+    	        <div class="alignleft">
+                @{
+                    if (ViewData["UserName"] == null)
+                    {
+        	            <a href="#" class="star">收藏本站</a><span>丨</span><font>您好，欢迎光临月月兴食品商行！ <a href="/logon/logon">[登录]</a><a href="/Register/singleRegister">[注册]</a></font>
+                    }
+                    else
+                    {
+                        <a href="#" class="star">收藏本站</a><span>丨</span><font><a href="" onclick="vipcenter()">[@ViewData["UserName"]]</a> 您好，欢迎光临月月兴食品商行！ <a href="javascript:viod(0)" onclick="LogOut()">[退出]</a></font><span>丨</span><a href="javascript:void(0)" onclick="vipcenter()">用户中心</a>
+                    }
+                  }
+                </div><!--alignleft end-->
+                <div class="alignright">
+        	        <a href="/Index/Index" class="waps">手机网站<div class="top-ewm"><img name="page_cnt_1" src="/images/headFooter/erweima_01.jpg" alt="二维码" /></div></a><span>丨</span><a href="#" class="top-chart" onclick="Chart()">购物车<span>@ViewData["ChartCount"]</span></a><span>丨</span><em class="phone">400-888-8888</em>
+                </div><!--alignright end-->
+            </div><!--top-cont end-->
+        </div><!--top-head end-->
+    <div id="publicHead">
+        <header>
+	        <div class="wrap headers">
+    	        <h1 class="alignleft"><a href="/Index/Index"><img name="page_cnt_1" src="/images/headFooter/logo.png" alt="月月兴食品商行" /></a></h1>
+                <div class="searchs alignleft">
+        	        <div class="searchs-cont">
+            	        <form id="form1">
+                	         <fieldset>
+                     	        <div class="searchTxt">
+							        <div class="searchMenu">
+                            	        <b></b>
+								        <div class="searchSelected" id="searchSelected">全　部</div>
+								        <div style="display:none;" class="searchTab" id="searchTab">
+									        <ul>
+										        <li>全　部</li>
+                                                @{
+                                                    if (ViewData["searchProType"] != null)
+                                                    {
+                                                        foreach(var proType in (List<webs_YueyxShop.Model.ProductTypeBase>)ViewData["searchProType"])
+                                                        {
+										                    <li>@proType.pt_Name</li>
+                                                        }
+                                                    }
+                                                 }
+									        </ul>
+								        </div><!--searchTab end-->
+							        </div><!--searchMenu end-->
+             				        <label><span>请输入搜索关键字...</span><input type="text" id="searchText" /></label>
+                                </div><!--searchTxt end-->
+                    	        <label><span></span><input type="button" value="搜索" onclick="search()" /></label>
+              		        </fieldset>
+                        </form>
+                    </div><!--searchs-cont end-->
+                    <p>
+                    @if (ViewBag.type != null)
+                    {
+                    foreach (var item in ViewBag.type)
+                    { 
+                    <a href="/ProList/ProList?ptype=@item.pt_ID" class="shover">@item.pt_Name</a><span>丨</span>
+                    }
+                    }
+                   @* <a href="#">芒果</a><span>丨</span><a href="#" class="shover">杏仁</a><span>丨</span><a href="#">果冻</a><span>丨</span><a href="#" class="shover">橙子</a><span>丨</span><a href="#" class="shover">坚果</a><span>丨</span><a href="#">葡萄干</a><span>丨</span><a href="#">菠萝</a><span>丨</span><a href="#">调味料</a><span>丨</span><a href="#">南德</a><span>丨</span><a href="#">菠萝</a><span>丨</span><a href="#">调味料</a><span>丨</span><a href="#">南德</a>*@</p>
+                </div><!--searchs end-->
+                <div class="shop-protect alignright">
+        	        @*<img name="page_cnt_1" src="/images/headFooter/head_img_01.png" alt="满100免运费" />*@<img name="page_cnt_1" src="/images/headFooter/head_img_02.png" alt="2000城市货到付款" /><img name="page_cnt_1" src="/images/headFooter/head_img_03.png" alt="厂家直供正品保证" />
+                </div><!--shop-protect end-->
+            </div><!--headers end-->
+            <div class="clear"></div>
+            <div class="wrap navs">
+		        <nav class="alignleft">
+    		        <div class="navCon-cate alignleft navCon_on">
+				        <div class="navCon-cate-title"><em></em><a href="#">全部商品分类</a></div>
+				        <div class="cateMenu hide">
+                        <ul>
+                            @{
+                                if (ViewData["products"] != null)
+                                {
+                                    @Html.Raw(ViewData["products"].ToString())
+                                }
+                            }
+                        </ul>
+				        </div>
+			        </div>
+		
+			        <div class="navCon-menu alignleft" id="smoothmenu1">
+				        <ul class="clearfix">
+					        <li><a class="curMenu" href="/Index/Index"><span><img class="img-mar" name="page_cnt_1" src="/images/headFooter/home.png" alt="首页" /></span></a></li>
+					        <li><a href="/ProList/ProTuiList?tui=1"><span>热卖专区</span></a></li>
+					        <li><a href="/ProList/ProTuiList?tui=3"><span>新品专区</span></a></li>
+					        <li><a href="/ProList/ProTuiList?tui=5"><span>特价专区</span></a></li>
+					        <li><a href="/groupBuy/Index"><span>团购</span></a></li>
+					        <li><a href="/Company/Index"><span>商家入驻</span></a>
+                    	        <ul class="submenu">
+							        <li><a href="/Company/Index">入驻须知</a></li>
+							        <li><a href="/Company/CompanyEenter">商家展示</a></li>
+						        </ul>
+                            </li>
+				        </ul>
+			        </div>
+    	        </nav>
+    	        <div class="chart alignright">
+    		        <a href="#" onclick="Chart()"><em><img name="page_cnt_1" src="/images/headFooter/nav_chart.png" alt="购物车" /></em><font>购物车</font><span>@ViewData["ChartCount"]件</span></a>
+    	        </div><!--chart end-->
+	        </div><!--navs end-->
+        </header>
+    </div>
+        <div class="clear"></div>
+        
+        <div id="main">
+            @RenderBody()
+        </div>
+        
+        <div class="clear line2"></div>
+        <footer>
+	        <hr />
+            <div class="wrap">
+    	        <ul class="shop-protects">
+        	        <li>
+            	        <dl>
+                	        <dt><img name="page_cnt_1" src="/images/headFooter/security_icon_01.jpg" alt="正品保障" /></dt>
+                            <dd><strong>正品保障</strong></dd>
+                            <dd>品牌厂商 直接供货</dd>
+                        </dl>
+                    </li>
+                    <li>
+            	        <dl>
+                	        <dt><img name="page_cnt_1" src="/images/headFooter/security_icon_02.jpg" alt="免运费" /></dt>
+                            <dd><strong>免运费</strong></dd>
+                            <dd>购买满额 免运费</dd>
+                        </dl>
+                    </li>
+                    <li>
+            	        <dl>
+                	        <dt><img name="page_cnt_1" src="/images/headFooter/security_icon_03.jpg" alt="放心购" /></dt>
+                            <dd><strong>放心购</strong></dd>
+                            <dd>2000县市 货到付款</dd>
+                        </dl>
+                    </li>
+                    <li>
+            	        <dl>
+                	        <dt><img name="page_cnt_1" src="/images/headFooter/security_icon_04.jpg" alt="方便付款" /></dt>
+                            <dd><strong>方便付款</strong></dd>
+                            <dd>多种支付 任您选择</dd>
+                        </dl>
+                    </li>
+                    <li>
+            	        <dl>
+                	        <dt><img name="page_cnt_1" src="/images/headFooter/security_icon_05.jpg" alt="开箱验" /></dt>
+                            <dd><strong>开箱验</strong></dd>
+                            <dd>当场验货 放心付款</dd>
+                        </dl>
+                    </li>
+                    <li>
+            	        <dl>
+                	        <dt><img name="page_cnt_1" src="/images/headFooter/security_icon_06.jpg" alt="好服务" /></dt>
+                            <dd><strong>好服务</strong></dd>
+                            <dd>7*24小时 贴心服务</dd>
+                        </dl>
+                    </li>
+                </ul>
+                <div class="footer-nav">
+        	        <ul>
+            	        <li>
+                	        <dl>
+                    	        <dt>新手入门</dt>
+                                @{
+                                    if (ViewData["Helper"] != null)
+                                    {
+                                        foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["Helper"]))
+                                        {
+                                            <dd><a href="/helpcenter/index?id=@newsB.n_ID">@newsB.n_Title</a></dd>
+                                        }
+                                    }
+                                }
+                            </dl>
+                        </li>
+                        <li>
+                	        <dl>
+                    	        <dt>关于我们</dt>
+                                @{
+                                    if (ViewData["AboutUs"] != null)
+                                    {
+                                        foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["AboutUs"]))
+                                        {
+                                            <dd><a href="/helpcenter/index?id=@newsB.n_ID">@newsB.n_Title</a></dd>
+                                        }
+                                    }
+                                }
+                            </dl>
+                        </li>
+                        <li>
+                	        <dl>
+                    	        <dt>配送方式</dt>
+                                @{
+                                    if (ViewData["ShipType"] != null)
+                                    {
+                                        foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["ShipType"]))
+                                        {
+                                            <dd><a href="/helpcenter/index?id=@newsB.n_ID">@newsB.n_Title</a></dd>
+                                        }
+                                    }
+                                }
+                            </dl>
+                        </li>
+                        <li>
+                	        <dl>
+                    	        <dt>支付方式</dt>
+                                @{
+                                    if (ViewData["PaymentType"] != null)
+                                    {
+                                        foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["PaymentType"]))
+                                        {
+                                            <dd><a href="/helpcenter/index?id=@newsB.n_ID">@newsB.n_Title</a></dd>
+                                        }
+                                    }
+                                }
+                            </dl>
+                        </li>
+                        <li>
+                	        <dl>
+                    	        <dt>售后服务</dt>
+                                @{
+                                    if (ViewData["Service"] != null)
+                                    {
+                                        foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["Service"]))
+                                        {
+                                            <dd><a href="/helpcenter/index?id=@newsB.n_ID">@newsB.n_Title</a></dd>
+                                        }
+                                    }
+                                }
+                            </dl>
+                        </li>
+                        <li>
+                	        <dl>
+                    	        <dt>特色服务</dt>
+                                @{
+                                    if (ViewData["CharacteristicService"] != null)
+                                    {
+                                        foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["CharacteristicService"]))
+                                        {
+                                            <dd><a href="/helpcenter/index?id=@newsB.n_ID">@newsB.n_Title</a></dd>
+                                        }
+                                    }
+                                }
+                            </dl>
+                        </li>
+                    </ul>
+                </div><!--footer-nav end-->
+                <div class="blog">
+        	        <div class="wap-ewm borders1">
+            	        <div class="ewms alignleft"><img name="page_cnt_1" src="/images/headFooter/erweima_01.png" alt="二维码" style="width:58px;height:58px;"/></div>
+                        <dl>
+                	        <dt><strong>手机月月兴食品商行网</strong></dt>
+                	        <dd>轻按手指，轻松购物！随时随地乐享美味生活！</dd>
+                        </dl>
+                    </div><!--wap-ewm end-->
+                    <div class="weixin-ewm borders1">
+            	        <div class="ewms alignleft"><img name="page_cnt_1" src="/images/headFooter/erweimawx.jpg" alt="二维码"  style="width:58px;height:58px;"/></div>
+                        <dl>
+                	        <dt><strong>月月兴食品商行网官方微信</strong></dt>
+                	        <dd>扫描二维码，即刻与月月兴食品商行的亲们互动，还有劲爆优惠等你来拿！</dd>
+                        </dl>
+                    </div><!--weixin-ewm end-->
+                    @*<div class="sina borders1">
+            	        <a href="#"><img name="page_cnt_1" src="/images/headFooter/sina.jpg" alt="新浪" /></a>
+                    </div><!--sina end-->*@
+                </div><!--blog end-->
+                <div class="footer-main-nav">
+                @{
+                    if (ViewData["Link"] != null)
+                    {
+                        bool first = true;
+                        foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["Link"]))
+                        {
+                            if (first)
+                            {
+                                <a href="@newsB.n_RedirectUrl">@newsB.n_Title</a>
+                                                          first = false;
+                            }
+                            else
+                            {
+                                @Html.Raw(" | ")
+                                <a href="@newsB.n_RedirectUrl">@newsB.n_Title</a>
+                            }
+                        }
+                    }
+                }
+                </div>
+                <address>© <a href="#">月月兴食品商行</a> 2014 <a href="/Index/Index">www.yyxfood.com</a> All Rights Reselved 豫ICP 备1100796号-1 豫公安网备1101050100221</address>
+                <div class="footer-links">
+        	        <a href="#"><img name="page_cnt_1" src="/images/headFooter/footer_lins_01.jpg" alt="可信网站示范单位" /></a><a href="#"><img name="page_cnt_1" src="/images/headFooter/footer_lins_02.jpg" alt="网络社会征信网" /></a><a href="#"><img name="page_cnt_1" src="/images/headFooter/footer_lins_03.jpg" alt="经营性网站备案信息" /></a><a href="#"><img name="page_cnt_1" src="/images/headFooter/footer_lins_04.jpg" alt="AAA信用网站" /></a><a href="#"><img name="page_cnt_1" src="/images/headFooter/footer_lins_05.jpg" alt="中国信用企业" /></a>
+                </div><!--footer-links end-->
+            </div><!--wrap end-->
+        </footer>
+        <!--浮动购物车、我的收藏、返回顶部-->
+        <ul id="jump">
+            <li><a id="chart-f" href="#" onclick="Chart()"><div id="math">@ViewData["ChartCount"]</div></a></li>
+	        @*<li><a id="myshop" href="#" target="_blank"></a></li>*@
+            <li style="display:none;"><a id="top" href="#top"></a></li>
+        </ul>
+        <script type="text/javascript">
+            //导航下拉菜单横导航
+            ddsmoothmenu.init({
+
+                mainmenuid: "smoothmenu1", //menu DIV id
+
+                orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+
+                classname: 'navCon-menu'
+
+            });
+
+            //首页团购banner下方的广告轮播JS
+            jQuery(".ad-banner").slide({ mainCell: ".pic", effect: "left", autoPlay: true, delayTime: 300 });
+
+            //首页产品分类里的广告轮播JS
+            jQuery(".pro-banner").slide({ mainCell: ".pic", effect: "left", autoPlay: true, delayTime: 300 });
+
+            //首页品牌推荐大图轮播
+            jQuery("#iFocus li a").hover(function () { $(this).css("opacity", 1).siblings().css("opacity", 0.7) }, function () { $(this).css("opacity", 1).siblings().css("opacity", 1) }); //鼠标移到图片上时聚焦效果
+            jQuery("#iFocus").slide({ titCell: ".btn span", mainCell: "ul", effect: "left", autoPlay: true });
+
+            //首页小品牌无缝滚动JS
+            jQuery(".picScroll").slide({ mainCell: "ul", effect: "leftMarquee", vis: 9, autoPlay: true, interTime: 50, switchLoad: "_src" });
+
+
+            //图片延迟加载
+            (function () {
+
+                var th = this;
+
+                th.pageSize = 1000; /* 每屏大概高度为1000px */
+
+                th.pageQuotiety = 0.5; /* 提前下载量 */
+
+                th.imgName = "page_cnt_"; /* 图片通用名 */
+
+                th.imgs = []; /* 每屏图片 [每屏所有图片，第一张图片，第一张图片绝对top:加载图片的top] */
+
+                var B = {}; /* Browser check */
+
+                B.ua = window.navigator.userAgent.toLowerCase();
+
+                B.ie = /msie/.test(B.ua);
+
+                B.moz = /gecko/.test(B.ua);
+
+                B.opera = /opera/.test(B.ua);
+
+                B.safari = /safari/.test(B.ua);
+
+                var $N = function (s, docu) {
+                    var doc = docu ? docu : document;
+                    return (typeof s == "object") ? s : doc.getElementsByName(s);
+                };
+
+                th.getWindowSize = function () {
+                    var a = {};
+                    if (window.self && self.innerWidth) {
+                        a.width = self.innerWidth;
+                        a.height = self.innerHeight;
+                        return a;
+                    } if (document.documentElement && document.documentElement.clientHeight) {
+                        a.width = document.documentElement.clientWidth;
+                        a.height = document.documentElement.clientHeight;
+                        return a;
+                    }
+                    a.width = document.body.clientWidth;
+                    a.height = document.body.clientHeight;
+                    return a;
+                }
+
+                th.getObjPosition = function (obj) {
+                    var a = {};
+                    a.x = obj.offsetLeft, a.y = obj.offsetTop;
+                    while (obj = obj.offsetParent) {
+                        a.x += obj.offsetLeft;
+                        a.y += obj.offsetTop;
+                    }
+                    return a;
+                }
+
+                th._getPageScroll = function () {
+                    var s;
+                    if (typeof (window.pageYOffset) != "undefined") {
+                        s = window.pageYOffset;
+                    } else if (document.documentElement && document.documentElement.scrollTop) {
+                        s = document.documentElement.scrollTop;
+                    } else if (document.body) {
+                        s = document.body.scrollTop;
+                    }
+                    return s;
+                }
+
+                th._loadImages = function (a) {
+                    if (!a) return;
+                    var obj = a;
+                    if (typeof a == "string") {
+                        obj = $N(a);
+                    } for (var i = 0; i < obj.length; i++) {
+                        var s = obj[i];
+                        if (typeof s == "object") {
+                            if (s.getAttribute("_src")) {
+                                s.setAttribute("src", s.getAttribute("_src"));
+                                s.removeAttribute("_src", 0);
+                            }
+                        }
+                    }
+                    delete obj;
+                    obj = null;
+                }
+
+                th._loadAllImgs = function () {
+                    var i = 0;
+                    while (th.imgs[i]) {
+                        th._loadImages(th.imgs[i][0]);
+                        i++;
+                    }
+                }
+
+                th.getImgPosition = function () {
+                    var i = 1;
+                    var p = $N(th.imgName + i);
+                    while (p && p.length > 0) {
+                        var p = $N("page_cnt_" + i);
+                        var t = th.getImgLoadPosition(p[0]);
+                        th.imgs.push([p, p[0], t]);
+                        i++;
+                        p = $N(th.imgName + i);
+                    }
+                }
+
+                th.getImgLoadPosition = function (a) {
+                    var t = { imgTop: 0, pageTop: 0 };
+                    if (a) {
+                        var w = th.getWindowSize();
+                        t.imgTop = parseInt(th.getObjPosition(a).y);
+                        t.pageTop = parseInt((t.imgTop / 1000 - th.pageQuotiety) * 1000);
+                    }
+                    return t;
+                }
+
+                th._addScrollEven = function () {
+                    if (B.ie) {
+                        window.attachEvent("onscroll", th._scrollFn);
+                    } else {
+                        window.addEventListener("scroll", th._scrollFn, false);
+                    }
+                }
+
+                th._removeScrollEven = function () {
+                    if (B.ie) {
+                        window.detachEvent("onscroll", th._scrollFn);
+                    } else {
+                        window.removeEventListener("scroll", th._scrollFn, false);
+                    }
+                }
+
+                th._scrollFn = function () {
+                    var y = th._getPageScroll();
+                    var w = th.getWindowSize().height;
+                    if (w == 0) {
+                        th._loadAllImgs();
+                        return;
+                    }
+                    var i = 0;
+                    var j = 0;
+                    while (th.imgs[i]) {
+                        if (!(y + w < th.imgs[i][2].pageTop)) {
+                            th._loadImages(th.imgs[i][0]);
+                            j++
+                        }
+                        i++;
+                        if (j >= th.imgs.length) {
+                            th._removeScrollEven();
+                        }
+                    }
+                }
+
+                th.getImgPosition();
+                th._addScrollEven();
+                th._scrollFn();
+
+            })()
+        </script>
+        <script type='text/javascript' src='/js/main.js'></script><!--散乱JS合集 重要 此JS放置位置要注意，需放置在导航及banner用的JS下方..-->
+        <script type="text/javascript">
+            //选项卡带自动切换的JS
+            function setTab(name, cursel) {
+                cursel_0 = cursel;
+                for (var i = 1; i <= links_len; i++) {
+                    var menu = document.getElementById(name + i);
+                    var menudiv = document.getElementById("con_" + name + "_" + i);
+                    if (i == cursel) {
+                        menu.className = "off";
+                        menudiv.style.display = "block";
+                    }
+                    else {
+                        menu.className = "";
+                        menudiv.style.display = "none";
+                    }
+                }
+            }
+            function Next() {
+                cursel_0++;
+                if (cursel_0 > links_len) cursel_0 = 1
+                setTab(name_0, cursel_0);
+            }
+            var name_0 = 'one';
+            var cursel_0 = 1;
+            var ScrollTime = 3000; //循环周期（毫秒）
+            var links_len, iIntervalId;
+            onload = function () {
+                var links = document.getElementById("tab1").getElementsByTagName('li')
+                links_len = links.length;
+                for (var i = 0; i < links_len; i++) {
+                    links[i].onmouseover = function () {
+                        clearInterval(iIntervalId);
+                        this.onmouseout = function () {
+                            iIntervalId = setInterval(Next, ScrollTime); ;
+                        }
+                    }
+                }
+                document.getElementById("con_" + name_0 + "_" + links_len).parentNode.onmouseover = function () {
+                    clearInterval(iIntervalId);
+                    this.onmouseout = function () {
+                        iIntervalId = setInterval(Next, ScrollTime); ;
+                    }
+                }
+                setTab(name_0, cursel_0);
+                iIntervalId = setInterval(Next, ScrollTime);
+            }
+        </script>
+    </body>
+</html>

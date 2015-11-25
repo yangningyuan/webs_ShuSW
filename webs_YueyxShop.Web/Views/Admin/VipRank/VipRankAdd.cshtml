@@ -1,0 +1,66 @@
+﻿@model webs_YueyxShop.Model.VipRank
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("Add", "VipRank")"
+              class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone)">
+    @Html.Hidden("txbotype", @ViewData["otype"])
+    <input type="hidden" id="hfFilePath" value="" />
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="52">
+            <div class="unit">
+                <label>
+                    会员等级名称：</label>
+                @Html.TextBoxFor(model => model.r_Name, new { @class = "required", @style = "width:300px;" })
+            </div>
+            <div class="unit">
+                <label>
+                    等级折扣：</label>
+                @Html.TextBoxFor(model => model.r_ZheK, new {@class = "required",max="1",min="0", style = "width:100px;" })<label style="width:100px; color:Red; float:left;">0-1之间</label>
+            </div>
+            <div class="unit">
+                <label>
+                    下限积分：</label>
+                @Html.TextBoxFor(model => model.r_Score, new { @class = "required number digits", style = "width:100px;", min = "0" })<label style="width:160px; color:Red;">会员等级最低积分</label>
+            </div>
+            <div class="unit">
+                <label>
+                    上限积分：</label>
+                @Html.TextBoxFor(model => model.r_UpperScore, new { @class = "required number digits", style = "width:100px;", min = "0" })<label style="width:160px; color:Red;">会员超过此积分会升级</label>
+            </div>
+            <div class="unit">
+                <label>
+                    会员等级：</label>
+                @Html.TextBoxFor(model => model.r_Rank, new { @class = "required number digits", style = "width:100px;", min = "1" })<label style="width:200px; color:Red;">整数，请填写未存在的会员等级</label>
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                    <li id="save">
+                        <div class="buttonActive" id="submit" runat="server">
+                            <div class="buttonContent">
+                                <button id="sub" type="submit">
+                                    保存
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

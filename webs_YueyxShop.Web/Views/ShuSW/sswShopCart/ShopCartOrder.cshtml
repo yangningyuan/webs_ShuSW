@@ -1,0 +1,470 @@
+﻿@{
+    Layout = "~/Views/ShuSW/sswMaster/LayoutPage.cshtml";
+}
+
+
+
+
+
+<style>
+    .buyNub-nubinput {
+        width: 40px;
+        height: 36px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15) inset;
+        padding: 0px 5px;
+    }
+
+
+
+    #pchima, #pyanse {
+        /* Size and position */
+        position: relative; /* Enable absolute positionning for children and pseudo elements */
+        width: 120px;
+        margin: 0 auto;
+        padding: 0px 10px;
+        /* Styles */
+        background: #fff;
+        border-left: 3px solid grey;
+        cursor: pointer;
+        outline: none;
+        border-top: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+        #pchima option {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            border-left: 6px solid;
+            padding: 5px;
+            -webkit-transition: all 0.3s ease-out;
+            -moz-transition: all 0.3s ease-out;
+            -ms-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+        }
+
+        #pyanse option {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            border-left: 6px solid;
+            padding: 5px;
+            -webkit-transition: all 0.3s ease-out;
+            -moz-transition: all 0.3s ease-out;
+            -ms-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+        }
+</style>
+<script type="text/javascript" src="/js/payfor.js"></script><!--商品数量增加减少 算总价JS-->
+<link href="/css/kaych.chartOrder.css" rel="stylesheet" />
+<link href="/css/kaych.reset.css" rel="stylesheet" />
+<script src="/js/jquery-1.4.3.min.js"></script>
+<script language="javascript" type="text/javascript">
+    $(function () {
+        function strToJson(str) {
+            var json = eval('{' + str + '}');
+            return json;
+        }
+    });
+    function removeshop(scid) {
+
+        var sc_id = scid;
+        $.ajax({
+            url: "/_ashx/dataSave_manager_json.ashx?type=removeshop",
+            type: "post",
+            data: { sc_id: sc_id },
+            success: function (data) {
+                if (data == "1") {
+                    alert("删除成功！");
+                    window.location.reload();
+                } else {
+                    alert("数据有误，请联系管理员");
+                }
+            }
+        });
+    }
+</script>
+
+<div class="man">
+    <div class="container">
+        <div class="chart-title">
+
+            <div class="chart-title">
+                <div style="float:left; margin-top:30px;">
+                    <div class="logins alignleft" style="width:300px;">现在<a href="/sswLogin/Login">登录</a>，您购物车中的商品将永久保存</div>
+                    <div class="fonts alignright" style="width: 300px;">满<span>200元</span>即可免运费</div>
+                </div>
+
+                <div class="chart-step alignright"><img src="/images/img/chart_step_02.jpg" name="page_cnt_1" alt="购物车"></div>
+            </div><!--chart-title end-->
+        </div><!--chart-title end-->
+        <table class="chart-list">
+            <tbody>
+                <tr>
+                   
+                    <th width="430px">商品名称</th>
+                    <th style="text-align:center;">价格（元）</th>
+
+                    <th style="text-align:center;">数量</th>
+                    <th style="text-align:center;">商品合计</th>
+                    
+                </tr>
+
+                @{
+                    if (ViewData["shopCartList"] != null)
+                    {
+                        foreach (System.Data.DataRow dtsclist in ((System.Data.DataTable)ViewData["shopCartList"]).Rows)
+                        {
+                            <tr>
+                                
+                                <td class="pro-shops">
+                                    <a href="/sswCommodity/CommodityDetails?p_id=@dtsclist["p_id"]"><img name="page_cnt_1" src="@dtsclist["pi_url"]" alt="产品图片" width="50" height="50" /></a>
+                                    <dl>
+                                        <dt><a href="/sswCommodity/CommodityDetails?p_id=@dtsclist["p_id"]">@dtsclist["p_name"] </a></dt>
+                                        <dd><span>团购</span></dd>
+                                    </dl>
+                                </td>
+                                <td class="centers">￥@dtsclist["sku_price"]</td>
+                                <td class="centers">
+                                    @dtsclist["sc_pcount"]
+                                </td>
+                                @{
+                            Decimal price = Convert.ToInt32(dtsclist["sc_pcount"]) * Convert.ToDecimal(dtsclist["sku_price"]);
+                            ViewData["zprice"] = price;
+                                }
+                                <td class="centers"><span>￥@ViewData["zprice"]</span></td>
+                                
+                            </tr>
+                        }
+                    }
+                }
+                <tr>
+                    <td height="35"><label></td>
+                    
+                    <td colspan="6" class="del"><font>总计已选<span>@ViewData["shoplistnum"] </span>件商品&nbsp;&nbsp; 合计（不含运费）：<span>￥@ViewData["shoplistprice"]</span> @*共获积分：<span>120</span>*@</font></td>
+                </tr>
+
+            </tbody>
+        </table>
+
+
+
+        <div class="container">
+            @*<div class="pages">
+
+                <div class="comments-area">
+                    <h3>添加收货地址</h3>
+                    <form>
+                        <p>
+                            <label>姓名</label>
+                            <span>*</span>
+                            <input type="text" value="">
+                        </p>
+                        <p>
+                            <label>邮箱</label>
+                            <span>*</span>
+                            <input type="text" value="">
+                        </p>
+                        <p>
+                            <label>Website</label>
+                            <input type="text" value="">
+                        </p>
+                        <p>
+                            <label>Subject</label>
+                            <span>*</span>
+                            <textarea></textarea>
+                        </p>
+                        <p>
+                            <input type="submit" value="提交订单">
+                        </p>
+                    </form>
+                </div>
+            </div>*@
+
+
+            <link type="text/css" href="/css/wap/kaych.reset.css" rel="stylesheet" /><!--页面重置css文件-->
+            <link type="text/css" href="/css/wap/kaych.framework.css" rel="stylesheet" /><!--页面框架css文件-->
+            <link type="text/css" href="/css/wap/kaych.ui-visual.css" rel="stylesheet" /><!--视觉效果（即样式，与框架分离）css属性文件-->
+            <link rel="stylesheet" type="text/css" href="/css/wap/kaych.commons.css"><!--页面通用CSS文件-->
+            <link rel="stylesheet" type="text/css" href="/css/wap/kaych.media.screen.css"><!--页面分辨率检测启用不同布局CSS文件-->
+            <link type="text/css" href="/css/wap/kaych.indexLayout.css" rel="stylesheet" /><!--页面细致布局css文件-->
+            <!--[if lt IE 9]>
+    <script src="/js/wap/html5.js"></script>
+    <![endif]-->
+            <!--[if IE 6]>
+    <script type="text/javascript" src="/js/wap/DD_belatedPNG.js"></script>
+    <script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+    <![endif]-->
+            <script type="text/javascript" src="/js/wap/jquery-1.8.3.min.js"></script>
+            <script type="text/javascript" src="/js/wap/custominput.js"></script><!--表单美化-->
+            <script type="text/javascript" src="/js/wap/jquery.SuperSlide.2.1.1.js"></script><!--页面小广告bannerJS库-->
+            <script type="text/javascript" src="/js/wap/main.js"></script>
+            <script type="text/javascript">
+
+                $(function () {//function
+                    $('div[id="bodyProvice"]').hide();
+                    $('div[id="bodyCity"]').hide();
+                    $('div[id="bodyCount"]').hide();
+
+                    $('input[type="text"]').focus(function () {
+                        $('.warn').hide();
+                    });
+
+                    $('input[id^="ads_"]').each(function () {
+                        var id = $(this).attr("id").substr(4);
+                        $(this).focus(function () {
+                            if (stringTrim($('#chose' + id).html()) != "") {
+                                ChangeShow("body" + id, "bodyAdd");
+                            }
+                        });
+                    });
+                });   //function
+
+                function showError(msg) {
+                    $('.warn').html(msg);
+                    $('.warn').show();
+                }
+
+                //删除左右两端的空格
+                function stringTrim(str) {
+                    return str.replace(/(^\s*)|(\s*$)/g, "");
+                }
+
+                //改变显示状态
+                function ChangeShow(showName, hideName) {
+                    $('#' + showName).show();
+                    $('#' + hideName).hide();
+                }
+
+                function choseAddress(regID, regName, cName) {
+                    //input赋值
+                    if (regName == $('#ads_' + cName).val()) {
+                        return;
+                    }
+                    $('#ads_' + cName).val(regName);
+                    $('#ads_' + cName).attr("idvalue", regID);
+                    //显示隐藏
+                    ChangeShow("bodyAdd", "body" + cName);
+                    //下级数据
+                    if (cName == "Provice") {
+                        $.ajax({
+                            type: 'post',
+                            url: "/wapAddress/GetCity",
+                            data: { regid: regID, region: "City" },
+                            async: true,
+                            success: function (data) {
+                                if (data != "") {
+                                    $('#choseCity').html(data);
+                                    $('#choseCount').empty();
+                                    $('#ads_City').val("");
+                                    $('#ads_City').attr("idvalue", "");
+                                    $('#ads_Count').val("");
+                                    $('#ads_Count').attr("idvalue", "");
+                                } else {
+                                    alert("数据获取异常！");
+                                }
+                            }
+                        });
+                    } else if (cName == "City") {
+                        $.ajax({
+                            type: 'post',
+                            url: "/wapAddress/GetCity",
+                            data: { regid: regID, region: "Count" },
+                            async: true,
+                            success: function (data) {
+                                if (data != "") {
+                                    $('#choseCount').html(data);
+                                    $('#ads_Count').val("");
+                                    $('#ads_Count').attr("idvalue", "");
+                                } else {
+                                    alert("数据获取异常！");
+                                }
+                            }
+                        });
+                    }
+                }
+
+                var fromUrl = document.referrer;
+                if (fromUrl == '') {
+                    fromUrl = '/Index/Index';
+                }
+
+                function Submit() {
+                    var name = $('#name').val();
+                    var phone = $('#phone').val();
+                    var zipCode = $('#zipCode').val();
+                    var ads_Provice = $('#ads_Provice').attr("idvalue");
+                    var ads_City = $('#ads_City').attr("idvalue");
+                    var ads_Count = $('#ads_Count').attr("idvalue");
+                    var address = $('#address').val();
+                    var agrees = $('label[for="agrees"]').hasClass("checked");
+
+                    if (name == "" || phone == "" || zipCode == "" || ads_Provice == "" || ads_City == "" || ads_Count == "" || address == "") {
+                        showError("信息填写不完整！");
+                        return;
+                    }
+                    if (!(phone.search(/^1[3|4|5|7|8][0-9]{9}$/) != -1)) {
+                        showError("请输入正确的手机号！");
+                        return;
+                    }
+
+                    var cId = $('#cID').val();
+                    var par = "name=" + name + "&selectType=" + ads_Provice + "&selectType2=" + ads_City +
+                              "&selectType3=" + ads_Count + "&Address=" + address + "&tphone=" + "" +
+                              "&phone=" + phone + "&zipcode=" + zipCode + "&agreess=" + agrees;
+                    var type = "&otype=Add";
+                    if (cId != "") {
+                        type = "&otype=modify&cid=" + cId;
+                    }
+                    //编码，解决IE下中文乱码
+                    par = encodeURI(par);
+                    $.ajax({
+                        type: "POST",
+                        url: "/Order/AddConsigneeInfo?" + par + type,
+                        async: true,
+                        success: function (data) {
+                            if (data != null && stringTrim(data) != "") {
+                                window.location.href = fromUrl;
+                            }
+                        }
+                    });
+                }
+
+            </script>
+
+            
+                <div id="bodyAdd">
+                    <input type="hidden" name="cID" id="cID" value="@ViewData["cID"]" />
+                    <header>
+                        <div class="wrap hidden relative">
+                            <div class="side-icon left textrt"><a href="javascript:history.back()">返回</a></div>
+                            <h2 class="titles">新增收货地址</h2>
+                        </div><!--wrap end-->
+                    </header>
+                    <div class="zw-div"></div>
+                    <div class="wrap">
+                        <div class="wrapper hidden">
+                            <ul class="address-form">
+                                <li>
+                                    <div class="address-title">收货人：</div>
+                                    <div class="address-cont"><input id="name" type="text" class="input01" value="@ViewData["name"]" /></div>
+                                </li>
+                                <li>
+                                    <div class="address-title">手机号码：</div>
+                                    <div class="address-cont"><input id="phone" type="text" class="input01" value="@ViewData["phone"]" /></div>
+                                </li>
+                                <li>
+                                    <div class="address-title">邮政编码：</div>
+                                    <div class="address-cont"><input id="zipCode" type="text" class="input01" value="@ViewData["zipCode"]" /></div>
+                                </li>
+                                <li>
+                                    <div class="address-title">所在省份：</div>
+                                    <div class="address-cont"><input id="ads_Provice" type="text" class="input01" idvalue="@ViewData["Provice"]" value="@ViewData["ProviceTxt"]" /></div>
+                                </li>
+                                <li>
+                                    <div class="address-title">所在城市：</div>
+                                    <div class="address-cont"><input id="ads_City" type="text" class="input01" idvalue="@ViewData["City"]" value="@ViewData["CityTxt"]" /></div>
+                                </li>
+                                <li>
+                                    <div class="address-title">所在地区：</div>
+                                    <div class="address-cont"><input id="ads_Count" type="text" class="input01" idvalue="@ViewData["Count"]" value="@ViewData["CountTxt"]" /></div>
+                                </li>
+                                <li>
+                                    <div class="address-title">详细地址：</div>
+                                    <div class="address-cont"><input id="address" type="text" class="input01" value="@ViewData["address"]" /></div>
+                                </li>
+                                <li>
+                                    <div class="address-titles">设置为默认地址</div>
+                                    <div class="address-cont">
+                                        <input type="checkbox" name="agree" id="agrees" value="" />
+                                        <label for="agrees"></label>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="warn"></div>
+                            <input type="submit" class="yes-buy" value="保存地址" onclick="Submit()" />
+                        </div><!--wrapper end-->
+                    </div><!--wrap end-->
+                </div><!--bodyAdd end-->
+
+                <div id="bodyProvice">
+                    <header>
+                        <div class="wrap hidden relative">
+                            <div class="side-icon left textrt"><a href="javascript:void(0)" onclick="ChangeShow('bodyAdd','bodyProvice')">返回</a></div>
+                            <h2 class="titles">选择省份</h2>
+                        </div><!--wrap end-->
+                    </header>
+                    <div class="zw-div"></div>
+                    <div class="wrap">
+                        <div class="wrapper hidden">
+                            <ul id="choseProvice" class="chose-list">
+                                @{
+                                    if (ViewData["ProviceList"] != null)
+                                    {
+                                        foreach (var reg in (List<webs_YueyxShop.Model.RegionBase>)ViewData["ProviceList"])
+                                        {
+                                            <li><a href="javascript:void(0)" onclick="choseAddress(@reg.reg_ID,'@reg.reg_Name','Provice')"><span>@reg.reg_Name</span></a></li>
+                                        }
+                                    }
+                                }
+                            </ul>
+                        </div><!--wrapper end-->
+                    </div><!--wrap end-->
+                </div>
+
+                <div id="bodyCity">
+                    <header>
+                        <div class="wrap hidden relative">
+                            <div class="side-icon left textrt"><a href="" javascript:void(0)" onclick="ChangeShow('bodyAdd','bodyCity')">返回</a></div>
+                            <h2 class="titles">选择城市</h2>
+                        </div><!--wrap end-->
+                    </header>
+                    <div class="zw-div"></div>
+                    <div class="wrap">
+                        <div class="wrapper hidden">
+                            <ul id="choseCity" class="chose-list">
+                                @{
+                                    if (ViewData["CityList"] != null)
+                                    {
+                                        @Html.Raw(ViewData["CityList"].ToString())
+                                    }
+                                }
+                            </ul>
+                        </div><!--wrapper end-->
+                    </div><!--wrap end-->
+                </div>
+
+                <div id="bodyCount">
+                    <header>
+                        <div class="wrap hidden relative">
+                            <div class="side-icon left textrt"><a href="" javascript:void(0)" onclick="ChangeShow('bodyAdd','bodyCount')">返回</a></div>
+                            <h2 class="titles">选择县区</h2>
+                        </div><!--wrap end-->
+                    </header>
+                    <div class="zw-div"></div>
+                    <div class="wrap">
+                        <div class="wrapper hidden">
+                            <ul id="choseCount" class="chose-list">
+                                @{
+                                    if (ViewData["CountList"] != null)
+                                    {
+                                        @Html.Raw(ViewData["CountList"].ToString())
+                                    }
+                                }
+                            </ul>
+                        </div><!--wrapper end-->
+                    </div><!--wrap end-->
+                </div>
+           
+
+
+        </div>
+
+
+
+    </div>
+</div>
+
+<script type='text/javascript' src='/js/main.js'></script><!--散乱JS合集 重要 此JS放置位置要注意，需放置在导航及banner用的JS下方..-->

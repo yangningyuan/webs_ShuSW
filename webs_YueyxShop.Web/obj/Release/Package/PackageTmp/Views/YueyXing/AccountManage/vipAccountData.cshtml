@@ -1,0 +1,631 @@
+﻿@model webs_YueyxShop.Model.MemberBase
+@{
+    ViewBag.Title = "月月兴食品商行-会员中心-账户资料";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+<link type="text/css" href="/css/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+<link type="text/css" href="/css/kaych.commons.css" rel="stylesheet"/><!--页面公用css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+<link type="text/css" href="/css/kaych.framework.css" rel="stylesheet"/><!--页面大框架css文件-->
+<link rel="stylesheet" type="text/css" href="/css/kaych.vip.css"><!--会员中心CSS文件-->
+<link rel="stylesheet" type="text/css" href="/css/jquery.ui.datepicker.css"><!--我的订单页面日期选择控件CSS文件-->
+<!--[if IE 6]>
+<script type="text/javascript" src="js/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script src="js/html5.js"></script>
+<![endif]-->
+    <script src="/js/ajaxupload.js" type="text/javascript"></script>
+<script src="/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/js/jquery.flexslider-min.js"></script><!--banner轮播图JS-->
+<script type="text/javascript" src="/js/jquery.SuperSlide.2.1.1.js"></script><!--页面小广告bannerJS库-->
+<script src="/js/script.js" type="text/javascript"></script><!--全部商品导航JS-->
+<script type='text/javascript' src='/js/tuan.js'></script><!--团购页面内活动特效-->
+<script type='text/javascript' src="/js/jquery.lazyload.min.js"></script><!--图片延迟加载JS-->
+<script type='text/javascript' src='/js/tuanBanner.js'></script><!--团购轮播图JS-->
+<script type="text/javascript" src="/js/custominput.js"></script><!--表单美化JS-->
+<script type="text/javascript" src="/js/ddsmoothmenu.js"></script><!--下拉导航JS-->
+<script type="text/javascript" src="/js/payfor.js"></script><!--商品数量增加减少 算总价JS-->
+<script type="text/javascript" src="/js/jquery.ui.core.js"></script><!--账户资料页面日期选择控件-->
+<script type="text/javascript" src="/js/jquery.ui.datepicker.js"></script><!--账户资料页面日期选择控件-->
+<!--账户资料页面日期选择控件-->
+<script type="text/javascript">
+    $(function () {
+        
+        var sex =@ViewData["sex"];
+        if(sex==0)
+        {
+            $("#male").attr("checked",'checked');
+        }
+        if(sex==1)
+        {
+            $("#female").attr("checked",'checked');
+        }
+        if(sex==2)
+        {
+            $("#secret").attr("checked",'checked');
+        }
+
+
+        $("#from").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 2,
+            onClose: function (selectedDate) {
+                $("#to").datepicker("option", "minDate", selectedDate);
+            }
+        });
+
+        $("#to").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 2,
+            onClose: function (selectedDate) {
+                $("#from").datepicker("option", "maxDate", selectedDate);
+            }
+        });
+
+        $("#datepicker , #datepicker1").datepicker({
+            changeMonth: true,
+            changeYear: true
+        }); //日期修改年份
+
+    });
+</script>
+<script type="text/javascript" src="/js/jQSelect.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#select01").jQSelect({});
+        $("#select02").jQSelect({});
+
+    });	
+</script>
+<script type="text/javascript">
+    $(function () {
+        okusername = false;
+        $("#sub").click(function () {
+            if ($("#username").val().length >= 6 && $("#username").val().length <= 20 && $("#username").val() != '') {
+                okusername = true;
+            } else {
+                okusername = false;
+                alert("用户名为6-20位之间！");
+            }
+            if (okusername) {
+                $('#form4').submit();
+            } else {
+                return false;
+            }
+        });
+    });
+</script>
+
+@*//联动代码*@
+<script type="text/javascript">
+    $(function () {
+        $("#bigtype>select").change(function () {
+            var valueid = $("#bigtype>select").val();
+            $.get("/Register/GetBattr?code=" + valueid, function (data) {
+                if (data != "refresh") {
+                    var string = eval('(' + data + ')');
+                    var zu = new Array;
+                    zu = string.toString().split(",");
+                    var html = "<select  class=\"valid\" name=\"selectType2\" id=\"selectType2\" onChange=\"getselectType2()\">";
+                    for (var i = 0; i < zu.length; i++) {
+                        valueid = "";
+                        if (zu[i] == valueid) {
+                            html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                        }
+                        else {
+                            html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                        }
+                        i += 1;
+                    }
+                    html += "</select>";
+
+                    $("#midtype").empty().html(html);
+                }
+                else {
+                    $("#midtype").empty().html("<select  class=\"valid\" name=\"selectType2\" id=\"selectType2\" onChange=\"getselectType2()\"><option value=\"0\" selected=\"selected\">请选择</option></select>");
+                    $("#smatype").empty().html("<select  class=\"valid\" name=\"selectType3\" id=\"selectType3\" ><option value=\"0\" selected=\"selected\">请选择</option></select>");
+                }
+            });
+        });
+    });
+
+    function getselectType2() {
+        var valueid = $("#midtype>select").val();
+        $.get("/Register/GetBattr?code=" + valueid, function (data) {
+            var string = eval('(' + data + ')');
+            var zu = new Array;
+            zu = string.toString().split(",");
+            var html = "<select  class=\"combox\" name=\"selectType3\" id=\"selectType3\" >";
+            for (var i = 0; i < zu.length; i++) {
+                if (zu[i] == valueid) {
+                    html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                }
+                else {
+                    html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                }
+                i += 1;
+            }
+            html += "</select>";
+            $("#smatype").empty().html(html);
+        });
+    };
+</script>
+
+
+<div class="breadcrumb">
+	<a href="/Index/Index"><strong>首页</strong></a> > <a href="/UserInfo/Index">会员中心</a> > 账户管理- 账户资料
+</div><!--breadcrumb end-->
+<div class="clearh"></div>
+<div class="wrap">
+    @Html.Action("LeftMenu", "Vipscore")    
+    <div class="side-cont alignright">
+        <div class="side-content borders">
+        	<form id="form4" runat="server" enctype="multipart/form-data" action="/AccountManage/vipAccountDataSave" method="post" >
+                <div class="wrappers">
+            	    <div class="vip-title"><h4>账户资料</h4></div>
+            	    <div class="vip-info alignleft">
+                	<div class="vip-img">
+                        @if (Model.m_HeadImg == null)
+                        {
+                            <img name="page_cnt_1" width="198px" height="198px"  _src="/images/vip/vip-img.jpg" alt="会员头像" />
+                        }
+                        else { 
+                            <img name="page_cnt_1" width="198px" height="198px"  _src='@ViewData["headimg"]' alt="会员头像" />
+                        }
+                    </div>
+                        <p>
+                        <input type="file" id="imageUpLoad" name="imageUpLoad">
+                        </p>
+                    </div><!--vip-info end-->
+                    <div class="accountdata-cont alignright">
+                        @Html.HiddenFor(model=>model.m_ID)
+                        @Html.HiddenFor(model=>model.m_Password)
+                        @Html.HiddenFor(model=>model.m_UserType)
+                        @Html.HiddenFor(model=>model.m_YingYZZ)
+                        @Html.HiddenFor(model=>model.m_Score)
+                        @Html.HiddenFor(model=>model.m_Rank)
+                        @Html.HiddenFor(model=>model.m_ZheK)
+                        @Html.HiddenFor(model=>model.m_QQ)
+                        @Html.HiddenFor(model=>model.m_StatusCode)
+                        @Html.HiddenFor(model=>model.m_ShenPstatus)
+                        @Html.HiddenFor(model=>model.m_GDPhone)
+                        @Html.HiddenFor(model=>model.m_GongSiName)
+                        @Html.HiddenFor(model=>model.m_GongSiAddress)
+                        @Html.HiddenFor(model=>model.m_HeadImg)
+                    	     <table class="data-table">
+                        <tr>
+                    	    <td width="80"><span>用户名：</span></td>
+                            <td><label><span></span>@Html.TextBoxFor(model => model.m_UserName, new { @class = "input02",@id="username" })</label></td>
+                        </tr>
+                        <tr>
+                    	    <td><span>真实姓名：</span></td>
+                            <td><label><span></span>@Html.TextBoxFor(model => model.m_RealName, new { @class = "input02" })</label></td>
+                        </tr>
+                        <tr>
+                    	    <td><span>昵称：</span></td>
+                            <td><label><span></span>@Html.TextBoxFor(model => model.m_NickName, new { @class = "input02" })</label></td>
+                        </tr>
+                        <tr>
+                    	    <td><span>性别：</span></td>
+                            <td>
+                                <ul class="sex-ul">
+                            	    <li>
+                        			    <input type="radio" name="sex" id="secret"  value="secret" />
+									    <label for="secret">保密</label>
+								    </li>
+                                    <li>
+									    <input type="radio" name="sex" id="male" value="male" />
+									    <label for="male">男</label>
+								    </li>
+                                    <li>
+									    <input type="radio" name="sex" id="female" value="female" />
+									    <label for="female">女</label>
+                            	    </li>
+                                </ul>    
+                                @*<li>
+                        			    <input type="radio" name="sex" id="secret" checked="checked" value="secret" />
+                                        <label for="secret">保密</label>
+								    </li>
+                                    <li>
+									    <input type="radio" name="sex" id="male"  value="male" />
+									    <label for="male">男</label>
+								    </li>
+                                    <li>
+									    <input type="radio" name="sex" id="female"   value="female" />
+									    <label for="female">女</label>
+                            	    </li>*@   
+                            </td>
+                        </tr>
+                        <tr>
+                    	    <td><span>生日：</span></td>
+                            <td><label><span></span>@Html.TextBoxFor(model => model.m_Birthday, new { @name = "te", @id = "datepicker", @class = "date-icon input02" })</label></td>
+                        </tr>
+                        <tr>
+                    	    <td><span>电子邮箱：</span></td>
+                            <td><label><span></span>@Html.TextBoxFor(model => model.m_Email, new { @class = "input02" })</label></td>
+                        </tr>
+                        <tr>
+                    	    <td><span>手机号码：</span></td>
+                            <td><label><span></span>@Html.TextBoxFor(model => model.m_Phone, new { @class = "input02" })</label></td>
+                        </tr>
+                        <tr>
+                    	    <td><span>居住地区：</span></td>
+                            <td>
+
+                                	        <label id="bigtype" style="min-width:70px;">@Html.DropDownList("selectType") </label>
+
+										    <label id="midtype" style="min-width:70px;" >@Html.DropDownList("selectType2") </label>
+
+										    <label id="smatype" style="min-width:70px;" >@Html.DropDownList("selectType3") </label>
+                            </td>
+                        </tr>
+                        <tr>
+                    	    <td><span>详细地址：</span></td>
+                            <td><label><span></span>@Html.TextBoxFor(model => model.m_GongSiDiQu, new { @class="input07"})</label></td>
+                        </tr>
+                        @*<tr>
+                    	    <td><span>所属行业：</span></td>
+                            <td>
+                        	    <div id="select01" class="selectbox">
+								    <div class="cartes">
+									    <input type="text" value="请选择" class="listTxt input08" />
+									    <div class="listBtn"><b></b></div>
+									    <input type="hidden" name="hangye" value="" class="listVal" />
+								    </div><!--cartes end-->
+								    <div class="lists w300">
+									    <ul class="list">
+										    <li id="v1">请选择</li>
+										    <li id="v2">企业雇主/企业经营者</li>
+										    <li id="v3">办公职员(一般文职、业务、办事人员等)</li>
+										    <li id="v4">中层管理人员(总监、经理、主任等)</li>
+										    <li id="v5">专业人士(会计师、律师、工程师、医生、教师）</li>
+										    <li id="v6">工人/蓝领</li>
+										    <li id="v7">公务员、公共事业单位员工</li>
+                                            <li id="v8">自由职业者</li>
+                                            <li id="v9">军人</li>
+                                            <li id="v10">学生</li>
+                                            <li id="v11">退休/无业人员</li>
+                                            <li id="v12">家庭主妇</li>
+                                            <li id="v13">其他</li>
+									    </ul>
+								    </div><!--lists end-->
+							    </div><!--selectbox end-->
+                            </td>
+                        </tr>
+                        <tr>
+                    	    <td><span>所属职业：</span></td>
+                            <td>
+                        	    <div id="select02" class="selectbox">
+								    <div class="cartes">
+									    <input type="text" value="请选择" class="listTxt input08" />
+									    <div class="listBtn"><b></b></div>
+									    <input type="hidden" name="zhiye" value="" class="listVal" />
+								    </div><!--cartes end-->
+								    <div class="lists w300">
+									    <ul class="list">
+										    <li id="s1">请选择</li>
+										    <li id="s2">政府机关/社会团体</li>
+										    <li id="s3">邮电通讯</li>
+										    <li id="s4">IT业/互联网</li>
+										    <li id="s5">商业/贸易</li>
+										    <li id="s6">旅游/餐饮/酒店</li>
+										    <li id="s7">银行/金融/证券/保险/投资</li>
+										    <li id="s8">健康/医疗服务</li>
+                                            <li id="s9">建筑/房地产</li>
+                                            <li id="s10">交通运输/物流仓储</li>
+                                            <li id="s11">法律/司法</li>
+                                            <li id="s12">文化/娱乐/体育</li>
+                                            <li id="s13">媒介/广告/咨询</li>
+                                            <li id="s14">教育/科研</li>
+                                            <li id="s15">农业/林业/牧业/渔业</li>
+                                            <li id="s16">制造业</li>
+                                            <li id="s17">能源/公用事业</li>
+                                            <li id="s18">其他</li>
+									    </ul>
+								    </div><!--lists end-->
+							    </div><!--selectbox end-->
+                            </td>
+                        </tr>*@
+                        <tr>
+                    	    <td></td>
+                    	    <td><input type="submit" id="sub" value="保存" /></td>
+                        </tr>
+                    </table>
+                    
+                    </div><!--vip-cont end-->
+                    <div class="clear"></div>
+            </div><!--wrappers end-->
+            </form>
+            <div class="clear"></div>
+        </div><!--pro-cont end-->
+    </div><!--side-cont end-->
+     <div class="clear line2"></div>
+          <div class="pro-titles">
+          	  <h3>推荐商品</h3>
+          </div>
+          <ul class="pro-class-list">
+            	@Html.Action("Tuijian", "Vipscore")
+          </ul>
+</div><!--wrap end-->
+
+<!--产品分类搜索JS-->
+<script type="text/javascript">
+    var dlNum = $("#classify").find("dl");
+    for (i = 0; i < dlNum.length; i++) {
+        $(".chose-results .choselist").append("<div class=\"conditions selectedShow\" style=\"display:none\"><span></span><label></label><em></em></div>");
+    }
+
+    var refresh = "true";
+
+    $(".list-cont a ").live("click", function () {
+        var text = $(this).text();
+        var selectedShow = $(".selectedShow");
+        var textTypeIndex = $(this).parents("dl").index();
+        var textType = $(this).parent("dd").siblings("dt").text();
+        index = textTypeIndex - (2);
+        $(".clearDd").show();
+        $(".selectedShow").eq(index).show();
+        $(this).addClass("selected").siblings().removeClass("selected");
+        selectedShow.eq(index).find("span").text(textType);
+        selectedShow.eq(index).find("label").text(text);
+        var show = $(".selectedShow").length - $(".selectedShow:hidden").length;
+        if (show > 1) {
+            $(".delete").show();
+        }
+
+    });
+    $(".selectedShow em").live("click", function () {
+        $(this).parents(".selectedShow").hide();
+        var textTypeIndex = $(this).parents(".selectedShow").index();
+        index = textTypeIndex;
+        $(".list-cont").eq(index).find("a").removeClass("selected");
+
+        if ($(".list-cont .selected").length < 2) {
+            $(".delete").hide();
+        }
+    });
+
+    $(".delete").live("click", function () {
+        $(".selectedShow").hide();
+        $(this).hide();
+        $(".list-cont a ").removeClass("selected");
+    }); 
+</script>
+<script type="text/javascript" src="/js/address.js"></script><!--账户资料页面省市区三级联动JS-->
+<script type="text/javascript">
+    //导航下拉菜单横导航
+    ddsmoothmenu.init({
+
+        mainmenuid: "smoothmenu1", //menu DIV id
+
+        orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+
+        classname: 'navCon-menu'
+
+    });
+
+    //确认订单页面省市区三级联动JS
+    $(function () {
+
+        $("#sjld").sjld("#shenfen", "#chengshi", "#quyu");
+
+    });
+
+</script>
+<script type='text/javascript' src='/js/main.js'></script><!--散乱JS合集 重要 此JS放置位置要注意，需放置在导航及banner用的JS下方..-->
+<script type="text/javascript">
+    //表单美化JS
+    $(function () {
+
+        $('input').customInput();
+
+        $('.pj-input').each(function () {
+            $('div:first', this).addClass('first');
+            $('div:last', this).addClass('last');
+        });
+    });
+
+
+    //帮助中心左侧导航JS
+    $(document).ready(function () {
+
+        /* 滑动/展开 */
+        $("ul.nav-list li > div.header").click(function () {
+
+            var arrows = $(this).find("span.arrows");
+
+            if (arrows.hasClass("up")) {
+                arrows.removeClass("up");
+                arrows.addClass("down");
+            } else if (arrows.hasClass("down")) {
+                arrows.removeClass("down");
+                arrows.addClass("up");
+            }
+
+            $(this).parent().find("ul.menu").slideToggle();
+
+        });
+
+    });
+
+    //首页团购banner下方的广告轮播JS
+    jQuery(".ad-banner").slide({ mainCell: ".pic", effect: "left", autoPlay: true, delayTime: 300 });
+
+    //首页产品分类里的广告轮播JS
+    jQuery(".pro-banner").slide({ mainCell: ".pic", effect: "left", autoPlay: true, delayTime: 300 });
+
+    //首页品牌推荐大图轮播
+    jQuery("#iFocus li a").hover(function () { $(this).css("opacity", 1).siblings().css("opacity", 0.7) }, function () { $(this).css("opacity", 1).siblings().css("opacity", 1) }); //鼠标移到图片上时聚焦效果
+    jQuery("#iFocus").slide({ titCell: ".btn span", mainCell: "ul", effect: "left", autoPlay: true });
+
+    //首页小品牌无缝滚动JS
+    jQuery(".picScroll").slide({ mainCell: "ul", effect: "leftMarquee", vis: 9, autoPlay: true, interTime: 50, switchLoad: "_src" });
+
+    //侧边栏一周销量排行榜JS
+    jQuery(".sales-list").slide({ titCell: "li", triggerTime: 0 });
+
+
+    //图片延迟加载
+    (function () {
+
+        var th = this;
+
+        th.pageSize = 1000; /* 每屏大概高度为1000px */
+
+        th.pageQuotiety = 0.5; /* 提前下载量 */
+
+        th.imgName = "page_cnt_"; /* 图片通用名 */
+
+        th.imgs = []; /* 每屏图片 [每屏所有图片，第一张图片，第一张图片绝对top:加载图片的top] */
+
+        var B = {}; /* Browser check */
+
+        B.ua = window.navigator.userAgent.toLowerCase();
+
+        B.ie = /msie/.test(B.ua);
+
+        B.moz = /gecko/.test(B.ua);
+
+        B.opera = /opera/.test(B.ua);
+
+        B.safari = /safari/.test(B.ua);
+
+        var $N = function (s, docu) {
+            var doc = docu ? docu : document;
+            return (typeof s == "object") ? s : doc.getElementsByName(s);
+        };
+
+        th.getWindowSize = function () {
+            var a = {};
+            if (window.self && self.innerWidth) {
+                a.width = self.innerWidth;
+                a.height = self.innerHeight;
+                return a;
+            } if (document.documentElement && document.documentElement.clientHeight) {
+                a.width = document.documentElement.clientWidth;
+                a.height = document.documentElement.clientHeight;
+                return a;
+            }
+            a.width = document.body.clientWidth;
+            a.height = document.body.clientHeight;
+            return a;
+        }
+
+        th.getObjPosition = function (obj) {
+            var a = {};
+            a.x = obj.offsetLeft, a.y = obj.offsetTop;
+            while (obj = obj.offsetParent) {
+                a.x += obj.offsetLeft;
+                a.y += obj.offsetTop;
+            }
+            return a;
+        }
+
+        th._getPageScroll = function () {
+            var s;
+            if (typeof (window.pageYOffset) != "undefined") {
+                s = window.pageYOffset;
+            } else if (document.documentElement && document.documentElement.scrollTop) {
+                s = document.documentElement.scrollTop;
+            } else if (document.body) {
+                s = document.body.scrollTop;
+            }
+            return s;
+        }
+
+        th._loadImages = function (a) {
+            if (!a) return;
+            var obj = a;
+            if (typeof a == "string") {
+                obj = $N(a);
+            } for (var i = 0; i < obj.length; i++) {
+                var s = obj[i];
+                if (typeof s == "object") {
+                    if (s.getAttribute("_src")) {
+                        s.setAttribute("src", s.getAttribute("_src"));
+                        s.removeAttribute("_src", 0);
+                    }
+                }
+            }
+            delete obj;
+            obj = null;
+        }
+
+        th._loadAllImgs = function () {
+            var i = 0;
+            while (th.imgs[i]) {
+                th._loadImages(th.imgs[i][0]);
+                i++;
+            }
+        }
+
+        th.getImgPosition = function () {
+            var i = 1;
+            var p = $N(th.imgName + i);
+            while (p && p.length > 0) {
+                var p = $N("page_cnt_" + i);
+                var t = th.getImgLoadPosition(p[0]);
+                th.imgs.push([p, p[0], t]);
+                i++;
+                p = $N(th.imgName + i);
+            }
+        }
+
+        th.getImgLoadPosition = function (a) {
+            var t = { imgTop: 0, pageTop: 0 };
+            if (a) {
+                var w = th.getWindowSize();
+                t.imgTop = parseInt(th.getObjPosition(a).y);
+                t.pageTop = parseInt((t.imgTop / 1000 - th.pageQuotiety) * 1000);
+            }
+            return t;
+        }
+
+        th._addScrollEven = function () {
+            if (B.ie) {
+                window.attachEvent("onscroll", th._scrollFn);
+            } else {
+                window.addEventListener("scroll", th._scrollFn, false);
+            }
+        }
+
+        th._removeScrollEven = function () {
+            if (B.ie) {
+                window.detachEvent("onscroll", th._scrollFn);
+            } else {
+                window.removeEventListener("scroll", th._scrollFn, false);
+            }
+        }
+
+        th._scrollFn = function () {
+            var y = th._getPageScroll();
+            var w = th.getWindowSize().height;
+            if (w == 0) {
+                th._loadAllImgs();
+                return;
+            }
+            var i = 0;
+            var j = 0;
+            while (th.imgs[i]) {
+                if (!(y + w < th.imgs[i][2].pageTop)) {
+                    th._loadImages(th.imgs[i][0]);
+                    j++
+                }
+                i++;
+                if (j >= th.imgs.length) {
+                    th._removeScrollEven();
+                }
+            }
+        }
+
+        th.getImgPosition();
+        th._addScrollEven();
+        th._scrollFn();
+
+    })()
+</script>
+

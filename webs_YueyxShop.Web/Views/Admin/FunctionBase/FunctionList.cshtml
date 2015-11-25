@@ -1,0 +1,88 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.FunctionBase>
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" layouth="112" rel="functionBox">
+    <colgroup width="30px" />
+    <colgroup width="100px" />
+    <colgroup width="100px" />
+    <colgroup width="200px" />
+    <colgroup width="50px" />
+    <colgroup width="100px" />
+    <colgroup width="100px" />
+    <colgroup width="100px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                功能编码
+            </th>
+            <th>
+                功能名称
+            </th>
+            <th>
+                描述
+            </th>
+            <th>
+                层级
+            </th>
+            <th>
+                助记码
+            </th>
+            <th>
+                排序
+            </th>
+            <th>
+                创建时间
+            </th>
+            <th>
+                状态
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        { <tr target="f_ID" rel="@item.f_ID|@item.f_MingCh|@item.f_CengJ" title=" 双击查看详细信息" ondblclick ="FunctionM_details('f_ID=@item.f_ID|@item.f_MingCh|@item.f_CengJ')">
+            <td>
+            </td>
+            <td>
+                @item.f_BianM
+            </td>
+            <td>
+                @item.f_MingCh
+            </td>
+            <td>
+                @item.f_MiaoSh
+            </td>
+            <td>
+                @item.f_CengJ
+            </td>
+            <td>
+                @item.f_ZhuJM
+            </td>
+            <td>
+                @item.f_PaiX
+            </td>
+            <td>
+                @item.f_CreatedOn.ToString("yyyy-MM-dd")
+            </td>
+            <td>
+                <span style="color: Red">@item.f_StatusCode.ToString().Replace("0", "启用").Replace("1", "禁用")</span>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="functionBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

@@ -1,0 +1,10 @@
+﻿@using webs_YueyxShop.Model
+
+@{
+    Layout = null;
+}
+
+@foreach (var b in Model)
+{ 
+    <a href="javascript:void(0)" values2="@b.b_ID" values1="br" attrval="@b.b_Name">@b.b_Name</a>
+}

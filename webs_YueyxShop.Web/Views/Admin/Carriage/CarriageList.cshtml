@@ -1,0 +1,101 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@using webs_YueyxShop.Model
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<input type="hidden" name="car_id" value="@ViewData["allid"]" />
+<table class="table" width="100%" layouth="138" rel="cBox" >
+    <colgroup width="30px" />
+    <colgroup width="200px" />
+    <colgroup width="50px" />
+    <colgroup width="50px" />
+    <colgroup width="50px" />
+    <colgroup width="50px" />
+    <colgroup width="50px" />
+    <colgroup width="50px" />
+    <colgroup width="80px" />
+    <colgroup width="80px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>序号
+            </th>
+            <th>
+                模板名称
+            </th>
+            <th>
+                运送方式
+            </th>
+            <th >
+                首
+            </th>
+            <th>
+                计量单位
+            </th>
+            <th>
+                运费
+            </th>
+            <th >
+                续
+            </th>
+            <th>
+                运费
+            </th>
+            <th>
+                运送地区
+            </th>
+            <th>
+                状态
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewData["PageList"]).AsEnumerable())
+        {
+            <tr target="car_id" rel="@item["ct_Id"]|@item["car_Id"]" ondblclick="OpenMenuBaseEdit('@item["ct_Id"]|@item["car_Id"]')">
+                <td> @item["car_ID"]
+                </td>
+                <td>
+                    @item["ct_Name"]
+                </td>
+                <td>
+                <span>@item["st_Name"]</span>
+                </td>
+                <td>
+                    @item["car_shouCount"]
+                </td>
+                <td>
+                    @item["car_measurementUnits"].ToString().Replace("1", "件").Replace("2", "千克").Replace("3", "立方米")
+                </td>
+                <td>
+                    @item["car_shouCarriage"]
+                </td>
+                <td>
+                    @item["car_xuCount"]
+                </td>
+                <td>
+                    @item["car_xuCarriage"]
+                </td>
+                <td >
+@*                    @item["car_area"]
+*@                
+                <a href="@Url.Action("CarriageEdit?otype=modify&dli_id=" + @item["ct_Id"] + "|" + @item["car_Id"])"  rel="w_CarriageEdit"
+                            target="dialog"   width="850" height="650" >查看地区</a>
+                </td>
+                <td>
+                    <span style="color: Red">@item["car_StatusCode"].ToString().Replace("0", "启用").Replace("1", "禁用")</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="cBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

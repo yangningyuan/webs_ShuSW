@@ -1,0 +1,95 @@
+
+/* CSS Document */
+
+/*事件处理流程样式*/
+.control_box
+{
+    width: 81%;
+    margin-left: 130px;
+    padding-top: 30px;
+}
+.control_box .control_box_header
+{
+    height: 30px;
+    line-height: 30px;
+    background-image: url(../images/grid_bj.jpg);
+    background-position: center;
+    background-repeat: repeat-x;
+    border: solid 1px #dcdcdc;
+    padding-left: 20px;
+    font-weight: bold;
+    color: #2b6ba7;
+    clear: both;
+    width: 80%;
+}
+.control_box .control_box_body
+{
+    margin: 10px auto;
+}
+.control_box .control_box_body .control_box_flow
+{
+    height: 47px;
+    text-align: left;
+    float: left;
+    margin-left: 20px;
+}
+.control_box .control_box_body .control_box_flow .flow_btn
+{
+    height: 47px;
+    background: url(../images/liucheng_bj.jpg) left 0;
+    text-align: center;
+    line-height: 47px;
+    float: left;
+    margin-right: 5px;
+}
+.control_box .control_box_body .control_box_flow .flow_btn span
+{
+    height: 47px;
+    background: url(../images/liucheng_bj.jpg) right;
+    text-align: center;
+    line-height: 47px;
+    float: left;
+    margin: 0 0 0 15px;
+    padding: 0 15px 0 0;
+}
+.control_box .control_box_body .control_box_flow .flow_arrowhead
+{
+    float: left;
+    height: 47px;
+    width: 30px;
+    background-image: url(../images/jiantou.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.return
+{
+    float: right;
+}
+.div_role_3
+{
+    width: 130px;
+    height: 25px;
+    padding-left: 5px;
+    float: left;
+}
+.div_role_2
+{
+    width: 80%;
+    padding-left: 5px;
+}
+.div_picture
+{
+    width: 100%;
+    text-align: center;
+    height: 100%;
+}
+.styleRowRight
+{
+    background-color: #f1f8fe;
+    width: 65px !important;
+    padding-left: 5px;
+}
+.styleRowLeft
+{
+    width: 100px !important;
+}

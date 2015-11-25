@@ -1,0 +1,72 @@
+﻿@using System.Collections.Generic
+@using System.Data
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), "ProductRecommendBox");
+        });
+
+        //添加
+        function Products_add() {
+//            var prt_ID = $("#prt_ID").val();
+//            $.pdialog.open("/ProductRecommend/SelectProductsMsg?prt_ID=" + prt_ID, "w_RoomTypeedit", "添加商品", { width: 850, height: 815 });
+        }
+</script>
+</head>
+<body>
+<form id="pagerForm" method="post"  action="@Url.Action("ProductRecommendList", "ProductRecommend")" onsubmit="return divSearch(this,'ProductRecommendBox');">
+    <input type="hidden" id="prt_ID" name="prt_ID" value="@ViewData["prt_ID"]" />
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent" style="width: 100%;">
+                <colgroup>
+                    <col style="width: 40px;" />
+                    <col />
+                </colgroup>
+                <tr>
+                    <td>
+                        推荐类型:@ViewData["prt_Name"]
+                    </td>
+                    <td>
+                        <label id="div_daohang">
+                        </label>
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div> 
+        <!--列表-->
+        <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li><a class="add" href="@Url.Action("SelectProductsMsg?prt_ID={prt_ID}", "ProductRecommend")"  target="dialog" width="850" height="600"  rel="w_ProductRecommendAdd" ><span>添加</span></a></li>
+                    <li class="line">line</li>
+                    @*<li><a class="add" href="javascript:void()" onclick="return Products_add();"> <span>添加</span></a></li>
+                    <li class="line">line</li>*@
+                    <li><a class="delete" href="@Url.Action("ProductRecommendChange?otype=delete&prd_ID={prd_ID}", "ProductRecommend")" rel="w_ProductRecommendChange"
+                    target="ajaxTodo" title='确定删除？' warn="请选择信息！！！"><span>删除</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("ProductRecommendChange?otype=clear&prt_ID={prt_ID}", "ProductRecommend")" rel="w_ProductRecommendChange"
+                    target="ajaxTodo" title='确定清空？' warn="请选择信息！！！" ><span>清空</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("ProductRecommendChange?otype=enable&prd_ID={prd_ID}", "ProductRecommend")" rel="w_ProductRecommendChange"
+                    target="ajaxTodo" warn="请选择信息！！！" ><span>启用</span></a></li>
+                    <li><a class="edit" href="@Url.Action("ProductRecommendChange?otype=disable&prd_ID={prd_ID}", "ProductRecommend")" rel="w_ProductRecommendChange"
+                    target="ajaxTodo" warn="请选择信息！！！" ><span>禁用</span></a></li>
+                }
+            </ul>
+        </div>
+        <div id="ProductRecommendBox">
+
+        </div>
+    </div>
+</form>
+
+</body>
+</html>

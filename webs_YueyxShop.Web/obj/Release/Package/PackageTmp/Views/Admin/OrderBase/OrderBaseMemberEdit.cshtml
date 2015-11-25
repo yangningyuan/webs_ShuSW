@@ -1,0 +1,62 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+</head>
+<body>
+       <form id="form1" runat="server" method="post" action="@Url.Action("OrderBaseMemberEdit", "OrderBase")"  enctype="multipart/form-data"
+       class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+    @Html.Hidden("texOtype", @ViewData["texOtype"])
+    @Html.Hidden("hfPId", @ViewData["hfPId"])
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="52">
+            <div class="unit" >
+                <label>
+                    用户名：</label>
+                    @Html.TextBox("txtm_UserName", @ViewData["m_UserName"], new { @readonly = "readyonly" })
+                <label>
+                    昵称：</label>
+                    @Html.TextBox("txtm_NickName", @ViewData["m_NickName"], new { @readonly = "readyonly" })
+            </div>
+            <div class="unit" >
+                <label>
+                    真实姓名：</label>
+                    @Html.TextBox("txtm_RealName", @ViewData["m_RealName"], new { @readonly = "readyonly" })
+                <label>
+                    手机：</label>
+                    @Html.TextBox("txtm_Phone", @ViewData["m_Phone"], new { @readonly = "readyonly" })
+            </div>
+            <div class="unit" >
+                <label>
+                    Email：</label>
+                    @Html.TextBox("txtm_Email", @ViewData["m_Email"], new { @readonly = "readyonly" })
+                <label>
+                    QQ：</label>
+                    @Html.TextBox("txtm_QQ", @ViewData["m_QQ"], new { @readonly = "readyonly" })
+            </div>
+            
+            <div class="unit" >
+                <label>
+                    注册日期：</label>
+                    @Html.TextBox("txtm_CreatedOn", @ViewData["m_CreatedOn"], new { @readonly = "readyonly" })
+                <label>
+                    账户状态：</label>
+                    @Html.TextBox("txtm_StatusCode", @ViewData["m_StatusCode"].ToString().Replace("0", "待审核").Replace("1", "正常").Replace("2", "禁用"), new { @readonly = "readyonly" })
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                关闭</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,62 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.PaymentBase>
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" layouth="138" rel="PaymentBox">
+    <colgroup width="30px" />
+    <colgroup width="50px" />
+    <colgroup width="150px" />
+    <colgroup width="200px" />
+    <colgroup width="150px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                ID
+            </th>
+            <th>
+                名称
+            </th>
+            <th>
+                链接地址
+            </th>
+            <th>
+                手机支付方式
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr target="pay_ID" rel="@item.pay_ID" ondblclick="OpenMenuBaseEdit('@item.pay_ID')">
+                <td>
+                </td>
+                <td>
+                    @item.pay_ID 
+                </td>
+                <td>
+                    @item.pay_Name 
+                </td>
+                <td>
+                    @item.pay_Url 
+                </td>
+                <td>
+                    @item.pay_isPhone.ToString().Replace("True","是").Replace("False","否")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="PaymentBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

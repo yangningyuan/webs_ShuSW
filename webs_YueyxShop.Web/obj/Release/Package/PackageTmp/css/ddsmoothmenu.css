@@ -1,0 +1,30 @@
+@charset "utf-8";
+.nav{width:100%; font-family:"Microsoft Yahei",Helvetica,Arial,sans-serif; font-size:16px;}
+.nav ul{z-index:100;margin:0 0 0 20px;padding:0;list-style-type:none;}
+.nav ul li{position:relative;display:inline;float:left; margin:0; padding:0;}
+.nav ul li a{display:block;color:#ADA274;padding:5px 0px 5px 5px;text-decoration:none; margin-right:25px;}
+*html .nav ul li a{display:inline-block; text-transform:uppercase;}
+.nav ul li a:link, .nav ul li a:visited{color:#ADA274;}
+.nav ul li a.selected{color:#66461b;}
+.nav ul li a:hover{color:#66461b;}
+.nav ul li ul{position:absolute;left:0px;display:none;visibility:hidden; margin-left:0;}
+.nav ul li ul li{display:list-item;float:none;}
+.nav ul li ul li ul{top:0; margin-left:0;}
+.nav ul li ul li a{font:normal 13px Verdana;width:160px;padding:5px;margin:0; background:rgba(85, 17, 18, 0.8) none repeat scroll 0 0 !important;/*背景透明文字不透明*/
+	filter:Alpha(opacity=80); 
+	background:#551112;/*兼容IE*/
+	color:#fff;  }
+.nav ul li ul li a.selected{color:#fff;background:rgba(167, 8, 10, 0.8) none repeat scroll 0 0 !important;/*背景透明文字不透明*/
+	filter:Alpha(opacity=80); 
+	background:#a7080a;/*兼容IE*/}
+.nav ul li ul li a:hover{
+	background:rgba(167, 8, 10, 0.8) none repeat scroll 0 0 !important;/*背景透明文字不透明*/
+	filter:Alpha(opacity=80); 
+	background:#a7080a;/*兼容IE*/
+	}
+.nav ul li ul li a:link, .nav ul li ul li a:visited{color:#fff;}	
+*html .nav{height:1%;}
+.downarrowclass{position:absolute;top:16px;right:7px;}
+.rightarrowclass{position:absolute;top:8px;right:5px;}
+.ddshadow{position:absolute;left:0;top:0;width:0;height:0;background:silver;}
+.toplevelshadow{opacity:0.8;}

@@ -1,0 +1,98 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.Adert>
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" layouth="138" rel="AdertBox">
+    <colgroup width="30px" />
+    <colgroup width="100px"/>
+    <colgroup width="150px" />
+    <colgroup width="100px" />
+    <colgroup width="120px" />
+    <colgroup width="80px" />
+    <colgroup width="140px" />
+    <colgroup width="80px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                广告标题
+            </th>
+            <th>
+                广告位置
+            </th>
+            <th>
+                广告图片
+            </th>
+            
+            <th>
+                广告链接
+            </th>
+            <th>
+                排序
+            </th>
+            <th>
+                添加时间
+            </th>
+            <th>
+                状态
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr target="a_ID" rel="@item.a_ID" >
+                <td>
+                        <span>@item.a_ID</span>
+                </td>
+                <td>
+                         @if (item.a_Title.ToString().Length < 18) 
+                    {
+                        <span>@item.a_Title</span>
+                    }else{
+                        <span>@item.a_Title.ToString().Substring(0,18).ToString()</span><span>......</span>
+                    }
+                </td>
+                <td>
+                    <span>@item.a_spare1</span>
+                </td>
+                <td>
+                        <img  src="../..@item.a_Image" style="width:100px;height:50px"/>
+                </td>
+                
+                <td>
+                        <span>@item.a_Link</span>
+                </td>
+                <td>
+                        <span>@item.a_Sorting</span>
+                </td>
+                <td>
+                        <span>@item.a_CreateDate</span>
+                </td>
+                <td>
+                        @if (item.a_Status == 0)
+                        {
+                            <span style="color:green;">启用</span>
+                        }
+                        else { 
+                            <span style="color:red;">禁用</span>
+                        }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="AdertBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

@@ -1,0 +1,77 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@using webs_YueyxShop.Model
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" layouth="138" rel="ppBox">
+    <colgroup width="20px" />
+    <colgroup width="50px" />
+    <colgroup width="150px" />
+    <colgroup width="30px" />
+    <colgroup width="60px" />
+    <colgroup width="60px" />
+    <colgroup width="20px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                所属类别
+            </th>
+            <th>
+                名称
+            </th>
+            <th>
+                计量单位
+            </th>
+            <th>
+                编码
+            </th>
+            <th>
+                状态
+            </th>
+            <th>
+            
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.ProductsList)
+        {
+            <tr target="dli_id" rel="@item.p_ID|@item.p_Name" >
+                <td>
+                </td>
+                <td>
+                    @item.pt_Name
+                </td>
+                <td>
+                    @item.p_Name
+                </td>
+                <td>
+                    @item.p_MeasurementUnit
+                </td>
+                <td style="height:auto">
+                    @item.sku_Code
+                </td>
+                <td>
+                    <span style="color: Red">@item.p_StatusCode.ToString().Replace("0", "启用").Replace("1", "禁用")</span>
+                </td>
+               <td>
+               <a class="btnSelect" style=" color:Green" title="查找带回" href="javascript:$.bringBack({id:'@item.sku_ID',orgName:'@item.p_Name'})" >
+                        选择</a>
+               </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="ppbox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

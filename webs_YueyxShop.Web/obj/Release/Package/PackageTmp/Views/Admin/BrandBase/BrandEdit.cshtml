@@ -1,0 +1,180 @@
+﻿@model webs_YueyxShop.Model.BrandBase
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        $(function () {
+                $("#ptname").val('@ViewData["ptname"]');
+            //加载图片
+            if ('@ViewData["LogoUrl"]' != "") {
+                var urls = "<img src='../../" + '@ViewData["LogoUrl"]' + "' style=\"width:auto;height:auto;\" />";
+                $("#fileQueue", navTab.getCurrentPanel()).html(urls);
+            }
+        })
+        $("#bigtype>select").change(function () {
+            var valueid = $("#bigtype>select").val();
+            $.get("/ProductAttributes/GetBattr?code=" + valueid, function (data) {
+                if (data != "refresh") {
+                    var string = eval('(' + data + ')');
+                    var zu = new Array;
+                    zu = string.toString().split(",");
+                    var html = "<select  class=\"valid\" name=\"selectType2\" id=\"selectType2\" onChange=\"getselectType2()\">"
+                    for (var i = 0; i < zu.length; i++) {
+                        if (zu[i] == valueid) {
+                            html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                        }
+                        else {
+                            html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                        }
+                        i += 1;
+                    }
+                    html += "</select>";
+
+                    $("#midtype").empty().html(html);
+                }
+                else {
+                    $("#midtype").empty().html("<select  class=\"valid\" name=\"selectType2\" id=\"selectType2\" onChange=\"getselectType2()\"><option value=\"0\" selected=\"selected\">请选择</option></select>");
+
+                    $("#smatype").empty().html("<select  class=\"valid\" name=\"selectType3\" id=\"selectType3\" ><option value=\"0\" selected=\"selected\">请选择</option></select>")
+                }
+            });
+        });
+        function getselectType2() {
+            var valueid = $("#midtype>select").val();
+            $.get("/ProductAttributes/GetMattr?code=" + valueid, function (data) {
+                var string = eval('(' + data + ')');
+                var zu = new Array;
+                zu = string.toString().split(",");
+                var html = "<select  class=\"combox\" name=\"selectType3\" id=\"selectType3\" >"
+                for (var i = 0; i < zu.length; i++) {
+                    if (zu[i] == valueid) {
+                        html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                    }
+                    else {
+                        html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                    }
+                    i += 1;
+                }
+                html += "</select>";
+                $("#smatype").empty().html(html)
+            });
+        };
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("Save", "BrandBase")"
+              class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone)">
+    @Html.HiddenFor(model => model.b_ID)
+    @Html.Hidden("hfbid", @ViewData["hfbid"])
+    @Html.Hidden("texOtype", @ViewData["texOtype"])
+    @Html.Hidden("ptidlist", @ViewData["ptidlist"])
+    @Html.Hidden("bt_ID", @ViewData["b_ID"])
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="52">
+            <div class="unit">
+                <label>
+                    所属类别：</label>
+                   @Html.TextArea("ptname",  new { @style = "width:300px;height:40px"}) 
+                <a  class="btnLook" href="@Url.Action("BrandTypeMsg?otype={texOtype}&b_ID={bt_ID}", "BrandBase")" target="navTab"  width="550" height="450" rel="w_BrandTypeMsg">选择品牌所属类别</a>
+            </div>
+            <div class="unit">
+                <label>
+                    品牌名称：</label>
+                @Html.TextBoxFor(model => model.b_Name, new { @class = "required", @style = "width:300px;" })
+            </div>
+            @*<div class="unit">
+                <label>
+                    查询关键字：</label>
+                @Html.TextBoxFor(model => model.b_Key, new { @class = "required", @style = "width:300px;" })
+            </div>*@
+            <div class="unit">
+                <label>
+                    品牌Logo：</label>
+                @Html.Hidden("FileInputEId", @ViewData["LogoUrl"], new { @id = "FileInputEId" })
+                <span class="info">
+                    <div id="fileQueue" style="float: left; width: auto;">
+                    </div>
+                    <div style="clear: both;">
+                    </div>
+                    <input id="testFileInput" type="file" name="LogoInp" 
+		uploaderOption="{
+			swf:'../../uploadify/scripts/uploadify.swf',
+			uploader:'../../uploadify/scripts/uploadify.ashx',
+			formData:{controlName:'LogoInp', folder:'@ViewData["hf_luj"]'},
+			fileSizeLimit:'200KB',
+			fileTypeDesc:'*.jpg;*.jpeg;*.gif;*.png;',
+			fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;',
+			auto:true,
+            queueID:'fileQueue',
+            valueID:'FileInputEId',
+            modelType:'navtab'
+		}"
+	/>
+                    <span style="color: Red;">注：上传图片小于200K！建议尺寸90px*28px</span> </span>
+            </div>
+            <div class="unit">
+                <label>
+                    显示顺序：</label>
+                @Html.TextBoxFor(model => model.b_Sort, new { @class = "digits" })
+            </div>
+            <div class="unit">
+                <label>
+                    品牌链接地址：</label>
+                @Html.TextBoxFor(model => model.b_SiteUrl, new {  @style = "width:300px;" })
+            </div>
+@*            <div class="unit">
+                <label>
+                    品牌推荐图片：</label>
+                @Html.Hidden("FileInputEId", @ViewData["LogoUrl"], new { @id = "FileInputEId" })
+                <span class="info">
+                    <div id="fileQueue" style="float: left; width: auto;">
+                    </div>
+                    <div style="clear: both;">
+                    </div>
+                    <input id="testFileInput" type="file" name="LogoInp" 
+		uploaderOption="{
+			swf:'../../uploadify/scripts/uploadify.swf',
+			uploader:'../../uploadify/scripts/uploadify.ashx',
+			formData:{controlName:'LogoInp', folder:'@ViewData["hf_luj"]'},
+			fileSizeLimit:'200KB',
+			fileTypeDesc:'*.jpg;*.jpeg;*.gif;*.png;',
+			fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;',
+			auto:true,
+            queueID:'fileQueue',
+            valueID:'FileInputEId',
+            modelType:'navtab'
+		}"
+	/>
+                    <span style="color: Red;">注：上传图片小于200K！</span> </span>
+            </div>
+*@        </div>
+        <div class="formBar">
+            <ul>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li id="save">
+                        <div class="buttonActive" id="submit" runat="server">
+                            <div class="buttonContent">
+                                <button type="submit">
+                                    保存
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,55 @@
+﻿@model webs_YueyxShop.Model.CarriageTempleteBase
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+    </script>
+</head>
+<body>
+       <form id="form1" runat="server" method="post" action="@Url.Action("CarriageTempleteEdit", "Carriage")"  enctype="multipart/form-data"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+    @Html.HiddenFor(model => model.ct_ID)
+    @Html.HiddenFor(model => model.ct_CreateOn)
+    @Html.Hidden("texOtype", @ViewData["texOtype"])
+    @Html.Hidden("hfPId", @ViewData["hfPId"])
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="52">
+            <div class="unit" >
+                <label>
+                    名称：</label>
+                @Html.TextBoxFor(model => model.ct_Name, new { @class = "required" })
+            </div>
+            
+            <div class="unit" >
+                <label>
+                    计价方式：</label>
+                    @Html.DropDownList("select1") 
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li id="save">
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" >
+                                    保存</button></div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+
+</body>
+</html>

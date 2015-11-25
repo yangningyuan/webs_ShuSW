@@ -1,0 +1,120 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.RegionBase>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <link href="../../Content/RegionBase.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //省旁边小箭头点击显示城市小框
+            $(".trigger").each(function () {
+                $(this).click(function () {
+                    $(this).parent().next().toggle();
+                    $(".trigger").not($(this)).prev().removeClass("bcolor");
+                    $(".trigger").not($(this)).parent().next().attr("style", "display:none");
+                    if ($(this).parent().next().attr("style", "display:block")) {
+                        $(this).prev().addClass("bcolor");
+                        //                        $(this).parent().addClass("pon");
+                    }
+                    else {
+                        $(this).prev().removeClass("bcolor");
+                        //                        $(this).parent().removeClass("pon");
+                    }
+                });
+            });
+            //城市小框关闭按钮
+            $(".close_button").each(function () {
+                $(this).click(function () {
+                    $(this).parent().parent().attr("style", "display:none");
+                    $(this).parent().parent().prev().children("label").removeClass("bcolor");
+                });
+            });
+        });
+
+        function go() {
+            var str = "";
+            $(".pname").each(function () {
+                var pname = $(this).val();
+                $("input[name='" + pname + "']:checkbox").each(function () {
+                    if ($(this).attr("checked")) {
+                        str += $(this).val() + ","
+                    }
+                })
+                $("#reg_list").val(str);
+            });
+        }
+        function getcheck() {
+            go();
+        }
+        function checkall() {
+            go();
+        }
+        $("#returnlist").click(function () {
+            if ($("#reg_list").val() != "") {
+                $.pdialog.closeCurrent();
+            }
+        });
+    </script>
+</head>
+<body >
+    <form id="form1" runat="server" method="post" action="@Url.Action("RegionBase", "Carriage")"  enctype="multipart/form-data"
+        class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);" >
+        <input type="hidden" id="reg_list" name="reg_list"/>
+        <input type="hidden" id="cartype" name="cartype" value="@ViewData["texOtype"]"/>
+        <input type="hidden" id="ctid" name="ctid" value="@ViewData["ctid"]"/>
+        <div class="pageContent" >
+            <div class="pageFormContent" layouth="70">
+            @foreach (webs_YueyxShop.Model.RegionBase item in Model.Where(c => c.reg_PId == 0))
+            {
+                <div class="allProvince">
+                    <div class="Province">
+                        <label >
+                            <input type="checkbox" value="@item.reg_ID"  class="checkboxCtrl" group="@item.reg_Name" onchange="checkall()"/>
+                            <input type="hidden" value="@item.reg_Name" class="pname"/>
+                            <span>@item.reg_Name</span>
+                            <span class="citycount"></span>
+                        </label>
+                        <img class="trigger" src="../../images/down.gif">
+                    </div>
+                    <div class="city">
+                    @foreach (webs_YueyxShop.Model.RegionBase item2 in Model.Where(c => c.reg_PId == item.reg_Code))
+                    {<label>
+                            <input type="checkbox" value="@item2.reg_ID" name="@item.reg_Name"  onchange="getcheck()"/>
+                            <span>@item2.reg_Name</span>
+                        </label>
+                    }   
+                        <p >
+                            <input value="关闭" class="close_button" type="button"/>
+                        </p>
+                    </div>
+                </div>
+            }
+            </div>
+            <div class="formBar">
+                <ul>
+                    @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                    { 
+                        <li id="save">
+                            <div class="buttonActive">
+                                <div class="buttonContent">
+                                    <a  href="@Url.Action("CarriageEdit?list={reg_list}&otype={cartype}&dli_id={ctid}", "Carriage")" rel="w_CarriageEdit"
+                            target="dialog" id="returnlist">
+                                        确定</a></div>
+                            </div>
+                        </li>
+                   }
+                    <li>
+                        <div class="button">
+                            <div class="buttonContent">
+                                <button type="button" class="close">
+                                    取消</button></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

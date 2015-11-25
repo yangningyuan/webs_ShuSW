@@ -1,0 +1,103 @@
+﻿@model webs_YueyxShop.Model.ProductAttributesBase
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        $("#selectattrType").change(function () {
+            var valueid = $("#selectattrType").val();
+            $.get("/Products/Getattr?code=" + valueid, function (data) {
+                var string = eval('(' + data + ')');
+                var zu = new Array;
+                zu = string.toString().split(",");
+                var html = "<select  class=\"valid\" name=\"attribute\" id=\"attribute\" onChange=\"changedd2()\">"
+                for (var i = 0; i < zu.length; i++) {
+                    if (zu[i] == valueid) {
+                        html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                    }
+                    else {
+                        html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                    }
+                    i += 1;
+                }
+                html += "</select>";
+
+                $("#dd").empty().html(html);
+            });
+        });
+           function changedd2() {
+                var valueid = $("#attribute").val();
+                $.get("/Products/Getattrvalue?code=" + valueid, function (data) {
+                    var string = eval('(' + data + ')');
+                    var zu = new Array;
+                    zu = string.toString().split(",");
+                    var html = "<select  class=\"combox\" name=\"attrValue\" id=\"selectattrType\" >"
+                    for (var i = 0; i < zu.length; i++) {
+                        if (zu[i] == valueid) {
+                            html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                        }
+                        else {
+                            html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                        }
+                        i += 1;
+                    }
+                    html += "</select>";
+                    $("#dd2").empty().html(html)
+                });
+            };
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("ProductAttrEdit", "Products")" enctype="multipart/form-data"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+    @Html.Hidden("texOtype", @ViewData["texOtype"])
+    @Html.Hidden("hfPId", @ViewData["hfPId"])
+    <input type="hidden" id="paid" value="@ViewData["paid"]" />
+    <input type="hidden" id="parentpaid" value="@ViewData["parentpaid"]" />
+    <input type="hidden" id="attrpaid" value="@ViewData["attrpaid"]" /> 
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="50">
+            <dl>
+                <dt>属性类别:</dt>
+                <dd id="dd1">
+                @Html.DropDownList("selectattrType")
+                </dd>
+            </dl>
+            <dl>
+                <dt>属性:</dt>
+                <dd id="dd">
+                @Html.DropDownList("attribute")
+               </dd>
+            </dl>
+            <dl>
+                <dt>属性值:</dt>
+                <dd id="dd2">
+                @Html.DropDownList("attrValue")
+               </dd>
+            </dl>
+        </div>
+        <div class="formBar">
+            <ul>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" id="save">
+                                    保存</button></div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

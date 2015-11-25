@@ -1,0 +1,68 @@
+﻿@using System.Collections.Generic
+@using System.Data
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), "OrderBaseProductBox");
+        });
+
+</script>
+</head>
+<body>
+<form id="pagerForm" method="post"  action="@Url.Action("OrderBaseProductList", "OrderBase")" onsubmit="return divSearch(this,'OrderBaseProductBox');">
+    <input type="hidden" id="o_ID" name="o_ID" value="@ViewData["o_ID"]" />
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent" style="width: 100%;">
+                <colgroup>
+                    <col style="width: 40px;" />
+                    <col />
+                </colgroup>
+                <tr>
+                    <td>
+                        订单编号：@ViewData["o_Code"]
+                    </td>
+                    <td>
+                        <label id="div_daohang">
+                        </label>
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div> 
+        <!--列表-->
+        <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    @*<li><a class="add" href="@Url.Action("OrderBaseProductBaseProductMsg?o_ID={o_ID}", "OrderBaseProductBase")"
+                    target="navTab" rel="w_OrderBaseProductBaseEdit">
+                        <span>商品信息</span></a></li>
+                    <li><a class="add" href="@Url.Action("OrderBaseProductBaseEdit?otype=detail&o_ID={o_ID}", "OrderBaseProductBase")"
+                    target="navTab" rel="w_OrderBaseProductBaseEdit">
+                        <span>会员信息</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="delete" href="@Url.Action("OrderBaseProductBaseDelete?o_ID={o_ID}", "OrderBaseProductBase")" rel="w_OrderBaseProductBaseDelete"
+                    target="ajaxTodo" title='确定取消？' warn="请选择信息！！！"><span>取消</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("OrderBaseProductBaseStatus?otype=send&o_ID={o_ID}", "OrderBaseProductBase")" rel="w_OrderBaseProductBaseStatus"
+                        target="ajaxTodo" title='确定发货？' warn="请选择信息！！！" ><span>发货</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("OrderBaseProductBaseStatus?otype=complete&o_ID={o_ID}", "OrderBaseProductBase")" rel="w_OrderBaseProductBaseStatus"
+                        target="ajaxTodo" title='确定完成？' warn="请选择信息！！！" ><span>完成</span></a></li>*@
+                }
+            </ul>
+        </div>
+        <div id="OrderBaseProductBox">
+
+        </div>
+    </div>
+</form>
+
+</body>
+</html>

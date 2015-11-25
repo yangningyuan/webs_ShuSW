@@ -1,0 +1,979 @@
+﻿@{
+    ViewBag.Title = "月月兴食品商行-商品列表页";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+
+@model Models.ListModel
+<link type="text/css" href="/css/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+<link type="text/css" href="/css/kaych.commons.css" rel="stylesheet"/><!--页面公用css文件  警告：此文件内所有CSS均影响网站全局属性，请慎重修改！！！-->
+<link type="text/css" href="/css/kaych.framework.css" rel="stylesheet"/><!--页面大框架css文件-->
+<link rel="stylesheet" type="text/css" href="/css/kaych.prolist.css"><!--产品相关页面CSS-->
+<!--[if IE 6]>
+<script type="text/javascript" src="js/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script src="js/html5.js"></script>
+<![endif]-->
+<script src="/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/js/jquery.flexslider-min.js"></script><!--banner轮播图JS-->
+<script type="text/javascript" src="/js/jquery.SuperSlide.2.1.1.js"></script><!--页面小广告bannerJS库-->
+<script src="/js/script.js" type="text/javascript"></script><!--全部商品导航JS-->
+<script type='text/javascript' src="/js/jquery.lazyload.min.js"></script><!--图片延迟加载JS-->
+<script type="text/javascript" src="/js/ddsmoothmenu.js"></script><!--下拉导航JS-->
+<script type="text/javascript" src="/js/payfor.js"></script><!--商品数量增加减少 算总价JS-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        var search = location.search;
+        Array = search.split('&');
+        for (var i = 0; i < Array.length; i++) {
+            if (Array[i].indexOf("ptype") >= 0) {
+                var ptype = Array[i].substring(Array[i].indexOf('=') + 1, Array[i].length);
+                $.ajax({
+                    type: 'post',
+                    url: "/ProList/GetTypeName?type=" + ptype,
+                    success: function (data) {
+                        $("#leititle").append(data);
+                    }
+                })
+            }
+        }
+    });
+
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+
+    $(document).ready(function () {
+
+        var page = $('#curpage').val();
+        frPage(page);
+
+        $(".insert").each(function () {
+            $(this).click(function () {
+                var type = $(this).children().next().attr("value");
+                var skuid = $(this).attr("value");
+                $this = $(this);
+                $.ajax({
+                    type: 'post',
+                    url: "/ProDetail/InsertintoCollect?skuid=" + skuid + "&type=" + type,
+                    success: function (data) {
+                        if (data == "操作成功") {
+                            $("#img").removeClass("no-icon").addClass("no2-icon");
+                            $("#tishiyu").text("已成功收藏该商品");
+                            $("#yes").text("查看我的收藏");
+                            $("#yes").attr("href", "/Vipscore/vipCollect?centerindex=2");
+
+                            $("#chart-modal2").attr("style", "display:block");
+                        }
+                        else if (data == "已收藏") {
+                            $("#img").removeClass("no2-icon").addClass("no-icon");
+                            $("#tishiyu").text("您已收藏过该商品");
+                            $("#yes").text("查看我的收藏");
+                            $("#yes").attr("href", "/Vipscore/vipCollect?centerindex=2");
+
+                            $("#chart-modal2").attr("style", "display:block");
+                        }
+                        else if (data == "未登陆") {
+                            $("#img").removeClass("no2-icon").addClass("no-icon");
+                            $("#chart-modal2").attr("style", "display:block");
+                        }
+
+                    }
+                });
+            });
+        });
+    });
+
+    var a = 0;
+    var Request = new Object();
+
+
+    Request = GetRequest();
+    var type = Request["tui"] == 'undefined' ? "" : Request["tui"];
+    var type = Request["type"] == 'undefined' ? "" : Request["type"];
+    var ptype = Request["ptype"] == 'undefined' ? "" : Request["ptype"];
+    var brand = Request["brand"] == 'undefined' ? "" : Request["brand"];
+    var price = Request["price"] == 'undefined' ? "" : Request["price"];
+    var sort = Request["sort"] == 'undefined' ? "" : Request["sort"];
+
+
+    tui = tui == 'undefined' ? "" : tui;
+    type = type == 'undefined' ? "" : type;
+    ptype = ptype == 'undefined' ? "" : ptype;
+    brand = brand == 'undefined' ? "" : brand;
+    price = price == 'undefined' ? "" : price;
+    sort = sort == 'undefined' ? "" : sort;
+
+    function basisType(ptype) {
+        ptype = ptype;
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        window.location.href = '/ProList/ProList' + par;
+        $("#leititle").append("iwhofe");
+    }
+    function basisPrice(tprice) {
+        price = tprice;
+
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        window.location.href = '/ProList/ProList' + par;
+    }
+    function basisBrand(tbrand) {
+        brand = tbrand;
+
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        window.location.href = '/ProList/ProList' + par;
+    }
+    function basisSort(sortby) {
+        sortby = sortby;
+
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        if (sort != '' && sort != 'undefined') {
+            par += '&sort=' + sortby;
+        }
+        window.location.href = '/ProList/ProList' + par;
+    }
+
+    function clearterm() {
+        window.location.href = '/ProList/ProList?type=' + type;
+    }
+
+    function jump() {
+
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        window.location.href = '/ProList/ProList' + par;
+    }
+
+    function pagejump(page) {
+
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        if (page != '' && page != '' && page > 0) {
+            par += '&page=' + page;
+        }
+        window.location.href = '/ProList/ProList' + par;
+    }
+
+
+    function nextpage() {
+        var page = $("#curpage").val();
+        var pagecount = $("#pagecount").val();
+        if (pagecount - page > 0) {
+            pagejump(page*1+1);
+        }
+    }
+    function prepage() {
+        var page = $("#curpage").val();
+        var pagecount = $("#pagecount").val();
+        if (pagecount - 1 > 0) {
+            pagejump(page * 1 - 1);
+        }
+    }
+    function cancelchecktype() {
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' ;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        window.location.href = '/ProList/ProList' + par;
+    }
+    function cancelcheckbrand() {
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' ;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        window.location.href = '/ProList/ProList' + par;
+    }
+    function cancelcheckpric() {
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype='+ ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' ;
+        }
+        window.location.href = '/ProList/ProList' + par;
+    }
+
+    //加入购物车
+    function insertintoCart(skuid) {
+        var count = $("#qty_item_1").val();
+        $.ajax({
+            type: "post",
+            url: "/ProDetail/insertintoCart?skuid=" + skuid + "&count=" + count,
+            success: function (data) {
+                if (data != "nologon" && data != "fail") {
+                    $("#kuang").html(data);
+                    $("#chart-modal").attr("style", "display:block");
+                }
+                else if (data == "nologon") {
+                    window.location.href = "/Logon/Logon";
+                }
+                else {
+                }
+            }
+        });
+
+    }
+    function closeit() {
+        $("#chart-modal").attr("style", "display:none");
+        location.reload();
+    };
+    function closethis() {
+        $("#chart-modal2").attr("style", "display:none");
+    };
+
+
+</script>
+
+<input type="hidden" value="@ViewData["count"]" id="count" />
+<input type="hidden" value="@ViewData["page"]" id="curpage" />
+<input type="hidden" value="@ViewData["pagerows"]" id="pagerows" />
+<input type="hidden" value="@ViewData["pagecount"]" id="pagecount" />
+<div class="clearh"></div>
+<div class="wrap">
+	<div class="side-bar alignleft">
+    	<div class="side-div borders">
+        	<div class="side-tip"><h2>热卖推荐</h2></div>
+            <ul class="side-ul1">
+            	@Html.Action("Partialremaituijian", "ProList")
+            </ul>
+        </div><!--side-div end-->
+        <div class="clearh"></div>
+        <div class="side-div borders">
+        	<div class="side-tip"><h2>看过此页面用户最终购买</h2></div>
+            <ul class="side-ul1">
+            @Html.Action("Zuizhonggoumai", "ProList")
+            </ul>
+        </div><!--side-div end-->
+        <div class="clearh"></div>
+
+
+        @*<div class="side-div borders">
+        	<div class="side-tip"><h2>一周销量排行榜</h2></div>
+            <div class="sales-list">
+            	<ul>
+                	<li>
+                		<div class="math-list">1</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li>
+                    <li>
+                		<div class="math-list">2</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li>
+                    <li>
+                		<div class="math-list">3</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li>
+                    <li>
+                		<div class="math-list">4</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li>
+                    <li>
+                		<div class="math-list">5</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li>
+                    <li>
+                		<div class="math-list">6</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li><li>
+                		<div class="math-list">7</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li><li>
+                		<div class="math-list">8</div>
+                		<div class="dis_pi">
+                    		<a href="#" target="_blank"><img name="page_cnt_1" _src="images/products/pro_ad_04.jpg" alt="产品图片" /></a> 
+                        	<dl>
+                        		<dt><a href="#" target="_blank">朴博士有机天然优黑米750g</a></dt>
+                            	<dd>￥35.90 </dd>
+                        	</dl> 
+                   	 	</div>
+		            	<p><a href="#" target="_blank">朴博士有机天然优黑米750g</a></p>
+                    </li>
+                </ul>
+            </div><!--sales-list end-->
+        </div><!--side-div end-->*@
+
+
+        @foreach (var i in ViewBag.GuangGao)
+        { 
+            <div class="side-ad"><a href="#"><img style="width:220xp;height:310px;" name="page_cnt_1" _src="@i.a_Image" alt="产品广告图片链接11" /></a></div>
+        }
+@*        <div class="side-ad"><a href="#"><img name="page_cnt_1" _src="images/products/ad_01.jpg" alt="产品广告图片链接" /></a></div>
+        <div class="side-ad"><a href="#"><img name="page_cnt_1" _src="images/products/ad_01.jpg" alt="产品广告图片链接" /></a></div>
+*@    </div><!--side-bar end-->
+    <div class="side-cont alignright">
+    	<div class="pro-breadcrumb" id="leititle">
+        	<a href="/Index/Index" target="_blank">全部商品</a> 
+        </div><!--breadcrumb end-->
+        <div class="collections">
+        <div class="chose-results">
+            <dl>
+                <dt>您已选择：</dt>
+                <dd class="clearDd">
+                    <div>
+                        @{
+                            string price, brand, ptype;
+                            ptype = Context.Request.QueryString["ptype"] == null || Context.Request.QueryString["ptype"] == "undefined" ? "" : Context.Request.QueryString["ptype"].ToString();
+                            brand = Context.Request.QueryString["brand"] == null || Context.Request.QueryString["brand"] == "undefined" ? "" : Context.Request.QueryString["brand"].ToString();
+                            price = Context.Request.QueryString["price"] == null || Context.Request.QueryString["price"] == "undefined" ? "" : Context.Request.QueryString["price"].ToString();
+@*                            if (ptype != "")
+                            {
+                                var mod = Model.ptlist.Where(id => id.pt_ID == int.Parse(ptype)).FirstOrDefault();
+                                if (mod != null)
+                                {
+                            <div class="conditions selectedShow">
+                                <span>商品分类：</span><label>@mod.pt_Name</label><em onclick="cancelchecktype()"></em></div> 
+                            
+                            
+                                }
+                            }
+                            else
+                            {
+                            <div class="conditions selectedShow" style="display: none">
+                                <span></span>
+                                <label>
+                                </label>
+                                <em></em>
+                            </div>
+                            }
+*@                            if (brand != "")
+                            {
+                                var mod = Model.blist.Where(id => id.b_ID == int.Parse(brand)).FirstOrDefault();
+                                if (mod != null)
+                                {
+                            <div class="conditions selectedShow">
+                                <span>品牌：</span><label>@mod.b_Name</label><em onclick="cancelcheckbrand()"></em></div>
+                            
+                                }
+                            }
+                            else
+                            {
+                            <div class="conditions selectedShow" style="display: none">
+                                <span></span>
+                                <label>
+                                </label>
+                                <em></em>
+                            </div>
+                            }
+
+                            if (price != "")
+                            {
+                               
+                            <div class="conditions selectedShow">
+                                <span>价格范围：</span><label>@price</label><em onclick="cancelcheckpric()"></em></div> 
+                            
+                            }
+                            else
+                            {
+                            <div class="conditions selectedShow" style="display: none">
+                                <span></span>
+                                <label>
+                                </label>
+                                <em></em>
+                            </div>
+                            }
+                            
+                            
+                        }
+                    </div>
+                    <div id="qc" style="display: none;" onclick="clearterm()" class="delete">
+                        清除条件</div>
+                </dd>
+            </dl>
+        </div>
+        <!--chose-results end-->
+        <div class="typelist borders" id="classify">
+            @if (Model.ptlist.Count > 0)
+            { 
+             <dl class="list-cont" attr="terminal_classifiton_s">
+                <dt>商品分类：</dt>
+                <dd>
+                    @{
+                foreach (var item in Model.ptlist)
+                {
+                    if (ptype == item.pt_ID.ToString())
+                    {
+                        <a href="javascript:void(0)" values2="" values1="@item.pt_ID" attrval="@item.pt_Name" class="selected" onclick="basisType(@item.pt_ID)">
+                            @item.pt_Name</a>
+                    }
+                    else
+                    {
+                        <a href="javascript:void(0)" values2="" values1="@item.pt_ID" attrval="@item.pt_Name" onclick="basisType(@item.pt_ID)">
+                            @item.pt_Name</a>
+                    }
+                }
+                    }     
+                </dd>
+            </dl>
+            }
+            <dl class="list-cont" attr="terminal_prices_s">
+                <dt>价格范围：</dt>
+                <dd>
+                    @{
+                        string ppric = Context.Request.QueryString["price"] == null ? "" : Context.Request.QueryString["price"].ToString();
+                        string[] pplist = new string[6] { "1-99", "100-499", "500-999", "1000-2999", "3000-4999", "5000以上" };
+                        for (int i = 0; i < pplist.Length; i++)
+                        {
+                            if (ppric == pplist[i] || (ppric.IndexOf("5000") == pplist[i].IndexOf("5000") && ppric.IndexOf("5000") == 0))
+                            {
+                                <a href="javascript:void(0)" class="selected" onclick="basisPrice('@pplist[i]')">@pplist[i]</a>
+                            }
+                            else
+                            {
+                                <a href="javascript:void(0)" onclick="basisPrice('@pplist[i]')">@pplist[i]</a>
+                            }
+                        }
+                    }
+                   
+                </dd>
+            </dl>
+            @if (Model.blist.Count > 0)
+            {
+            <dl class="list-cont" attr="terminal_brand_s">
+                <dt>品牌：</dt>
+                <dd>
+                    @{
+                string pbrand = Context.Request.QueryString["brand"] == null ? "" : Context.Request.QueryString["brand"].ToString();
+                foreach (var item in Model.blist)
+                {
+                    if (item.b_ID.ToString() == pbrand)
+                    {
+                        <a href="javascript:void(0)" values2="" values1="@item.b_ID" class="selected" onclick="basisBrand(@item.b_ID)" attrval="@item.b_Name">@item.b_Name</a>
+                    }
+                    else
+                    {
+                        <a href="javascript:void(0)" values2="" values1="@item.b_ID" onclick="basisBrand(@item.b_ID)" attrval="@item.b_Name">@item.b_Name</a>
+                    }
+                }
+                    }
+                </dd>
+            </dl>
+            }
+        </div>
+        <!--typelist end-->
+        </div><!--collectiongs end-->
+        <div class="clearh"></div>
+      <div class="pro-cont"> 
+          <div class="middle-nav borders">
+       		  <ul class="alignleft">
+                	<li><a href="javascript:void(0)" class="curs" onclick="basisSort('sku')">默认排序</a></li>
+                    <li><a href="javascript:void(0)"  onclick="basisSort('xliang')">销量<i></i></a></li>
+                    <li><a href="javascript:void(0)"  onclick="basisSort('spric')">价格<i></i></a></li>
+                    <li><a href="javascript:void(0)"  onclick="basisSort('pinglun')">评价<i></i></a></li>
+                    <li><a href="javascript:void(0)"  onclick="basisSort('selltime')">上架时间<i></i></a></li>
+                </ul>
+              <div class="page-math alignright">
+                	<div class="pro-math alignleft">相关产品<span>@ViewData["count"]</span>件</div>
+                    <div class="pages alignleft" id="countdiv"><span >@ViewData["page"]</span>/@ViewData["pagecount"] <a href="#" onclick="prepage()"> < </a><a href="#" onclick="nextpage()"> > </a></div>
+                </div><!--page-math end-->
+       	  </div><!--middle-nav end-->
+            <div class="pro-content">
+            	<ul class="pro-list">
+                    @for (int i = 0; i < Model.vmpinfolist.Count; i++)
+                    {
+                       <li>
+                            <div class="pro-img"><a href="/ProDetail/ProDetail?skuid=@Model.vmpinfolist[i].sku_ID"><img style="width:230px;height:170px;" name="page_cnt_1" _src="@Model.vmpinfolist[i].pi_Url" alt="@Model.vmpinfolist[i].p_Name" /></a>@*<div class="sale-bg">限量</div>*@<span  class="insert" value="@Model.vmpinfolist[i].sku_ID"><i></i><cc value="insert">收藏</cc></span></div>
+                            <p><a href="/ProDetail/ProDetail?skuid=@Model.vmpinfolist[i].sku_ID">@Model.vmpinfolist[i].p_Name @Model.vmpinfolist[i].shuxing</a></p>
+                            <p><span id="price_item_1">￥@Model.vmpinfolist[i].sku_Price</span><del>￥@Model.vmpinfolist[i].sku_scPric</del></p>
+                            <p><a href="#">已有<font>@Model.vmpinfolist[i].pinglun</font>人评价</a></p>
+                            <div class="buy-chart">
+                                <div class="chose-pro alignleft">
+                                    <input type="text" name="qty_item_1"@*+@Model.vmpinfolist[i].sku_ID*@ value="1" id="qty_item_1"@*+@Model.vmpinfolist[i].sku_ID*@ onKeyUp="setAmount.modify('#qty_item_1')" class="input01" />
+                                    <div class="updown">
+                                        <a class="add" onClick="setAmount.add('#qty_item_1')" href="javascript:void(0)"></a>
+                                        <a class="reduce" onClick="setAmount.reduce('#qty_item_1')" href="javascript:void(0)"></a>
+                                    </div>
+                                </div>
+                                <a href="javascript:void(0)" class="chart-button" onclick="insertintoCart(@Model.vmpinfolist[i].sku_ID)" >加入购物车</a>
+                            </div><!--buy-chart end-->
+                        </li>
+                    }
+                </ul>
+            </div><!--pro-content end-->
+            <div class="clearh"></div>
+            <div id="divPage" class="page">
+            </div>
+        </div><!--pro-cont end-->
+    </div><!--side-cont end-->
+</div><!--wrap end-->
+<div class="clear line2"></div>
+<div id="kuang"><!--成功加入购物车弹出框-->
+</div>
+<div id="collectkuang" ><!--收藏-->
+<div class="modal" id="chart-modal2">
+	<a class="close" data-dismiss="modal" onclick="closethis()">X</a>
+    <div class="yes-chart">
+    	<div class="no-icon alignleft" id="img"></div>
+        <div class="chart-font alignright">
+        	<dl>
+            	<dt><strong id="tishiyu">您还没有登陆！登陆之后才能收藏商品</strong></dt>
+            </dl>
+            <div class="clear"></div>
+            <a class="total-chart" href="/Logon/Logon" id="yes">现在去登陆 ></a><a class="go-shop" href="javascript:void(0)" onclick="closethis()" >取消</a>
+        </div><!--chart-font end-->
+    </div><!--yes-chart end-->
+    <div class="clear"></div>
+</div><!--chart-modal end-->
+
+
+</div>
+<!--分页-->
+<script type="text/javascript">
+
+    var jsPage = function (el, count, pageStep, pageNum, fnGo) {
+        this.getLink = function (fnGo, index, pageNum, text) {
+            var s = '<a  onclick="' + fnGo + '(' + index + ');" ';
+            if (index == pageNum) {
+                s += 'class="cur-hover" ';
+            }
+            text = text || index;
+            s += '>' + text + '</a> ';
+            return s;
+        }
+
+        //总页数
+        var pageNumAll = Math.ceil(count / pageStep);
+        if (pageNumAll == 1) {
+
+            var divPage = document.getElementById(el);
+            divPage.innerHTML = '<a>上一页</a><a class="cur-hover">1</a><a>下一页</a>';
+            return;
+        }
+        var itemNum = 3; //当前页左右两边显示个数
+        pageNum = Math.max(pageNum, 1);
+        pageNum = Math.min(pageNum, pageNumAll);
+        var s = '';
+        if (pageNum > 1) {
+            s += this.getLink(fnGo, pageNum - 1, pageNum, '上一页');
+        } else {
+            s += '<a>上一页</a> ';
+        }
+        var begin = 1;
+        if (pageNum - itemNum > 1) {
+            s += this.getLink(fnGo, 1, pageNum) + '... ';
+            begin = pageNum - itemNum;
+        }
+        var end = Math.min(pageNumAll, begin + itemNum * 2);
+        if (end == pageNumAll - 1) {
+            end = pageNumAll;
+        }
+        for (var i = begin; i <= end; i++) {
+            s += this.getLink(fnGo, i, pageNum);
+        }
+        if (end < pageNumAll) {
+            s += '... ' + this.getLink(fnGo, pageNumAll, pageNum);
+        }
+        if (pageNum < pageNumAll) {
+            s += this.getLink(fnGo, pageNum + 1, pageNum, '下一页');
+        } else {
+            s += '<a>下一页</a> ';
+        }
+        var divPage = document.getElementById(el);
+        divPage.innerHTML = s;
+    }
+
+
+
+    jsRand.rand = function (min, max, len) {
+        min = min || 0;
+        max = max || 1000;
+        var val = min + Math.round(Math.random() * (max - min));
+        if (len) {
+            while (('' + val).length < len) {
+                val = '0' + val;
+            }
+        }
+        return val;
+    }
+
+    function goPage(pageIndex) {
+        var count = $('#count').val();
+        var pagerows = $('#pagerows').val();
+        jsPage('divPage', count, pagerows, pageIndex, 'goPage');
+        pagejump(pageIndex);
+    }
+    function frPage(pageIndex) {
+        var count = $('#count').val();
+        var pagerows = $('#pagerows').val();
+        jsPage('divPage', count, pagerows, pageIndex, 'goPage');
+    }
+
+</script>
+ <script type="text/javascript">
+     var dlNum = $("#classify").find("dl");
+     for (i = 0; i < dlNum.length; i++) {
+         $(".chose-results .choselist").append("<div class=\"conditions selectedShow\" style=\"display:none\"><span></span><label></label><em></em></div>");
+     }
+
+     var refresh = "true";
+
+     $(".list-cont a ").live("click", function () {
+         var text = $(this).text();
+         var selectedShow = $(".selectedShow");
+         var textTypeIndex = $(this).parents("dl").index();
+         var textType = $(this).parent("dd").siblings("dt").text();
+         index = textTypeIndex - (2);
+         $(".clearDd").show();
+         $(".selectedShow").eq(index).show();
+         $(this).addClass("selected").siblings().removeClass("selected");
+         selectedShow.eq(index).find("span").text(textType);
+         selectedShow.eq(index).find("label").text(text);
+         var show = $(".selectedShow").length - $(".selectedShow:hidden").length;
+         if (show > 1) {
+             $(".delete").show();
+         }
+     });
+
+
+     $(".selectedShow em").live("click", function () {
+         $(this).parents(".selectedShow").hide();
+         var textTypeIndex = $(this).parents(".selectedShow").index();
+         index = textTypeIndex;
+         $(".list-cont").eq(index).find("a").removeClass("selected");
+
+         if ($(".list-cont .selected").length < 2) {
+             $(".delete").hide();
+         }
+     });
+
+     $(".delete").live("click", function () {
+         $(".selectedShow").hide();
+         $(this).hide();
+         $(".list-cont a ").removeClass("selected");
+     }); 
+</script>
+<script type="text/javascript">
+    //导航下拉菜单横导航
+    ddsmoothmenu.init({
+
+        mainmenuid: "smoothmenu1", //menu DIV id
+
+        orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+
+        classname: 'navCon-menu'
+
+    });
+
+    //侧边栏一周销量排行榜JS
+    jQuery(".sales-list").slide({ titCell: "li", triggerTime: 0 });
+
+
+    //图片延迟加载
+    (function () {
+
+        var th = this;
+
+        th.pageSize = 1000; /* 每屏大概高度为1000px */
+
+        th.pageQuotiety = 0.5; /* 提前下载量 */
+
+        th.imgName = "page_cnt_"; /* 图片通用名 */
+
+        th.imgs = []; /* 每屏图片 [每屏所有图片，第一张图片，第一张图片绝对top:加载图片的top] */
+
+        var B = {}; /* Browser check */
+
+        B.ua = window.navigator.userAgent.toLowerCase();
+
+        B.ie = /msie/.test(B.ua);
+
+        B.moz = /gecko/.test(B.ua);
+
+        B.opera = /opera/.test(B.ua);
+
+        B.safari = /safari/.test(B.ua);
+
+        var $N = function (s, docu) {
+            var doc = docu ? docu : document;
+            return (typeof s == "object") ? s : doc.getElementsByName(s);
+        };
+
+        th.getWindowSize = function () {
+            var a = {};
+            if (window.self && self.innerWidth) {
+                a.width = self.innerWidth;
+                a.height = self.innerHeight;
+                return a;
+            } if (document.documentElement && document.documentElement.clientHeight) {
+                a.width = document.documentElement.clientWidth;
+                a.height = document.documentElement.clientHeight;
+                return a;
+            }
+            a.width = document.body.clientWidth;
+            a.height = document.body.clientHeight;
+            return a;
+        }
+
+        th.getObjPosition = function (obj) {
+            var a = {};
+            a.x = obj.offsetLeft, a.y = obj.offsetTop;
+            while (obj = obj.offsetParent) {
+                a.x += obj.offsetLeft;
+                a.y += obj.offsetTop;
+            }
+            return a;
+        }
+
+        th._getPageScroll = function () {
+            var s;
+            if (typeof (window.pageYOffset) != "undefined") {
+                s = window.pageYOffset;
+            } else if (document.documentElement && document.documentElement.scrollTop) {
+                s = document.documentElement.scrollTop;
+            } else if (document.body) {
+                s = document.body.scrollTop;
+            }
+            return s;
+        }
+
+        th._loadImages = function (a) {
+            if (!a) return;
+            var obj = a;
+            if (typeof a == "string") {
+                obj = $N(a);
+            } for (var i = 0; i < obj.length; i++) {
+                var s = obj[i];
+                if (typeof s == "object") {
+                    if (s.getAttribute("_src")) {
+                        s.setAttribute("src", s.getAttribute("_src"));
+                        s.removeAttribute("_src", 0);
+                    }
+                }
+            }
+            delete obj;
+            obj = null;
+        }
+
+        th._loadAllImgs = function () {
+            var i = 0;
+            while (th.imgs[i]) {
+                th._loadImages(th.imgs[i][0]);
+                i++;
+            }
+        }
+
+        th.getImgPosition = function () {
+            var i = 1;
+            var p = $N(th.imgName + i);
+            while (p && p.length > 0) {
+                var p = $N("page_cnt_" + i);
+                var t = th.getImgLoadPosition(p[0]);
+                th.imgs.push([p, p[0], t]);
+                i++;
+                p = $N(th.imgName + i);
+            }
+        }
+
+        th.getImgLoadPosition = function (a) {
+            var t = { imgTop: 0, pageTop: 0 };
+            if (a) {
+                var w = th.getWindowSize();
+                t.imgTop = parseInt(th.getObjPosition(a).y);
+                t.pageTop = parseInt((t.imgTop / 1000 - th.pageQuotiety) * 1000);
+            }
+            return t;
+        }
+
+        th._addScrollEven = function () {
+            if (B.ie) {
+                window.attachEvent("onscroll", th._scrollFn);
+            } else {
+                window.addEventListener("scroll", th._scrollFn, false);
+            }
+        }
+
+        th._removeScrollEven = function () {
+            if (B.ie) {
+                window.detachEvent("onscroll", th._scrollFn);
+            } else {
+                window.removeEventListener("scroll", th._scrollFn, false);
+            }
+        }
+
+        th._scrollFn = function () {
+            var y = th._getPageScroll();
+            var w = th.getWindowSize().height;
+            if (w == 0) {
+                th._loadAllImgs();
+                return;
+            }
+            var i = 0;
+            var j = 0;
+            while (th.imgs[i]) {
+                if (!(y + w < th.imgs[i][2].pageTop)) {
+                    th._loadImages(th.imgs[i][0]);
+                    j++
+                }
+                i++;
+                if (j >= th.imgs.length) {
+                    th._removeScrollEven();
+                }
+            }
+        }
+
+        th.getImgPosition();
+        th._addScrollEven();
+        th._scrollFn();
+
+    })()
+</script>
+<script type='text/javascript' src='/js/main.js'></script><!--散乱JS合集 重要 此JS放置位置要注意，需放置在导航及banner用的JS下方..-->
+<!--分类导航滑倒顶部固定在顶部的JS-->
+<script type="text/javascript">
+    $.fn.smartFloat = function () {
+        var position = function (element) {
+            var top = element.position().top, pos = element.css("position");
+            $(window).scroll(function () {
+                var scrolls = $(this).scrollTop();
+                if (scrolls > top) {
+                    if (window.XMLHttpRequest) {
+                        element.css({
+                            position: "fixed",
+                            top: 0
+                        });
+                    } else {
+                        element.css({
+                            top: scrolls
+                        });
+                    }
+                } else {
+                    element.css({
+                        position: pos,
+                        top: top
+                    });
+                }
+            });
+        };
+        return $(this).each(function () {
+            position($(this));
+        });
+    };
+    //绑定
+    $(".middle-nav").smartFloat();
+</script>
+<!---->    

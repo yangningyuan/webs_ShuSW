@@ -1,0 +1,739 @@
+﻿@{
+    ViewBag.Title = "月月兴食品商行-确认订单信息";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="/css/kaych.chartOrder.css"><!--页面支付系统css文件-->
+<link rel="stylesheet" type="text/css" href="/css/kaych.place.css"><!--省市区三级联动CSS-->
+<script type="text/javascript" src="/js/custominput.js"></script><!--表单美化JS-->
+<script type="text/javascript" src="/js/ddsmoothmenu.js"></script><!--下拉导航JS-->
+<script type="text/javascript" src="/js/payfor.js"></script><!--商品数量增加减少 算总价JS-->
+
+<script type="text/javascript">
+    $(function () {
+        //该页面不需要主页商品头部
+        $('#publicHead').remove();
+
+        //配送方式点击
+        $("input[name='stID']").click(function () {
+            var sum = 0;
+            //收货人
+            var cid = $('input[name="adds"]:checked').val();
+            if (typeof (cid) == "undefined") {
+                alert("请先选择收货人");
+                //去除当前选中状态
+                $(this).attr("checked", false);
+                return;
+            }
+            var _this = this;
+            //配送方式
+            var stID = $(this).val();
+            var skuId = $('#skuIdList').val();
+            var ids = skuId.split(',');
+            for (i = 0; i < ids.length; i++) {
+                if (ids[i] != "") {
+                    var count = $('#count_' + ids[i]).text();
+                    $.ajax({
+                        url: "/_ashx/transportation_json.ashx",
+                        type: 'post',
+                        data: { skuID: ids[i], count: count, cID: cid, stID: stID },
+                        async: false,
+                        success: function (data) {
+                            var result = strToNumber(0, data);
+                            if (result == null) {
+                                alert(data);
+                                //去除当前选中状态
+                                $(_this).attr("checked", false);
+                                return;
+                            } else {
+                                sum += result;
+                            }
+                        }
+                    });
+                }
+            }
+            //运费赋值
+            $('#shipP').text('￥' + sum.toFixed(2));
+            //总和
+            var sump = strToNumber(0, $('#sumP').attr("value"));
+            if (sump != null) {
+                sump += sum;
+            }
+            $('#sumP').text('￥' + sump.toFixed(2));
+        });
+
+        $('#phone').blur(function () {
+            if ($(this).val().search(/^1[3|4|5|7|8][0-9]{9}$/) != -1 && $(this).val() != '') {
+            } else {
+                $(this).val("");
+                alert("请输入正确的手机号！");
+            }
+        });
+
+        $('#tphone').blur(function () {
+            if ($(this).val().search(/^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$/) != -1 && $(this).val() != '') {
+            } else {
+                $(this).val("");
+                alert("请输入正确的座机号！");
+            }
+        });
+    });
+
+    //字符串转Number
+    function strToNumber(start, str) {
+        if (str == null || str == "")
+            return null;
+        str = str.substr(start);
+        var num = Number(str);
+        if (isNaN(num))
+            return null;
+        return num;
+    }
+
+    function strToJson(str) {
+        var json = eval('(' + str + ')');
+        return json;
+    }
+
+    function SubmitOrder() {
+        var _remarks = "";
+        if ($('#remark').attr('checked')) {
+            _remarks = $('#OrderRemarks').val();
+        }
+        var cID = $('input:radio[name="adds"]:checked').val();
+        if (typeof (cID) == "undefined") {
+            alert("请先选择配送方式");
+            return;
+        }
+        //会员
+        var mID = $('#mID').val();
+        //支付方式
+        var payID = $('input:radio[name="payID"]:checked').val();
+        //配送方式
+        var stID = $('input:radio[name="stID"]:checked').val();
+        //价格
+        var oPrice = strToNumber(1, $('#sumP').text());
+        //积分
+        var score = $('#sumScore').text();
+        //SKU集合
+        var ids = $('#skuIdList').val();
+        $.ajax({
+            type: "POST",
+            url: "/_ashx/dataSave_manager_json.ashx?type=submitOrder",
+            data: { cID: cID, mID: mID, payID: payID, stID: stID, remarks: _remarks, oPrice: oPrice, ids: ids, score: score },
+            dataType: "text",
+            success: function (data) {
+                var da = strToJson(data);
+                if (da.result == "保存成功！") {
+                    if (da.url != "") {
+                        window.location.href = da.url + "?id=" + da.orderId;
+                    } else {
+                        alert("支付方式异常！");
+                    }
+                } else {
+                    alert("订单提交失败！");
+                }
+            }
+        });
+    }
+
+    function AddConsigneeInfo() {
+        var name = $('#name').val();
+        if (name == "") {
+            alert("收货人不能为空！");
+            return;
+        }
+        var selectType = $('#selectType').val();
+        var selectType2 = $('#selectType2').val();
+        var selectType3 = $('#selectType3').val();
+        if (selectType3 == "" || selectType3 == "chose") {
+            alert("请选择正确的收货地址！");
+            return;
+        }
+        var Address = $('#Address').val();
+        if (Address == "") {
+            alert("详细地址不能为空！");
+            return;
+        }
+        var phone = $('#phone').val();
+        var tphone = $('#tphone').val();
+        if (phone == "" || tphone) {
+            alert("手机和固定电话至少填一项！");
+            return;
+        }
+        var zipcode = $('#zipcode').val();
+        //价格
+        var sump = strToNumber(1, $('#sumP').text());
+        var cId = $('#cID').val();
+        var par = "name=" + name + "&selectType=" + selectType + "&selectType2=" + selectType2 +
+                  "&selectType3=" + selectType3 + "&Address=" + Address + "&tphone=" + tphone +
+                  "&phone=" + phone + "&zipcode=" + zipcode + "&oPrice=" + sump;
+        var type = "&otype=Add";
+        if (cId != "") {
+            type = "&otype=modify&cid=" + cId;
+        }
+        //编码，解决IE下中文乱码
+        par = encodeURI(par);
+        $.ajax({
+            type: "POST",
+            url: "/Order/AddConsigneeInfo?" + par + type,
+            async: true,
+            success: function (data) {
+                if (data != "") {
+                    $('#cliId_' + cId).remove();
+                    $('#ConsigneeList').html($('#ConsigneeList').html() + data);
+                    $("#cID").val("");
+                } else {
+                    alert("保存失败！");
+                }
+            }
+        });
+    }
+
+    function EditConsigneeInfo(id) {
+        $('#AddressDetail').css('display', 'block'); //显示;
+        //记录cID
+        $("#cID").val(id);
+        $.ajax({
+            type: "POST",
+            url: "/Order/GetConsigneeInfoBase?cID=" + id,
+            async: true,
+            success: function (data) {
+                if (data == "") {
+                    alert("系统异常，无法修改！");
+                } else {
+                    var result = eval('(' + data + ')');
+                    CreateHtml2(result.city);
+                    CreateHtml3(result.country);
+                    //省，市，县，完整地址，移动电话，座机，名字，邮编
+                    var da = result.result.split(',');
+                    $("#selectType").val(da[0]);
+                    $("#selectType2").val(da[1]);
+                    $("#selectType3").val(da[2]);
+                    $("#Address").val(da[3]);
+                    $("#phone").val(da[4]);
+                    $("#tphone").val(da[5]);
+                    $("#name").val(da[6]);
+                    $("#zipcode").val(da[7]);
+                }
+            }
+        });
+    }
+</script>
+
+@*//联动代码*@
+<script type="text/javascript">
+    $(function () {
+        $("#bigtype>select").change(function () {
+            getselectType1();
+        });
+    });
+
+    function getselectType1() {
+        var valueid = $("#bigtype>select").val();
+        $.get("/Order/GetCity?code=" + valueid, function (data) {
+            if (data != "refresh") {
+                CreateHtml2(data, valueid);
+            }
+            else {
+                $("#midtype").empty().html("<select  class=\"valid\" name=\"selectType2\" id=\"selectType2\" onChange=\"getselectType2()\"><option value=\"0\" selected=\"selected\">请选择</option></select>");
+                $("#smatype").empty().html("<select  class=\"valid\" name=\"selectType3\" id=\"selectType3\" ><option value=\"0\" selected=\"selected\">请选择</option></select>");
+            }
+        });
+    }
+
+    function CreateHtml2(data, valueid) {
+        var string = eval('(' + data + ')');
+        var zu = new Array;
+        zu = string.toString().split(",");
+        var html = "<select  class=\"valid\" name=\"selectType2\" id=\"selectType2\" onChange=\"getselectType2()\">";
+        for (var i = 0; i < zu.length; i++) {
+            if (zu[i] == valueid) {
+                html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+            }
+            else {
+                html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+            }
+            i += 1;
+        }
+        html += "</select>";
+
+        $("#midtype").empty().html(html);
+    }
+
+    function getselectType2() {
+        var valueid = $("#midtype>select").val();
+        $.get("/Order/GetCountry?code=" + valueid, function (data) {
+            CreateHtml3(data, valueid);
+        });
+    }
+
+    function CreateHtml3(data, valueid) {
+        var string = eval('(' + data + ')');
+        var zu = new Array;
+        zu = string.toString().split(",");
+        var html = "<select  class=\"combox\" name=\"selectType3\" id=\"selectType3\" >";
+        for (var i = 0; i < zu.length; i++) {
+            if (zu[i] == valueid) {
+                html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+            }
+            else {
+                html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+            }
+            i += 1;
+        }
+        html += "</select>";
+        $("#smatype").empty().html(html);
+    }
+
+</script>
+
+<input type="hidden" name = "mID" id = "mID" value="@ViewData["mID"]" />
+<input type="hidden" name = "cID" id = "cID" value="" />
+<input type="hidden" name = "skuIdList" id="skuIdList" value="@ViewData["skuIdList"]" />
+
+<div class="header-cont">
+	<h1 class="alignleft"><a href="/Index/Index"><img name="page_cnt_1" src="/images/headFooter/logo.png" alt="月月兴食品商行" /></a></h1>
+    <div class="chart-step alignright"><img  name="page_cnt_1" src="/images/img/chart_step_02.jpg" alt="购物车" /></div>
+</div><!--header-cont end-->
+<div class="clearh"></div>
+<div class="wrap">
+	<div class="chart-title">
+    	<h2 class="alignleft">确认订单信息</h2>
+    </div><!--chart-title end-->
+    <div class="borders wraps">
+    	<h3 class="order-title"><span>收货人信息</span></h3>
+        <div class="address">
+        	<ul id="ConsigneeList">
+                @{
+                    if (ViewData["ConsigneeInfo"] != null)
+                    {
+                        foreach(var ci in (List<webs_YueyxShop.Model.ConsigneeInfoBase>)ViewData["ConsigneeInfo"])
+                        {
+                            string cliId = "cliId_" + ci.c_ID;
+                            if (ci.c_Moren == 1)
+                            {
+            	                <li id="@cliId">
+                	                <label><input type="radio" name="adds" value="@ci.c_ID" checked="checked"/><span>@ci.c_Name&nbsp;&nbsp;&nbsp;&nbsp;@ci.c_CProvice@ci.c_CCity@ci.c_CCount@ci.c_FullAddress&nbsp;&nbsp;&nbsp;&nbsp;@ci.c_Mobilephone&nbsp;&nbsp;&nbsp;&nbsp;@ci.c_Zipcode</span></label>
+                                    <a href="javascript:void(0)" onclick="EditConsigneeInfo(@ci.c_ID)">修改</a>
+                                </li>
+                            }
+                            else
+                            {
+            	                <li id="@cliId">
+                	                <label><input type="radio" value="@ci.c_ID" name="adds" /><span>@ci.c_Name&nbsp;&nbsp;&nbsp;&nbsp;@ci.c_CProvice@ci.c_CCity@ci.c_CCount@ci.c_FullAddress&nbsp;&nbsp;&nbsp;&nbsp;@ci.c_Mobilephone&nbsp;&nbsp;&nbsp;&nbsp;@ci.c_Zipcode</span></label>
+                                    <a href="javascript:void(0)" onclick="EditConsigneeInfo(@ci.c_ID)">修改</a>
+                                </li>
+                            }
+                        }
+                    }
+                 }
+            </ul>
+        </div><!--address end-->
+        <div class="new-address">
+        	<div class="new-add">+ 添加新地址</div>
+            <div id="AddressDetail" class="new-addCont">
+            <form>
+            	<table class="add-form">
+                	<tbody>
+                    	<tr>
+                        	<td width="80"><em>*</em><span>收货人：</span></td>
+                            <td><input id="name" type="text" class="input02" /></td>
+                        </tr>
+                        <tr>
+                        	<td><em>*</em><span>选择地区：</span></td>
+                            <td>
+                            	<div class="add-china" id="sjld">
+                                    <font id="bigtype">@Html.DropDownList("selectType") </font>
+                                    <font id="midtype">@Html.DropDownList("selectType2") </font>
+                                    <font id="smatype">@Html.DropDownList("selectType3") </font>
+                                </div><!--add-china end-->
+                            </td>
+                        </tr>
+                        <tr>
+                        	<td><em>*</em><span>详细地址：</span></td>
+                            <td><input id="Address" type="text" class="input03" /></td>
+                        </tr>
+                        <tr>
+                        	<td><em>*</em><span>手机：</span></td>
+                            <td><input id="phone" type="text" class="input02" />或固定电话<input id="tphone" type="text" class="input04" />两者至少填一项</td>
+                        </tr>
+                        <tr>
+                        	<td><span>邮政编码：</span></td>
+                            <td><input id="zipcode" type="text" class="input02" /></td>
+                        </tr>
+                        <tr>
+                        	<td></td>
+                            <td><input type="button" value="确定" onclick="AddConsigneeInfo()" /><input type="reset" value="重置" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            </div><!--new-addCont end-->
+        </div><!--new-address end-->
+    </div><!--wraps end-->
+    <div class="clearh"></div>
+    <div class="wraps borders">
+    	<h3 class="order-title"><span>支付方式</span></h3>
+        <div class="order-idear">
+        	<ul>
+            @{
+                if (ViewData["PayTypeList"] != null)
+                {
+                    bool payFirst = true;
+                    foreach(var pay in (List<webs_YueyxShop.Model.PaymentBase>)ViewData["PayTypeList"])
+                    {
+                        if(payFirst)
+                        {
+                            <li><label><input type="radio" name="payID" checked="checked" value="@pay.pay_ID" /><strong>@pay.pay_Name</strong></label></li>
+                        }
+                        else
+                        {
+                            <li><label><input type="radio" name="payID" value="@pay.pay_ID" /><strong>@pay.pay_Name</strong></label></li>
+                        }
+                        payFirst = false;
+                    }
+                }
+             }
+            	@*<li><label><input type="radio" name="payID" value="1" /><strong>货到付款</strong>送货上门后再付款，使用现金或刷银行卡，免手续费</label></li>
+                <li><label><input type="radio" checked="checked" name="payID" value="2" /><strong>在线支付</strong>目前在线支付仅支持支付宝支付。</label></li>*@
+            </ul>
+            @*<div class="order-olIdear">
+            	<label><input type="radio" checked="checked" name="order2" /><img src="/images/img/pay_img.jpg" alt="支付宝支付" /></label>
+            </div><!--order-olIdear end-->*@
+        </div><!--order-idear end-->
+    </div><!--wraps end-->
+    <div class="clearh"></div>
+    <div class="wraps borders">
+    <h3 class="order-title"><span>配送方式</span></h3>
+        <div class="order-idear">
+        	<ul>
+            @{
+                if (ViewData["ShipTypeList"] != null)
+                {
+                    foreach (var ship in (List<webs_YueyxShop.Model.ShipTypeBase>)ViewData["ShipTypeList"])
+                    {
+            	        <li><label><input type="radio" name="stID" value="@ship.st_ID" /><strong>@ship.st_Name</strong>@*快递 <span>10.00元</span>*@</label></li>
+                    }
+                }
+            }
+            </ul>
+        </div>
+    </div><!--wraps end-->
+    <div class="clearh"></div>
+    <div class="wraps borders">
+    	<h3 class="order-title"><span>留言信息</span></h3>
+        <div class="leavemessage"><label><input id="remark" type="checkbox" name="leavemessage" /><span>若您对包裹有特殊要求，请在此留言</span></label> <span>温馨提示：</span>月月兴食品商行会尽力准时送到您手中，但因天气、交通等各类因素影响，也有可能会出现延迟哦！</div>
+        <textarea id="OrderRemarks" class="leavemessages"></textarea>
+    </div><!--wraps end-->
+    <div class="clearh"></div>
+    <div class="wraps borders">
+    	<h3 class="order-title"><span>商品信息</span><a href="/Chart/Chart">返回修改购物车</a></h3>
+        <table class="order-list">
+    	<tbody>
+        	<tr>
+                <th>商品名称</th>
+                <th>价格（元）</th>
+                <th>折扣</th>
+                <th>数量</th>
+                <th>商品合计</th>
+            </tr>
+            @{
+                if (ViewData["OrderProducts"] != null)
+                {
+                    decimal discount = Convert.ToDecimal(ViewData["discount"]);
+                    foreach (System.Data.DataRow row in ((System.Data.DataTable)ViewData["OrderProducts"]).Rows)
+                    {
+                        //是否团购
+                        bool isGP = Convert.ToBoolean(row["sc_IsGP"]);
+                        //数量标签Id
+                        string countId = "count_" + row["sku_ID"];
+                        //单价
+                        decimal sc_pPric = row["sku_Price"] == null ? 0 : (decimal)row["sku_Price"];
+                        //数量
+                        int sc_pCount = row["sc_pCount"] == null ? 0 : (int)row["sc_pCount"];
+                        //单品总价
+                        decimal price = sc_pPric * sc_pCount;
+                        if(!isGP)
+                        {//非团购价按会员等级打折
+                            price = price * discount;
+                            ViewData["cdiscount"] = discount;
+                        }
+                        else
+                        {
+                            ViewData["cdiscount"] = "无折扣";
+                        }
+                        //总价
+                        ViewData["totalPric"] = ViewData["totalPric"] == null ? price : price + (decimal)ViewData["totalPric"];
+                        //积分
+                        ViewData["score"] = Convert.ToInt32(ViewData["totalPric"]);
+                        //总数
+                        ViewData["totalCount"] = ViewData["totalCount"] == null ? sc_pCount : sc_pCount + (int)ViewData["totalCount"];
+                        <tr>
+                            <td class="pro-shops">
+                	            <a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]"><img style="height:54px;width:54px;"  name="page_cnt_1" src="@row["pi_Url"]" alt="@row["p_Name"]" /></a>
+                                <dl>
+                    	            <dt><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]">@row["p_Name"] @row["property"]</a></dt>
+                                    @*<dd><span>团购</span><span>促销</span></dd>*@
+                                </dl>
+                            </td>
+                            <td class="centers">￥@row["sku_Price"]</td>
+                            <td class="centers">@ViewData["cdiscount"]</td>
+                            <td class="centers" id="@countId">@row["sc_pCount"]</td>
+                            <td class="centers"><span>￥@price</span></td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+    </div><!--wraps end-->
+    <div class="clearh"></div>
+    <div class="wraps borders">
+    	<h3 class="order-title"><span>订单结算</span></h3>
+        <div class="price-total">
+        	<p><span class="w100">￥@ViewData["totalPric"]</span><span class="w150"><b>@ViewData["totalCount"]</b>件商品，商品金额	：</span></p>
+            <p><span class="w100" id="shipP">￥0.00</span><span class="w150">运费：</span></p>
+            @*<p><span class="w100" id="zhek">@ViewData["discount"]</span><span class="w150">折扣：</span></p>*@
+        </div><!--price-total end-->
+        <div class="total">
+        	<span class="alignleft martop marlf">
+                <font class="alignleft">积分总计：<em id="sumScore">@ViewData["score"]</em></font>
+            </span>
+            <span class="alignright martop">
+                <a class="alignright payfor" href="javascript:void(0)" onclick="SubmitOrder()">提交订单<i></i></a><font class="alignright">合计：<strong id="sumP" value="@ViewData["totalPric"]">￥@ViewData["totalPric"]</strong></font>
+            </span>
+        </div><!--total end-->
+    </div><!--wraps end-->
+    <div class="clear"></div>
+</div><!--wrap end-->
+<div class="clear line2"></div>
+
+
+<script type='text/javascript' src='/js/main.js'></script><!--散乱JS合集 重要 此JS放置位置要注意，需放置在导航及banner用的JS下方..-->
+<script type="text/javascript" src="/js/address.js"></script><!--确认订单页面省市区三级联动JS-->
+<script type="text/javascript">
+
+//确认订单页面省市区三级联动JS
+$(function(){
+
+	$("#sjld").sjld("#shenfen","#chengshi","#quyu");
+	
+});
+
+//新增收获地址滑动JS
+$(document).ready(function(){
+$(".new-add").click(function(){
+    $(".new-addCont").slideToggle("slow");
+  });
+});
+
+<!--全选反选-->
+$(function(){
+	//单独选择某一个
+	$("input[name='check_item']").click(function(){
+			var index=$("input[name='check_item']").index(this);
+			$("input[name='check_item']").eq(index).toggleClass("checked");//伪复选
+	});	
+	//全选
+	$("#check_all,#box_all").click(function(){
+     $("input[name='check_item']").attr("checked",$(this).attr("checked"));
+	 $("input[name='check_item'],#check_all,#box_all").toggleClass("checked");
+	});
+
+});
+
+//导航下拉菜单横导航
+ddsmoothmenu.init({
+
+	mainmenuid: "smoothmenu1", //menu DIV id
+	
+	orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+	
+	classname: 'navCon-menu'
+
+});
+
+//购物车页面下方商品滚动JS
+jQuery(".slideBox").slide({ mainCell:"ul",vis:4,prevCell:".sPrev",nextCell:".sNext",effect:"leftLoop"});
+
+//产品详细页左侧浏览历史JS
+jQuery(".ani-side-pro").slide({ mainCell:".sales-list-history", effect:"left", delayTime:400,pnLoop:false,easing:"easeOutCubic" });
+
+
+//首页团购banner下方的广告轮播JS
+jQuery(".ad-banner").slide({ mainCell:".pic",effect:"left", autoPlay:true, delayTime:300});
+
+//首页产品分类里的广告轮播JS
+jQuery(".pro-banner").slide({ mainCell:".pic",effect:"left", autoPlay:true, delayTime:300});
+
+//首页品牌推荐大图轮播
+jQuery("#iFocus li a").hover(function(){ $(this).css("opacity",1).siblings().css("opacity",0.7) },function(){ $(this).css("opacity",1).siblings().css("opacity",1) });//鼠标移到图片上时聚焦效果
+jQuery("#iFocus").slide({ titCell:".btn span", mainCell:"ul",effect:"left", autoPlay:true});
+
+//首页小品牌无缝滚动JS
+jQuery(".picScroll").slide({ mainCell:"ul", effect:"leftMarquee", vis:9, autoPlay:true, interTime:50, switchLoad:"_src" });
+
+//侧边栏一周销量排行榜JS
+jQuery(".sales-list").slide({ titCell:"li",triggerTime:0 });
+
+
+//图片延迟加载
+(function(){
+	
+	var th=this;
+	
+	th.pageSize=1000;/* 每屏大概高度为1000px */
+	
+	th.pageQuotiety=0.5;/* 提前下载量 */
+	
+	th.imgName="page_cnt_";/* 图片通用名 */
+	
+	th.imgs=[];/* 每屏图片 [每屏所有图片，第一张图片，第一张图片绝对top:加载图片的top] */
+	
+	var B = {};/* Browser check */
+	
+	B.ua = window.navigator.userAgent.toLowerCase();
+	
+	B.ie = /msie/.test(B.ua);
+	
+	B.moz = /gecko/.test(B.ua);
+	
+	B.opera = /opera/.test(B.ua);
+	
+	B.safari = /safari/.test(B.ua);
+	
+	var $N=function(s,docu){
+		var doc=docu?docu:document;
+		return(typeof s=="object")?s:doc.getElementsByName(s);
+	};
+	
+	th.getWindowSize=function(){
+		var a={};
+		if(window.self&&self.innerWidth){
+			a.width=self.innerWidth;
+			a.height=self.innerHeight;
+			return a;
+		}if(document.documentElement&&document.documentElement.clientHeight){
+			a.width=document.documentElement.clientWidth;
+			a.height=document.documentElement.clientHeight;
+			return a;
+		}
+		a.width=document.body.clientWidth;
+		a.height=document.body.clientHeight;
+		return a;
+	}
+	
+	th.getObjPosition=function(obj){
+		var a={};
+		a.x = obj.offsetLeft,a.y = obj.offsetTop;
+		while(obj=obj.offsetParent){
+			a.x += obj.offsetLeft;
+			a.y += obj.offsetTop;
+		}
+		return a;
+	}
+	
+	th._getPageScroll=function(){
+		var s;
+		if (typeof(window.pageYOffset)!="undefined"){
+			s = window.pageYOffset;
+		}else if (document.documentElement && document.documentElement.scrollTop){
+			s = document.documentElement.scrollTop;
+		}else if (document.body){
+			s = document.body.scrollTop;
+		}
+		return s;
+	}
+	
+	th._loadImages=function(a){
+		if(!a)	return;
+		var obj = a;
+		if(typeof a == "string"){
+			obj=$N(a);
+		}for(var i=0;i<obj.length;i++){
+			var s = obj[i];
+			if(typeof s == "object"){
+				if(s.getAttribute("_src")){
+					s.setAttribute("src",s.getAttribute("_src"));
+					s.removeAttribute("_src",0);
+				}
+			}
+		}
+		delete obj;
+		obj=null;
+	}
+	
+	th._loadAllImgs=function(){
+		var i=0;
+		while(th.imgs[i]){
+			th._loadImages(th.imgs[i][0]);
+			i++;
+		}
+	}
+	
+	th.getImgPosition=function(){
+		var i=1;
+		var p=$N(th.imgName+i);
+		while(p&&p.length>0){
+			var p=$N("page_cnt_"+i);
+			var t=th.getImgLoadPosition(p[0]);
+			th.imgs.push([p,p[0],t]);
+			i++;
+			p=$N(th.imgName+i);
+		}
+	}
+	
+	th.getImgLoadPosition=function(a){
+		var t={imgTop:0,pageTop:0};
+		if(a){
+			var w=th.getWindowSize();
+			t.imgTop=parseInt(th.getObjPosition(a).y);
+			t.pageTop=parseInt((t.imgTop/1000-th.pageQuotiety)*1000);
+		}
+		return t;
+	}
+	
+	th._addScrollEven=function(){
+		if(B.ie){
+			window.attachEvent("onscroll",th._scrollFn);
+		}else{
+			window.addEventListener("scroll",th._scrollFn,false);
+		}
+	}
+	
+	th._removeScrollEven=function(){
+		if(B.ie){
+			window.detachEvent("onscroll",th._scrollFn);
+		}else{
+			window.removeEventListener("scroll",th._scrollFn,false);
+		}
+	}
+	
+	th._scrollFn=function(){
+		var y=th._getPageScroll();
+		var w=th.getWindowSize().height;
+		if(w==0){
+			th._loadAllImgs();
+			return;
+		}
+		var i=0;
+		var j=0;
+		while(th.imgs[i]){
+			if(!( y+w < th.imgs[i][2].pageTop )){
+				th._loadImages(th.imgs[i][0]);
+				j++
+			}
+			i++;
+			if(j>=th.imgs.length){
+				th._removeScrollEven();
+			}
+		}
+	}
+	
+	th.getImgPosition();
+	th._addScrollEven();
+	th._scrollFn();
+	
+})()
+</script>

@@ -1,0 +1,121 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head id="Head1">
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), "SysCodeBaseBox");
+            SysCodeBaseM_dhValue();
+            SysCodeBaseM_hideButton();
+        });
+        //导航值改变时，所必须的值
+        function SysCodeBaseM_dhValue() {
+            $("#lit_daohang", navTab.getCurrentPanel()).html("<a  onclick='SysCodeBaseM_daohangfuClick()'><span>顶级列表</span></a>");
+        }
+        //导航单击事件（父）
+        function SysCodeBaseM_daohangfuClick() {
+            $("#hf_pid", navTab.getCurrentPanel()).val("00000000-0000-0000-0000-000000000000");
+            $("#hf_cengj", navTab.getCurrentPanel()).val("0");
+            $("#hf_bianm", navTab.getCurrentPanel()).val("0000");
+            SysCodeBaseM_dhValue();
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "SysCodeBaseBox");
+            SysCodeBaseM_hideButton();
+        }
+        //导航单击事件（子）
+        function SysCodeBaseM_daohangziClick(vcid) {
+            $("#hf_pid", navTab.getCurrentPanel()).val(vcid);
+            $("#" + vcid).nextAll().remove();
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "SysCodeBaseBox");
+            SysCodeBaseM_hideButton();
+        }
+        //查询子级控件
+        function SysCodeBaseM_searchChild() {
+            if ($("#sc_ID", navTab.getCurrentPanel()).length == 1) {
+                var searchValue = $("#sc_ID", navTab.getCurrentPanel()).val(); //从ctl中rel的值
+                var vsyscodeid = searchValue.split('|')[0];  //id
+                var vsyscodename = searchValue.split('|')[1]; //name
+                var cengj = searchValue.split('|')[2]; //cengj
+                var bianma = searchValue.split('|')[3]; //bianma
+                $("#hf_pid", navTab.getCurrentPanel()).val(vsyscodeid); //查询的父id
+                $("#hf_cengj", navTab.getCurrentPanel()).val(cengj); //查询的父cengj
+                $("#hf_bianm", navTab.getCurrentPanel()).val(bianma); //查询的父编码
+                var aa = '"' + vsyscodeid + '"';
+                var daohang = $("#lit_daohang", navTab.getCurrentPanel()).html() + "<a class='aName' id='" + vsyscodeid + "'  onclick='SysCodeBaseM_daohangziClick(" + aa + ")'><span>&gt;&gt;" + vsyscodename + "</span></a>";    //现在导航的值
+                $("#lit_daohang", navTab.getCurrentPanel()).html(daohang); //给导航追加值
+                divSearch(navTab.getCurrentPanel().find("#pagerForm"), "SysCodeBaseBox");
+                SysCodeBaseM_hideButton();
+            }
+            else {
+                alertMsg.error("请选择信息！！！");
+            }
+        }
+        //添加的单击事件
+        function SysCodeBaseM_checkRole() {
+            var pid = $("#hf_pid", navTab.getCurrentPanel()).val();
+            var cengj = $("#hf_cengj", navTab.getCurrentPanel()).val();
+            var bianm = $("#hf_bianm", navTab.getCurrentPanel()).val();
+
+            $.pdialog.open("/SysCodeBase/SysCodeBaseEdit?otype=add&pid=" + pid + "&cengj=" + cengj + "&bianm=" + bianm, "w_SysCodeBaseEdit", "添加", { width: 405, height: 200 });
+        }
+        //详细
+        function SysCodeBaseM_dbltable(id) {
+            $.pdialog.open("/SysCodeBase/SysCodeBaseEdit?otype=details&sc_ID=" + id, "w_SysCodeBaseEdit", "详细信息", { width: 405, height: 200 });
+        }
+        //顶级 隐藏添加、删除控件
+        function SysCodeBaseM_hideButton() {
+            var aArry = document.getElementById("lit_daohang").getElementsByTagName("a");
+            if (aArry.length == 1) {
+                $("#li_add", navTab.getCurrentPanel()).hide();
+                $("#li_delete", navTab.getCurrentPanel()).hide();
+            } else {
+                $("#li_add", navTab.getCurrentPanel()).show();
+                $("#li_delete", navTab.getCurrentPanel()).show();
+            }
+        }
+    </script>
+</head>
+<body>
+    <form id="pagerForm" method="post" action="@Url.Action("SysCodeBaseList", "SysCodeBase")" onsubmit="return divSearch(this,'SysCodeBaseBox');">
+    <input type="hidden" id="hf_pid" name="hf_pid" value="00000000-0000-0000-0000-000000000000" />
+    <input type="hidden" id="hf_cengj" name="hf_cengj" value="0" />
+    <input type="hidden" id="hf_bianm" name="hf_bianm" value="0000" />
+    @Html.Hidden("type", ViewData["Type"])
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td>
+                        导航：
+                    </td>
+                    <td>
+                        <label id="lit_daohang">
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--列表-->
+    <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                <li><a class="details" onclick="SysCodeBaseM_searchChild();"><span>查看子集</span></a></li>
+                <li class="line">line</li>
+                <li id="li_add"><a class="add" onclick="SysCodeBaseM_checkRole()" href="javascript:void()">
+                    <span>添加</span></a></li>
+                <li><a class="edit"  width="405" height="200" href="@Url.Action("SysCodeBaseEdit", "SysCodeBase", new { otype = "modify", sc_ID = "{sc_ID}" })"
+                    target="dialog" rel="w_SysCodeBaseEdit" warn="请选择信息！！！"><span>编辑</span></a></li>
+                <li><a class="details" rel="w_SysCodeBaseEdit"  width="405" height="200" href="@Url.Action("SysCodeBaseEdit", "SysCodeBase", new { otype = "details", sc_ID = "{sc_ID}" })"
+                    target="dialog" warn="请选择信息！！！"><span>详细信息</span></a></li>
+                <li id="li_delete"><a class="delete" href="@Url.Action("Delete", "SysCodeBase", new { sc_ID = "{sc_ID}" })"
+                    target="ajaxTodo" title='确定删除' warn="请选择信息！！！"><span>删除</span></a></li>
+            </ul>
+        </div>
+        <div id="SysCodeBaseBox">
+        </div>
+    </div>
+    </form>
+</body>
+</html>

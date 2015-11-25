@@ -1,0 +1,57 @@
+﻿@model webs_YueyxShop.Model.ProductSEOBase
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("ProductSEOEdit", "Products")" enctype="multipart/form-data"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
+    @Html.HiddenFor(model => model.pseo_ID)
+    @Html.Hidden("texOtype", @ViewData["texOtype"])
+    @Html.Hidden("hfPId", @ViewData["hfPId"])
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="50">
+            <div class="unit">
+                <label>页面标题:</label>
+                @Html.TextBoxFor(model => model.pseo_Title, new { @class = "required" })
+            </div>
+            <div class="unit" style="height:80px;">
+                <label >页面描述:</label>
+                @Html.TextAreaFor(model => model.pseo_Content, new { @class = "required", @style = "width:150px;height:70px;" })
+            </div>
+            <div class="unit"style="height:80px;">
+                <label>页面关键词:</label>
+                @Html.TextAreaFor(model => model.pseo_Keys, new { @class = "required", @style = "width:150px;height:70px;" })
+            </div>
+            <div class="unit">
+                <label>图片Alt信息:</label>
+                @Html.TextBoxFor(model => model.pseo_PicAlt, new { @class = "required" })
+            </div>
+            <div class="unit">
+                <label>图片Title:</label>
+                @Html.TextBoxFor(model => model.pseo_PicTitle, new { @class = "required" })
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+            <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" >
+                                    保存</button></div>
+                        </div>
+                </li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

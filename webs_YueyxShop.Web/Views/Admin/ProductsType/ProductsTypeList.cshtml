@@ -1,0 +1,87 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.ProductTypeBase>
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" rel="ptBox" layouth="110" >
+    <colgroup width="30px" />
+    <colgroup width="200px" />
+    <colgroup width="200px" />
+    <colgroup width="100px" />
+    <colgroup width="30px" />
+    <colgroup width="30px" />
+    <colgroup width="200px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                编码
+            </th>
+            <th>
+                名称
+            </th>
+            <th>
+                图片预览
+            </th>
+            <th>
+                等级
+            </th>
+            <th>
+                顺序
+            </th>
+            <th>
+                创建时间
+            </th>
+            <th>
+                类别描述 
+            </th>
+            <th>
+                状态
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr target="dli_id" rel="@item.pt_ID|@item.pt_Name|@item.pt_Layer|@item.pt_Code" ondblclick="OpenMenuBaseEdit('@item.pt_ID|@item.pt_Name|@item.pt_Layer|@item.pt_Code')">
+                <td>
+                </td>
+                <td>
+                    @item.pt_Code
+                </td>
+                <td>
+                    @item.pt_Name
+                </td>
+                <td style="height:auto" id="img">
+                    <img Title="点击图片查看大图"  src="@item.pt_ImgUrl" style="width:120px;height:120px" onclick="showimg('@item.pt_ImgUrl')"/>
+                </td>
+                <td>@item.pt_Layer
+                </td>
+                <td>
+                    @item.pt_Sort
+                </td>
+                <td>
+                    @item.pt_CreatedOn.ToString("yyyy-MM-dd hh:mm:ss")
+                </td>
+                <td>
+                    @item.pt_Content
+                </td>
+                <td>
+                    <span style="color: Red">@item.pt_StatusCode.ToString().Replace("0", "启用").Replace("1", "禁用")</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="ptBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

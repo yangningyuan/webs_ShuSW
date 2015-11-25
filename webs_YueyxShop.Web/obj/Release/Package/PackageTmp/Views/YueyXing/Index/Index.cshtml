@@ -1,0 +1,310 @@
+﻿@{
+    ViewBag.Title = "月月兴食品商行";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+
+
+        <link type="text/css" href="/css/kaych.index.css" rel="stylesheet"/><!--首页细则css文件-->
+
+        <div class="block_home_slider">
+	        <div id="home_slider" class="flexslider">
+    	        <ul class="slides">
+                @{
+                    if (ViewData["AdertTop"] != null)
+                    {
+                        foreach (var ad in ((List<webs_YueyxShop.Model.Adert>)ViewData["AdertTop"]))
+                        {
+        	                <li><div class="slide"><a href="@ad.a_Link" target="_blank"><img style="width:2000px;height:430px;" name="page_cnt_1" src="@ad.a_Image" alt="@ad.a_Title" /></a></div></li>
+                        }
+                    }
+                }
+                </ul>
+	        </div><!--flexslider end-->
+        <!--轮播图JS-->
+        <script type="text/javascript">
+            $(function () {
+                $('#home_slider').flexslider({
+                    animation: 'slide',
+                    controlNav: true,
+                    directionNav: true,
+                    animationLoop: true,
+                    slideshow: true,
+                    useCSS: false
+                });
+            });
+        </script>          
+        </div><!--block_home_slider end-->
+        <div class="clearh"></div>
+        <div class="wrap">
+	        <div class="pro-tab border-nonetop borders alignleft">
+    	        <div class="menu" id="tab1">
+			        <ul>
+				        <li id="one1" onclick="setTab('one',1)"><span>@ViewData["热卖专区"]</span></li>
+				        <li id="one2" onclick="setTab('one',2)"><span>@ViewData["新品专区"]</span></li>
+				        <li id="one3" onclick="setTab('one',3)"><span>@ViewData["特价专区"]</span></li>
+				        <li id="one4" onclick="setTab('one',4)"><span>@ViewData["超值推荐"]</span></li>
+                        <li id="one5" onclick="setTab('one',5)"><span>疯狂团购</span></li>
+			        </ul>
+		        </div><!--menu end-->
+		        <div class="menudiv">
+			        <div id="con_one_1">
+            	        <ul class="ul-pro1">
+                        @{
+                            if (ViewData["热卖专区list"] != null)
+                            {
+                                int index = 0;
+                                foreach (System.Data.DataRow row in ((System.Data.DataTable)ViewData["热卖专区list"]).Rows)
+                                {
+                	                <li>
+                    	                <dl>
+                        	                <dt><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]"><img style="max-width:215px;max-height:175px;" name="page_cnt_1" src="@row["pi_Url"]" alt="@row["p_Name"]" /></a><div class="sale-bg">@row["prt_Title"]</div></dt>
+                                            <dd><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]">@row["p_Name"]</a></dd>
+                                            <dd><span>￥@row["sku_Price"]</span></dd>
+                                        </dl>
+                                    </li>
+                                    if (++index == 6)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        </ul>
+                    </div>
+			        <div id="con_one_2" style="display:none;">
+            	        <ul class="ul-pro1">
+                        @{
+                            if (ViewData["新品专区list"] != null)
+                            {
+                                int index = 0;
+                                foreach (System.Data.DataRow row in ((System.Data.DataTable)ViewData["新品专区list"]).Rows)
+                                {
+                	                <li>
+                    	                <dl>
+                        	                <dt><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]"><img style="max-width:215px;max-height:175px;" name="page_cnt_1" src="@row["pi_Url"]" alt="@row["p_Name"]" /></a><div class="sale-bg">@row["prt_Title"]</div></dt>
+                                            <dd><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]">@row["p_Name"]</a></dd>
+                                            <dd><span>￥@row["sku_Price"]</span></dd>
+                                        </dl>
+                                    </li>
+                                    if (++index == 6)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                       }
+                    </div>
+			        <div id="con_one_3" style="display:none;">
+            	        <ul class="ul-pro1">
+                        @{
+                            if (ViewData["特价专区list"] != null)
+                            {
+                                int index = 0;
+                                foreach (System.Data.DataRow row in ((System.Data.DataTable)ViewData["特价专区list"]).Rows)
+                                {
+                	                <li>
+                    	                <dl>
+                        	                <dt><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]"><img style="max-width:215px;max-height:175px;" name="page_cnt_1" src="@row["pi_Url"]" alt="@row["p_Name"]" /></a><div class="sale-bg">@row["prt_Title"]</div></dt>
+                                            <dd><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]">@row["p_Name"]</a></dd>
+                                            <dd><span>￥@row["sku_Price"]</span></dd>
+                                        </dl>
+                                    </li>
+                                    if (++index == 6)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        </ul>
+                    </div>
+			        <div id="con_one_4" style="display:none;">
+            	        <ul class="ul-pro1">
+                        @{
+                            if (ViewData["超值推荐list"] != null)
+                            {
+                                int index = 0;
+                                foreach (System.Data.DataRow row in ((System.Data.DataTable)ViewData["超值推荐list"]).Rows)
+                                {
+                	                <li>
+                    	                <dl>
+                        	                <dt><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]"><img style="max-width:215px;max-height:175px;" name="page_cnt_1" src="@row["pi_Url"]" alt="@row["p_Name"]" /></a><div class="sale-bg">@row["prt_Title"]</div></dt>
+                                            <dd><a href="/ProDetail/ProDetail?skuid=@row["sku_ID"]">@row["p_Name"]</a></dd>
+                                            <dd><span>￥@row["sku_Price"]</span></dd>
+                                        </dl>
+                                    </li>
+                                    if (++index == 6)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        </ul>
+                    </div>
+                    <div id="con_one_5" style="display:none;">
+            	        <div class="groupBuy-list lazyload">
+    				        <ul>
+                            @{
+                                if(ViewData["GroupPurchase"] != null)
+                                {
+                                    int i = 0;
+                                    foreach (var purchase in ((List<webs_YueyxShop.Model.vm_GBDetails>)ViewData["GroupPurchase"]))
+                                    {
+        				                <li>
+        					                <div class="m">
+            					                <div class="new">@purchase.gp_Logo</div>
+            					                <div class="con">
+									                <a href="/groupBuy/groupbuyDetails?gpid=@purchase.gp_ID" target="_blank" class="hover"><img style="width:280xp;height:235px;" name="page_cnt_1" src="@purchase.pi_Url" /><i></i></a>
+                				                </div>
+            					                <h2 title="@purchase.p_Name">@purchase.p_Name @purchase.shuxing</h2>
+            					                <em>@purchase.gp_Slogan</em>
+            					                <span class="cover lasttime" id="time01">剩余时间：<font class="day">00</font>天<font class="hour">00</font>时<font class="minute">00</font>分<font class="second">00</font>秒</span>
+            				                </div>
+            				                <div class="buy_box">
+            					                <p><span>￥</span><strong>@purchase.gp_pPric</strong></p>
+            					                <div class="person">
+              						                <p><font>@purchase.gp_SaleCount</font><span> 人已购买</span></p>
+              						                <p>原价：@purchase.sku_scPrice</p>
+            					                </div>
+            					                <a href="/groupBuy/groupbuyDetails?gpid=@purchase.gp_ID" target="_blank">立即抢购</a>
+            				                </div>
+      					                </li>
+                                        if (++i == 3)
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+        				        <div class="clear"></div>
+    				        </ul>
+				        </div><!--groupBuy-list end-->
+                        <div class="tg-ad">
+                            @{
+                                if(ViewData["AdTuanG"] != null)
+                                {
+                                    foreach (var ad in ((List<webs_YueyxShop.Model.Adert>)ViewData["AdTuanG"]))
+                                    {
+                	                    <a href="@ad.a_Link" class="alignleft"><img style="max-width:435px;max-height:128px;" name="page_cnt_1" src="@ad.a_Image" alt="团购" /></a>
+                                    }
+                                }
+                             }
+                        </div><!--tg-ad-->
+                    </div>
+		        </div><!--menudiv end-->
+                <div class="clear"></div>
+            </div><!--pro-tab end-->
+            <div class="w270 alignright">
+    	        <div class="news borders">
+        	        <div class="news-title">
+            	        <div class="news-icon"></div>
+                        <h2><span>最新</span>公告</h2>
+                        <a href="/News/newsList">更多>></a>
+                    </div>
+                    <ul class="news-cont">
+                    @{
+                        if (ViewData["NewAd"] != null)
+                        {
+                            foreach (var ad in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["NewAd"]))
+                            {
+                                <li><a href="/News/newsDetails?id=@ad.n_ID">@ad.n_Title</a></li>
+                            }
+                        }
+                    }
+                    </ul>
+                </div><!--borders end-->
+                <div class="clearh"></div>
+                <div class="tg-banner borders" id="img-play">
+        	        <ul>
+                        @{
+                            if(ViewData["Adtgban1"] != null)
+                            {
+                                foreach (var ad in ((List<webs_YueyxShop.Model.Adert>)ViewData["Adtgban1"]))
+                                { 
+				                    <li><a href="@ad.a_Link"><img style="max-width:268px;max-height:168px;" name="page_cnt_1" src="@ad.a_Image" /></a></li>
+                                }
+                            }
+                        }
+			        </ul>
+			        <a class="skip prevs" title="上一张">上一张</a>
+			        <a class="skip nexts" title="下一张">下一张</a>
+                </div><!--tg-banner-->
+                <div class="clearh"></div>
+                <div class="ad-banner">
+        	        <ul class="pic">
+                        @{
+                            if(ViewData["Adtgban2"] != null)
+                            {
+                                foreach (var ad in ((List<webs_YueyxShop.Model.Adert>)ViewData["Adtgban2"]))
+                                { 
+				                    <li><a href="@ad.a_Link" target="_blank"><img style="max-width:270px;max-height:135px;" name="page_cnt_1" src="@ad.a_Image" /></a></li>
+                                }
+                            }
+                        }
+			        </ul>
+			        <ul class="hd">
+                        @{
+                            if(ViewData["Adtgban2"] != null)
+                            {
+                                foreach (var ad in ((List<webs_YueyxShop.Model.Adert>)ViewData["Adtgban2"]))
+                                { 
+				                    <li></li>
+                                }
+                            }
+                        }
+			        </ul>
+                </div><!--ad-banner end-->
+            </div><!--w270 end-->
+            <div class="clearh"></div>
+            <div class="ads">
+                @{
+                    if(ViewData["Adbt"] != null)
+                    {
+                        foreach (var ad in ((List<webs_YueyxShop.Model.Adert>)ViewData["Adbt"]))
+                        { 
+				            <a href="@ad.a_Link" ><img style="max-width:595px;max-height:70px;" name="page_cnt_1" src="@ad.a_Image" alt="广告" /></a>
+                        }
+                    }
+                }
+            </div>
+            <div class="clearh"></div>
+
+            <!--产品分类开始-->
+            @{
+                if (ViewData["ProductType"] != null)
+                {
+                    foreach (var pt in (List<webs_YueyxShop.Model.ProductTypeBase>)ViewData["ProductType"])
+                    {
+                        @Html.Action("ProductType", "Index", new { ptID = pt.pt_ID, ptName = pt.pt_Name })
+                    }
+                }
+            }
+            
+            <!--产品分类结束-->
+
+
+            <!---->
+            <div class="brand-class borders">
+    	        <div class="pro-title">
+        	        <h2>品牌推荐</h2>
+           
+                </div><!--pro-title end-->
+                <div id="iFocus" style="margin:0 auto">
+			        <ul>
+                        @Html.Raw(ViewData["BrandBase"].ToString())
+			        </ul>
+			        <div class="btn">
+                        @Html.Raw(ViewData["BrandBaseSpan"].ToString())
+			        </div>
+		        </div><!--iFocus end-->
+                <div class="clear"></div>
+                <div class="picScroll">
+			        <ul>
+                        @Html.Raw(ViewData["BarndBaseLogo"].ToString())
+			        </ul>
+			        <a class="prev" href="javascript:void(0)"></a>
+			        <a class="next" href="javascript:void(0)"></a>
+		        </div><!--picScroll end-->
+            </div><!--pro-class end-->
+        </div><!--wrap end-->

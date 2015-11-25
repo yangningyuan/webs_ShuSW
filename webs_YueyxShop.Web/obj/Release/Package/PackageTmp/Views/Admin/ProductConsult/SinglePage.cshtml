@@ -1,0 +1,102 @@
+﻿@model webs_YueyxShop.Model.NewsBase
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        $(function () {
+            //加载图片
+            if ('@ViewData["picurl"]' != "") {
+                var urls = "<img src='../../" + '@ViewData["picurl"]' + "' style=\"width:auto;height:auto;\" />";
+                $("#fileQueue", navTab.getCurrentPanel()).html(urls);
+            }
+        })
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("Save", "NewsBase", new { mid = @ViewData["mid"] })"
+              class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone)">
+    @Html.Hidden("txbotype", @ViewData["otype"])
+    @Html.HiddenFor(model=>model.n_ID)
+    @Html.HiddenFor(model=>model.n_CreatedBy)
+    <input type="hidden" id="hfFilePath" value="" />
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="52">
+            <div class="unit">
+                <label>
+                    文章标题：</label>
+                @Html.TextBoxFor(model => model.n_Title, new { @class = "required", @style = "width:300px;" })
+            </div>
+            <div class="unit">
+                <label>
+                    外链地址：</label>
+                @Html.TextBoxFor(model => model.n_RedirectUrl, new { @style = "width:300px;" })
+            </div>
+            <div class="unit">
+                <label>
+                    二维码地址：</label>
+                @Html.TextBoxFor(model => model.n_QRCode, new { @style = "width:300px;" })
+            </div>
+            <div class="unit">
+                <label>
+                    排序：</label>
+                @Html.TextBoxFor(model => model.n_Sort, new { @style = "width:300px;",@class="number" })<label style="color:red;">如0,1,2,3......</label>
+            </div>
+            <div class="unit">
+                <label>
+                    标题图片：</label>
+                @Html.Hidden("FileInputEId", @ViewData["picurl"], new { @id = "FileInputEId" })
+                <span class="info">
+                    <div id="fileQueue" style="float: left; width: auto;">
+                    </div>
+                    <div style="clear: both;">
+                    </div>
+                    <input id="testFileInput" type="file" name="LogoInp" uploaderoption="{
+			swf:'../../uploadify/scripts/uploadify.swf',
+			uploader:'../../uploadify/scripts/uploadify.ashx',
+			formData:{controlName:'LogoInp', folder:'_filebase/newsimages/'},
+			fileSizeLimit:'200KB',
+			fileTypeDesc:'*.jpg;*.jpeg;*.gif;*.png;',
+			fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;',
+			auto:true,
+            queueID:'fileQueue',
+            valueID:'FileInputEId',
+            modelType:'navtab'
+		}" />
+                    <span style="color: Red;">注：上传图片小于1MB！最大宽度小于920像素！</span> </span>
+            </div>
+            <div class="unit">
+                <label>
+                    详细信息：</label>
+                @Html.TextAreaFor(model => model.n_Content, new { style = "width:750px;height:400px;", @class = "kindeditor required" })
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li id="save">
+                        <div class="buttonActive" id="submit" runat="server">
+                            <div class="buttonContent">
+                                <button id="sub" type="submit">
+                                    保存
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

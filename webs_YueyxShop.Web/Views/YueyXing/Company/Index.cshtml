@@ -1,0 +1,323 @@
+﻿@{
+    ViewBag.Title = "月月兴食品商行-商家入驻-入驻须知";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="/css/kaych.prolist.css"><!--产品相关页面CSS-->
+
+<div class="breadcrumb">
+	<a href="/Index/Index"><strong>首页</strong></a>  >商家入驻-入驻须知 
+</div><!--breadcrumb end-->
+<div class="clearh"></div>
+<div class="wrap">
+	<div class="company-banner alignleft">
+    	<ul class="pics">
+        @{
+            if (ViewData["CompanyAdertTop"] != null)
+            {
+                foreach(var ad in ViewData["CompanyAdertTop"] as List<webs_YueyxShop.Model.Adert>)
+                {
+			        <li><a href="@ad.a_Link" target="_blank"><img style="width:980px;height:300px;" name="page_cnt_1" src="@ad.a_Image"/></a></li>
+                }
+            }
+        }
+        </ul>
+		<ul class="hd">
+        @{
+            if (ViewData["CompanyAdertTop"] != null)
+            {
+                foreach(var ad in ViewData["CompanyAdertTop"] as List<webs_YueyxShop.Model.Adert>)
+                {
+			        <li></li>
+                }
+            }
+        }
+		</ul>
+    </div><!--company-banner end-->
+    <div class="company-side alignright">
+    	<div class="company-cont">
+        	<div class="company-hot"></div>
+        	<dl>
+            	<dt>B2C正品商城平台</dt>
+                <dd><em></em>百度强大流量保证</dd>
+                <dd><em></em>月月兴成功运营支持</dd>
+                <dd><em></em>商户为本免费入驻</dd>
+            </dl>
+            <a href="/Register/companyRegister"><img name="page_cnt_1" src="/images/img/company_button_01.png" alt="企业入驻" /></a>
+        </div><!--company-cont end-->
+        <div class="company-contact">
+        	<div class="Deta-title"><h3>联系我们</h3></div>
+            <p>入驻咨询：0371-69508888</p>
+            <p>地址：河南省郑州市金水区文化路85号e时代广场1008室</p>
+        </div><!--company-contact end-->
+    </div><!--company-side end-->
+    <div class="clearh"></div>
+	<div class="company-tab" id="tab1">
+    	<div class="borders hd">
+       		<ul class="alignleft">
+            @{
+                if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        int index = item.n_Sort + 1;
+                        string ide = "one" + index;
+                        if (item.n_Sort == 0)
+                        {
+                            <li><a href="javascript:void(0);" id="@ide" onclick="setTab('one',@index)" class="on">@item.n_Title</a></li>
+                        }
+                        else
+                        { 
+                            <li><a href="javascript:void(0);" id="@ide" onclick="setTab('one',@index)">@item.n_Title</a></li>
+                        }
+                    }
+                }
+            }
+           </ul>
+       	</div><!--hd end-->
+        <div class="company-box">
+        @{
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    string id = "con_one_" + (item.n_Sort + 1);
+                    if (item.n_Sort == 1)
+                    {
+                        <div class="box-cont" id="@id">
+                            @Html.Raw(item.n_Content)
+                        </div><!--inBox end-->
+                    }
+                    else
+                    { 
+                        <div class="box-cont" id="@id" style="display:none;">
+                            @Html.Raw(item.n_Content)
+                        </div><!--inBox end-->
+                    }
+                }
+            }
+         }
+          </div><!--tab_box end-->
+          <div class="clear"></div>
+          <div class="pro-titles">
+          	  <h3>推荐商品</h3>
+          </div>
+          <ul class="pro-class-list">
+            	@Html.Action("Partialremaituijian", "Company")
+            </ul>
+    </div><!--wrap end-->
+</div><!--wrap end-->
+
+<!--产品分类搜索JS-->
+<script type="text/javascript">
+
+
+    //入驻须知商家入驻BANNER轮播JS
+    jQuery(".company-banner").slide({ mainCell: ".pics", effect: "left", autoPlay: true, delayTime: 300 });
+
+
+    //图片延迟加载
+    (function () {
+
+        var th = this;
+
+        th.pageSize = 1000; /* 每屏大概高度为1000px */
+
+        th.pageQuotiety = 0.5; /* 提前下载量 */
+
+        th.imgName = "page_cnt_"; /* 图片通用名 */
+
+        th.imgs = []; /* 每屏图片 [每屏所有图片，第一张图片，第一张图片绝对top:加载图片的top] */
+
+        var B = {}; /* Browser check */
+
+        B.ua = window.navigator.userAgent.toLowerCase();
+
+        B.ie = /msie/.test(B.ua);
+
+        B.moz = /gecko/.test(B.ua);
+
+        B.opera = /opera/.test(B.ua);
+
+        B.safari = /safari/.test(B.ua);
+
+        var $N = function (s, docu) {
+            var doc = docu ? docu : document;
+            return (typeof s == "object") ? s : doc.getElementsByName(s);
+        };
+
+        th.getWindowSize = function () {
+            var a = {};
+            if (window.self && self.innerWidth) {
+                a.width = self.innerWidth;
+                a.height = self.innerHeight;
+                return a;
+            } if (document.documentElement && document.documentElement.clientHeight) {
+                a.width = document.documentElement.clientWidth;
+                a.height = document.documentElement.clientHeight;
+                return a;
+            }
+            a.width = document.body.clientWidth;
+            a.height = document.body.clientHeight;
+            return a;
+        }
+
+        th.getObjPosition = function (obj) {
+            var a = {};
+            a.x = obj.offsetLeft, a.y = obj.offsetTop;
+            while (obj = obj.offsetParent) {
+                a.x += obj.offsetLeft;
+                a.y += obj.offsetTop;
+            }
+            return a;
+        }
+
+        th._getPageScroll = function () {
+            var s;
+            if (typeof (window.pageYOffset) != "undefined") {
+                s = window.pageYOffset;
+            } else if (document.documentElement && document.documentElement.scrollTop) {
+                s = document.documentElement.scrollTop;
+            } else if (document.body) {
+                s = document.body.scrollTop;
+            }
+            return s;
+        }
+
+        th._loadImages = function (a) {
+            if (!a) return;
+            var obj = a;
+            if (typeof a == "string") {
+                obj = $N(a);
+            } for (var i = 0; i < obj.length; i++) {
+                var s = obj[i];
+                if (typeof s == "object") {
+                    if (s.getAttribute("_src")) {
+                        s.setAttribute("src", s.getAttribute("_src"));
+                        s.removeAttribute("_src", 0);
+                    }
+                }
+            }
+            delete obj;
+            obj = null;
+        }
+
+        th._loadAllImgs = function () {
+            var i = 0;
+            while (th.imgs[i]) {
+                th._loadImages(th.imgs[i][0]);
+                i++;
+            }
+        }
+
+        th.getImgPosition = function () {
+            var i = 1;
+            var p = $N(th.imgName + i);
+            while (p && p.length > 0) {
+                var p = $N("page_cnt_" + i);
+                var t = th.getImgLoadPosition(p[0]);
+                th.imgs.push([p, p[0], t]);
+                i++;
+                p = $N(th.imgName + i);
+            }
+        }
+
+        th.getImgLoadPosition = function (a) {
+            var t = { imgTop: 0, pageTop: 0 };
+            if (a) {
+                var w = th.getWindowSize();
+                t.imgTop = parseInt(th.getObjPosition(a).y);
+                t.pageTop = parseInt((t.imgTop / 1000 - th.pageQuotiety) * 1000);
+            }
+            return t;
+        }
+
+        th._addScrollEven = function () {
+            if (B.ie) {
+                window.attachEvent("onscroll", th._scrollFn);
+            } else {
+                window.addEventListener("scroll", th._scrollFn, false);
+            }
+        }
+
+        th._removeScrollEven = function () {
+            if (B.ie) {
+                window.detachEvent("onscroll", th._scrollFn);
+            } else {
+                window.removeEventListener("scroll", th._scrollFn, false);
+            }
+        }
+
+        th._scrollFn = function () {
+            var y = th._getPageScroll();
+            var w = th.getWindowSize().height;
+            if (w == 0) {
+                th._loadAllImgs();
+                return;
+            }
+            var i = 0;
+            var j = 0;
+            while (th.imgs[i]) {
+                if (!(y + w < th.imgs[i][2].pageTop)) {
+                    th._loadImages(th.imgs[i][0]);
+                    j++
+                }
+                i++;
+                if (j >= th.imgs.length) {
+                    th._removeScrollEven();
+                }
+            }
+        }
+
+        th.getImgPosition();
+        th._addScrollEven();
+        th._scrollFn();
+
+    })()
+</script>
+<script type="text/javascript">
+    function setTab(name, cursel) {
+        cursel_0 = cursel;
+        for (var i = 1; i <= links_len; i++) {
+            var menu = document.getElementById(name + i);
+            var menudiv = document.getElementById("con_" + name + "_" + i);
+            if (i == cursel) {
+                menu.className = "off";
+                menudiv.style.display = "block";
+            }
+            else {
+                menu.className = "";
+                menudiv.style.display = "none";
+            }
+        }
+    }
+    function Next() {
+        cursel_0++;
+        if (cursel_0 > links_len) cursel_0 = 1
+        setTab(name_0, cursel_0);
+    }
+    var name_0 = 'one';
+    var cursel_0 = 1;
+    /*var ScrollTime=3000;//循环周期（毫秒）*/
+    var links_len, iIntervalId;
+    onload = function () {
+        var links = document.getElementById("tab1").getElementsByTagName('li')
+        links_len = links.length;
+        /*for(var i=0; i<links_len; i++){
+        links[i].onmouseover=function(){
+        clearInterval(iIntervalId);
+        this.onmouseout=function(){
+        iIntervalId = setInterval(Next,ScrollTime);;
+        }
+        }
+        }
+        document.getElementById("con_"+name_0+"_"+links_len).parentNode.onmouseover=function(){
+        clearInterval(iIntervalId);
+        this.onmouseout=function(){
+        iIntervalId = setInterval(Next,ScrollTime);;
+        }
+        }*/
+        setTab(name_0, cursel_0);
+        //iIntervalId = setInterval(Next, ScrollTime);
+    }
+</script>

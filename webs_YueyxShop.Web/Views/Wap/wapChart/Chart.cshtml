@@ -1,0 +1,369 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>月月兴食品商行-我的购物车</title>
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+<!--设备原始宽度，不允许缩放，user-scalable是否允许用户手动缩放 inital-scale初始缩放比例 以及允许用户缩放到的最大和最小比例-->
+<meta content="yes" name="apple-mobile-web-app-capable" />  
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />  
+<!--在IOS系统中以上两个meta会让网页内容以应用程序风格显示，并使状态栏透明 上面一个content有俩值yes和no 此meta作用是删除默认的苹果工具栏和菜单栏，如果需要显示时不加此行meta 第二个meta的content有三个值default（白色） black(黑色) black-translucent（灰色半透明）若值为“black-translucent”将会占据页面px位置，浮在页面上方（会覆盖页面20px高度–iphone4和itouch4的Retina屏幕为40px）。-->
+<meta name="format-detection" content="telephone=no">
+<meta content="email=no" name="format-detection" />
+<!--以上两条mate作用为：告诉设备忽略将页面中的数字识别为电话号码 将不识别邮箱-->
+<link type="text/css" href="/css/wap/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件-->
+<link type="text/css" href="/css/wap/kaych.framework.css" rel="stylesheet"/><!--页面框架css文件-->
+<link type="text/css" href="/css/wap/kaych.ui-visual.css" rel="stylesheet"/><!--视觉效果（即样式，与框架分离）css属性文件-->
+<link type="text/css" href="/css/wap/kaych.indexLayout.css" rel="stylesheet"/><!--页面细致布局css文件--> 
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.commons.css"><!--页面通用CSS文件-->
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.media.screen.css"><!--页面分辨率检测启用不同布局CSS文件-->
+
+<!--[if lt IE 9]>
+<script src="/js/wap/html5.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script type="text/javascript" src="/js/wap/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<script src="/js/wap/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/js/wap/custominput.js"></script><!--表单美化-->
+<script type="text/javascript" src="/js/wap/payfor.js"></script><!--商品数量加减JS-->
+<script src="/js/wap/main.js"></script>
+
+<script type="text/javascript">
+
+    $(function () {
+        if ($('#isempty').val() == "") {
+            $('#fullChart').remove();
+        } else {
+            $('#emptyChart').remove();
+        }
+
+        //选择事件
+        $("label[id^='label_item_']").each(function () {
+            $(this).click(function () {
+                var isChecked = false;
+                if ($(this).hasClass('checked')) {
+                    isChecked = false;
+                    $(this).removeClass('checked');
+                } else {
+                    isChecked = true;
+                    $(this).addClass('checked');
+                }
+                var id = strToNumber(11, $(this).attr('id'));
+                $('#check_item_' + id).attr('checked', isChecked);
+                var pricechange = strToNumber(1, $('#priceid_' + id).text());
+                if (!isChecked) {
+                    pricechange = -pricechange;
+                }
+                //获取总价
+                var sumPrice = strToNumber(4, $('#total_price').text());
+                //计算总价
+                sumPrice = sumPrice + pricechange;
+                //总价赋值
+                $('#total_price').text("总计：￥" + sumPrice.toFixed(2));
+            })
+        });
+    });          //function
+
+    //字符串转Number
+    function strToNumber(start, str, right) {
+        if (str == null || str == "") {
+            return null;
+        }
+        if (typeof (right) == "undefined") {
+            str = str.substr(start);
+        } else {
+            str = str.substr(start, str.length - start - right);
+        }
+        var num = Number(str);
+        if (isNaN(num))
+            return null;
+        return num;
+    }
+
+    //数量减
+    //id为sku_ID
+    function reduceCount(id) {
+        //修改前数量
+        var oldCount = strToNumber(0, $('#qty_item_' + id).val());
+        //数量是否正确
+        if (oldCount == 1) {
+            alert("商品数量最少为1");
+
+            return;
+        }
+        oldCount--;
+        UpdatePage(id, oldCount);
+    }
+
+    //手动输入
+    //id为sku_ID
+    function modifyCount(id) {
+        var count = strToNumber(0, $('#qty_item_' + id).val());
+        if (count == null) {
+            alert("请输入正确的数量！");
+            var str = $('#qty_item_' + id).val();
+            if (str == "") {
+                str = "11";
+            }
+            $('#qty_item_' + id).val(str.substr(0, str.length - 1));
+            return;
+        } else if (count > 999) {
+            var str = $('#qty_item_' + id).val();
+            $('#qty_item_' + id).val(str.substr(0, str.length - 1));
+            return;
+        }
+        UpdatePage(id, count);
+    }
+
+    //数量加
+    //id为sku_ID
+    function addCount(id) {
+        //修改前数量
+        var oldCount = strToNumber(0, $('#qty_item_' + id).val());
+        //数量是否正确
+        if (oldCount == 999) {
+            alert("商品数量最多为999");
+            return;
+        }
+        oldCount++;
+        UpdatePage(id, oldCount);
+    }
+
+    //修改界面上的相应内容
+    function UpdatePage(id, count) {
+        $.ajax({
+            type: 'post',
+            url: "/Chart/UpdateChartCount?id=" + id + "&count=" + count,
+            async: false,
+            success: function (data) {
+            }
+        });
+
+        //修改前价格
+        var oldPrice = strToNumber(1, $('#priceid_' + id).text());
+        //数量赋值
+        $('#qty_item_' + id).val(count);
+        //获取单价
+        var unitPrice = strToNumber(1, $('#sc_' + id).text());
+        //计算价格
+        var newPrice = count * unitPrice;
+        //价格赋值
+        $('#priceid_' + id).text('￥' + newPrice.toFixed(2));
+        if ($('#check_item_' + id).attr("checked")) {
+            //获取总价
+            var sumPrice = strToNumber(4, $('#total_price').text());
+            //计算总价
+            sumPrice = sumPrice - oldPrice + newPrice;
+            //总价赋值
+            $('#total_price').text("总计：￥" + sumPrice.toFixed(2));
+        }
+    }
+
+    //获取选中的商品
+    function GetChecked(isChecked) {
+        var str = "";
+        //获取选中
+        if (isChecked) {
+            $("input[name='goods']:checkbox").each(function () {
+                if ($(this).attr("checked")) {
+                    var id = strToNumber(11, $(this).attr("id"));
+                    str += id + ",";
+                }
+            });
+        } else { //全选
+            $("tr[name='goods']").each(function () {
+                var id = $(this).attr("id");
+                str += id + ",";
+            });
+        }
+
+        return str;
+    }
+
+    //删除选中
+    function DeleteChecked() {
+        if (!confirm("确认删除选中商品？")) {
+            return;
+        }
+        var str = GetChecked(true);
+        if (str == "") {
+            alert("未选中商品！");
+            return;
+        }
+        DeleteFromDataBase(str);
+    }
+
+    //删除所有
+    function DeleteAll() {
+        if (!confirm("确认清空购物车？")) {
+            return;
+        }
+        var str = GetChecked(false);
+        if (str == "") {
+            alert("当前购物车为空！");
+            return;
+        }
+        DeleteFromDataBase(str);
+    }
+
+    //单个删除
+    function Delete(str) {
+        if (!confirm("确认删除？")) {
+            return;
+        }
+        DeleteFromDataBase(str);
+    }
+
+    //从数据库删除
+    function DeleteFromDataBase(str) {
+        $.ajax({
+            type: 'post',
+            url: "/Chart/DeleteChartSKU?ids=" + str,
+            async: true,
+            success: function (data) {
+                if (data == "删除成功") {
+                    DeleteItem(str);
+                }
+            }
+        })
+    }
+
+    //删除标签
+    function DeleteItem(str) {
+        var ids = str.split(',');
+        for (i = 0; i < ids.length; i++) {
+            if (ids[i] != "") {
+                //重新计算价格
+                var oldPrice = strToNumber(1, $('#priceid_' + ids[i]).text());
+                //获取总价
+                var sumPrice = strToNumber(4, $('#total_price').text());
+                //计算总价
+                sumPrice = sumPrice - oldPrice;
+                //总价赋值
+                $('#total_price').text("总计：￥" + sumPrice.toFixed(2));
+                //删除
+                $('#' + ids[i]).remove();
+            }
+        }
+    }
+
+    //提交
+    function submitChart() {
+        var str = GetChecked(true);
+        if (str == "") {
+            alert("请选择商品后再结算！");
+            return;
+        }
+//        var list = str.split(',');
+//        for (i = 0; i < list.length; i++) {
+//            if (list[i] != "") {
+//                if ($('#stock_' + list[i]).text() == "库存不足") {
+//                    alert("请选择有货的商品！");
+//                    return;
+//                }
+//            }
+        //        }
+
+        window.location.href = "/wapOrder/Order?ids=" + str;
+    }
+    
+</script>
+
+</head>
+
+<body>
+    <input type="hidden" name = "isempty" id = "isempty" value="@ViewData["isempty"]" />
+<header>
+	<div class="wrap hidden relative">
+    	<h2 class="titles">我的购物车</h2>
+        <div class="side-icon right"><a href="javascript:void(0)" onclick="DeleteChecked()">删除</a></div>
+    </div><!--wrap end-->
+</header>
+
+    <div id="fullChart">
+
+    <div class="zw-div"></div>
+        <div class="wrap hidden">
+	        <ul class="chart-list">
+            @{
+                if (ViewData["chartList"] != null)
+                {
+                    decimal total = 0;
+                    foreach (System.Data.DataRow row in ((System.Data.DataTable)ViewData["chartList"]).Rows)
+                    {
+                        //定义id
+                        string scId = "sc_" + row["sku_ID"];
+                        string qtyid = "qty_item_" + row["sku_ID"];
+                        string priceid = "priceid_" + row["sku_ID"];
+                        string chkId = "check_item_" + row["sku_ID"];
+                        string lbId = "label_item_" + row["sku_ID"];
+                        //价格数量转换
+                        int pCount = Convert.ToInt32(row["sc_pCount"]);
+                        decimal sc_pPrice = Convert.ToDecimal(row["sku_Price"]);
+                        decimal price = sc_pPrice * pCount;
+                        total += price;
+                        <li id="@row["sku_ID"]">
+        	                <div class="goods-input">
+            	                <input type="checkbox" name="goods" id="@chkId" checked="checked" value="" />
+				                <label id="@lbId" for="goods1" class="checked"></label>
+                            </div>
+                            <div class="goods-img"><a href="/wapProDetail/ProDetail?skuid=@row["sku_ID"]"><img src="@row["pi_Url"]" alt="@row["p_Name"]" style="width:68px;height:68px;"/></a></div>
+                            <div class="goods-messages">
+            	                <dl>
+                	                <dt>@row["p_Name"] @row["property"]</dt>
+                                    <dd>
+                                        <span id="@scId">￥@sc_pPrice</span>
+                                        <span id="@priceid" style="display:none;">￥@price</span>
+                                    </dd>
+                                    <dd>
+                    	                <b class="alignleft">数量：</b>
+                                        <div class="add_chose alignleft">
+                        	                <a class="reduce" onclick="reduceCount('@row["sku_ID"]')" href="javascript:void(0)">-</a>
+							                <input type="text" name="@qtyid" value="@pCount" id="@qtyid" onkeyup="modifyCount('@row["sku_ID"]')" class="text" />
+							                <a class="add" onclick="addCount('@row["sku_ID"]')" href="javascript:void(0)">+</a>
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </li>
+                    }
+                    ViewData["total"] = total;
+                }
+             }
+            </ul>
+        </div><!--wrap end-->
+        <div class="clearh"></div>
+        <div class="zw-div"></div>
+        <div class="zw-div"></div>
+        <div class="total">
+	        <div class="wrap hidden">
+		        <span id="total_price">总计：￥@ViewData["total"]</span><a href="javascript:void(0)" onclick="submitChart()">结算</a>
+            </div>
+    </div>
+
+</div>
+
+    <div id="emptyChart">
+        <link rel="stylesheet" type="text/css" href="/css/wap/kaych.chartOrder.css"><!--购物车系统CSS文件-->
+        <div class="zw-div"></div>
+        <div class="wrap">
+        <div class="wrapper hidden">
+           <div class="empty-icon"></div>
+           <dl class="empty-link">
+   	           <dt>购物车还是空的，去逛逛吧！</dt>
+               <dd><a href="/wapIndex/Index">去首页逛逛</a></dd>
+           </dl>
+        </div><!--wrapper end-->
+        </div><!--wrap end-->
+        <div class="clearh"></div>
+        <div class="zw-div"></div>
+
+    </div>
+    
+<div class="footer-nav">
+    @Html.Action("bottomMenu", "wapvipCenter")    
+</div><!--footer-nav end-->
+</body>
+</html>

@@ -1,0 +1,68 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.EmployeeBase>
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" layouth="116" rel="SelectTeacherBox">
+    <colgroup width="30px" />
+    <colgroup width="100px" />
+    <colgroup width="200px" />
+    <colgroup width="120px" />
+    <colgroup width="120px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                用户姓名
+            </th>
+            <th>
+                所属部门
+            </th>
+            <th>
+                性别
+            </th>
+            <th>
+                手机
+            </th>
+            <th>
+                选择
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewData["PageList"]).AsEnumerable())
+        { <tr target="e_ID" rel="@item["e_ID"]">
+            <td>
+            </td>
+            <td>
+                @item["e_MingC"]
+            </td>
+            <td>
+                @item["d_MingCh"]
+            </td>
+            <td>
+                @item["e_XingB"].ToString().Replace("0", "男").Replace("1", "女")
+            </td>
+            <td>
+                @item["e_ShouJ"]
+            </td>
+            <td>
+                <a class="btnSelect" title="查找带回" href="javascript:$.bringBack({id:'@item["e_ID"]',orgName:'@item["e_MingC"]',orgNum:'@item["e_ShouJ"]'})" >
+                    选择</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="SelectTeacherBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

@@ -1,0 +1,70 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), "pimgBox");
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), "patBox");
+        });
+    </script>
+</head>
+<body>
+    <form id="pagerForm" method="post"  action="@Url.Action("ProductAttList", "Products")" onsubmit="return divSearch(this,'patBox');">
+    <input type="hidden" id="sku_add" name="hf_add" value="@ViewData["hfPId"]" />
+    <input type="hidden" id="PskuPid" name="hfPid" value="@ViewData["hfPId"]" />
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent" style="width: 100%;">
+                <colgroup>
+                    <col style="width: 40px;" />
+                    <col />
+                </colgroup>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <label id="div_daohang">
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--列表-->
+    <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li><a class="add" href="@Url.Action("ProductAttrEdit?otype=add&dli_id={sku_add}", "Products")"  target="dialog" 
+
+rel="w_ProductAttrEdit">
+                        <span>添加</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("ProductAttrEdit?otype=modify&dli_id={attr_id}", "Products")" rel="w_ProductAttrEdit"
+                        target="dialog"  ><span>编辑</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="delete" href="@Url.Action("ProductAttrDelete?dli_id={attr_id}", "Products")" rel="w_ProductAttrDelete"
+                    target="ajaxTodo" title='确定删除' warn="请选择信息！！
+
+！"><span>删除</span></a></li>
+                    @*<li class="line">line</li>
+                    <li><a class="unlock"  href="@Url.Action("ProductAttrEnable?otype=enable&dli_id={attr_id}", "Products")"
+                    target="ajaxTodo" warn="请选择信息！！！"><span>启用
+
+</span></a></li>
+                    <li><a class="lock"  href="@Url.Action("ProductAttrEnable?otype=disable&dli_id={attr_id}", "Products")"
+                    target="ajaxTodo" warn="请选择信息！！！"><span>禁用</span></a></li>*@
+                }
+            </ul>
+        </div>
+        <div id="patBox">
+
+        </div>
+    </div>
+    </form>    
+</body>
+</html>

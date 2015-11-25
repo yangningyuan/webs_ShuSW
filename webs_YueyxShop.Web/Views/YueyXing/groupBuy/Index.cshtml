@@ -1,0 +1,453 @@
+﻿@{
+    ViewBag.Title = "月月兴食品商行-团购商品列表";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+@model Models.ListModel
+<link type="text/css" href="/css/kaych.index.css" rel="stylesheet" />
+<script type="text/javascript">
+
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+
+    $(document).ready(function () {
+
+        var page = $('#curpage').val();
+        frPage(page);
+    });
+
+
+    var a = 0;
+    var Request = new Object();
+
+
+    Request = GetRequest();
+    var type = Request["type"] == 'undefined' ? "" : Request["type"];
+    var ptype = Request["ptype"] == 'undefined' ? "" : Request["ptype"];
+    var brand = Request["brand"] == 'undefined' ? "" : Request["brand"];
+    var price = Request["price"] == 'undefined' ? "" : Request["price"];
+
+
+    type = type == 'undefined' ? "" : type;
+    ptype = ptype == 'undefined' ? "" : ptype;
+    brand = brand == 'undefined' ? "" : brand;
+    price = price == 'undefined' ? "" : price;
+
+    function basisType(ptype) {
+        ptype = ptype;
+
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        window.location.href = '/groupbuy/index' + par;
+    }
+    function basisPrice(tprice) {
+        price = tprice;
+
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        window.location.href = '/groupbuy/index' + par;
+    }
+    function basisBrand(tbrand) {
+        brand = tbrand;
+
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        window.location.href = '/groupbuy/index' + par;
+    }
+
+    function clearterm() {
+        window.location.href = '/groupbuy/index?type=' + type;
+    }
+
+    function jump() {
+
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        window.location.href = '/groupbuy/index' + par;
+    }
+
+    function pagejump(page) {
+
+        var par = '?type=' + type;
+        if (ptype != '' && ptype != 'undefined') {
+            par += '&ptype=' + ptype;
+        }
+        if (brand != '' && brand != 'undefined') {
+            par += '&brand=' + brand;
+        }
+        if (price != '' && price != 'undefined') {
+            par += '&price=' + price;
+        }
+        if (page != '' && page != '' && page > 0) {
+            par += '&page=' + page;
+        }
+        window.location.href = '/groupbuy/index' + par;
+    }
+
+    
+</script>
+<input type="hidden" value="@ViewData["count"]" id="count" />
+<input type="hidden" value="@ViewData["page"]" id="curpage" />
+<input type="hidden" value="@ViewData["pagerows"]" id="pagerows" />
+<div class="breadcrumb">
+    <a href="/index/index"><strong>首页</strong></a> > @Model.path
+</div>
+<!--breadcrumb end-->
+<div class="clearh">
+</div>
+<div class="wrap">
+    <div class="collections">
+        <div class="chose-results">
+            <dl>
+                <dt>您已选择：</dt>
+                <dd class="clearDd">
+                    <div>
+                        @{
+                            string price, brand, ptype;
+                            ptype = Context.Request.QueryString["ptype"] == null || Context.Request.QueryString["ptype"] == "undefined" ? "" : Context.Request.QueryString["ptype"].ToString();
+                            brand = Context.Request.QueryString["brand"] == null || Context.Request.QueryString["brand"] == "undefined" ? "" : Context.Request.QueryString["brand"].ToString();
+                            price = Context.Request.QueryString["price"] == null || Context.Request.QueryString["price"] == "undefined" ? "" : Context.Request.QueryString["price"].ToString();
+                            if (ptype != "")
+                            {
+                                var mod = Model.ptlist.Where(id => id.pt_ID == int.Parse(ptype)).FirstOrDefault();
+                                if (mod != null)
+                                {
+                            <div class="conditions selectedShow">
+                                <span>商品分类：</span><label>@mod.pt_Name</label><em onclick="javascript:ptype='';"></em></div> 
+                                }
+                            }
+                            else
+                            {
+                            <div class="conditions selectedShow" style="display: none">
+                                <span></span>
+                                <label>
+                                </label>
+                                <em onclick="javascript:ptype='';"></em>
+                            </div>
+                            }
+                            if (brand != "")
+                            {
+                                var mod = Model.blist.Where(id => id.b_ID == int.Parse(brand)).FirstOrDefault();
+                                if (mod != null)
+                                {
+                            <div class="conditions selectedShow">
+                                <span>品牌分类：</span><label>@mod.b_Name</label><em onclick="javascript:brand='';"></em></div>
+                            
+                                }
+                            }
+                            else
+                            {
+                            <div class="conditions selectedShow" style="display: none">
+                                <span></span>
+                                <label>
+                                </label>
+                                <em onclick="javascript:brand='';"></em>
+                            </div>
+                            }
+
+                            if (price != "")
+                            {
+                               
+                            <div class="conditions selectedShow">
+                                <span>价格范围：</span><label>@price</label><em onclick="javascript:price='';"></em></div> 
+                            
+                            }
+                            else
+                            {
+                            <div class="conditions selectedShow" style="display: none">
+                                <span></span>
+                                <label>
+                                </label>
+                                <em onclick="javascript:price='';"></em>
+                            </div>
+                            }
+                            
+                            
+                        }
+                    </div>
+                    <div id="qc" onclick="clearterm()" class="delete">
+                        清除条件</div>
+                </dd>
+            </dl>
+        </div>
+        <!--chose-results end-->
+        <div class="typelist borders" id="classify">
+            <dl class="list-cont" attr="terminal_classifiton_s">
+                <dt>商品分类：</dt>
+                <dd>
+                    @{
+                        //string ptype = Context.Request.QueryString["ptype"] == null ? "" : Context.Request.QueryString["ptype"].ToString();
+                        foreach (var item in Model.ptlist)
+                        {
+                            if (ptype == item.pt_ID.ToString())
+                            {
+                        <a href="javascript:void(0)" values2="" values1="@item.pt_ID" attrval="@item.pt_Name" class="selected" onclick="basisType(@item.pt_ID)">
+                            @item.pt_Name</a>
+                            }
+                            else
+                            {
+                        <a href="javascript:void(0)" values2="" values1="@item.pt_ID" attrval="@item.pt_Name" onclick="basisType(@item.pt_ID)">
+                            @item.pt_Name</a>
+                            }
+                        }
+                    }
+                </dd>
+            </dl>
+            <dl class="list-cont" attr="terminal_prices_s">
+                <dt>价格范围：</dt>
+                <dd>
+                    @{
+                        string ppric = Context.Request.QueryString["price"] == null ? "" : Context.Request.QueryString["price"].ToString();
+                        string[] pplist = new string[6] { "1-99", "100-499", "500-999", "1000-2999", "3000-4999", "5000以上" };
+                        for (int i = 0; i < pplist.Length; i++)
+                        {
+                            if (ppric == pplist[i] || (ppric.IndexOf("5000") == pplist[i].IndexOf("5000") && ppric.IndexOf("5000") == 0))
+                            {
+                        <a href="javascript:void(0)" class="selected" onclick="basisPrice('@pplist[i]')">@pplist[i]</a>
+                            }
+                            else
+                            {
+                        <a href="javascript:void(0)" onclick="basisPrice('@pplist[i]')">@pplist[i]</a>
+                            }
+                        }
+                    }
+                </dd>
+            </dl>
+            <dl class="list-cont" attr="terminal_brand_s">
+                <dt>品牌分类：</dt>
+                <dd>
+                    @{
+                        string pbrand = Context.Request.QueryString["brand"] == null ? "" : Context.Request.QueryString["brand"].ToString();
+                        foreach (var item in Model.blist)
+                        {
+                            if (item.b_ID.ToString() == pbrand)
+                            {
+                        <a href="javascript:void(0)" values2="" values1="@item.b_ID" class="selected" onclick="basisBrand(@item.b_ID)" attrval="好吃点">@item.b_Name</a>
+                            }
+                            else
+                            {
+                        <a href="javascript:void(0)" values2="" values1="@item.b_ID" onclick="basisBrand(@item.b_ID)" attrval="好吃点">@item.b_Name</a>
+                            }
+                        }
+                    }
+                </dd>
+            </dl>
+        </div>
+        <!--typelist end-->
+    </div>
+    <!--collectiongs end-->
+    <div class="groupBuy-cont lazyload">
+        <ul>
+            @for (int i = 0; i < Model.vmgblist.Count; i++)
+            {
+                <li>
+                    <div class="m">
+                        <div class="new">
+                            @Model.vmgblist[i].gp_Logo</div>
+                        <div class="con">
+                            <a href="/groupBuy/groupbuyDetails?gpid=@Model.vmgblist[i].gp_ID" target="_blank" class="hover">
+                                <img style="width:280px;height:235px;" name="page_cnt_1" _src="@Model.vmgblist[i].pi_Url" /><i></i></a>
+                        </div>
+                        <div class="clear">
+                        </div>
+                        <h2 title="@Model.vmgblist[i].p_Name @Model.vmgblist[i].shuxing">
+                            @Model.vmgblist[i].p_Name @Model.vmgblist[i].shuxing</h2>
+                        <em>@Model.vmgblist[i].gp_Slogan</em>
+                        <div class="clear">
+                        </div>
+                        <span class="cover lasttime" id="p-@Model.vmgblist[i].sku_Code@Model.vmgblist[i].gp_ID">
+                            剩余时间：<font class="day">-</font>天<font class="hour">-</font>时<font class="minute">-</font>分<font
+                                class="second">-</font>秒</span>
+                    </div>
+                    <div class="buy_box">
+                        <p>
+                            <span>￥</span><strong>@Model.vmgblist[i].gp_pPric</strong></p>
+                        <div class="person">
+                            <p>
+                                <font>@Model.vmgblist[i].gp_SaleCount</font><span> 人已购买</span></p>
+                            <p>
+                                原价：￥@Model.vmgblist[i].sku_scPrice</p>
+                        </div>
+                        <a href="/groupBuy/groupbuyDetails?gpid=@Model.vmgblist[i].gp_ID" target="_blank">立即抢购</a>
+                    </div>
+                </li>
+                <script type="text/javascript">
+                    $(function () {
+                        countDown("@Model.vmgblist[i].gp_EndTime", "#p-@Model.vmgblist[i].sku_Code@Model.vmgblist[i].gp_ID .day", "#p-@Model.vmgblist[i].sku_Code@Model.vmgblist[i].gp_ID .hour", "#p-@Model.vmgblist[i].sku_Code@Model.vmgblist[i].gp_ID .minute", "#p-@Model.vmgblist[i].sku_Code@Model.vmgblist[i].gp_ID .second");
+                    });
+                </script>
+            }
+            <div class="clear">
+            </div>
+        </ul>
+        <div id="divPage" class="page">
+        </div>
+    </div>
+    <!--groupBuy-list end-->
+</div>
+<!--wrap end-->
+<script type="text/javascript">
+
+    var jsPage = function (el, count, pageStep, pageNum, fnGo) {
+        this.getLink = function (fnGo, index, pageNum, text) {
+            var s = '<a href="#p' + index + '" onclick="' + fnGo + '(' + index + ');" ';
+            if (index == pageNum) {
+                s += 'class="cur-hover" ';
+            }
+            text = text || index;
+            s += '>' + text + '</a> ';
+            return s;
+        }
+
+        //总页数
+        var pageNumAll = Math.ceil(count / pageStep);
+        if (pageNumAll == 1) {
+            
+            var divPage = document.getElementById(el);
+            divPage.innerHTML = '<a>上一页</a><a class="cur-hover">1</a><a>上一页</a>';
+            return;
+        }
+        var itemNum = 3; //当前页左右两边显示个数
+        pageNum = Math.max(pageNum, 1);
+        pageNum = Math.min(pageNum, pageNumAll);
+        var s = '';
+        if (pageNum > 1) {
+            s += this.getLink(fnGo, pageNum - 1, pageNum, '上一页');
+        } else {
+            s += '<a>上一页</a> ';
+        }
+        var begin = 1;
+        if (pageNum - itemNum > 1) {
+            s += this.getLink(fnGo, 1, pageNum) + '... ';
+            begin = pageNum - itemNum;
+        }
+        var end = Math.min(pageNumAll, begin + itemNum * 2);
+        if (end == pageNumAll - 1) {
+            end = pageNumAll;
+        }
+        for (var i = begin; i <= end; i++) {
+            s += this.getLink(fnGo, i, pageNum);
+        }
+        if (end < pageNumAll) {
+            s += '... ' + this.getLink(fnGo, pageNumAll, pageNum);
+        }
+        if (pageNum < pageNumAll) {
+            s += this.getLink(fnGo, pageNum + 1, pageNum, '下一页');
+        } else {
+            s += '<a>下一页</a> ';
+        }
+        var divPage = document.getElementById(el);
+        divPage.innerHTML = s;
+    }
+
+
+
+    jsRand.rand = function (min, max, len) {
+        min = min || 0;
+        max = max || 1000;
+        var val = min + Math.round(Math.random() * (max - min));
+        if (len) {
+            while (('' + val).length < len) {
+                val = '0' + val;
+            }
+        }
+        return val;
+    }
+
+    function goPage(pageIndex) {
+        var count = $('#count').val();
+        var pagerows = $('#pagerows').val();
+        jsPage('divPage', count, pagerows, pageIndex, 'goPage');
+        pagejump(pageIndex);
+    }
+    function frPage(pageIndex) {
+        var count = $('#count').val();
+        var pagerows = $('#pagerows').val();
+        jsPage('divPage', count, pagerows, pageIndex, 'goPage');
+    }
+        
+</script>
+<script type="text/javascript">
+    var dlNum = $("#classify").find("dl");
+    for (i = 0; i < dlNum.length; i++) {
+        $(".chose-results .choselist").append("<div class=\"conditions selectedShow\" style=\"display:none\"><span></span><label></label><em></em></div>");
+    }
+
+    var refresh = "true";
+
+    $(".list-cont a ").live("click", function () {
+        var text = $(this).text();
+        var selectedShow = $(".selectedShow");
+        var textTypeIndex = $(this).parents("dl").index();
+        var textType = $(this).parent("dd").siblings("dt").text();
+        index = textTypeIndex - (2);
+        $(".clearDd").show();
+        $(".selectedShow").eq(index).show();
+        $(this).addClass("selected").siblings().removeClass("selected");
+        selectedShow.eq(index).find("span").text(textType);
+        selectedShow.eq(index).find("label").text(text);
+        var show = $(".selectedShow").length - $(".selectedShow:hidden").length;
+        if (show > 1) {
+            $(".delete").show();
+        }
+
+    });
+    $(".selectedShow em").live("click", function () {
+        $(this).parents(".selectedShow").hide();
+        var textTypeIndex = $(this).parents(".selectedShow").index();
+        index = textTypeIndex;
+        $(".list-cont").eq(index).find("a").removeClass("selected");
+
+        if ($(".list-cont .selected").length < 2) {
+            $(".delete").hide();
+        }
+        jump();
+    });
+
+    $(".delete").live("click", function () {
+        $(".selectedShow").hide();
+        $(this).hide();
+        $(".list-cont a ").removeClass("selected");
+    }); 
+</script>

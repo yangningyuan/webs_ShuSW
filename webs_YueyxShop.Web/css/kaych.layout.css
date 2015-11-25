@@ -1,0 +1,1038 @@
+﻿/* CSS Document 
+作者：王军凯
+编写时间：2014-05-21
+所属公司：盘古科技
+联系QQ:466085876
+*/
+body {
+	background:url(../../../img/templete/food-02/body_bg.jpg) center center repeat;
+	}
+#page1 {
+	width:100%;
+	overflow-x:hidden;
+	margin:0 auto;
+	}
+#page2 {
+	width:100%;
+	overflow-x:hidden;
+	margin:0 auto;
+	padding:45px 0px 0px;
+	}
+/*轮播图css*/
+.banner img{
+	width:100%;
+	}	
+.banner {
+	width:100%;
+	margin:0 auto;
+	padding:0;
+	background-color:#151515;
+	}
+#wrapper {
+	margin:0;
+	width:100%;
+	height:auto;
+	float:left;
+	position:relative;
+	z-index:1;			
+	overflow:hidden;
+	
+	}
+#scroller {
+	height:auto;
+	float:left;
+	padding:0;
+	}
+#scroller ul {
+	list-style:none;
+	display:block;
+	float:left;
+	width:100%;
+	height:auto;
+	padding:0;
+	margin:0;
+	text-align:left;
+	}
+#scroller li {
+	display:block; float:left;
+	width:auto; height:auto;
+	text-align:center;
+	font-size:0px;
+	padding:0;
+	position:relative;
+	}
+#scroller li a{
+	display:block;
+	padding:0;
+	margin:0;
+	}
+#scroller li p{
+	position:absolute;
+	z-index:2;
+	display:block;
+	width:100%;
+	bottom:0;
+	background-color:rgba(0, 0, 0, 0.5);
+	color:#F4F4F4;
+	font-size:14px;
+	text-indent: 55px;
+	line-height:24px;
+	text-align: left;
+    text-indent: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+	padding:0;
+	margin:0;
+	}
+#icon-list {
+	float: right;
+    margin-top: -15px;
+    padding: 0;
+    position: relative;
+    width: auto;
+    z-index: 3;
+	}
+#prev, #next {
+	float:left;
+	font-weight:bold;
+	font-size:14px;
+	padding:5px 0;
+	width:80px;
+	display: none;
+	}
+#next {
+	float:right;
+	text-align:right;
+	}
+#indicator > li {
+	display:block; float:left;
+	list-style:none;
+	padding:0; margin:0;
+	}
+#indicator {
+	display: block;
+    margin: 0 8px;
+    padding: 0;
+    width: auto;
+	}
+#indicator > li {
+	text-indent:-9999em;
+	width:8px; height:8px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	-o-border-radius:4px;
+	border-radius:4px;
+	background:#888;
+	overflow:hidden;
+	margin-right:4px;
+	}
+#indicator > li.on {
+	background:#DDDDDD;
+	}
+#indicator > li:last-child {
+	margin:0;
+	}
+/*轮播图css结束*/
+
+/*导航列表css*/
+.ul-nav-list{
+	list-style:none;
+	width:auto;
+	overflow:hidden;
+	}	
+
+	
+/*模块题头css*/
+.ui-titles{
+	width:auto;
+	margin:10px 10px 0px 10px;
+	height:30px;
+	background:#fff;
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-o-border-radius:5px;
+	-moz-box-shadow: 0 -1px 1px #abdfe4 inset;
+	-webkit-box-shadow: 0 -1px 1px #abdfe4 inset;
+	box-shadow: 0 -1px 1px #abdfe4 inset;
+	overflow:hidden;
+	}	
+.ui-titles h3{
+	display:block;
+	font:14px/30px "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	color:#494949;
+	height:30px;
+	margin:0px 10px;
+	}
+
+
+
+.bgstyle{
+margin:10px 10px 0 10px;
+background:#fff;
+box-shadow:0px 0px 4px #eee;
+border-radius:5px;
+-webkit-border-radius:5px;
+-moz-border-radius:5px;
+-o-border-radius:5px;
+overflow:hidden;
+zoom:1;
+border-bottom:1px solid #ddd;
+}
+.padding1{
+	padding:5px;
+	}
+.padding2{
+	padding:5px 5px 0px;
+	}	
+
+<!--内页头部css-->
+.top46{
+	top:46px;
+	}
+#ui-header{
+  	width: 100%;
+  	height: 46px;
+  	line-height:46px;
+  	z-index: 3;
+	left: 0;
+	top: 0;
+	}
+#ui-header .ui-header-bg {
+	width:100%;
+	display: block;
+	margin: 0 auto;
+    min-width: 320px;
+	position:relative;
+	height: 45px;
+	z-index:9;
+	top: 0;
+	border-bottom: 1px solid #c0c0c0;
+	box-shadow:0 1px 3px 0 rgba(0, 0, 0, 0.3);
+	-moz-box-shadow:0 1px 3px 0 rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow:0 1px 3px 0 rgba(0, 0, 0, 0.3);
+	background:-webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ffffff));
+	background:-webkit-linear-gradient(#ffffff, #ffffff);
+	background:-moz-linear-gradient(#ffffff, #ffffff);
+	background:-ms-linear-gradient(#ffffff, #ffffff);
+	background:-o-linear-gradient(#ffffff, #ffffff);
+	background:linear-gradient(#ffffff, #ffffff);
+	/*opacity: 0.95;*/
+}
+.ui-title{
+	min-height: 45px; 
+	text-align: center; 
+	font-size: 16px; 
+	font-weight:normal; 
+	display: block; 
+	margin: 0px 50px; 
+	padding: 0; 
+	text-overflow: ellipsis; overflow: hidden; white-space: nowrap; /*此三个属性实现溢出文本以省略号显示*/
+	outline: 0 !important; 
+	color:#1d1d1d;
+	line-height:45px;
+	text-shadow:0 1px #fff;
+	}
+.ui-btn-header { 
+	position:absolute; 
+	top:0px; 
+	display:block; 
+	width:50px; 
+	height:45px;
+	text-indent: -9999px; 
+	margin:0; 
+	padding:0; 
+	}
+.ui-btn-header_pre { 
+	left:0px; 
+	background:url(../../../img/templete/food-02/header_pre.png) no-repeat center center; 
+	}
+.ui-btn-header_home { 
+	right:0px; 
+	background:url(../../../img/templete/food-02/header_home.png) no-repeat center center; 
+	}
+	
+
+/*listmenu 小三角图标*/
+#listmenu{
+	cursor:pointer; 
+	display:block; 
+	position:relative;  
+	text-align: center; 
+	width: 200px; 
+	margin:0 auto
+	}
+#listmenu:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: 45px;
+    top: 50%;
+    border-width: 5px 5px 0px 5px;
+    border-style: solid;
+    border-color: #1d1d1d transparent;
+}
+
+#overlay{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:#fff;
+	opacity:0;
+	filter:alpha(opacity=0);
+	display:none;
+	z-index: 4;
+	}
+
+/*二级菜单css*/
+#win{
+	position:fixed;
+	top:45px;
+	left:50%;
+    width: 200px;
+	margin:0 0 0 -100px;/*左边距值等于宽度的1/2*/
+	display:none;
+	z-index: 10;
+	}
+
+.dropdown {
+    /* Size and position */
+    position: relative;
+	display:block;
+    margin: 0 auto;
+    padding: 5px;
+
+    /* Styles */
+    background-color: rgba(47, 47, 47, 1);
+    border-radius:7px;
+	-webkit-border-radius:7px;
+	-moz-border-radius:7px;
+	-o-border-radius:7px;
+    border: 1px solid rgba(0,0,0,0.15);
+	box-shadow:0 0 10px 2px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow:0 0 10px 2px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow:0 0 10px 2px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    outline: none;
+	list-style: none outside none;
+
+}
+
+.dropdown:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 100%;
+    right: 90px;
+    border-width: 0 6px 6px 6px;
+    border-style: solid;
+    border-color: rgba(47, 47, 47, 0.9) transparent;    
+}
+
+.dropdown:before {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 100%;
+    right: 88px;
+    border-width: 0 7px 7px 7px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.1) transparent;    
+}
+.dropdown li {
+    background-color: rgba(58, 58, 58, 1);
+    display: block;
+    float: left;height: 37px;
+    width: 50%;
+}
+.dropdown li span{
+    border-color: #494949 #181818 #181818 #494949;
+    border-left: 1px solid #494949;
+    border-style: solid;
+    border-width: 1px;
+    color: #FFFFFF;
+	line-height: 37px;
+    display: block;
+    font-size: 15px;
+    height: 37px;
+    text-align: center;
+    text-shadow: 0 2px 2px #000000;
+    width: 100%;
+}
+.dropdown li:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}	
+
+
+/*列表页css*/
+.ul-list{
+	width:100%;
+	list-style:none;
+	}
+.ul-list li{
+	width:25%;
+	float:left;
+	overflow:hidden;
+	margin-top:5%;
+	}	
+.ul-list li a{
+	display:block;
+	width:64px;
+	height:90px;
+	margin:0 auto;
+	}
+.ul-list li img{
+	display:block;
+	width:60px;
+	height:60px;
+	border:2px solid #fff;
+	border-radius:60px;
+	-webkit-border-radius:60px;
+	-moz-border-radius:60px;
+	-o-border-radius:60px;
+	box-shadow:0 1px 1px 1px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow:0 1px 1px 1px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow:0 1px 1px 1px rgba(0, 0, 0, 0.15);
+	}
+.ul-list li p{
+	line-height:26px;
+	color:#1a1a1a;
+	height:26px;
+	font-size:14px;
+	display:block;
+	text-align:center;
+	margin:0px;
+	}			
+
+.ul-list-01{
+	width:100%;
+	overflow:hidden;
+	list-style:none;
+	}
+.ul-list-01 li{
+	float:left;
+	width:100%;
+	height:100%;
+	overflow:hidden;
+	}	
+.ul-list-01 li a{
+	display:block;
+	}	
+.ul-list-01 li dl{
+	overflow:hidden;
+	height:100%;
+	}	
+.ul-list-01 li dl dt{
+	height:30px;
+	line-height:30px;
+	color:#171717;
+	font-size:14px;
+	}
+.ul-list-01 li dl dt span{
+	float:right;
+	font-size:10px;
+	color:#939393;
+	}	
+.ul-list-01 li dl dd{
+	width:100%;
+	overflow:hidden;
+	position:relative;
+	}
+.ul-list-01 li dl dd img{
+	display:block;
+	width:100%;
+	}	
+.ul-list-01 li dl dd span{
+	position:absolute;
+	left:0;
+	bottom:0px;
+	display:block;
+	width:98%;
+	padding-left:2%;
+	height:30px;
+	line-height:30px;
+	font:14px/30px "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	color:#fff;
+	background:rgba(0, 0, 0, 0.5) none repeat scroll 0 0 !important;/*实现FF背景透明，文字不透明*/
+	filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/ 
+	}	
+		
+.ul-list-02{
+	width:100%;
+	list-style:none;
+	}
+.ul-list-02 li{
+	float:left;
+	margin-left:2%;
+	margin-top:2%;
+	width:47%;
+	}	
+.ul-list-02 li dl{
+	width:100%;
+	height:100%;
+	overflow:hidden;
+	background: #f4ead5;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffb400), to(#f2f2f2));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ffb400, #f2f2f2);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ffb400, #f2f2f2);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ffb400, #f2f2f2);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ffb400, #f2f2f2);/* Opera 11.10+ */
+	background: linear-gradient(top, #ffb400, #f2f2f2);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ffb400,endColorStr=#f2f2f2);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ffb400, endColorStr=#f2f2f2);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}	
+.ul-list-02 li dl dt{
+	border:1px solid #eaeaea;
+	background:#fff;
+	padding:5px 5px 0px 5px;
+	width:auto;
+	overflow:hidden;
+	}
+.ul-list-02 li dl dt img{
+	width:100%;
+	}		
+.ul-list-02 li dl dd{
+	height:25px;
+	line-height:25px;
+	color:#323232;
+	font-size:12px;
+	margin:0px 5px;
+	font-weight:normal;
+	}
+.ul-list-02 li dl dd span{
+	float:right;
+	}
+.ul-list-02 li dl dd label{
+	display:inline-block;
+	float:right;
+	}
+.ul-list-02 li label input{
+	display:inline-block;
+	width:50px;
+	height:20px;
+	border:1px solid #ff8a00;
+	border-radius:3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	-o-border-radius:3px;
+	box-shadow:0 1px 1px 1px rgba(255, 255, 255, 0.75) inset;
+	-moz-box-shadow:0 1px 1px 1px rgba(255, 255, 255, 0.75) inset;
+	-webkit-box-shadow:0 1px 1px 1px rgba(255, 255, 255, 0.75) inset;
+	background: #ff4f1a;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ff9e35), to(#ff0000));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ff9e35, #ff0000);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ff9e35, #ff0000);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ff9e35, #ff0000);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ff9e35, #ff0000);/* Opera 11.10+ */
+	background: linear-gradient(top, #ff9e35, #ff0000);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ff9e35,endColorStr=#ff0000);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ff9e35, endColorStr=#ff0000);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	color:#fff;
+	font-size:12px;
+	text-align:center;
+	line-height:20px;
+	}
+.ul-list-02 li font{
+	float:left;
+	line-height:25px;
+	font-size:10px;
+	color:#9a9a9a;
+	}			
+
+ui-goodslist{
+	overflow:hidden;
+	}
+.ui-goodslist li{
+	width:auto;
+	position:relative;
+	min-height:70px;
+	}
+.ui-goodslist li > a{
+	display:block;
+	position:absolute;
+	min-height:70px;
+	width:100%;
+	}	
+.ui-goodsimg{
+	width:70px;
+	height:70px;
+	position:absolute;
+	left:0px;
+	top:0px;
+	}
+.ui-goodsimg img{
+	width:100%;
+	height:100%;
+	}
+.ui-goodslist dl{
+	margin-left:80px;
+	margin-right:130px;
+	}	
+.ui-goodslist dl dt,.goodscont dl dt{
+	line-height:30px;
+	color:#1d1d1d;
+	font-size:14px;
+	}	
+.ui-goodslist dl dd,.goodscont dl dd{
+	line-height:20px;
+	color:#1d1d1d;
+	font-size:12px;
+	overflow:hidden;
+	height:20px;
+	}	
+.ui-goodslist dl dd span,.goodscont dl dd span{
+	line-height:20px;
+	color:#d81e15;
+	font-size:14px;
+	}
+.ui-goodslist dl dd em,.goodscont dl dd em{
+	font:12px/20px "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	color:#CCC;
+	}
+
+/*计价及积分css*/
+.ui-goodslist dl dd .total-font{font-family:Arial; font-size:14px;}
+.ui-goodslist dl dd .jifen{margin-left:10px;color:#ACACAC; font-size:12px;}
+.ui-goodslist dl dd .jifen b{margin:0 3px;}
+
+/*购买数量及加入购物车css*/
+.payfor{
+	width:120px;
+	top:5px;
+	right:5px;
+	height:70px;
+	position:absolute;
+	}
+.goodsnumber{
+	height:24px;
+	width:100%;
+	overflow:hidden;
+	margin-top:7px;
+	}
+.goodsnumber a.reduce,.goodsnumber a.add{
+	float:left;
+	display:block;
+	width:24px;
+	height:24px;
+	overflow:hidden;
+	background: #25cc34;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#27d043), to(#1ec61a));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #27d043, #1ec61a);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #27d043, #1ec61a);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #27d043, #1ec61a);/* IE 9 10 */
+	background: -o-linear-gradient(top, #27d043, #1ec61a);/* Opera 11.10+ */
+	background: linear-gradient(top, #27d043, #1ec61a);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#27d043,endColorStr=#1ec61a);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#27d043, endColorStr=#1ec61a);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-o-border-radius:5px;
+	color:#fff;
+	font:14px/24px "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	text-align:center;
+	}
+.goodsnumber a.reduce:hover,.goodsnumber a.add:hover{
+	background: #27c22c;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#27e146), to(#1eb31c));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #27e146, #1eb31c);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #27e146, #1eb31c);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #27e146, #1eb31c);/* IE 9 10 */
+	background: -o-linear-gradient(top, #27e146, #1eb31c);/* Opera 11.10+ */
+	background: linear-gradient(top, #27e146, #1eb31c);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#27e146,endColorStr=#1eb31c);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#27e146, endColorStr=#1eb31c);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+.goodsnumber .text{
+	float:left;
+	margin:0 5px;
+	display:inline;
+	border:solid 1px #34b26d;
+	padding:3px 9px 3px 9px;
+	border-radius:10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius:10px;
+	-o-border-radius:10px;
+	width:40px;
+	line-height:16px;
+	font-size:14px;
+	color:#e7130d;
+	font-weight:800;
+	text-align:center;
+	background:#fff;
+	height:16px;
+	}	
+.paybutton{
+	height:24px;
+	width:100%;
+	background: #eb140f;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#d82117), to(#fe0302));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #d82117, #fe0302);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #d82117, #fe0302);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #d82117, #fe0302);/* IE 9 10 */
+	background: -o-linear-gradient(top, #d82117, #fe0302);/* Opera 11.10+ */
+	background: linear-gradient(top, #d82117, #fe0302);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#d82117,endColorStr=#fe0302);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#d82117, endColorStr=#fe0302);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	color:#fff;
+	line-height:24px;
+	font:12px/24px "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	text-align:center;
+	margin-top:10px; 
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-o-border-radius:5px;
+	cursor:pointer;
+	}			
+
+
+/*页脚导航css*/
+#footer-nav{
+	height:45px;
+	border-top:1px solid #e6e6e6;
+	background: #f5f5f5;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#eaeaea));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ffffff, #eaeaea);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ffffff, #eaeaea);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ffffff, #eaeaea);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ffffff, #eaeaea);/* Opera 11.10+ */
+	background: linear-gradient(top, #ffffff, #eaeaea);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ffffff,endColorStr=#eaeaea);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ffffff, endColorStr=#eaeaea);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	position:fixed;
+	left:0;
+	bottom:0;
+	width:100%;
+	}
+#footer-nav li{
+	float:left;
+	width:20%;
+	text-align:center;
+	}
+#footer-nav li a{
+	display:block;
+	font-size:12px;
+	height:45px;
+	width:100%;
+	color:#424242;
+	}
+#footer-nav li a:hover{
+	background: #f5f5f5;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#eaeaea), to(#ffffff));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #eaeaea, #ffffff);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #eaeaea, #ffffff);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #eaeaea, #ffffff);/* IE 9 10 */
+	background: -o-linear-gradient(top, #eaeaea, #ffffff);/* Opera 11.10+ */
+	background: linear-gradient(top, #eaeaea, #ffffff);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#eaeaea,endColorStr=#ffffff);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#eaeaea, endColorStr=#ffffff);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+.actives{
+	background: #f5f5f5;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#eaeaea), to(#ffffff));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #eaeaea, #ffffff);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #eaeaea, #ffffff);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #eaeaea, #ffffff);/* IE 9 10 */
+	background: -o-linear-gradient(top, #eaeaea, #ffffff);/* Opera 11.10+ */
+	background: linear-gradient(top, #eaeaea, #ffffff);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#eaeaea,endColorStr=#ffffff);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#eaeaea, endColorStr=#ffffff);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}		
+#footer-nav img{
+	width:23px;
+	display:block;
+	margin:0 auto;
+ 	padding-top:5px;
+	}
+#footer-nav .relative span{
+	position:absolute;
+	color:#d81e15;
+	top:0px;
+	left:20px;
+	display:block;
+	font-size:12px;
+	height:45px;
+	width:100%;
+	}			
+
+
+/*详细页css*/
+.goodsimg{
+	overflow:hidden;
+	width:auto;
+	}
+.goodsimg img{
+	width:100%;
+	}
+.goodscont{
+	margin:5px 15px;
+	width:auto;
+	overflow:hidden;
+	position:relative;
+	}
+.goodscont dl{
+	margin-right:130px;
+	}
+
+dl.ui-articles{
+	margin:0px 10px;
+	overflow:hidden;
+	}
+dl.ui-articles dt{
+	font:14px/30px "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	color:#414141;
+	}			
+dl.ui-articles dd{
+	font:12px/18px "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	color:#414141;
+	}
+
+.share{
+	width:300px;
+	margin:15px auto;
+	}
+.share a{
+	display:inline-block;
+	width:143px;
+	height:30px;
+	border:1px solid #dbdbdb;
+	box-shadow:0px 1px 1px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow:0px 1px 1px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow:0px 1px 1px rgba(0, 0, 0, 0.1);
+	color:#414141;
+	font:12px/30px "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	background:#fff;
+	}
+.share a em{
+	display:inline-block;
+	width:24px;
+	height:24px;
+	margin:3px 5px;
+	float:left;
+	vertical-align:middle;
+	}
+	
+/*用户评论*/
+.h4{
+	height:30px;
+	margin:0px 10px;
+	width:auto;
+	font:14px/30px "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	color:#414141;
+	}
+.border-bottom{
+	border-bottom:1px solid #dfdfdf;
+	}
+
+.ui-wrap{
+	margin:5px 10px;
+	width:auto;
+	}
+.ui-wrapper{
+	width:100%;
+	margin:0 auto;
+	}	
+.ui-message{
+	width:100%;
+	list-style:none;
+	}
+.ui-message > li{
+	position:relative;
+	width:100%;
+	border-bottom:1px solid #dfdfdf;
+	padding-bottom:10px;
+	}	
+.user-icon{
+	position:absolute;
+	left:0;
+	top:0;
+	display:block;
+	width:23px;
+	height:23px;
+	border:1px solid #e3e3e3;
+	border-radius:3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	-o-border-radius:3px;
+	background:#fff;
+	overflow:hidden;
+	}	
+.user-icon a{
+	display:block;
+	width:100%;
+	}
+.user-icon a img{
+	width:100%;
+	height:100%;
+	}
+.user-info{
+	padding-left:35px;
+	overflow:hidden;
+	}
+.user-info dl dt{
+	color:#414141;}
+.user-info dl dt a{
+	font:12px/23px "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	color:#20ba32;
+	}	
+.user-info dl dd{
+	font:12px/20px "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	color:#414141;
+	}	
+.user-info dl dd span{
+	line-height:20px;
+	color:#999;
+	float:left;
+	}		
+.user-info dl dd a{
+	font:12px/20px "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	color:#999;
+	display:inline-block;
+	float:left;
+	margin-left:10px;
+	height:20px;
+	}
+.messages textarea{
+	width:98%;
+	overflow:hidden;
+	color:#606060;
+	font-size:12px;
+	line-height:16px;
+	padding:5px 1%;
+	min-height:80px;
+	}
+.messages{
+	border:1px solid #e3e3e3;
+	border-radius:10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius:10px;
+	-o-border-radius:10px;
+	background:#fff;
+	width:auto;
+	overflow:hidden;
+	}
+.wap-icons{
+	position:relative;
+	width:100%;
+	border-top:1px solid #e3e3e3;
+	height:20px;
+	}	
+.back{
+	background:url(../../../img/templete/food-02/back.png) left 5px no-repeat;
+	padding-left:15px;
+	}	
+
+.top{
+	background:url(../../../img/templete/food-02/top.png) left 5px no-repeat;
+	padding-left:13px;
+	}
+.return{
+	background:url(../../../img/templete/food-02/return.png) left 5px no-repeat;
+	padding-left:15px;
+	}
+.report{
+	background:url(../../../img/templete/food-02/report.png) left 5px no-repeat;
+	padding-left:13px;
+	}		
+		
+.wap-icons a{
+	display:block;
+	float:left;
+	margin:2px 5px;
+	height:16px;
+	width:16px;
+	}	
+.button1{
+	width:70px;
+	height:20px;
+	border-left:1px solid #e3e3e3;
+	background: #f5f5f5;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#eaeaea), to(#ffffff));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #eaeaea, #ffffff);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #eaeaea, #ffffff);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #eaeaea, #ffffff);/* IE 9 10 */
+	background: -o-linear-gradient(top, #eaeaea, #ffffff);/* Opera 11.10+ */
+	background: linear-gradient(top, #eaeaea, #ffffff);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#eaeaea,endColorStr=#ffffff);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#eaeaea, endColorStr=#ffffff);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	cursor:pointer;
+	color:#797979;
+	font:12px/20px  "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	text-align:center;
+	margin:0;
+	position:absolute;
+	top:0;
+	right:0;
+	}
+	
+
+.member{
+	width:100%;
+	overflow:hidden;
+	margin:0 auto;
+	}
+.member a{
+	display:block;
+	float:left;
+	margin:5px 0px 5px 10px;
+	height:16px;
+	font:12px/16px  "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	color:#414141;
+	}
+.member a em{
+	display:inline-block;
+	float:left;
+	vertical-align:middle;
+	height:16px; 
+	width:16px;
+	margin-right:5px;
+	}	
+.member a span{
+	color:#e31e22;
+	text-decoration:underline;
+	}	
+.padding-bom{
+	padding-bottom:10px;
+	}							
+
+
+.toppage{
+	display:block;
+	width:100%;
+	height:30px;
+	text-align:center;
+	color:#3d3d3d;
+	font:14px/30px  "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	border-radius:10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius:10px;
+	-o-border-radius:10px;
+	background: #f5f5f5;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#eaeaea));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ffffff, #eaeaea);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ffffff, #eaeaea);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ffffff, #eaeaea);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ffffff, #eaeaea);/* Opera 11.10+ */
+	background: linear-gradient(top, #ffffff, #eaeaea);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ffffff,endColorStr=#eaeaea);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ffffff, endColorStr=#eaeaea);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	box-shadow:0px 1px 1px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow:0px 1px 1px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow:0px 1px 1px rgba(0, 0, 0, 0.1);
+	}
+
+/*页脚*/
+footer{
+	height:45px;
+	width:100%;
+	text-align:center;
+	font:14px/45px  "Microsoft Yahei",tahoma,Arial,Helvetica,sans-serif;
+	color:#494949;
+	}
+	

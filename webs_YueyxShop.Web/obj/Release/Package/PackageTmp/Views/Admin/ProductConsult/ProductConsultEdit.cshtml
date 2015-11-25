@@ -1,0 +1,95 @@
+@model webs_YueyxShop.Model.vm_PCdetails
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        function saveData() {
+            $.post('../../_ashx/dataSave_manager_json.ashx?type=savePCdetails&pcid=' + $('#hfpcid').val() + '&prid=' + $('#hfprid').val(), function (data) {
+                var d1 = { "statusCode": "200",
+                    "navTabId": "",
+                    "rel": "pcBox",
+                    "callbackType": ""
+                };
+
+                if (data == "保存成功") {
+
+                    CloseCurrentDialog();
+                    navTabAjaxDone(d1);
+                }
+                alert(data);
+            });
+
+        }
+
+        function CloseCurrentDialog() {
+            $.pdialog.closeCurrent();
+        }
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("ProductConsultEdit", "ProductConsult")"  enctype="multipart/form-data"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+    @Html.Hidden("texOtype", @ViewData["texOtype"])
+    @Html.Hidden("hfPId", @ViewData["hfPId"], new { @id = "hfGPId" })
+    @Html.Hidden("hfpcid", @ViewData["pc_id"], new { @id = "hfpcid" })
+    @Html.Hidden("hfprid", @ViewData["pr_id"], new { @id = "hfprid" })
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="52">
+            <div class="unit">
+                <label>
+                    商品名称：</label>
+                @Html.HiddenFor(model => model.pc_ID, new { @name="pcid" })
+                @Html.TextBoxFor(model => model.p_Name, new { @readonly = "readonly" })
+            </div>
+            <div class="unit">
+                <label>
+                    会员账号：</label>
+                @Html.TextBoxFor(model => model.m_UserName, new { @readonly = "readonly" })
+            </div>
+            <div class="unit">
+                <label>
+                    会员昵称：</label>
+                @Html.TextBoxFor(model => model.m_NickName, new { @readonly = "readonly" })
+            </div>
+            <div class="unit">
+                <label>
+                    咨询时间：</label>
+                <input  type="text" id="consulttime" readonly="readonly" name="consulttime" value="@if (@ViewData["consulttime"] != null)
+                                                                                                   {@ViewData["consulttime"].ToString().Replace("/", "-")}
+                                                                                                   else
+                                                                                                   {@ViewData["consulttime"]}"  dateFmt="yyyy-MM-dd HH:mm:ss" />
+            </div>
+            <div class="unit">
+                <label>
+                    咨询内容：</label>
+                @Html.TextAreaFor(model => model.pc_Content, new { @readonly = "readonly" , @cols="50" })
+            </div>
+            <div class="unit">
+                <label>
+                    回复内容：</label>
+                    @Html.TextArea("prContent", new { @id = "prContent", @value = @ViewData["prContent"], @cols = 50, rows = 5, @class = "required" })
+            </div>
+        </div>
+    </div>
+    <div class="formBar">
+        <ul>
+            <li id="save">
+                <div class="buttonActive">
+                    <div class="buttonContent">
+                        <button type="submit">
+                            保存</button></div>
+                </div>
+            </li>
+            <li>
+                <div class="button">
+                    <div class="buttonContent">
+                        <button type="button" class="close">
+                            取消</button></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    </form>
+</body>
+</html>

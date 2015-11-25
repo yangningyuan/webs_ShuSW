@@ -1,0 +1,189 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            ProductType_dhValue1();
+            
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), '@ViewData["tabid"]');
+        });
+
+        //导航值改变时，所必须的值
+        function ProductType_dhValue1() {
+            $("#div_daohang", navTab.getCurrentPanel()).html("<a href='#' onclick='ProductType_daohangfuClick()'><span>顶级菜单</span></a>");
+            ProductType_addFid1();
+        }
+
+        //查看子集
+        function ProductType_searchChild() {
+            if ($("#n_ID", navTab.getCurrentPanel()).length == 1) {
+                searchValue = $("#n_ID", navTab.getCurrentPanel()).val();
+                var id = searchValue.split("|")[0]; //id
+                var name = searchValue.split('|')[1]; //name
+                var cengji = searchValue.split('|')[2]; //层级
+                var bianma = searchValue.split('|')[3]; //编码
+                $("#hf_cengj", navTab.getCurrentPanel()).val(searchValue.split('|')[2]); //层级
+                $("#hf_bianma", navTab.getCurrentPanel()).val(searchValue.split('|')[3])
+                $("#hfPid", navTab.getCurrentPanel()).val(id); //查询的父id
+                ProductType_addFid1();
+                var aa = '"' + id + '"';
+                var daohang = $("#div_daohang", navTab.getCurrentPanel()).html() + "<span>&nbsp;&nbsp;&gt;&gt;&nbsp;&nbsp;</span><a href='#' class='aName' id='" + id + "'  onclick='ProductType_daohangziClick(" + aa + ")'>" + name + "</a>";    //现在导航的值
+                $("#div_daohang", navTab.getCurrentPanel()).html(daohang); //给导航追加值
+                divSearch(navTab.getCurrentPanel().find("#pagerForm"), "newsBox");
+                if ($("#n_ID", navTab.getCurrentPanel()).val().split('|')[2] == 2) {
+                    $('#lilayer').attr("style", "display:none");
+                    $('#liline').attr("style", "display:none");
+                }
+            }
+            else {
+                alertMsg.info("请选择信息！！！");
+            }
+        }
+
+        //添加时所要传的参数
+        function ProductType_addFid1() {
+            var fid = $("#hfPid", navTab.getCurrentPanel()).val(); //父id
+            var pCengj = navTab.getCurrentPanel().find("#hf_cengj").val(); //父层级
+            var bianma = navTab.getCurrentPanel().find("#hf_bianma").val();
+            $("#hf_add", navTab.getCurrentPanel()).val(fid + "|" + pCengj + "|" + bianma); //添加时需要传的参数
+        }
+        //导航单击事件（fu）
+        function ProductType_daohangfuClick() {
+            $("#hfPid", navTab.getCurrentPanel()).val("0"); //查询的父id
+            ProductType_addFid1();
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "newsBox");
+            ProductType_dhValue1();
+            $('#lilayer').attr("style", "display:block");
+            $('#liline').attr("style", "display:block");
+        }
+        //导航单击事件（子）
+        function ProductType_daohangziClick(id) {
+
+            //            alert($("#div_daohang", navTab.getCurrentPanel()).html());
+            $("#hfPid", navTab.getCurrentPanel()).val(id);
+            $("#" + id).nextAll().remove();
+            var cengji = $("#div_daohang").children("a").length - 1;
+            ProductType_addFid1();
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "newsBox");
+        }
+    </script>
+</head>
+<body>
+@{
+    string strmid = ViewData["mid"].ToString();
+    }
+
+
+    <form id="pagerForm" method="post"  action="@Url.Action("NewsBaseList", "NewsBase", new { mid = strmid })" onsubmit="return divSearch(this,'@ViewData["tabid"]');">
+    <input type="hidden" id="mingch" name="mingch" value="@ViewData["mingch"]" />
+    <input type="hidden" id="hfPid" name="hfPid" value="0" />
+    <input type="hidden" id="hf_add" name="hf_add" value="0|0|001"/>
+    <input type="hidden" id="hf_daohang" name="hf_daohang" />
+    <input type="hidden" id="hf_cengj" name="hf_cengj" value="0" />
+    <input type="hidden" id="hf_bianma" name="hf_bianma" />
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent" style="width: 100%;">
+                <colgroup>
+                    <col style="width: 40px;" />
+                    <col />
+                </colgroup>
+                 <tr>
+                    <td>
+                        查询标题关键字:
+                    </td>
+                    <td>
+                        <input type="text" name="txtKeys" style="width: 200px; float:left;" />
+                    </td>
+                </tr>
+            </table>
+            <div class="subBar">
+                <ul>
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" id="btn_Select">
+                                    检索</button></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="reset">
+                                    重置</button></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--列表-->
+    <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                @*<li id="lilayer"><a class="details" onclick="ProductType_searchChild();"><span>查看子集</span></a></li>*@
+                <li id="liline" class="line">line</li>
+                @{
+                    string pagetype = ViewData["pagetype"].ToString();
+                    if (pagetype == "00010001")
+                    {
+                        <li><a class="add" href="@Url.Action("SinglePage?otype=add&mid="+strmid, "NewsBase")"  target="navTab" rel="w_SinglePage">
+                        <span>添加</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("SinglePage?otype=modify&n_ID={n_ID}", "NewsBase")" rel="w_SinglePage"
+                     target="navTab"  ><span>编辑</span></a></li>
+                    }
+                    else if (pagetype == "00010002")
+                    {
+                        <li><a class="add" href="@Url.Action("LangListPage?otype=add&mid="+strmid, "NewsBase")"  target="navTab" rel="w_LangListPage">
+                        <span>添加</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("LangListPage?otype=modify&n_ID={n_ID}", "NewsBase")" rel="w_LangListPage"
+                     target="navTab"  ><span>编辑</span></a></li>
+                    }
+                    else if(pagetype=="00010003")
+                    {
+                        <li><a class="add" href="@Url.Action("ImageListPage?otype=add&mid="+strmid, "NewsBase")"  target="navTab" rel="w_ImageListPage">
+                        <span>添加</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("ImageListPage?otype=modify&n_ID={n_ID}", "NewsBase")" rel="w_ImageListPage"
+                     target="navTab"  ><span>编辑</span></a></li>
+                    }
+                    else
+                    {
+                        <li><a class="add" href="@Url.Action("FalseConsultPage?otype=add&mid="+strmid, "NewsBase")"  target="navTab" rel="w_FalseConsultPage">
+                        <span>添加</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("FalseConsultPage?otype=modify&n_ID={n_ID}", "NewsBase")" rel="w_FalseConsultPage"
+                     target="navTab"  ><span>编辑</span></a></li>
+                    }
+                    <li class="line">line</li>
+                    <li><a class="delete" href="@Url.Action("Delete?n_ID={n_ID}", "NewsBase")" rel="w_ProductsTypeDelete"
+                    target="ajaxTodo" title='确定删除' warn="请选择信息！！！"><span>删除</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="unlock"  href="@Url.Action("NewsBaseStart?otype=enable&n_ID={n_ID}", "NewsBase")"
+                    target="ajaxTodo" warn="请选择信息！！！"><span>启用</span></a></li>
+                    <li><a class="lock"  href="@Url.Action("NewsBaseEnd?otype=disable&n_ID={n_ID}", "NewsBase")"
+                    target="ajaxTodo" warn="请选择信息！！！"><span>禁用</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="lock" href="@Url.Action("NewsBaseStick?otype=Stick&n_ID={n_ID}", "NewsBase")"  target="ajaxTodo">
+                        <span>置顶</span></a></li>
+                    <li><a class="unlock"  href="@Url.Action("NewsBaseCancelStick?otype=cancelstick&n_ID={n_ID}", "NewsBase")" target="ajaxTodo" warn="请选择信息！！！"><span>取消置顶</span></a></li>
+                }
+            </ul>
+        </div>
+        <div id="@ViewData["tabid"]">
+
+       </div>
+    </div>
+    </form>
+</body>
+</html>

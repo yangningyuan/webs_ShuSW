@@ -1,0 +1,4 @@
+G:\项目\书生网\webs_YueyxShop\trunk\webs_YueyxShop.Model\bin\Release\webs_YueyxShop.Model.dll
+G:\项目\书生网\webs_YueyxShop\trunk\webs_YueyxShop.Model\bin\Release\webs_YueyxShop.Model.pdb
+G:\项目\书生网\webs_YueyxShop\trunk\webs_YueyxShop.Model\obj\Release\webs_YueyxShop.Model.dll
+G:\项目\书生网\webs_YueyxShop\trunk\webs_YueyxShop.Model\obj\Release\webs_YueyxShop.Model.pdb

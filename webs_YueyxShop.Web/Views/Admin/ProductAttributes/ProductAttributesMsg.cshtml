@@ -1,0 +1,237 @@
+﻿@using System.Collections.Generic
+@using System.Data
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            ProductAttributes_dhValue1();
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), "patBox");
+
+        });
+        //导航值改变时，所必须的值
+        function ProductAttributes_dhValue1() {
+            $("#div_daohang", navTab.getCurrentPanel()).html("<a href='#' onclick='ProductAttributes_daohangfuClick()'><span>顶级菜单</span></a>");
+            ProductAttributes_addFid();
+        }
+        //查看子集
+        function ProductAttributes_searchChild() {
+            if ($("#dli_id", navTab.getCurrentPanel()).length == 1) {
+                searchValue = $("#dli_id", navTab.getCurrentPanel()).val();
+                var id = searchValue.split("|")[0]; //id
+                var name = searchValue.split('|')[1]; //name
+                var cengji = searchValue.split('|')[2]; //当前层级
+                var bianma = searchValue.split('|')[3]; //编码
+                var type = searchValue.split('|')[4]; //分类
+                $("#hf_cengj", navTab.getCurrentPanel()).val(searchValue.split('|')[2]); //层级
+                $("#hf_bianma", navTab.getCurrentPanel()).val(searchValue.split('|')[3])
+                $("#hf_type", navTab.getCurrentPanel()).val(searchValue.split('|')[4])//类别
+                $("#hfPid", navTab.getCurrentPanel()).val(id); //查询的父id
+                ProductAttributes_addFid();
+                var aa = '"' + id + '"';
+                var daohang = $("#div_daohang", navTab.getCurrentPanel()).html() + "<span>&nbsp;&nbsp;&gt;&gt;&nbsp;&nbsp;</span><a href='#' class='aName' id='" + id + "'  onclick='ProductAttributes_daohangziClick(" + aa + ")'>" + name + "</a>";    //现在导航的值
+                $("#div_daohang", navTab.getCurrentPanel()).html(daohang); //给导航追加值
+                divSearch(navTab.getCurrentPanel().find("#pagerForm"), "patBox");
+                if (cengji == 1) {
+                    $('#attrlayer').attr("style", "display:none");
+                    $('#attrline').attr("style", "display:none");
+                }
+            }
+            else {
+                alertMsg.info("请选择信息！！！");
+            }
+        }
+
+        //添加时所要传的参数
+        function ProductAttributes_addFid() {
+            var fid = $("#hfPid", navTab.getCurrentPanel()).val(); //父id
+            var pCengj = navTab.getCurrentPanel().find("#hf_cengj").val(); //父层级
+            var bianma = navTab.getCurrentPanel().find("#hf_bianma").val(); //编码
+            var type = navTab.getCurrentPanel().find("#hf_type").val();
+            $("#at_add", navTab.getCurrentPanel()).val(fid + "|" + pCengj + "|" + bianma + "|" + type); //添加时需要传的参数
+        }
+        //导航单击事件（fu）
+        function ProductAttributes_daohangfuClick() {
+            $("#hfPid", navTab.getCurrentPanel()).val("0"); //查询的父id
+            ProductAttributes_addFid();
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "patBox");
+            ProductAttributes_dhValue1();
+            $('#attrlayer').attr("style", "display:block");
+            $('#attrline').attr("style", "display:block");
+        }
+        //导航单击事件（子）
+        function ProductAttributes_daohangziClick(id) {
+
+            //            alert($("#div_daohang", navTab.getCurrentPanel()).html());
+            $("#hfPid", navTab.getCurrentPanel()).val(id);
+            $("#" + id).nextAll().remove();
+            var cengji = $("#div_daohang").children("a").length - 1;
+            ProductAttributes_addFid();
+            divSearch(navTab.getCurrentPanel().find("#pagerForm"), "patBox");
+        }
+        function reload() {
+            document.getElementById("btn_Select").click();
+        }
+        
+
+        //商品分类联动下拉菜单
+        $("#btype>select").change(function () {
+            var valueid = $("#btype>select").val();
+            $.get("/ProductAttributes/GetBattr?code=" + valueid, function (data) {
+                if (data != "refresh") {
+                    var string = eval('(' + data + ')');
+                    var zu = new Array;
+                    zu = string.toString().split(",");
+                    var html = "<select  class=\"valid\" name=\"selectType2\" id=\"selectType2\" onChange=\"getselectType2()\">"
+                    for (var i = 0; i < zu.length; i++) {
+                        if (zu[i] == valueid) {
+                            html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                        }
+                        else {
+                            html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                        }
+                        i += 1;
+                    }
+                    html += "</select>";
+
+                    $("#mtype").empty().html(html);
+                    $("#stype").empty().html("<select  class=\"valid\" name=\"selectType3\" id=\"selectType3\" ><option value=\"chose\" selected=\"selected\">请选择</option></select>")
+                }
+                else {
+                    $("#mtype").empty().html("<select  class=\"valid\" name=\"selectType2\" id=\"selectType2\" onChange=\"getselectType2()\"><option value=\"chose\" selected=\"selected\">请选择</option></select>");
+
+                    $("#stype").empty().html("<select  class=\"valid\" name=\"selectType3\" id=\"selectType3\" ><option value=\"chose\" selected=\"selected\">请选择</option></select>")
+                }
+            });
+        });
+//        function getselectType2() {
+//            var valueid = $("#mtype>select").val();
+//            $.get("/ProductAttributes/GetMattr?code=" + valueid, function (data) {
+//                if (data != "refresh") {
+//                    var string = eval('(' + data + ')');
+//                    var zu = new Array;
+//                    zu = string.toString().split(",");
+//                    var html = "<select  class=\"combox\" name=\"selectType3\" id=\"selectType3\" >"
+//                    for (var i = 0; i < zu.length; i++) {
+//                        if (zu[i] == valueid) {
+//                            html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+//                        }
+//                        else {
+//                            html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+//                        }
+//                        i += 1;
+//                    }
+//                    html += "</select>";
+//                    $("#stype").empty().html(html)
+//                }
+//                else {
+//                    $("#stype").empty().html("<select  class=\"valid\" name=\"selectType3\" id=\"selectType3\" ><option value=\"chose\" selected=\"selected\">请选择</option></select>")
+//                }
+//            });
+//        };
+
+</script>
+</head>
+<body>
+<form id="pagerForm" method="post"  action="@Url.Action("ProductAttributesList", "ProductAttributes")" onsubmit="return divSearch(this,'patBox');">
+    <input type="hidden" id="hfPid" name="hfPid" value="0" />
+    <input type="hidden" id="at_add" name="at_add" />
+    <input type="hidden" id="hf_daohang" name="hf_daohang" />
+    <input type="hidden" id="hf_cengj" name="hf_cengj" value="1" />
+    <input type="hidden" id="hf_bianma" name="hf_bianma" />
+    <input type="hidden" id="hf_type" name="type" />
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent" style="width: 100%;">
+                <colgroup>
+                    <col style="width: 40px;" />
+                    <col />
+                </colgroup>
+                <tr>
+                    <td>
+                        导航:
+                    </td>
+                    <td>
+                        <label id="div_daohang">
+                        </label>
+                    </td>
+                </tr>
+            </table>
+            <table class="searchContent">
+                <tr>
+                    <td id="td_name">
+                        名称：
+                    </td>
+                    <td>
+                        <input type="text" name="txtPAname" />
+                    </td>
+                    <td id="td_type">
+                        属性类别：
+                    </td>
+                    <td>
+                        @Html.DropDownList("select1") 
+                    </td>
+                   <td >
+                        所属商品分类：
+                    </td>
+                    <td id="btype">
+                        @Html.DropDownList("selectType") 
+                    </td>
+                    <td id="mtype">
+                   </td>
+                </tr>
+            </table>
+            <div class="subBar">
+                <ul>
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" id="btn_Select">
+                                    检索</button></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="reset" id="reset" >
+                                    重置</button></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        </div>
+        <!--列表-->
+        <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                <li id="attrlayer"><a class="details" onclick="ProductAttributes_searchChild();"><span>查看子集</span></a></li>
+                <li id="attrline" class="line">line</li>
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li><a class="add" href="@Url.Action("ProductAttributesEdit?otype=add&dli_id={at_add}", "ProductAttributes")"  target="dialog" rel="w_ProductAttributesEdit">
+                        <span>添加</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("ProductAttributesEdit?otype=modify&dli_id={dli_id}", "ProductAttributes")" rel="w_ProductAttributesEdit"
+                        target="dialog"  ><span>编辑</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="delete" href="@Url.Action("ProductAttributesDelete?dli_id={dli_id}", "ProductAttributes")" rel="w_ProductAttributesDelete"
+                    target="ajaxTodo" title='确定删除' warn="请选择信息！！！"><span>删除</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="unlock"  href="@Url.Action("ProductAttributesEnable?otype=enable&dli_id={dli_id}", "ProductAttributes")"
+                    target="ajaxTodo" warn="请选择信息！！！"><span>启用</span></a></li>
+                    <li><a class="lock"  href="@Url.Action("ProductAttributesEnable?otype=disable&dli_id={dli_id}", "ProductAttributes")"
+                    target="ajaxTodo" warn="请选择信息！！！"><span>禁用</span></a></li>
+                }
+            </ul>
+        </div>
+        <div id="patBox">
+
+        </div>
+    </div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), "pimgBox");
+        });
+
+        function none() {
+            $("#bigimg").attr("style", "display:none");
+        }
+//        function showimg(src) {
+//            var bWidth = parseInt(document.documentElement.scrollWidth); //当前页面的宽度
+//            var bHeight = parseInt(document.documentElement.scrollHeight) * 0.8; //当前页面的高度
+//            var styleStr = "top:0px;left:0px;position:absolute;background:rgba(0, 0, 1, 0.4);;width:" + bWidth + "px;height:" + bHeight + "px;";
+//            $("#bigimg").attr("style", styleStr);
+//            $("#bigimg img").attr("src", src);
+//        }
+
+        //显示图片
+        function OpenPImg(rel) {
+            imgShow("#Imgouterdiv", "#Imginnerdiv", "#Imgbigimg",  rel);
+        }
+
+        function imgShow(outerdiv, innerdiv, bigimg, rel) {
+            var src = rel;
+            $(bigimg).attr("src", src); //设置#bigimg元素的src属性
+
+            /*获取当前点击图片的真实大小，并显示弹出层及大图*/
+            $("<img/>").attr("src", src).load(function () {
+                var windowW = $(window).width(); //获取当前窗口宽度
+                var windowH = $(window).height(); //获取当前窗口高度
+                var realWidth = this.width; //获取图片真实宽度
+                var realHeight = this.height; //获取图片真实高度
+                var imgWidth, imgHeight;
+                var scale = 0.8; //缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
+
+                if (realHeight > windowH * scale) {//判断图片高度
+                    imgHeight = windowH * scale; //如大于窗口高度，图片高度进行缩放
+                    imgWidth = imgHeight / realHeight * realWidth; //等比例缩放宽度
+                    if (imgWidth > windowW * scale) {//如宽度扔大于窗口宽度
+                        imgWidth = windowW * scale; //再对宽度进行缩放
+                    }
+                } else if (realWidth > windowW * scale) {//如图片高度合适，判断图片宽度
+                    imgWidth = windowW * scale; //如大于窗口宽度，图片宽度进行缩放
+                    imgHeight = imgWidth / realWidth * realHeight; //等比例缩放高度
+                } else {//如果图片真实高度和宽度都符合要求，高宽不变
+                    imgWidth = realWidth;
+                    imgHeight = realHeight;
+                }
+                $(bigimg).css("width", imgWidth); //以最终的宽度对图片缩放
+
+                var w = (windowW - imgWidth) / 2; //计算图片与窗口左边距
+                var h = (windowH - imgHeight) / 2; //计算图片与窗口上边距
+                $(innerdiv).css({ "top": h, "left": w }); //设置#innerdiv的top和left属性
+                $(outerdiv).fadeIn("fast"); //淡入显示#outerdiv及.pimg
+            });
+
+            $(outerdiv).click(function () {//再次点击淡出消失弹出层
+                $(this).fadeOut("fast");
+            });
+        }
+    </script>
+</head>
+<body>
+    <form id="pagerForm" method="post"  action="@Url.Action("ProductImgList", "Products")" onsubmit="return divSearch(this,'pimgBox');">
+    <input type="hidden" id="sku_add" name="hf_add" value="@ViewData["hfPId"]" />
+    <input type="hidden" id="PskuPid" name="hfPid" value="@ViewData["hfPId"]" />
+    <div id="Imgouterdiv" style="position: fixed; top: 0; left: 0; background: rgba(0,0,0,0.7);
+        z-index: 21; width: 100%; height: 100%; display: none;">
+        <div id="Imginnerdiv" style="position: absolute;">
+            <img id="Imgbigimg" style="border: 5px solid #fff;" src="" />
+        </div>
+    </div>
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent" style="width: 100%;">
+                <colgroup>
+                    <col style="width: 40px;" />
+                    <col />
+                </colgroup>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <label id="div_daohang">
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--列表-->
+    <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li><a class="add" href="@Url.Action("ProductImgEdit?otype=add&dli_id={sku_add}", "Products")"  target="dialog" 
+
+rel="w_ProductImgEdit"><span>添加</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("ProductImgEdit?otype=modify&dli_id={img_id}", "Products")" rel="w_ProductImgEdit"
+                            target="dialog"  ><span>编辑</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="delete" href="@Url.Action("ProductImgDelete?dli_id={img_id}", "Products")" rel="w_ProductImgDelete"
+                        target="ajaxTodo" title='确定删除' warn="请选择信息！！
+
+！"><span>删除</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="unlock"  href="@Url.Action("ProductImgEnable?otype=enable&dli_id={img_id}", "Products")"
+                        target="ajaxTodo" warn="请选择信息！！！"><span>启用 </span></a></li>
+                    <li><a class="lock"  href="@Url.Action("ProductImgEnable?otype=disable&dli_id={img_id}", "Products")"
+                        target="ajaxTodo" warn="请选择信息！！！"><span>禁用 </span></a></li>
+                }
+            </ul>
+        </div>
+        <div id="pimgBox">
+        </div>
+    </div>
+    </form>
+</body>
+</html>

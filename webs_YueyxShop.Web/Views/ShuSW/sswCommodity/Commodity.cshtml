@@ -1,0 +1,117 @@
+﻿@*@model IEnumerable<webs_YueyxShop.Model.SKUBase>*@
+
+    @{
+        Layout = "~/Views/ShuSW/sswMaster/LayoutPage.cshtml";
+    }
+    
+
+    <div class="men">
+        <div class="container">
+            <div class="col-md-3 sidebar">
+                <div class="block block-layered-nav">
+                    <div class="block-title">
+                        <strong><span>Shop By</span></strong>
+                    </div>
+                    <div class="block-content">
+
+                        <dl id="narrow-by-list">
+                            @Html.Raw(ViewBag.CommodityTitle)@*得到左侧商品列表*@
+                        </dl>
+
+                    </div>
+                </div>
+                <div class="block block-cart">
+                    <div class="block-title">
+                        <strong><span>购物车</span></strong>
+                    </div>
+                    <div class="block-content">
+                        <p class="empty">                        你的购物车中没有商品.</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-9">
+                <div class="mens-toolbar">
+                    <div class="sort">
+                        <div class="sort-by">
+                            <label>搜索：</label>
+                            <select>
+                                <option value="">
+                                    --热度
+                                </option>
+                                <option value="">
+                                    --销售数量
+                                </option>
+                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="pager">
+                        <div class="limiter visible-desktop">
+                            <label>Show</label>
+                            <select>
+                                <option value="" selected="selected">
+                                    9
+                                </option>
+                                <option value="">
+                                    15
+                                </option>
+                                <option value="">
+                                    30
+                                </option>
+                            </select> per page
+                        </div>
+                        <ul class="dc_pagination dc_paginationA dc_paginationA06">
+                            <li><a href="#" class="previous">Pages</a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="span_1">
+
+                    @*@{
+                        foreach (var item in Model)
+                        {
+                            <div class="col_1_of_single1 span_1_of_single1">
+                            <a href="single.html">
+                                <img src="" class="img-responsive" alt="" />
+                                <h3>@item.p_ID</h3>
+                                <p>
+                                    @{
+                                     webs_YueyxShop.Model.ProductBase pbmodel = new webs_YueyxShop.BLL.ProductBase().GetModel(item.p_ID);
+                                    }
+                                    
+                                    @pbmodel.p_Name
+                                </p>
+                                <h4>￥.@item.sku_Price</h4>
+                            </a>
+                        </div>
+                        }
+                    }*@
+
+
+                    @{
+                        if (ViewData["pcCommodityList"] != null)
+                        {
+                            foreach (System.Data.DataRow commoditylist in ((System.Data.DataTable)ViewData["pcCommodityList"]).Rows)
+                            {
+                                <div class="col_1_of_single1 span_1_of_single1">
+                                    <a href="/sswCommodity/CommodityDetails?p_id=@commoditylist["p_ID"]">
+                                        <img src="@commoditylist["pi_Url"]" class="img-responsive" alt="" />
+                                        <p><span style="color: red; font-size:12px; ">已有</span>@commoditylist["sku_SalesCount"]<span style="color: red; font-size:12px; ">人购买</span></p>
+                                        <p>@commoditylist["p_Name"]</p>
+                                        <h4>￥@commoditylist["sku_Price"]</h4>
+                                    </a>
+                                </div>
+                            }
+                        }
+                    }
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>

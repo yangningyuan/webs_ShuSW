@@ -1,0 +1,906 @@
+﻿/* CSS Document 
+作者：王军凯
+编写时间：2014-09-03
+联系QQ:466085876
+*/
+
+body{ background:#f6f6f6;}
+
+.login-header{
+	height:115px;
+	background:#fff;
+	width:100%;
+	
+	box-shadow:0px 0px 5px 0px rgba(0,0,0,0.1); /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+	}
+.header-cont{
+	width:1200px;
+	height:115px;
+	margin:0 auto;
+	overflow:hidden;
+	background:#fff;
+	}
+.header-cont h1{
+	margin:25px 0px 0px 25px;
+	width:200px;
+	height:70px;
+	}	
+.header-cont span{
+	float:right;
+	height:30px;
+	line-height:30px;
+	color:#666;
+	font-size:12px;
+	margin-top:20px;
+	}
+.header-cont span a b{
+	color:#cc1a01;
+	}
+.header-cont span a{
+	color:#666;
+	margin-left:20px;
+	}
+.header-cont span a:hover{
+	color:#cc1a01;
+	}
+
+.login-img{
+	width:750px;
+	height:435px;
+	}
+.login-img img{
+	width:750px;
+	height:450px;
+	}	
+.login-cont{
+	width:450px;
+	height:435px;
+	background:url(../images/loginregister/login_bg.jpg) left top no-repeat;
+	overflow:hidden;
+	}
+.login-content{
+	width:378px;
+	height:415px;
+	overflow:hidden;
+	border:1px solid #ddd;
+	position:relative;
+	left:62px;
+	background:#fff;
+	}
+
+.login-content .hd ul{ z-index:5; position:relative;  zoom:1; list-style:none;}
+.login-content .hd li{
+	float:left; 
+	height:20px; 
+	line-height:20px; 
+	margin:20px 0px 10px; 
+	color:#333333;
+	cursor:pointer;
+	text-align:right;
+	padding:0px 15px;
+	font-size:18px;
+	width:158px;
+	}
+.login-content .hd li + li{
+	border-left:1px solid #f30000;
+	text-align:left;
+	}
+.login-content .hd li.on{
+	color:#f30000;
+	}
+.login-content .bd{
+	padding:20px 0px 0px;
+	clear:both; 
+	position:relative; 
+	height:345px; 
+	overflow:hidden;
+	background:url(../images/loginregister/login_title_bg.png) left top no-repeat;
+	}
+.login-content .bd .conWrap{
+	width:378px;  
+	}
+.login-content .prev,.tabBar .next{ position:absolute; left:10px; top:80px; }
+.login-content .next{ left:auto; right:10px; }
+.login-content .prevStop,.login-content .nextStop{ display:none;  }
+
+.login-content .bd .conWrap .con{width:310px; padding:0px 34px;}
+.zh-mm{
+	height:50px;
+	width:100%;
+	}
+.zh-mm > span{
+	display:block;
+	height:50px;
+	width:60px;
+	line-height:50px;
+	font-size:14px;
+	color:#666;
+	float:left;
+	}
+.zh-mm label{
+	display:block;
+	float:left;
+	height:48px;
+	width:248px;
+	border:1px solid #ddd;
+	position:relative;
+	}
+.zh-mm label span{
+	display:block;
+	height:30px;
+	position:absolute;
+	top:9px;
+	left:43px;
+	line-height:30px;
+	color:#999;
+	font-size:14px;
+	cursor:text;
+	}
+.zh-mm label input{
+	width:190px;
+	padding-left:28px;
+	height:30px;
+	overflow:hidden;
+	margin:9px 15px;
+	font-size:14px;
+	color:#333;
+	line-height:30px;
+	}
+.input06{
+	background:url(../images/loginregister/zh_icon.png) left 7px no-repeat;
+	}
+.input07{
+	background:url(../images/loginregister/mm_icon.png) left 7px no-repeat;
+	}	
+	
+.login-forget{
+	height:20px;
+	line-height:20px;
+	margin:10px 0px 10px 60px;
+	width:250px;
+	overflow:hidden;
+	}
+.login-forget .logins{
+	height:20px;
+	overflow:hidden;
+	float:left;
+	position:relative;
+	}	
+.logins label{
+	float:left;
+	line-height:20px;
+	display:block;
+	position:relative;
+	height:20px;
+	font-size:12px;
+	color:#333;
+	padding-left:20px;
+	cursor:pointer;
+	background:#ffffff url(../images/loginregister/radio-icon.png) left bottom no-repeat;
+	overflow:hidden;
+	}
+	
+.logins input[type="checkbox"]{
+	position:absolute;
+	top:3px;
+	left:1px;
+	}	
+.logins label.checked{background:#ffffff url(../images/loginregister/radio-icon.png) left 0px no-repeat;}
+.logins label.checkedHover,.logins label.checkedFocus{background:#ffffff url(../images/loginregister/radio-icon.png) left 0px no-repeat;}		
+
+.login-forget a{
+	float:right;
+	color:#333;
+	font-size:12px;
+	line-height:20px;
+	}
+.login-forget a:hover{
+	color:#e60202;
+	}
+.tj-submit{
+	width:298px;
+	height:38px;
+	border:1px solid #f00000;
+	line-height:38px;
+	text-align:center;
+	color:#fff;
+	font-size:18px;
+	margin:10px auto;
+	display:block;
+	
+	box-shadow: 0px 0px 2px 0px rgba(255,255,255,1) inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 0px 2px 0px rgba(255,255,255,1) inset;
+	-moz-box-shadow: 0px 0px 2px 0px rgba(255,255,255,1) inset;
+	
+	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	-o-border-radius:4px; 
+	
+	background: #f70000;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ff0000), to(#f10000));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ff0000, #f10000);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ff0000, #f10000);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ff0000, #f10000);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ff0000, #f10000);/* Opera 11.10+ */
+	background: linear-gradient(top, #ff0000, #f10000);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ff0000,endColorStr=#f10000);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ff0000, endColorStr=#f10000);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+.con p{
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	font-size:12px;
+	color:#666;
+	}
+.con p a{
+	color:#f30000;
+	line-height:30px;
+	}							
+
+
+	
+.register-cont{
+	padding:20px;
+	}
+.single-register{
+	width:790px;
+	border-right:1px solid #fff;
+	height:540px;
+	}
+.company-register{
+	width:366px;
+	border-left:1px solid #ddd;
+	height:540px;
+	}
+
+
+.loginregister-title{
+	height:30px;
+	line-height:30px;
+	margin:0;
+	padding:0;
+	}
+.loginregister-title strong{
+	font-size:24px;
+	color:#df250b;
+	line-height:30px;
+	font-weight:bold;
+	
+	text-shadow:1px 1px 1px #fff;
+	-webkit-text-shadow:1px 1px 1px #fff;
+	-moz-text-shadow:1px 1px 1px #fff;
+	}
+.loginregister-title span{
+	font-size:12px;
+	color:#666;
+	line-height:30px;
+	font-weight:normal;
+	margin-left:15px;
+	}
+.register-table{
+	margin:10px 40px;
+	}
+.register-table tbody{ width:100%; }	
+.register-table tr{
+	height:60px;
+	}
+.register-table tr td span{
+	text-align:right;
+	display:block;
+	font-size:14px;
+	color:#666;
+	}
+.register-table tr td input[type="text"],.register-table tr td input[type="password"]{
+	height:38px;
+	border:1px solid #ddd;
+	background:none;
+	padding:0px 10px;
+	font-size:14px;
+	color:#333;
+	line-height:30px;
+	overflow:hidden;
+	float:left;
+	}
+.register-table tr td >label{
+	display:block;
+	height:40px;
+	position:relative;
+	margin:10px 0px;
+	overflow:hidden;
+	float:left;
+	}
+.register-table tr td select
+{
+    height:38px;
+	border:1px solid #ddd;
+	background:none;
+	font-size:14px;
+	color:#333;
+	line-height:30px;
+	overflow:hidden;
+    }
+.register-table tr td font{
+	font-size:14px;
+	color:#666;
+	margin:0px 10px;
+	float:left;
+	line-height:60px;
+	}	
+.register-table tr td >label span{
+	position:absolute;
+	float:left;
+	line-height:40px;
+	left:10px;
+	color:#c5c5c5;
+	cursor:text;
+	font-size:14px;
+	text-align:left;
+	}
+.register-table tr td > label a{
+	float:left;
+	line-height:40px;
+	font-size:14px;
+	}			
+.input01{ width:258px; }
+.input02{ width:85px; margin:0px; text-align:center; }
+.input03{ width:34px; text-align:center; }
+.input04{ width:150px; }
+.input05{ width:25px; text-align:center; }
+.yzm-img{ width:112px; height:32px; float:left; margin:4px 15px; }
+.register-table tr td > a{
+	float:left;
+	line-height:60px;
+	font-size:14px;
+	color:#ff0000;
+	}
+.agree-rule{
+	height:20px;
+	float:left;
+	position:relative;
+	margin:20px 0px 20px 10px;
+	padding:0px;
+	}	
+.agree-rule label{
+	float:left;
+	line-height:20px;
+	display:block;
+	position:relative;
+	height:20px;
+	font-size:14px;
+	color:#333;
+	padding-left:20px;
+	cursor:pointer;
+	background:#f6f6f6 url(../images/loginregister/radio-icon.png) left bottom no-repeat;
+	overflow:hidden;
+	}
+	
+.agree-rule input[type="checkbox"]{
+	position:absolute;
+	top:3px;
+	left:1px;
+	}	
+.agree-rule label.checked{background:#f6f6f6 url(../images/loginregister/radio-icon.png) left 0px no-repeat;}
+.agree-rule label.checkedHover,.agree-rule label.checkedFocus{background:#f6f6f6 url(../images/loginregister/radio-icon.png) left 0px no-repeat;}
+
+.register-table tr td input[type="submit"]{
+	width:350px;
+	height:50px;
+	text-align:center;
+	line-height:50px;
+	font-size:30px;
+	color:#fff;
+	
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-o-border-radius:5px; 
+	
+	background: #f70000;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ff0000), to(#f10000));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ff0000, #f10000);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ff0000, #f10000);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ff0000, #f10000);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ff0000, #f10000);/* Opera 11.10+ */
+	background: linear-gradient(top, #ff0000, #f10000);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ff0000,endColorStr=#f10000);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ff0000, endColorStr=#f10000);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+
+.register-table tr td input[type="button"]{
+	width:150px;
+	height:36px;
+	text-align:center;
+	line-height:36px;
+	font-size:18px;
+	color:#fff;
+	
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-o-border-radius:5px; 
+	
+	background: #f70000;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ff0000), to(#f10000));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ff0000, #f10000);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ff0000, #f10000);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ff0000, #f10000);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ff0000, #f10000);/* Opera 11.10+ */
+	background: linear-gradient(top, #ff0000, #f10000);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ff0000,endColorStr=#f10000);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ff0000, endColorStr=#f10000);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+	
+.comregister-cont{ width:350px; overflow:hidden; margin:0 auto; }	
+
+.comregister-cont a{
+	display:block;
+	width:240px;
+	height:98px;
+	border:1px solid #e1e1e1;
+	text-align:center;
+	line-height:98px;
+	color:#ff0000;
+	font-size:30px;
+	margin:0 auto;
+	
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-o-border-radius:5px; 
+	
+	background: #f3f3f3;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#ececec));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ffffff, #ececec);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ffffff, #ececec);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ffffff, #ececec);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ffffff, #ececec);/* Opera 11.10+ */
+	background: linear-gradient(top, #ffffff, #ececec);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ffffff,endColorStr=#ececec);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ffffff, endColorStr=#ececec);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+.comregister-cont a:hover{
+	text-decoration:none;
+	}	
+.comregister-cont dl{
+	margin:20px 0px 40px 60px;
+	}
+.comregister-cont dl dt{
+	font-size:14px;
+	color:#999;
+	font-weight:bold;
+	line-height:40px;
+	}
+.comregister-cont dl dd{
+	font-size:14px;
+	color:#999;
+	line-height:36px;
+	}
+.comregister-img{
+	width:320px;
+	height:70px;
+	overflow:hidden;
+	margin:0 auto;
+	}	
+	
+	
+.comregister-content{ padding:20px 0px;}
+
+.Deta-title{
+	height:30px;
+	background:url(../images/loginregister/register-title-bg.jpg) center top repeat-x;
+	overflow:hidden;
+	width:100%;
+	margin:10px auto;
+	}
+.Deta-title h3{
+	height:30px;
+	margin:0px;
+	padding:0px 20px;
+	line-height:30px;
+	font-size:14px;
+	font-weight:bold;
+	color:#666;
+	}
+.mar1{ margin:0px 0px 10px 20px;}			
+
+
+.add-china{
+	width:100%;
+	height:40px;
+	position:relative;
+	z-index:99;
+	}
+	
+.m_zlxg{ height:38px; line-height:38px;cursor:pointer;float:left;margin:0 10px 0 0px;display:inline; border:1px solid #ddd; padding:0px 40px 0px 10px; position:relative;}
+.m_zlxg p{ overflow:hidden; line-height:38px; color:#333333; font-size:14px; font-family:"微软雅黑";}
+.m_zlxg i{
+	display:block;
+	width:10px;
+	height:5px;
+	position:absolute;
+	top:17px;
+	right:10px;
+	z-index:9;
+	background:url(../images/img/proDetails-sprint.png) -650px top no-repeat;
+	}
+.m_zlxg2{ position:absolute; left:-1px; top:38px; border:1px solid #ddd; background:#fff; display:none; max-height:224px;-height:224px; overflow-x:hidden; overflow-y:auto; padding:0px 30px 0px 0px;}
+.m_zlxg2 li{line-height:28px;white-space:nowrap; padding-left:10px;font-family:"微软雅黑";color:#333333; font-size:12px; list-style:none;}
+.m_zlxg2 li:hover{ color:#cc1a01;}	
+
+.register-success{
+	width:100%;
+	overflow:hidden;
+	margin:20px 0px 10px;
+	}
+.register-success dt{
+	width:180px;
+	height:180px;
+	margin:0 auto;
+	}
+.register-success dt img{ width:180px; height:180px; }	
+.register-success dd{
+	font-size:30px;
+	line-height:50px;
+	color:#cc1a01;
+	text-align:center;
+	}
+	
+.vip-info{
+	width:460px;
+	margin:20px auto;
+	}
+.vip-info .headerImg{
+	width:80px;
+	height:80px;
+	background:#fff;
+	border:1px solid #ddd;
+	float:left;
+	margin-right:10px;
+	
+	border-radius:80px;
+	-webkit-border-radius:80px;
+	-moz-border-radius:80px;
+	-o-border-radius:80px; 
+	
+	box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.4); /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.4);
+	-moz-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.4);
+	}
+.vip-info .headerImg img{
+	width:80px;
+	height:80px;
+	
+	border-radius:80px;
+	-webkit-border-radius:80px;
+	-moz-border-radius:80px;
+	-o-border-radius:80px; 
+	}
+.vip-info dl{ overflow:hidden; }
+.vip-info dl dt{
+	color:#3c3c3c;
+	font-size:12px;
+	line-height:30px;
+	}
+.vip-info dl dd{
+	font-size:12px;
+	line-height:20px;
+	color:#666;
+	height:20px;
+	overflow:hidden;
+	}
+.vip-info dl dd a{
+	color:#1684ff;
+	line-height:20px;
+	}	
+.bgcolor1{ background:#fff; }	
+.mail-verify{padding:20px 100px; overflow:hidden;}	
+.mail-cont{ margin-left:290px; overflow:hidden; }
+.mail-cont h3{
+	margin:0;
+	padding:0;
+	font-size:24px;
+	color:#333;
+	line-height:30px;
+	}
+.mail-cont h3 span{
+	color:#333;
+	}	
+.mail-cont p{
+	font-size:12px;
+	line-height:20px;
+	color:#666;
+	}
+.mail-cont p a{
+	color:#1684ff;
+	}
+	
+.buttons{
+	height:50px;
+	overflow:hidden;
+	}
+.buttons a{
+	display:block;
+	float:left;
+	height:48px;
+	text-align:center;
+	line-height:48px;
+	font-size:18px;
+	}
+.buttons a:hover{
+	text-decoration:none;
+	}	
+a.verify-mail{
+	width:278px;
+	margin-right:10px;
+	border:1px solid #cc1a01;
+	color:#fff;
+	
+	box-shadow: 0px 0px 2px 0px rgba(255,175,164,1) inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 0px 2px 0px rgba(255,175,164,1) inset;
+	-moz-box-shadow: 0px 0px 2px 0px rgba(255,175,164,1) inset;
+	
+	background: #fe3b28;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fd6565), to(#ff1f00));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #fd6565, #ff1f00);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #fd6565, #ff1f00);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #fd6565, #ff1f00);/* IE 9 10 */
+	background: -o-linear-gradient(top, #fd6565, #ff1f00);/* Opera 11.10+ */
+	background: linear-gradient(top, #fd6565, #ff1f00);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#fd6565,endColorStr=#ff1f00);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#fd6565, endColorStr=#ff1f00);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+a.shopping{
+	width:158px;
+	border:1px solid #ddd;
+	color:#666;
+	
+	box-shadow: 0px 0px 1px 0px rgba(255,255,255,1) inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 0px 1px 0px rgba(255,255,255,1) inset;
+	-moz-box-shadow: 0px 0px 1px 0px rgba(255,255,255,1) inset;
+	
+	background: #eeeeee;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#e1e1e1));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ffffff, #e1e1e1);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ffffff, #e1e1e1);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ffffff, #e1e1e1);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ffffff, #e1e1e1);/* Opera 11.10+ */
+	background: linear-gradient(top, #ffffff, #e1e1e1);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ffffff,endColorStr=#e1e1e1);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ffffff, endColorStr=#e1e1e1);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+a.shopping:hover{
+	color:#ff2204;
+	}
+	
+.none-mail{
+	width:100%;
+	border-top:1px solid #ddd;
+	padding:10px 0px;
+	overflow:hidden;
+	display:none;
+	}
+	
+.none-mail p{ margin-left:290px; line-height:30px; color:#666; font-size:12px;}
+.none-mail p a{ color:#1684ff; }
+.none-mail p a.sendmail{
+	width:80px;
+	border:1px solid #ddd;
+	color:#666;
+	height:26px;
+	display:inline-block;
+	margin-left:10px;
+	text-align:center;
+	line-height:26px;
+	
+	box-shadow: 0px 0px 1px 0px rgba(255,255,255,1) inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 0px 1px 0px rgba(255,255,255,1) inset;
+	-moz-box-shadow: 0px 0px 1px 0px rgba(255,255,255,1) inset;
+	
+	background: #eeeeee;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#e1e1e1));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ffffff, #e1e1e1);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ffffff, #e1e1e1);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ffffff, #e1e1e1);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ffffff, #e1e1e1);/* Opera 11.10+ */
+	background: linear-gradient(top, #ffffff, #e1e1e1);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ffffff,endColorStr=#e1e1e1);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ffffff, endColorStr=#e1e1e1);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+.none-mail p a.sendmail:hover{
+	text-decoration:none;
+	color:#1684ff;
+	}			
+	/*modal*/
+	.modal-backdrop{
+	position:fixed;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	z-index:4040;
+	background-color:#000000;
+	opacity:0.15;
+	filter:alpha(opacity=15);
+	}
+.modal{
+	position:fixed;
+	top:50%;
+	left:50%;
+	z-index:4050;
+	width:930px;
+	height:500px;
+	margin:-240px 0 0 -450px;
+	background-color:#ffffff;
+	border:5px solid #999;
+	border:5px solid rgba(0,0,0,0.3);
+	*border:5px solid #999;
+	outline:none;
+	-webkit-box-shadow:0 3px 7px rgba(0,0,0,0.3);
+	-moz-box-shadow:0 3px 7px rgba(0,0,0,0.3);
+	box-shadow:0 3px 7px rgba(0,0,0,0.3);
+	-webkit-background-clip:padding-box;
+	-moz-background-clip:padding-box;
+	background-clip:padding-box;
+	display:none;
+	overflow:hidden;
+	}
+	.modal-header
+	{
+	    background-color:Gray;
+	    height:30px;
+	}
+	.close{cursor:pointer; position:absolute; right:10px; top:10px; display:block; width:18px; height:18px; font-size:16px; line-height:18px; text-align:center; color:#333; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;}
+.close:hover{background-color:grey; color:#ffffff; text-decoration:none;}									
+.yes-chart{
+	margin-left:30px;
+	overflow:hidden;
+	}
+.xieyiheader
+{
+    font-weight:bolder;
+    font-size:14px;
+    text-indent:2em;
+    margin-left:20px;
+    line-height:50px;
+}
+.total-chart{
+	background:#d00405;
+	font-size:16px;
+	line-height:30px;
+	font-weight:bolder;
+	color:#fff;
+	width:320px;
+	text-align:center;
+	margin-left:auto;
+	margin-right:auto;
+	}
+	
+	a.shopping:hover{
+	color:#ff2204;
+	}
+	
+.none-mail{
+	width:100%;
+	border-top:1px solid #ddd;
+	padding:10px 0px;
+	overflow:hidden;
+	display:none;
+	}
+	
+.none-mail p{ margin-left:290px; line-height:30px; color:#666; font-size:12px;}
+.none-mail p a{ color:#1684ff; }
+.none-mail p a.sendmail{
+	width:80px;
+	border:1px solid #ddd;
+	color:#666;
+	height:26px;
+	display:inline-block;
+	margin-left:10px;
+	text-align:center;
+	line-height:26px;
+	
+	box-shadow: 0px 0px 1px 0px rgba(255,255,255,1) inset; /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 0px 1px 0px rgba(255,255,255,1) inset;
+	-moz-box-shadow: 0px 0px 1px 0px rgba(255,255,255,1) inset;
+	
+	background: #eeeeee;/* 不支持显示纯色 */
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#e1e1e1));/* Safari 4-5, Chrome 1-9 */
+ 	background: -webkit-linear-gradient(top, #ffffff, #e1e1e1);/* Safari5.1 Chrome10+ */
+ 	background: -moz-linear-gradient(top, #ffffff, #e1e1e1);/* Firefox 3.6+ */
+	background: -ms-linear-gradient(top, #ffffff, #e1e1e1);/* IE 9 10 */
+	background: -o-linear-gradient(top, #ffffff, #e1e1e1);/* Opera 11.10+ */
+	background: linear-gradient(top, #ffffff, #e1e1e1);/* 正常支持浏览器 */
+	filter:progid:DXImageTransform.Microsoft.Gradient(gradienttype=0,startColorStr=#ffffff,endColorStr=#e1e1e1);  /* IE 6 7 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	-ms-filter:progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#ffffff, endColorStr=#e1e1e1);  /* IE 8 色彩值必须是6位 不能简写 否则IE识别不了 */
+	}
+.none-mail p a.sendmail:hover{
+	text-decoration:none;
+	color:#1684ff;
+	}	
+
+#processor {padding: 15px 70px;position: relative; margin:20px 0px;}
+#step1 {display: block;}
+.processorBox{ list-style:none; }
+.processorBox li {float: left;width:25%;}
+.step_inner {color: #333;text-align: center;width: 100px;margin: 0 auto;}
+.step_line {width: 920px;background-color: #ccc;height: 6px;position: absolute;top: 50%;left: 50%;margin: -14px auto auto -460px;z-index: 1;}
+.processorBox li .icon_step {width: 36px;height: 36px;line-height: 36px;display: inline-block;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;color: #fff;font-size: 18px;text-align: center;background-color: #ccc;position: relative;z-index: 2;}
+.processorBox li.current .icon_step {background-color: #DF250B;}
+.processorBox h4 {color: #333;margin-top: 5px;}
+.processorBox li.current h4 {color: #DF250B;}		
+
+.fl,.fr {
+    display:inline;
+}
+.fl {
+    float:left;
+}
+.fr {
+    float:right;
+}
+.oh {
+	overflow: hidden;
+}
+
+.free-yzm{
+	display:inline-block;
+	float:left;
+	width:114px;
+	height:40px;
+	border:1px solid #ddd;
+	background:#f2f2f2;
+	text-align:center;
+	line-height:40px;
+	font-size:12px;
+	margin-left:10px;
+	color:#333;
+	}
+
+
+.yes-chart{
+	margin:30px auto;
+	height:90px;
+	overflow:hidden;
+	width:390px;
+	}
+.yes-chart .yes-icon{
+	width:42px;
+	height:40px;
+	background:url(../images/img/proDetails-sprint.png) left -110px no-repeat;
+	margin-right:10px;
+	}
+.yes-chart .chart-font{
+	height:90px;
+	overflow:hidden;
+	width:338px;
+	}
+.yes-chart .chart-font dl dt{
+	font-size:14px;
+	font-weight:bold;
+	color:#4bba38;
+	line-height:20px;
+	}
+.yes-chart .chart-font dl dd{
+	font-size:14px;
+	color:#999;
+	line-height:20px;
+	}
+.yes-chart .chart-font dl dd span{
+	color:#cc1502;
+	}
+.yes-chart .chart-font a{
+	padding:0px 20px;
+	text-decoration:none;
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+	font-family:"微软雅黑";
+	}
+.yes-chart .chart-font a:hover{
+	opacity:0.8;
+	filter:alpha(opacity=80);
+	}

@@ -1,0 +1,87 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head id="Head1">
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            divSearch($("#pagerForm", $.pdialog.getCurrent()), "SelectCsDepartmentBox");
+            sRoomTypeBaseM_dhValue();
+        });
+        //导航值改变时，所必须的值
+        function sRoomTypeBaseM_dhValue() {
+            $("#lit_depdaohang", $.pdialog.getCurrent()).html("<a  onclick='sDepartmentBaseM_daohangfuClick()'><span>顶级</span></a>");
+        }
+        //导航单击事件（父）
+        function sRoomTypeM_daohangfuClick() {
+            $("#hf_pid", $.pdialog.getCurrent()).val("00000000-0000-0000-0000-000000000000");
+            $("#hf_cengj", $.pdialog.getCurrent()).val("0");
+            $("#hf_bianm", $.pdialog.getCurrent()).val("0000");
+            DepartmentBaseM_dhValue();
+            divSearch($.pdialog.getCurrent().find("#pagerForm"), "SelectCsDepartmentBox");
+        }
+        //导航单击事件（子）
+        function sRoomTypeM_daohangziClick(vcid) {
+            $("#hf_pid", $.pdialog.getCurrent()).val(vcid);
+            $("#" + vcid).nextAll().remove();
+            divSearch($.pdialog.getCurrent().find("#pagerForm"), "SelectCsDepartmentBox");
+        }
+        //查询子级控件
+        function sRoomTypeM_searchChild() {
+            if ($("#dli_id", $.pdialog.getCurrent()).length == 1) {
+                var searchValue = $("#dli_id", $.pdialog.getCurrent()).val(); //从ctl中rel的值
+                var vsyscodeid = searchValue.split('|')[0];  //id
+                var vsyscodename = searchValue.split('|')[1]; //name
+                var cengj = searchValue.split('|')[2]; //cengj
+                var bianma = searchValue.split('|')[3]; //bianma
+                $("#hf_pid", $.pdialog.getCurrent()).val(vsyscodeid); //查询的父id
+                $("#hf_cengj", $.pdialog.getCurrent()).val(cengj); //查询的父cengj
+                $("#hf_bianm", $.pdialog.getCurrent()).val(bianma); //查询的父编码
+                var aa = '"' + vsyscodeid + '"';
+                var daohang = $("#lit_depdaohang", $.pdialog.getCurrent()).html() + "<a class='aName' id='" + vsyscodeid + "'  onclick='sDepartmentBaseM_daohangziClick(" + aa + ")'><span>&gt;&gt;" + vsyscodename + "</span></a>";    //现在导航的值
+                $("#lit_depdaohang", $.pdialog.getCurrent()).html(daohang); //给导航追加值
+                divSearch($.pdialog.getCurrent().find("#pagerForm"), "SelectCsDepartmentBox");
+            }
+            else {
+                alertMsg.error('请选择信息');
+            }
+        }
+        function SelectValueNone() {
+            $.bringBack({ id: '', orgName: '', orgCutomer: '', orgCutomerId: '' })
+        } 
+    </script>
+</head>
+<body>
+    <form id="pagerForm" method="post" action="@Url.Action("SelectCsDepartmentBaseList", "DepartmentBase")" onsubmit="return divSearch(this,'SelectCsDepartmentBox');">
+    <input type="hidden" id="hf_pid" name="hf_pid" value="00000000-0000-0000-0000-000000000000" />
+    <input type="hidden" id="hf_cengj" name="hf_cengj" value="0" />
+    <input type="hidden" id="hf_bianm" name="hf_bianm" value="0000" />
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td>
+                        导航：
+                    </td>
+                    <td>
+                        <label id="lit_depdaohang">
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--列表-->
+    <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                <li><a class="edit" onclick=" sRoomTypeM_searchChild();"><span>查询子集</span></a></li>
+            </ul>
+        </div>
+        <div id="SelectCsDepartmentBox">
+        </div>
+    </div>
+    </form>
+</body>
+</html>

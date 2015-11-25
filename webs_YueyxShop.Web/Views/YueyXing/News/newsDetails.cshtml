@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "月月兴食品商行-公告详情页";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+
+@model webs_YueyxShop.Model.NewsBase
+
+<link rel="stylesheet" type="text/css" href="/css/kaych.prolist.css"><!--产品相关页面CSS-->
+<link rel="stylesheet" type="text/css" href="/css/kaych.place.css"><!--省市区三级联动CSS-->
+
+
+<div class="breadcrumb">
+	<a href="/Index/Index"><strong>首页</strong></a> > <a href="/News/newsList"><strong>最新公告</strong></a> 
+</div><!--breadcrumb end-->
+<div class="clearh"></div>
+<div class="wrap">
+	<div class="proDetails-class borders">
+    	<div class="wrappers">
+        @{
+            if (Model != null)
+            {
+        	    <div class="news-title"><h2>@Model.n_Title</h2></div>
+                <div class="news-time">发布者：@Model.n_Writer  发布时间：@Model.n_CreatedOn</div>
+                if (Model.n_PicUrl!=null)
+                {
+                <div style="text-align:center;">
+                    <img src="@Model.n_PicUrl" />
+                </div>
+                }
+                <div class="font-cont">
+            	     @Html.Raw(Model.n_Content)
+                </div><!--font-cont end-->
+            }
+            else
+            {
+                 <div class="font-cont">
+            	    <h2>暂无内容！</h2>
+                </div><!--font-cont end-->
+            }
+         }
+         <div class="clear"></div>
+            @*<div class="prevNext"><span>上一篇：<a href="#">没有了</a></span><span>下一篇：<a href="#">商城网站正式上线活动大酬宾全场8.5折，优惠多多，实惠多多！</a></span></div>*@
+        </div><!--wrappers end-->
+        <div class="clear"></div>
+	</div><!--proDetails-class end-->
+    <div class="clear"></div>
+</div><!--wrap end-->
+<div class="clear line1"></div>
+

@@ -1,0 +1,21 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>超时提示</title>
+</head>
+<body>
+    <div class="pageContent" layouth="42">
+        <div class="panel" defh="150" style="width: 300px!important; margin: 20px auto;">
+            <h1>
+                安全提示</h1>
+            <div style="line-height: 22px; text-indent: 2em; font-size:11pt;">
+                由于您长时间未操作，为确保安全，系统已经自动帮您下线。如果需要继续操作，请重新 <a href="@Url.Action("Login", "Login")"><b style="font-size:11pt;">登陆</b></a> ！
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

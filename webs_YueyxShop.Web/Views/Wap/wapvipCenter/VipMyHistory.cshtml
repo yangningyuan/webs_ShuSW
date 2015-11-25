@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>月月兴食品商行-浏览历史</title>
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+<!--设备原始宽度，不允许缩放，user-scalable是否允许用户手动缩放 inital-scale初始缩放比例 以及允许用户缩放到的最大和最小比例-->
+<meta content="yes" name="apple-mobile-web-app-capable" />  
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />  
+<!--在IOS系统中以上两个meta会让网页内容以应用程序风格显示，并使状态栏透明 上面一个content有俩值yes和no 此meta作用是删除默认的苹果工具栏和菜单栏，如果需要显示时不加此行meta 第二个meta的content有三个值default（白色） black(黑色) black-translucent（灰色半透明）若值为“black-translucent”将会占据页面px位置，浮在页面上方（会覆盖页面20px高度–iphone4和itouch4的Retina屏幕为40px）。-->
+<meta name="format-detection" content="telephone=no">
+<meta content="email=no" name="format-detection" />
+<!--以上两条mate作用为：告诉设备忽略将页面中的数字识别为电话号码 将不识别邮箱-->
+<link type="text/css" href="/css/wap/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件-->
+<link type="text/css" href="/css/wap/kaych.framework.css" rel="stylesheet"/><!--页面框架css文件-->
+<link type="text/css" href="/css/wap/kaych.ui-visual.css" rel="stylesheet"/><!--视觉效果（即样式，与框架分离）css属性文件-->
+<link type="text/css" href="/css/wap/kaych.indexLayout.css" rel="stylesheet"/><!--页面细致布局css文件--> 
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.commons.css"><!--页面通用CSS文件-->
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.media.screen.css"><!--页面分辨率检测启用不同布局CSS文件-->
+<!--[if lt IE 9]>
+<script src="../js/html5.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script type="text/javascript" src="../js/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<script src="/js/wap/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/js/wap/custominput.js"></script><!--表单美化-->
+<script type="text/javascript" src="/js/wap/payfor.js"></script><!--商品数量加减JS-->
+<script type="text/javascript" src="/js/wap/modal.js"></script><!--弹出层JS-->
+<script type="text/javascript" src="/js/wap/jquery.event.drag-1.5.min.js"></script><!--轮播图JS-->
+<script type="text/javascript" src="/js/wap/jquery.touchSlider.js"></script><!--轮播图JS-->
+<!--轮播图JS-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".main_visual").hover(function () {
+            $("#btn_prev,#btn_next").fadeIn()
+        }, function () {
+            $("#btn_prev,#btn_next").fadeOut()
+        })
+        $dragBln = false;
+        $(".main_image").touchSlider({
+            flexible: true,
+            speed: 200,
+            btn_prev: $("#btn_prev"),
+            btn_next: $("#btn_next"),
+            paging: $(".flicking_con a"),
+            counter: function (e) {
+                $(".flicking_con a").removeClass("on").eq(e.current - 1).addClass("on");
+            }
+        });
+        $(".main_image").bind("mousedown", function () {
+            $dragBln = false;
+        })
+        $(".main_image").bind("dragstart", function () {
+            $dragBln = true;
+        })
+        $(".main_image a").click(function () {
+            if ($dragBln) {
+                return false;
+            }
+        })
+        timer = setInterval(function () { $("#btn_next").click(); }, 5000);
+        $(".main_visual").hover(function () {
+            clearInterval(timer);
+        }, function () {
+            timer = setInterval(function () { $("#btn_next").click(); }, 5000);
+        })
+        $(".main_image").bind("touchstart", function () {
+            clearInterval(timer);
+        }).bind("touchend", function () {
+            timer = setInterval(function () { $("#btn_next").click(); }, 5000);
+        })
+    });
+</script>
+<script src="/js/wap/main.js"></script>
+<!--弹出层JS-->
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //$("a.icon").click(function(){
+        //		$("#login-modal").modal("hide");
+        //		$("#forgetform").modal({show:!0})
+        //	});
+        $("#chart-modal").modal("hide");
+
+    });
+
+    $(document).ready(function () {
+        $(".slide-div1").click(function () {
+            $(".order-cont1").slideToggle("slow");
+        });
+
+        $(".slide-div2").click(function () {
+            $(".order-cont2").slideToggle("slow");
+        });
+
+        $(".slide-div3").click(function () {
+            $(".order-cont3").slideToggle("slow");
+        });
+
+        $(".radio1").click(function () {
+            $(".radio1-cont").slideToggle("slow");
+        });
+    });
+
+    var fromUrl = document.referrer;
+    if (fromUrl == '') {
+        fromUrl = '/Index/Index';
+    }
+    else if (fromUrl.indexOf("Register") > 0) {
+        fromUrl = '/Index/Index';
+    }
+    function goback() {
+        location.href = fromUrl;
+    }
+
+
+    function delhistory() {
+        $.ajax({
+            type: 'post',
+            url: "/wapvipCenter/Delhistory",
+            success: function (data) {
+                if (data) {
+                    location.reload();
+                }
+            }
+        });
+    }
+</script>
+</head>
+
+<body>
+<header>
+	<div class="wrap hidden relative">
+    	<div class="side-icon left textrt"><a href="javascript:void(0)" onclick="goback()">返回</a></div>
+    	<h2 class="titles">浏览历史</h2>
+        <div class="side-icon right"><a href="javascript:void(0)" onclick="delhistory()">清空</a></div>
+    </div><!--wrap end-->
+</header>
+<div class="zw-div"></div>
+<div class="wrap hidden">
+   <ul class="history-list">
+   @if (ViewBag.history != null)
+   {
+       foreach (var item in ViewBag.history)
+       { 
+    	    <li>
+        	    <a href="/wapProDetail/ProDetail?skuid=@item.sku_ID">
+            	    <img src="@item.pi_Url" alt="产品图片" />
+                    <dl>
+                	    <dt>@item.p_Name  @item.shuxing</dt>
+                        <dd><strong>￥@item.sku_Price</strong><del>￥@item.sku_scPric</del></dd>
+                        <dd>@item.pinglun 人评论</dd>
+                    </dl>
+                </a>
+            </li>
+       }
+   }
+   else
+   { 
+    <li style="font-size:16px;margin-left:20px;">暂无浏览历史</li>
+   }
+    </ul>
+</div><!--wrap end-->
+<div class="clearh"></div>
+<div class="zw-div"></div>
+<div class="footer-nav">
+    @Html.Action("bottomMenu", "wapvipCenter")    
+</div><!--footer-nav end-->
+</body>
+</html>

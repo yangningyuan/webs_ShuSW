@@ -1,0 +1,58 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.SysCodeBase>
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<table class="table" width="100%" layouth="112" rel="SysCodeBaseBox">
+    <col style="width: 30px" />
+    <col />
+    <thead>
+        <tr>
+            <th>
+                序号
+            </th>
+            <th>
+                编码
+            </th>
+            <th>
+                名称
+            </th>
+            <th>
+                层级
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+
+            foreach (var item in Model)
+            {
+            <tr target="sc_ID" rel="@item.sc_ID.ToString()|@item.sc_MingCh.ToString()|@item.sc_CengJ.ToString()|@item.sc_BianM.ToString()"  ondblclick ="SysCodeBaseM_dbltable('@item.sc_ID.ToString()|@item.sc_MingCh.ToString()|@item.sc_CengJ.ToString()|@item.sc_BianM.ToString()')">
+                <td>
+                    @(i++)
+                </td>
+                <td>
+                    @item.sc_BianM
+                </td>
+                <td>
+                    @item.sc_MingCh
+                </td>
+                <td>
+                    @item.sc_CengJ
+                </td>
+            </tr>
+            }
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="SysCodeBaseBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

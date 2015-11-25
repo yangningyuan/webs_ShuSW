@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "月月兴食品商行-公告列表页";
+    Layout = "~/Views/YueyXing/MasterPage/Index.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="/css/kaych.prolist.css"><!--产品相关页面CSS-->
+<link rel="stylesheet" type="text/css" href="/css/kaych.place.css"><!--省市区三级联动CSS-->
+
+
+<div class="breadcrumb">
+	<a href="/Index/Index"><strong>首页</strong></a> 
+</div><!--breadcrumb end-->
+<div class="clearh"></div>
+<div class="wrap">
+	<div class="proDetails-class borders">
+		<ul class="ul-newsList">
+
+        @{
+            if (ViewData["newsList"] != null)
+            {
+                foreach (var newsB in ((List<webs_YueyxShop.Model.NewsBase>)ViewData["newsList"]))
+                {
+                    int length = newsB.n_Content.Length;
+                    length = length >= 160 ? 160 : length;
+                    string summary = newsB.n_Content.Substring(0,length);
+                    <li>
+            	        <dl>
+                	        <dt>
+                    	        <h3><a href="/News/newsDetails?id=@newsB.n_ID">@newsB.n_Title</a></h3>
+                                <p>@newsB.n_CreatedOn</p>
+                                <div class="read-more"><a href="/News/newsDetails?id=@newsB.n_ID"></a></div>
+                            </dt>
+                            <dd>@Html.Raw(newsB.n_Content)</dd>
+                        </dl>
+                    </li>
+                }
+             }
+          }
+        	
+        </ul>
+        <div class="clearh"></div>
+        @*<div class="page mar2">
+            	<a href="#">上一页</a><a href="#" class="cur-hover">1</a><a href="#">2</a></a><a href="#">3</a><a href="#">4</a></a><a href="#">下一页</a>
+        </div>*@
+        <div class="clear"></div>
+	</div><!--proDetails-class end-->
+    <div class="clear"></div>
+</div><!--wrap end-->
+<div class="clear line1"></div>

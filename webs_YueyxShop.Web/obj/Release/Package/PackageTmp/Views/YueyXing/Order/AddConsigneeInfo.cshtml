@@ -1,0 +1,18 @@
+﻿@model webs_YueyxShop.Model.ConsigneeInfoBase
+
+
+@{
+    if (Model != null)
+    {
+        string cliId = "cliId_" + Model.c_ID;
+        <li id="@cliId">
+            <label>
+            <div class="custom-radio">
+            <input type="radio" value="@Model.c_ID" checked="checked" name="adds" />
+            </div>
+            <span>@Model.c_Name&nbsp;&nbsp;&nbsp;&nbsp;@Model.c_CProvice@Model.c_CCity@Model.c_CCount@Model.c_FullAddress&nbsp;&nbsp;&nbsp;&nbsp;@Model.c_Mobilephone&nbsp;&nbsp;&nbsp;&nbsp;@Model.c_Zipcode</span>
+            </label>
+            <a href="javascript:void(0)" onclick="EditConsigneeInfo(@Model.c_ID)">修改</a>
+        </li>
+    }
+}

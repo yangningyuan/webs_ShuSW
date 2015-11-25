@@ -1,0 +1,509 @@
+/* CSS Document 
+*作者：王军凯
+*编写时间：2014-06-03
+*联系QQ:466085876
+*/
+body{
+	font:63%/1.5 "Microsoft Yahei",Helvetica,Arial,sans-serif;
+	background:#f0f0f0;
+	}	
+.wrap{
+	max-width:1000px;
+	min-width:320px;
+	margin:0 auto;
+	position:relative;
+	}
+.wrapper{
+	width:100%;
+	margin:0 auto;
+	}	
+.hidden{ overflow:hidden; }
+
+/*头部CSS开始*/
+.cd-img-replace {
+  /* replace text with a background-image */
+  display: inline-block;
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* -------------------------------- 
+
+Main components 
+
+-------------------------------- */
+.cd-main-content {
+  /* set a min-height and a z-index to be sure that the main element completely covers the lateral menu */
+  min-height:100%;
+  position: relative;
+  background-color:#f0f0f0;
+  z-index: 2;
+  padding-top:4.8em;
+  /* Force Hardware Acceleration in WebKit */
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -moz-transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.4s;
+  -moz-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+.cd-main-content.lateral-menu-is-open {
+  /* translate to show the lateral menu - all content needs to be put in the .cd-main-content to translate*/
+  -webkit-transform: translateX(-260px);
+  -moz-transform: translateX(-260px);
+  -ms-transform: translateX(-260px);
+  -o-transform: translateX(-260px);
+  transform: translateX(-260px);
+}
+header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  /* Force Hardware Acceleration in WebKit */
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -moz-transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.4s;
+  -moz-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+header.lateral-menu-is-open {
+  /* translate to show the lateral menu */
+  -webkit-transform: translateX(-260px);
+  -moz-transform: translateX(-260px);
+  -ms-transform: translateX(-260px);
+  -o-transform: translateX(-260px);
+  transform: translateX(-260px);
+}
+header.is-fixed {
+  position: fixed;
+}
+
+<!--中间部分div-->
+#cd-top-nav {
+  top: 0;
+  left:0px;
+  height: 100%;
+  display:none;
+}
+#cd-top-nav ul {
+  height: 100%;
+  list-style:none;
+}
+#cd-top-nav li {
+  display: inline-block;
+  margin-right: 1em;
+  height:100%;
+}
+#cd-top-nav a {
+  display: inline-block;
+  padding: 0 .5em;
+  color: #FFF;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-decoration:none;
+  line-height:3.4em;
+  font-size:1.4em;
+}
+#cd-top-nav a.current {
+  background-color: #242e30;
+}
+#cd-top-nav a:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+
+
+
+#cd-menu-trigger {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 50px;
+}
+#cd-menu-trigger .cd-menu-text {
+  height: 100%;
+  text-transform: uppercase;
+  color: #FFF;
+  font-weight: 600;
+  font-size:1.6em;
+  line-height:3.0em;
+}
+
+
+/*图标CSS*/
+#cd-menu-trigger .cd-menu-icon {
+  /* this span is the central line in the menu menu */
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+  right: auto;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -o-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  width: 18px;
+  height: 2px;
+  background-color: #FFF;
+  /* these are the upper and lower lines in the menu menu */
+}
+#cd-menu-trigger .cd-menu-icon::before, #cd-menu-trigger .cd-menu-icon:after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: inherit;
+  left: 0;
+  /* Force Hardware Acceleration in WebKit */
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+}
+#cd-menu-trigger .cd-menu-icon::before {
+  bottom: 5px;
+}
+#cd-menu-trigger .cd-menu-icon::after {
+  top: 5px;
+}
+#cd-menu-trigger.is-clicked .cd-menu-icon {
+  background-color: rgba(255, 255, 255, 0);
+}
+#cd-menu-trigger.is-clicked .cd-menu-icon::before, #cd-menu-trigger.is-clicked .cd-menu-icon::after {
+  background-color: white;
+}
+#cd-menu-trigger.is-clicked .cd-menu-icon::before {
+  bottom: 0;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+#cd-menu-trigger.is-clicked .cd-menu-icon::after {
+  top: 0;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+
+/*侧边导航*/
+#cd-lateral-nav {
+  position: fixed;
+  height: 100%;
+  right: 0;
+  top: 0;
+  /* the secondary navigation is covered by the main element */
+  z-index: 1;
+  width: 260px;
+  background-color: #34485a;
+  overflow-y: auto;
+  /* Force Hardware Acceleration in WebKit */
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -moz-transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.4s;
+  -moz-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  /* this creates the subtle slide in animation of the navigation */
+  -webkit-transform: translateX(260px);
+  -moz-transform: translateX(260px);
+  -ms-transform: translateX(260px);
+  -o-transform: translateX(260px);
+  transform: translateX(260px);
+}
+#cd-lateral-nav .cd-navigation {
+  margin:0;
+}
+#cd-lateral-nav .sub-menu {
+  padding:0;
+  display: none;
+}
+#cd-lateral-nav a {
+  display: block;
+  line-height: 3em;
+  padding: 0 16px 0 32px;
+  color: #fff;
+  text-decoration:none;
+  font-size:1.8em;
+}
+#cd-lateral-nav a.current {
+  background-color: #273a4b;
+  color: #FFF;
+}
+#cd-lateral-nav a:hover {
+  color: #FFF;
+}
+#cd-lateral-nav.lateral-menu-is-open {
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+  transform: translateX(0);
+  /* smooth the scrolling on touch devices - webkit browsers */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* style menu items which have a submenu  */
+#cd-lateral-nav .item-has-children > a {
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 600;
+  background:#273a4b;
+  border-bottom:1px solid #1d2e3d;
+  /* this is the right arrow to show that the item has a submenu  */
+}
+#cd-lateral-nav .item-has-children > a::after {
+  content: '';
+  display: block;
+  height: 11px;
+  width: 8px;
+  position: absolute;
+  top: 50%;
+  bottom: auto;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: 1em;
+  background: url("/images/icons/cd-arrow.svg") no-repeat center center;
+  background-size: 8px 11px;
+  -webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -moz-transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.2s;
+  -moz-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+}
+#cd-lateral-nav .item-has-children > a.submenu-open::after {
+  -webkit-transform: translateY(-50%) rotate(90deg);
+  -moz-transform: translateY(-50%) rotate(90deg);
+  -ms-transform: translateY(-50%) rotate(90deg);
+  -o-transform: translateY(-50%) rotate(90deg);
+  transform: translateY(-50%) rotate(90deg);
+}
+
+#cd-lateral-nav .item-has-children ul li a{
+	border-bottom:1px solid #fff;
+	font-size:1.4em;
+	padding-left:3em;
+	}
+
+/*头部及导航CSS*/	
+header{
+	height:4.8em;
+	width:100%;
+	background:#cc1a01;
+	overflow:hidden;
+	}
+header h1{
+	margin:0em 0em 0em .6em;
+	height:100%;
+	}
+header h1 a{
+	display:block;
+	height:100%;
+	}	
+header h1 img{ height:100%; }	
+header .search-btn{
+	height:2.2em;
+	margin:.6em .75em;
+	background:#fff url(/images/icons/search_icon.jpg) .7em center no-repeat;
+	padding-left:2.5em;
+	font-size:1.4em;
+	color:#848484;
+	line-height:2.2em;
+	
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-o-border-radius:5px;
+	}
+.w35{ width:35%; }
+.w65{ width:65%; }	
+.w40
+{
+    width:40%;
+}
+header .search-btn:hover{
+	text-decoration:none;
+	}
+header a.sm-ewm{
+	width:3.2em;
+	height:3.2em;
+	margin:.8em;
+	
+	background:url(/images/icons/ewm_icon.png) center center no-repeat;
+	background-size:100% 100%;
+	}
+	
+header label{
+	display:block;
+	position:relative;
+	}	
+header label span{
+	position:absolute;
+	float:left;
+	line-height:30px;
+	left:2.5em;
+	color:#666;
+	cursor:text;
+	}	
+header input[type="text"]{
+	width:95%;
+	height:2.5em;
+	display:block;
+	background:none;
+	padding:0px;
+	color:#666;
+	}
+.search-icon{ width:50px; }	
+header input[type="submit"],header input[type="button"]{
+	display:block;
+	width:50px;
+	font-size:16px;
+	background:none;
+	line-height:3em;
+	color:#fff;
+	}
+header input[type="submit"]:active,header input[type="button"]:active{
+	display:block;
+	font-size:15px;
+	background:none;
+	color:#fff;
+	}
+	
+.zw-div{ height:4.8em; clear:both; }
+.footer-nav{
+	height:4.8em;
+	width:100%;
+	background:#f7f7f7;
+	overflow:hidden;
+	position:fixed;
+	bottom:0;
+	left:0;
+	border-top:1px solid #f1f1f1;
+	
+	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3); /*取值顺序 水平位置、垂直位置、模糊距离、阴影尺寸、颜色、阴影位置内或外（默认外边距 不用写outset 写上会出错！）*/
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+	}
+ul.footer-nav-list{
+	list-style:none;
+	overflow:hidden;
+	}
+ul.footer-nav-list li{
+	width:25%;
+	height:4.8em;
+	float:left;
+	overflow:hidden;
+	}
+ul.footer-nav-list li a{
+	display:block;
+	width:100%;
+	height:100%;
+	position:relative;
+	text-decoration:none;
+	}
+ul.footer-nav-list li a .footer-nav-icon{
+	display:block;
+	margin:.5em auto 0;
+	height:24px;
+	overflow:hidden;
+	}
+
+
+ul.footer-nav-list li a .home{
+	background:url(/images/icons/icon_home.png) center center no-repeat;
+	}
+ul.footer-nav-list li a:hover .home,ul.footer-nav-list li a:active .home,ul.footer-nav-list li a.current .home{
+	background:url(/images/icons/icon_home_hover.png) center center no-repeat;
+	}
+ul.footer-nav-list li a:hover p,ul.footer-nav-list li a:active p,ul.footer-nav-list li a.current p{ color:#e91d00; }
+
+ul.footer-nav-list li a .classify{
+	background:url(/images/icons/icon_classify.png) center center no-repeat;
+	}
+ul.footer-nav-list li a:hover .classify,ul.footer-nav-list li a:active .classify,ul.footer-nav-list li a.current .classify{
+	background:url(/images/icons/icon_classify_hover.png) center center no-repeat;
+	color:#e91d00;
+	}
+
+ul.footer-nav-list li a .chart{
+	background:url(/images/icons/icon_chart.png) center center no-repeat;
+	}
+ul.footer-nav-list li a:hover .chart,ul.footer-nav-list li a:active .chart,ul.footer-nav-list li a.current .chart{
+	background:url(/images/icons/icon_chart_hover.png) center center no-repeat;
+	color:#e91d00;
+	}
+	
+ul.footer-nav-list li a .vip{
+	background:url(/images/icons/icon_vip.png) center center no-repeat;
+	}
+ul.footer-nav-list li a:hover .vip,ul.footer-nav-list li a:active .vip,ul.footer-nav-list li a.current .vip{
+	background:url(/images/icons/icon_vip_hover.png) center center no-repeat;
+	color:#e91d00;
+	}
+	
+
+		
+ul.footer-nav-list li a p{
+	height:2.1em;
+	font-size:1.4em;
+	color:#666;
+	text-align:center;
+	width:100%;
+	}
+ul.footer-nav-list li a:hover p{
+	color:#e91d00;
+	text-decoration:none;
+	}
+ul.footer-nav-list li a:active p{
+	color:#e91d00;
+	text-decoration:none;
+	}	
+
+ul.footer-nav-list li a span{
+	display:block;
+	position:absolute;
+	left:50%;
+	top:0;
+	background:#666;
+	border:2px solid #fff;
+	height:14px;
+	padding:0px 5px;
+	color:#fff;
+	
+	border-radius:50%;
+	-webkit-border-radius:50%;
+	-moz-border-radius:50%;
+	-o-border-radius:50%;
+	}	
+	
+.main{ margin:1em; }	
+.titles{
+	margin:0 5em;
+	overflow:hidden;
+	color:#fff;
+	font-size:1.8em;
+	text-align:center;
+	line-height:2.6em;
+	}											

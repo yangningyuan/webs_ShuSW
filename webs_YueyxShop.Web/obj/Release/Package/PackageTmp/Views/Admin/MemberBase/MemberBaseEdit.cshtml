@@ -1,0 +1,138 @@
+﻿@model webs_YueyxShop.Model.MemberBase
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        $(function () {
+            $("#addselviprank").attr("disabled", "disabled");
+            $("#sub").click(function () {
+                $("#addselviprank").attr("disabled", false);
+                $("#addselviprank", navTab.getCurrentPanel()).attr("style", 'background-color:#FFFFFF; color:#6D6D6D;');
+            });
+
+        });
+        $("#txtscore").change(function () {
+            var scoreval = $("#txtscore", navTab.getCurrentPanel()).val();
+            $.get("/MemberBase/getScore?score=" + scoreval, function (data) {
+                if (data != "errer") {
+                    $("#addselviprank").get(0).value = data;
+                    //$("#addselviprank option").val(data).attr("selected", 'selected');
+                    //$("#addselviprank").find("option[value='1']").attr("selected", true);
+                } else {
+                    alert("error");
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post" action="@Url.Action("Save", "MemberBase")"
+              class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone)">
+
+    @Html.Hidden("txbotype", @ViewData["otype"])
+    <input type="hidden" id="hfFilePath" value="" />
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="52">
+            <div class="unit">
+                <label>
+                    会员用户名：</label>
+                @Html.TextBoxFor(model => model.m_UserName, new { @class = "required", minlength = "4",maxlength="22", @style = "width:300px;" })
+            </div>
+            <div class="unit">
+                <label>
+                    登录密码：</label>
+                <input type="password" class="required alphanumeric" id="password"  minlength ="6" maxlength="18" style="width:300px;"/>
+            </div>
+            <div class="unit">
+                <label>
+                    确认登录密码：</label>
+                @Html.PasswordFor(model => model.m_Password, new { @class = "required alphanumeric", equalTo = "#password", minlength = "6",maxlength="18", @style = "width:300px;" })
+            </div>
+            <div class="unit">
+                <label>
+                    营业执照号：</label>
+                @Html.TextBoxFor(model => model.m_YingYZZ, new { @style = "width:300px;", @class = "number" })
+            </div>
+            <div class="unit"> 
+            </div>
+            <div class="unit"> 
+            </div>
+            <div class="unit"> 
+            </div>
+            <div class="unit">
+                <label>
+                    昵称：</label>
+                @Html.TextBoxFor(model => model.m_NickName, new { style = "width:300px;", minlength = "4", maxlength = "20" })
+            </div>
+            <div class="unit">
+                <label>
+                    姓名：</label>
+                @Html.TextBoxFor(model => model.m_RealName, new { style = "width:300px;" })
+            </div>
+            <div class="unit">
+                <label>
+                    性别：</label>
+                @Html.RadioButtonFor(model => model.m_Sex, 0, new { style = "float:left;", Checked = "checked" })<span style="float:left;">女</span>@Html.RadioButtonFor(model => model.m_Sex, 1, new { style = "float:left;" })<span style="float:left;">男</span>
+            </div>
+            <div class="unit">
+                <label>
+                    联系电话：</label>
+                @Html.TextBoxFor(model => model.m_Phone, new { style = "width:300px;", @class = "number" })
+            </div>
+            <div class="unit">
+                <label>
+                    Email：</label>
+                @Html.TextBoxFor(model => model.m_Email, new { style = "width:300px;", @class = "email" })
+            </div>
+            <div class="unit">
+                <label>
+                    QQ：</label>
+                @Html.TextBoxFor(model => model.m_QQ, new { style = "width:300px;",@class="number" ,minlength="5",maxlength="15"  })
+            </div>
+            <div class="unit"> 
+            </div>
+            <div class="unit"> 
+            </div>
+            <div class="unit"> 
+            </div>
+            <div class="unit" id="vipselect">
+                <label>
+                    会员等级：</label>
+                @Html.DropDownList("addselviprank")<div style=" width:200px; height:30px; z-index:101; position:absolute; margin-left:100px; filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity: 0; opacity: 0; background:red; "></div>
+            </div>
+            <div class="unit">
+                <label>
+                    积分：</label>
+                @Html.TextBoxFor(model => model.m_Score, new { id = "txtscore", @class = "required number", style = "width:200px;" })<label style="color:Red; float:left; width:120px;">请输入正整数</label>
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                
+                    <li id="save">
+                        <div class="buttonActive" id="submit" runat="server">
+                            <div class="buttonContent">
+                                <button id="sub" type="submit">
+                                    保存
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

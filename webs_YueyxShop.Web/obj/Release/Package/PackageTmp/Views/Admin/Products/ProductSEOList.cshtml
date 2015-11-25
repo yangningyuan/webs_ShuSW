@@ -1,0 +1,60 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.ProductSEOBase>
+           
+@Html.Hidden("hfPId", @ViewData["hfPId"])
+<table class="table" width="60%" layouth="138" rel="pseoBox">
+    <colgroup width="10px" />
+    <colgroup width="30px" />
+    <colgroup width="30px" />
+    <colgroup width="30px" />
+    <colgroup width="30px" />
+    <colgroup width="30px" />
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                页面标题
+            </th>
+            <th>
+                页面描述
+            </th>
+            <th>
+                 页面关键词
+            </th>
+            <th>
+                图片Alt信息 
+            </th>
+            <th>
+                图片Title
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr target="seo_id" rel="@item.p_ID|@item.pseo_ID" ondblclick="OpenMenuBaseEdit('@item.p_ID|@item.pseo_ID')">
+                <td>
+                </td>
+                <td>
+                   @item.pseo_Title
+                </td>
+                <td>
+                   @item.pseo_Content
+                </td>
+                <td style="height:auto">
+                   @item.pseo_Keys
+                </td>
+                <td>
+                    @item.pseo_PicAlt
+                </td>
+                <td>
+                    @item.pseo_PicTitle
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

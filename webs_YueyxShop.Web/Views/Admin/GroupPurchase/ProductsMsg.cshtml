@@ -1,0 +1,99 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            divSearch($("#pagerForm", $.pdialog.getCurrent()), "gppBox");
+        });
+        //商品分类联动下拉菜单
+        $("#pbgptype>select").change(function () {
+            var valueid = $("#pbgptype>select").val();
+            $.get("/ProductAttributes/GetBattr?code=" + valueid, function (data) {
+                var string = eval('(' + data + ')');
+                var zu = new Array;
+                zu = string.toString().split(",");
+                var html = "<select  class=\"valid\" name=\"selectType2\" id=\"selectType2\" >"
+                for (var i = 0; i < zu.length; i++) {
+                    if (zu[i] == valueid) {
+                        html += " <option value=\"" + zu[i] + "\" selected=\"selected\">" + zu[i + 1] + "</option>";
+                    }
+                    else {
+                        html += " <option value=\"" + zu[i] + "\">" + zu[i + 1] + "</option>";
+                    }
+                    i += 1;
+                }
+                html += "</select>";
+
+                $("#pmgptype").empty().html(html);
+            });
+        });
+    </script>
+</head>
+<body>
+    <form id="pagerForm" method="post"  action="@Url.Action("ProductsList", "GroupPurchase")" onsubmit="return divSearch(this,'gppBox');" >
+    <input type="hidden" id="hfPid" name="hfPid" value="0" />
+    <input type="hidden" id="hf_add" name="hf_add" value="0|0|001" />
+    <input type="hidden" id="hf_daohang" name="hf_daohang" />
+    <input type="hidden" id="hf_look" name="hf_look" value="0" />
+    <input type="hidden" id="hf_bianma" name="hf_bianma" />
+    <input type="hidden" id="hf_type" name="type" />
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td id="td_type">
+                        编码：
+                    </td>
+                    <td>
+                        <input type="text" name="txtPrCode" />
+                    </td>
+                    <td id="td_name">
+                        名称：
+                    </td>
+                    <td>
+                        <input type="text" name="txtPrName" />
+                    </td>
+                    <td>
+                        商品分类：
+                    </td>
+                    <td id="pbgptype">
+                        @Html.DropDownList("selectType")
+                    </td>
+                    <td id="pmgptype">
+                    </td>
+                    <td id="pstype">
+                    </td>
+                </tr>
+            </table>
+            <div class="subBar">
+                <ul>
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" id="btn_Select">
+                                    检索</button></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="reset">
+                                    重置</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--列表-->
+    <div class="pageContent">
+        <div id="gppBox">
+        </div>
+    </div>
+    </form>
+</body>
+</html>

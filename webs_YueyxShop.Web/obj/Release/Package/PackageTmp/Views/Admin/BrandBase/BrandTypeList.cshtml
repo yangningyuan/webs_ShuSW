@@ -1,0 +1,129 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.ProductTypeBase>
+<input type="hidden" name="pageNum" value="@ViewData["CurrentPage"]" />
+<input type="hidden" name="numPerPage" value="@ViewData["NumberPage"]" />
+<input type="hidden" name="orderDirection" value="@ViewData["OrderDirection"]" />
+<input type="hidden" name="orderField" value="@ViewData["OrderFile"]" />
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("input[name='pt_ID']:checkbox").each(function () {
+            $(this).attr("style", "display:none")
+        })
+        $("input[name='all']:checkbox").each(function () {
+            $(this).attr("style", "display:none")
+        })
+        if ($("#jibie").val() == 1) {
+            $("input[name='pt_ID']:checkbox").each(function () {
+                $(this).attr("style", "display:block")
+            })
+            $("input[name='all']:checkbox").each(function () {
+                $(this).attr("style", "display:block")
+            })
+        }
+
+    });
+    function go() {
+        var str = "";
+        $("input[name='pt_ID']:checkbox").each(function () {
+            if ($(this).attr("checked")) {
+                str += $(this).val() + ","
+            }
+        })
+        $("#type_list").val(str);
+    }
+    function getcheck() {
+        if ($("#dli_id", navTab.getCurrentPanel()).val().split('|')[2] == 2)
+        { go() }
+        else {
+            alert("请选择第二层级的类别");
+        }
+    }
+    function checkall() {
+        go();
+    }
+</script>
+
+<table class="table" width="100%" rel="btBox" layouth="112" >
+    <colgroup width="30px" />
+    <colgroup width="200px" />
+    <colgroup width="200px" />
+    <colgroup width="100px" />
+    <colgroup width="30px" />
+    <colgroup width="30px" />
+    <colgroup width="200px" />
+    <colgroup />
+    <thead>
+        <tr>
+            <th>
+                <input type="checkbox" id="selectall" class="checkboxCtrl" group="pt_ID" name="all" onchange="checkall()" />
+            </th>
+            <th>
+                编码
+            </th>
+            <th>
+                名称
+            </th>
+            <th>
+                图片预览
+            </th>
+            <th>
+                等级
+            </th>
+            <th>
+                顺序
+            </th>
+            <th>
+                创建时间
+            </th>
+            <th>
+                类别描述 
+            </th>
+            <th>
+                状态
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr target="dli_id" rel="@item.pt_ID|@item.pt_Name|@item.pt_Layer|@item.pt_Code" ondblclick="OpenMenuBaseEdit('@item.pt_ID|@item.pt_Name|@item.pt_Layer|@item.pt_Code')">
+                <td>
+                    <input type="checkbox" value="@item.pt_ID" name="pt_ID"  class="pcheckbox" onchange="getcheck()" />
+                </td>
+                <td>
+                    @item.pt_Code
+                </td>
+                <td>
+                    @item.pt_Name
+                </td>
+                <td style="height:auto">
+                    <img  src="../../@item.pt_ImgUrl" style="width:120px;height:120px"/>
+                </td>
+                <td>@item.pt_Layer
+                </td>
+                <td>
+                    @item.pt_Sort
+                </td>
+                <td>
+                    @item.pt_CreatedOn.ToString("yyyy-MM-dd hh:mm:ss")
+                </td>
+                <td>
+                    @item.pt_Content
+                </td>
+                <td>
+                    <span style="color: Red">@item.pt_StatusCode.ToString().Replace("0", "启用").Replace("1", "禁用")</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="panelBar">
+    <div class="pages">
+        <span>共 @ViewData["TotalCount"] 条</span>
+    </div>
+    <div class="pagination" rel="btBox" targettype="navTab" totalcount="@ViewData["TotalCount"]"
+        numperpage="@ViewData["NumberPage"]" pagenumshown="@ViewData["PagenumShown"]" currentpage="@ViewData["CurrentPage"]">
+    </div>
+</div>

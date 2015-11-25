@@ -1,0 +1,184 @@
+﻿@model IEnumerable<webs_YueyxShop.Model.vw_Orderpinfo>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>月月兴食品商行-订单列表</title>
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+<!--设备原始宽度，不允许缩放，user-scalable是否允许用户手动缩放 inital-scale初始缩放比例 以及允许用户缩放到的最大和最小比例-->
+<meta content="yes" name="apple-mobile-web-app-capable" />  
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />  
+<!--在IOS系统中以上两个meta会让网页内容以应用程序风格显示，并使状态栏透明 上面一个content有俩值yes和no 此meta作用是删除默认的苹果工具栏和菜单栏，如果需要显示时不加此行meta 第二个meta的content有三个值default（白色） black(黑色) black-translucent（灰色半透明）若值为“black-translucent”将会占据页面px位置，浮在页面上方（会覆盖页面20px高度–iphone4和itouch4的Retina屏幕为40px）。-->
+<meta name="format-detection" content="telephone=no">
+<meta content="email=no" name="format-detection" />
+<!--以上两条mate作用为：告诉设备忽略将页面中的数字识别为电话号码 将不识别邮箱-->
+<link type="text/css" href="/css/wap/kaych.reset.css" rel="stylesheet"/><!--页面重置css文件-->
+<link type="text/css" href="/css/wap/kaych.framework.css" rel="stylesheet"/><!--页面框架css文件-->
+<link type="text/css" href="/css/wap/kaych.ui-visual.css" rel="stylesheet"/><!--视觉效果（即样式，与框架分离）css属性文件-->
+<link type="text/css" href="/css/wap/kaych.indexLayout.css" rel="stylesheet"/><!--页面细致布局css文件--> 
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.commons.css"><!--页面通用CSS文件-->
+<link rel="stylesheet" type="text/css" href="/css/wap/kaych.media.screen.css"><!--页面分辨率检测启用不同布局CSS文件-->
+<!--[if lt IE 9]>
+<script src="../js/html5.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script type="text/javascript" src="../js/DD_belatedPNG.js"></script>
+<script>DD_belatedPNG.fix(".png_bg,img,.png_bg a:hover");</script>
+<![endif]-->
+<script src="/js/wap/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/js/wap/custominput.js"></script><!--表单美化-->
+<script type="text/javascript" src="/js/wap/payfor.js"></script><!--商品数量加减JS-->
+<script type="text/javascript" src="/js/wap/modal.js"></script><!--弹出层JS-->
+<script type="text/javascript" src="/js/wap/jquery.event.drag-1.5.min.js"></script><!--轮播图JS-->
+<script type="text/javascript" src="/js/wap/jquery.touchSlider.js"></script><!--轮播图JS-->
+<!--轮播图JS-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".main_visual").hover(function () {
+            $("#btn_prev,#btn_next").fadeIn()
+        }, function () {
+            $("#btn_prev,#btn_next").fadeOut()
+        })
+        $dragBln = false;
+        $(".main_image").touchSlider({
+            flexible: true,
+            speed: 200,
+            btn_prev: $("#btn_prev"),
+            btn_next: $("#btn_next"),
+            paging: $(".flicking_con a"),
+            counter: function (e) {
+                $(".flicking_con a").removeClass("on").eq(e.current - 1).addClass("on");
+            }
+        });
+        $(".main_image").bind("mousedown", function () {
+            $dragBln = false;
+        })
+        $(".main_image").bind("dragstart", function () {
+            $dragBln = true;
+        })
+        $(".main_image a").click(function () {
+            if ($dragBln) {
+                return false;
+            }
+        })
+        timer = setInterval(function () { $("#btn_next").click(); }, 5000);
+        $(".main_visual").hover(function () {
+            clearInterval(timer);
+        }, function () {
+            timer = setInterval(function () { $("#btn_next").click(); }, 5000);
+        })
+        $(".main_image").bind("touchstart", function () {
+            clearInterval(timer);
+        }).bind("touchend", function () {
+            timer = setInterval(function () { $("#btn_next").click(); }, 5000);
+        })
+    });
+</script>
+<script src="/js/wap/main.js"></script>
+<!--弹出层JS-->
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //$("a.icon").click(function(){
+        //		$("#login-modal").modal("hide");
+        //		$("#forgetform").modal({show:!0})
+        //	});
+        $("#chart-modal").modal("hide");
+
+    });
+
+    $(document).ready(function () {
+        $(".slide-div1").click(function () {
+            $(".order-cont1").slideToggle("slow");
+        });
+
+        $(".slide-div2").click(function () {
+            $(".order-cont2").slideToggle("slow");
+        });
+
+        $(".slide-div3").click(function () {
+            $(".order-cont3").slideToggle("slow");
+        });
+
+        $(".radio1").click(function () {
+            $(".radio1-cont").slideToggle("slow");
+        });
+    });
+</script>
+</head>
+
+<body>
+<header>
+	<div class="wrap hidden relative">
+    	<div class="side-icon left textrt"><a href="/wapvipCenter/VipCenterIndex">返回</a></div>
+        @if (Convert.ToInt32(ViewData["status"]) == 0)
+        {
+    	    <h2 class="titles">待付款</h2>
+        }
+        else if (Convert.ToInt32(ViewData["status"]) == 1 )
+        {
+    	    <h2 class="titles">待发货</h2>
+        }
+        else if (Convert.ToInt32(ViewData["status"]) == 23)
+        {
+    	    <h2 class="titles">待收货</h2>
+        }
+        else if (Convert.ToInt32(ViewData["status"]) == 4)
+        { 
+    	    <h2 class="titles">完成</h2>
+        }
+            
+    </div><!--wrap end-->
+</header>
+<div class="zw-div"></div>
+<div class="wrap hidden">
+                @foreach (var i in ViewBag.order)
+                {
+                    <div class="bgColor-white hidden">
+                        @foreach (webs_YueyxShop.Model.vw_Orderpinfo sku in Model.Where(o => o.o_ID == o.os_oID).Where(c => c.o_Code == i.o_Code))
+                        {
+    	                    <div class="goods-cont margin2">
+                                <div class="shopping-img"><img src="@sku.pi_Url" alt="@sku.p_Name" style="width:68px;heigth:68px;"/></div>
+                                <dl>
+            	                    <dt>@sku.p_Name</dt>
+                                    <dd><span>数量x @sku.os_pCount</span><strong>￥@sku.sku_Price</strong></dd>
+                                </dl>
+                             </div>	
+                        }
+                         <div class="order-infos">
+         	                <p>订单号：@i.o_Code</p>
+         	                <p>订单金额：<span>￥@i.o_Pric</span></p>
+         	                <p>订单状态：@i.o_StatusCode.ToString().Replace("0", "待付款").Replace("1", "待发货").Replace("2", "待收货").Replace("3", "待收货").Replace("4", "完成").Replace("5", "已取消")</p>
+                            <p><a href="/wapvipCenter/VipOrderDetail?oid=@i.o_ID">查看订单详情</a></p>
+                         </div>
+                    </div><!--bgColor-white end-->
+                    <div class="clearh"></div>
+                }
+
+    @*<div class="bgColor-white hidden">
+    	<div class="goods-cont margin2">
+            <div class="shopping-img"><img src="images/products/chart_shipping_img_01.jpg" alt="商品图片" /></div>
+            <dl>
+            	<dt>SUMACO素玛哥牌多口味果凍660gSUMACO素玛哥牌多口味果凍660g</dt>
+                <dd><span>数量x1</span><strong>￥23.90</strong></dd>
+             </dl>
+         </div>
+         <div class="goods-cont margin2">
+            <div class="shopping-img"><img src="images/products/chart_shipping_img_01.jpg" alt="商品图片" /></div>
+            <dl>
+            	<dt>SUMACO素玛哥牌多口味果凍660gSUMACO素玛哥牌多口味果凍660g</dt>
+                <dd><span>数量x1</span><strong>￥23.90</strong></dd>
+             </dl>
+         </div>
+         <div class="order-infos">
+         	<p>订单号：18140805094933891184</p>
+         	<p>订单金额：<span>￥109.90</span></p>
+         	<p>订单状态：确认</p>
+            <p><a href="#">查看订单详情</a></p>
+         </div>
+    </div><!--bgColor-white end-->
+    <div class="clearh"></div>*@
+</div><!--wrap end-->
+<div class="clearh"></div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+﻿@using webs_YueyxShop.Model
+
+@{
+    Layout = null;
+}
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        var page = $('#zxp3curpage').val();
+        frPage5(page);
+    });
+</script>
+
+<input type="hidden" value="@ViewData["zxp3count"]" id="zxp3count" />
+<input type="hidden" value="@ViewData["zxp3page"]" id="zxp3curpage" />
+<input type="hidden" value="@ViewData["zxp3pagerows"]" id="zxp3pagerows" />   
+<div class="inBd hide" id="tabcontenth4" name="divNumberh">
+    <div class="pj-cont">
+        <ul class="question-answer">
+            @foreach (var item in ViewBag.zx3)
+            {
+            <li>
+                <dl>
+                    <dt>
+                        <div class="q-icon"></div>
+                        <div class="q-cont">
+                            <p><span class="alignleft">@item.member.m_UserName</span><font class="alignright">@item.pc_CreatedOn</font></p>
+                            <p>@item.pc_Content</p>
+                        </div>
+                    </dt>
+                    <dd>
+                        <div class="a-icon"></div>
+                        <div class="a-cont">
+                            <p><span class="alignleft">月月兴食品商行客服回复：</span><font class="alignright">@item.preply.pr_CreatedOn</font></p>
+                            <p>@item.preply.pr_Content</p>
+                        </div>
+                    </dd>
+                </dl>
+            </li>
+            }
+        </ul>
+        <div class="page" id="p3page">
+        </div>
+    </div><!--pj-cont end-->
+</div><!--tabcontenth4 end-->
+
+    
+        
+
+<script type="text/javascript">
+
+
+    function goPage5(pageIndex) {
+        var count = $('#zxp3count').val();
+        var pagerows = $('#zxp3pagerows').val();
+        jsPage2('p3page', count, pagerows, pageIndex, 'goPage5');
+        pagejump5(pageIndex);
+    }
+    function frPage5(pageIndex) {
+        var count = $('#zxp3count').val();
+        var pagerows = $('#zxp3pagerows').val();
+        jsPage2('p3page', count, pagerows, pageIndex, 'goPage5');
+    }
+    function pagejump5(page) {
+        var skuid = $("#skuid").val();
+        $.ajax({
+            type: "post",
+            url: "/ProDetail/all?pageNum=" + page + "&skuid=" + skuid + "&type=3",
+            success: function (data) {
+
+                $("#tabcontenth4>div>ul").empty();
+                $(data).appendTo('#tabcontenth4>div>ul');
+
+            }
+
+        });
+    }
+</script>

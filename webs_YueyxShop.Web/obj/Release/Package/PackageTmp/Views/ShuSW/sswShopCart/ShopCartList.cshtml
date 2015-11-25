@@ -1,0 +1,181 @@
+﻿@{
+    Layout = "~/Views/ShuSW/sswMaster/LayoutPage.cshtml";
+}
+<style>
+    .buyNub-nubinput {
+        width: 40px;
+        height: 36px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15) inset;
+        padding: 0px 5px;
+    }
+
+
+
+    #pchima, #pyanse {
+        /* Size and position */
+        position: relative; /* Enable absolute positionning for children and pseudo elements */
+        width: 120px;
+        margin: 0 auto;
+        padding: 0px 10px;
+        /* Styles */
+        background: #fff;
+        border-left: 3px solid grey;
+        cursor: pointer;
+        outline: none;
+        border-top: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+        #pchima option {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            border-left: 6px solid;
+            padding: 5px;
+            -webkit-transition: all 0.3s ease-out;
+            -moz-transition: all 0.3s ease-out;
+            -ms-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+        }
+
+        #pyanse option {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            border-left: 6px solid;
+            padding: 5px;
+            -webkit-transition: all 0.3s ease-out;
+            -moz-transition: all 0.3s ease-out;
+            -ms-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+        }
+</style>
+<script type="text/javascript" src="/js/payfor.js"></script><!--商品数量增加减少 算总价JS-->
+<link href="/css/kaych.chartOrder.css" rel="stylesheet" />
+<link href="/css/kaych.reset.css" rel="stylesheet" />
+
+<script language="javascript" type="text/javascript">
+
+        function removeshop(scid) {
+            var sc_id = scid;
+            $.ajax({
+                url: "/_ashx/dataSave_manager_json.ashx?type=removeshop",
+                type: "post",
+                data: { sc_id: sc_id },
+                success: function (data) {
+                    if (data == "1") {
+                        alert("删除成功！");
+                        window.location.reload();
+                    } else {
+                        alert("数据有误，请联系管理员");
+                    }
+                }
+            });
+        }
+</script>
+
+<div class="man">
+    <div class="container">
+        <div class="chart-title">
+            
+            <div class="chart-title">
+                <div style="float:left; margin-top:30px;">
+                    <div class="logins alignleft" style="width:300px;">现在<a href="/sswLogin/Login">登录</a>，您购物车中的商品将永久保存</div>
+                    <div class="fonts alignright" style="width: 300px;">满<span>200元</span>即可免运费</div>
+                </div>
+                
+                <div class="chart-step alignright"><img src="/images/img/chart_step_01.jpg" name="page_cnt_1" alt="购物车"></div>
+            </div><!--chart-title end-->
+        </div><!--chart-title end-->
+        <table class="chart-list">
+            <tbody>
+                <tr>
+                    <th width="100" height="35"><label><input type="checkbox" name="check_all" id="check_all">全选</label></th>
+                    <th width="430px">商品名称</th>
+                    <th style="text-align:center;">价格（元）</th>
+                    
+                    <th style="text-align:center;">数量</th>
+                    <th style="text-align:center;">商品合计</th>
+                    <th width="100" style="text-align:center;" align="center">操作</th>
+                </tr>
+
+                @{
+                    if (ViewData["shopCartList"] != null)
+                    {
+                        foreach (System.Data.DataRow dtsclist in ((System.Data.DataTable)ViewData["shopCartList"]).Rows)
+                        {
+                             <tr>
+                                    <td><input type="checkbox" class="checkbox" name="check_item" id="check_item"></td>
+                                    <td class="pro-shops">
+                                        <a href="/sswCommodity/CommodityDetails?p_id=@dtsclist["p_id"]"><img name="page_cnt_1" src="@dtsclist["pi_url"]" alt="产品图片" width="50" height="50" /></a>
+                                        <dl>
+                                            <dt><a href="/sswCommodity/CommodityDetails?p_id=@dtsclist["p_id"]">@dtsclist["p_name"] </a></dt>
+                                            <dd><span>团购</span></dd>
+                                        </dl>
+                                    </td>
+                                    <td class="centers">￥@dtsclist["sku_price"]</td>
+                                    <td class="centers">
+                                        @dtsclist["sc_pcount"]
+                                        @*<div class="buy-num" style="margin-top:20px;">
+                                            <a class="reduce" style="border: 1px solid rgba(0, 0, 0, 0.15); padding:5px 4px 9px 4px;" onclick="setAmount.reduce('#qty_item_2')" href="javascript:void(0)">-</a>
+                                            <input type="text" name="qty_item_1" value="@dtsclist["sc_pcount"]" id="qty_item_2" onkeyup="setAmount.modify('#qty_item_2')" class="buyNub-nubinput" />
+                                            <a class="add" style="border:1px solid rgba(0, 0, 0, 0.15); padding:5px 4px 9px 4px;" onclick="setAmount.add('#qty_item_2')" href="javascript:void(0)">+</a>
+                                        </div>*@<!--buy-num end-->
+                                    </td>
+                                 @{
+                                       Decimal price = Convert.ToInt32(dtsclist["sc_pcount"]) * Convert.ToDecimal(dtsclist["sku_price"]);
+                                       ViewData["zprice"] = price;
+                                 }
+                                    <td class="centers"><span>￥@ViewData["zprice"]</span></td>
+                                    <td class="cz"><a href="javascript:void(0)" onclick='removeshop(@dtsclist["sc_id"])'>删除</a></td>
+                                </tr>
+                        }
+                    }
+                }
+                <tr>
+                    <td height="35"><label></td>
+                    <td class="del"><a href="#">删除选中的商品</a><a href="#">清空购物车</a></td>
+                    <td colspan="6" class="del"><font>总计已选<span>@ViewData["shoplistnum"] </span>件商品&nbsp;&nbsp; 合计（不含运费）：<span>￥@ViewData["shoplistprice"]</span> @*共获积分：<span>120</span>*@</font></td>
+                </tr>
+                <tr>
+                    <td colspan="8" class="total">
+                        @*<span class="alignleft">
+                            <a class="alignleft shopping" href="#">继续购物</a><font class="alignleft">积分总计：<em>120</em></font>
+                        </span>*@
+                        @*<span class="alignright">
+                            <a class="alignright payfor" href="#">去结算<i></i></a><font class="alignright">商品合计（不含运费）：<strong>￥1200.00</strong></font>
+                        </span>*@
+
+                        <div class="btn_form" style="float:right; margin-right:10px;">
+                            <input id="joinsub" value="去结算" onclick="window.location.href = '/sswOrder/Order?ids=@ViewData["shopids"]';" style="background-color: #E05B5B;" title="" type="submit">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script type='text/javascript' src='/js/main.js'></script><!--散乱JS合集 重要 此JS放置位置要注意，需放置在导航及banner用的JS下方..-->
+
+<script type="text/javascript">
+<!--全选反选-->
+$(function(){
+	//单独选择某一个
+	$("input[name='check_item']").click(function(){
+			var index=$("input[name='check_item']").index(this);
+			$("input[name='check_item']").eq(index).toggleClass("checked");//伪复选
+	});
+	//全选
+	$("#check_all,#box_all").click(function(){
+     $("input[name='check_item']").attr("checked",$(this).attr("checked"));
+	 $("input[name='check_item'],#check_all,#box_all").toggleClass("checked");
+	});
+
+});
+
+
+</script>

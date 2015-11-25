@@ -1,0 +1,45 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head id="Head1">
+    <title>月月兴食品商行后台管理系统</title>
+    <script>
+        $("#gotowx").click(function () {
+            var pwd = $("#Password").val();
+            location.href = "http://wtx.linghz.com.cn/yyxindex.aspx?user=yyxadmin2&pwd="+pwd;
+        });
+    </script>
+</head>
+
+<body>
+    <div class="pageContent">
+        <div class="pageFormContent" layouth="58">
+            <div class="unit">
+                <label>
+                    密码</label>
+                <input type="password" id="Password" size="30" minlength="6" maxlength="20"
+                    class="required" />
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit" id="gotowx">
+                                确定 @*提交*@</button></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消 @*取消*@</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

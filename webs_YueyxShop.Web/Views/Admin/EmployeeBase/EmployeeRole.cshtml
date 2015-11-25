@@ -1,0 +1,82 @@
+﻿@using System.Collections.Generic
+@using System.Data
+@model IEnumerable<webs_YueyxShop.Model.RolesInfo>
+<html>
+<head runat="server">
+    <title>月月兴食品商行后台管理系统</title>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            var isManage = $.pdialog.getCurrent().find("#hf_IsManage").val(); //是否有管理权限
+            //   if (isManage != "True")
+            //   { $.pdialog.getCurrent().find("#save").hide(); }
+        });
+        $(function () {
+            $(".tree UL").each(function () {
+                if ($(this).children().length == 0) {
+                    $(this).remove();
+                }
+            });
+
+            ///选中树形菜单
+            var items = $("#hfItems", $.pdialog.getCurrent()).val() + "#";
+            items = items.replace(",#", "").replace("#", "");
+            var arr = items.split(',');
+            $.each(arr, function (i) {
+                $(".tree a[tvalue=" + arr[i] + "]").attr("checked", true);
+            });
+        });
+        function EmployRole_GetValue() {
+            var result = "";
+            $(".tree div.checked").each(function (i) {
+                result += $(this).find("input").val() + ",";
+            });
+            $(".tree div.indeterminate").each(function (i) {
+                result += $(this).find("input").val() + ",";
+            });
+            $("#hfItems", $.pdialog.getCurrent()).val(result);
+        }
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server" method="post"  action="@Url.Action("EmployeeRoleSave", "EmployeeBase")"
+    class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+    <div class="pageContent">
+        @Html.Hidden("hfItems", @ViewData["hfItems"])
+        @Html.Hidden("hfEId", @ViewData["hfEId"])
+        @Html.Hidden("hf_IsManage", @ViewData["hf_IsManage"])<!--管理-->
+        <div class="pageFormContent" layouth="56">
+            <div layouth="60" style="float: left; display: block; overflow: auto; width: 240px;
+                border: solid 1px #CCC; line-height: 21px; background: #fff">
+                <ul class="tree treeFolder treeCheck expand">
+                    @foreach (var item in Model)
+                    {   
+                        <li id="@item.r_MingCh"><a tname="@item.r_MingCh" tvalue="@item.r_ID">@item.r_MingCh</a>
+                        </li> 
+                    }
+                </ul>
+            </div>
+            <div id="jbsxBox" style="margin-left: 245px;">
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                <li id="save">
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit" onclick="EmployRole_GetValue();">
+                                保存 @*保存*@</button></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">
+                                取消 @*取消*@</button></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

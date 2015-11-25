@@ -1,0 +1,51 @@
+﻿@using System.Collections.Generic
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head id="Head1">
+    <title>月月兴食品商行后台管理系统</title>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $("#bmxx", navTab.getCurrentPanel()).each(function () {
+                var $this = $(this);
+                var rel = $this.attr("rel");
+                if (rel) {
+                    var $rel = $("#" + rel);
+                    $rel.loadUrl($this.attr("href"), {}, function () {
+                        $rel.find("[layoutH]").layoutH();
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="pageContent" style="padding: 5px">
+        <div layouth="10" style="float: left; display: block; overflow: auto; width: 140px;
+            border: solid 1px #CCC; line-height: 21px; background: #fff">
+            @Html.Hidden("otype", @ViewData["otype"])
+            <ul class="tree treeFolder" style="text-align: left;">
+                @if (ViewData["otype"].ToString() != "add")
+                {
+                    <li><a id="bmxx"   href="@Url.Action("DepartmentBaseEdit", "DepartmentBase", new { otype = "modify", dli_id = @ViewData["dli_id"] })"  rel="DepartmentBaseEditBox" target="ajax" >
+                        <span>部门信息</span></a></li>
+                    <li><a href="@Url.Action("EmployeeMsg", "EmployeeBase", new { d_id = @ViewData["d_id"] })" rel="DepartmentBaseEditBox" target="ajax" >
+                        <span>用户信息</span></a></li>
+                }
+                else
+                {
+                    <li><a id="bmxx"   href="@Url.Action("DepartmentBaseEdit", "DepartmentBase", new { otype = "add", pid = @ViewData["pid"], cengj = @ViewData["hfcengj"], bianm = @ViewData["hfbianm"] })" rel="DepartmentBaseEditBox" target="ajax" >
+                        <span>部门信息</span></a></li>
+                }
+            </ul>
+        </div>
+        <div id="DepartmentBaseEditBox" class="unitBox" style="margin-left: 145px; overflow: auto;
+            border: 1px #B8D0D6 solid">
+        </div>
+        <div class="tabsFooter">
+            <div class="tabsFooterContent">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

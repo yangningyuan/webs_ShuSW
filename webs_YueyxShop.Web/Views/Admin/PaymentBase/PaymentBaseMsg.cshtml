@@ -1,0 +1,76 @@
+﻿@using System.Collections.Generic
+@using System.Data
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>月月兴食品商行后台管理系统</title>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            divSearch($("#pagerForm", navTab.getCurrentPanel()), "PaymentBox");
+        });
+        function reload() {
+            document.getElementById("btn_Select").click();
+        }
+
+</script>
+</head>
+<body>
+<form id="pagerForm" method="post"  action="@Url.Action("PaymentBaseList", "PaymentBase")" onsubmit="return divSearch(this,'PaymentBox');">
+    <input type="hidden" id="hfPid" name="hfPid" value="0" />
+    <input type="hidden" id="at_add" name="at_add" />
+    <input type="hidden" id="hf_daohang" name="hf_daohang" />
+    <input type="hidden" id="hf_cengj" name="hf_cengj" value="1" />
+    <input type="hidden" id="hf_bianma" name="hf_bianma" />
+    <input type="hidden" id="hf_type" name="type" />
+    <div class="pageHeader">
+        <div class="searchBar">
+            <table class="searchContent" style="width: 100%;">
+                <colgroup>
+                    <col style="width: 40px;" />
+                    <col />
+                </colgroup>
+                <tr>
+                    <td>
+                        导航:
+                    </td>
+                    <td>
+                        <label id="div_daohang">
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        </div>
+        <!--列表-->
+        <div class="pageContent">
+        <div class="panelBar">
+            <ul class="toolBar">
+                @*<li id="attrlayer"><a class="details" onclick="ProductAttributes_searchChild();"><span>查看子集</span></a></li>
+                <li id="attrline" class="line">line</li>*@
+                @if (Convert.ToBoolean(ViewData["IsHasFunRole"]))
+                {
+                    <li><a class="add" href="@Url.Action("PaymentBaseEdit?otype=add", "PaymentBase")"  target="dialog" rel="w_PaymentBaseEdit">
+                        <span>添加</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="edit" href="@Url.Action("PaymentBaseEdit?otype=modify&pay_ID={pay_ID}", "PaymentBase")" rel="w_PaymentBaseEdit"
+                     target="dialog"  ><span>编辑</span></a></li>
+                    <li class="line">line</li>
+                    <li><a class="delete" href="@Url.Action("PaymentBaseDelete?pay_ID={pay_ID}", "PaymentBase")" rel="w_PaymentBaseDelete"
+                    target="ajaxTodo" title='确定删除' warn="请选择信息！！！"><span>删除</span></a></li>
+                    @*<li class="line">line</li>
+                    <li><a class="unlock"  href="@Url.Action("PaymentBaseEnable?otype=enable&pay_ID={pay_ID}", "PaymentBase")"
+                    target="ajaxTodo" warn="请选择信息！！！"><span>启用</span></a></li>
+                    <li><a class="lock"  href="@Url.Action("PaymentBaseEnable?otype=disable&pay_ID={pay_ID}", "PaymentBase")"
+                    target="ajaxTodo" warn="请选择信息！！！"><span>禁用</span></a></li>*@
+                }
+            </ul>
+        </div>
+        <div id="PaymentBox">
+
+        </div>
+    </div>
+</form>
+
+</body>
+</html>
